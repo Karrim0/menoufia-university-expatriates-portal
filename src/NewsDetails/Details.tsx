@@ -9,7 +9,15 @@ import { useAuth } from "../hooks/useAuth";
 import DeleteConfirmModal from "../components/DeleteConfirmModal";
 import api from "../Services/api";
 import newsService from "../Services/newsService";
+const UPLOADS_BASE_URL = "https://mu.menofia.edu.eg/uploads/";
 
+const getImageUrl = (img) => {
+  if (!img) return "";
+
+  if (img.startsWith("http")) return img;
+
+  return `${UPLOADS_BASE_URL}${img}`;
+};
 const SmartImage = ({ src, alt = "", className = "", style = {} }) => {
   const [imageSrc, setImageSrc] = useState(defaultImg);
 
@@ -303,7 +311,7 @@ function Details() {
                       </div>
 
                       <SmartImage
-                        src={news?.newsImg}
+                      src={getImageUrl(news?.newsImg)}
                         alt={news?.newsDetails?.head || `News ${index}`}
                         className={isArabic ? "news-imagear" : "news-image"}
                       />
@@ -369,7 +377,7 @@ function Details() {
                 <div className="carousel-track">
                   <div className="carousel-slide">
                     <SmartImage
-                      src={currentNews?.newsImg}
+  src={getImageUrl(currentNews?.newsImg)}
                       alt={currentNews?.newsDetails?.head || ""}
                       className="carousel-image"
                     />

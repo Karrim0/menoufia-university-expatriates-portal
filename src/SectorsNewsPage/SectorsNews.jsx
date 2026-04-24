@@ -13,7 +13,15 @@ import "./SectorsNews.css";
 const ITEMS_PER_PAGE = 10;
 const DEBOUNCE_DELAY = 500;
 const FALLBACK_IMAGE = "/src/assets/raes.jpg";
+const UPLOADS_BASE_URL = "https://mu.menofia.edu.eg/uploads/";
 
+const getImageUrl = (img) => {
+  if (!img) return "";
+
+  if (img.startsWith("http")) return img;
+
+  return `${UPLOADS_BASE_URL}${img}`;
+};
 const SmartImage = ({ src, alt = "", className = "", style = {} }) => {
   const [imageSrc, setImageSrc] = useState(FALLBACK_IMAGE);
 
@@ -398,9 +406,9 @@ const runSearch = async (term) => {
 
                     <div className="news-card-image">
                       <SmartImage
-                        src={news?.newsImg}
-                        alt={news?.newsDetails?.head || ""}
-                      />
+  src={getImageUrl(news?.newsImg)}
+  alt={news?.newsDetails?.head || ""}
+/>
                     </div>
 
                     <div className="news-card-arrow">
