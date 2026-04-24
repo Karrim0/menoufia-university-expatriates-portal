@@ -41,31 +41,17 @@ const SmartImage = ({ src, alt = "", className = "", style = {} }) => {
 };
 
 const sectorConfig = {
-  president: {
-    ar: "قطاع رئيس الجامعة",
-    en: "University President Sector",
-    keyword: "قطاع رئيس الجامعة",
-  },
-  education: {
-    ar: "قطاع نائب شؤون التعليم للطلاب",
-    en: "Vice President for Education and Students Affairs Sector",
-    keyword: "قطاع نائب شؤون التعليم للطلاب",
-  },
-  community: {
-    ar: "قطاع نائب شؤون خدمة المجتمع وتنمية البيئة",
-    en: "Vice President for Community Service and Environmental Development Sector",
-    keyword: "قطاع نائب شؤون خدمة المجتمع وتنمية البيئة",
-  },
-  postgraduate: {
-    ar: "قطاع نائب شؤون الدراسات العليا والبحوث",
-    en: "Vice President for Postgraduate Studies and Research Sector",
-    keyword: "قطاع نائب شؤون الدراسات العليا والبحوث",
-  },
-  secretary: {
-    ar: "قطاع أمين عام الجامعة",
-    en: "University Secretary General Sector",
-    keyword: "قطاع أمين عام الجامعة",
-  },
+  wafiden: { ar: "وافدين", en: "Wafiden" },
+  cenev: { ar: "مركز CENEVA", en: "CENEVA Center" },
+  educ: { ar: "قطاع التعليم", en: "Education Sector" },
+  env: { ar: "شؤون البيئة", en: "Environmental Affairs" },
+  env2: { ar: "إدارة شؤون البيئة", en: "Environmental Affairs Administration" },
+  nci: { ar: "المركز القومي للمعلومات", en: "National Information Center" },
+  postgrad: { ar: "الدراسات العليا", en: "Postgraduate Studies" },
+  sadat: { ar: "جامعة السادات", en: "Sadat University" },
+  secr: { ar: "الأمانة العامة", en: "General Secretariat" },
+  tico: { ar: "مركز تكنولوجيا المعلومات", en: "Technology Information Center" },
+  univpres: { ar: "رئاسة الجامعة", en: "University Presidency" },
 };
 
 function SectorsNews() {
@@ -74,9 +60,8 @@ function SectorsNews() {
   const { isLoggedIn } = useAuth();
   const { sectorName } = useParams();
 
-  const sector = sectorConfig[sectorName] || sectorConfig.president;
+  const sector = sectorConfig[sectorName] || sectorConfig.univpres;
   const sectorTitle = savedLang?.code === "ar" ? sector.ar : sector.en;
-  const sectorKeyword = sector.keyword;
 
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredNews, setFilteredNews] = useState([]);
@@ -121,69 +106,65 @@ function SectorsNews() {
     });
   };
 
- 
+  const fetchNews = async () => {
+    setIsLoading(true);
 
- const fetchNews = async (page = 1, term = "") => {
-  setIsLoading(true);
+    try {
+      const response = await newsService.searchByAbbreviation({
+        abbreviation: sectorName,
+        lid: Number(langId),
+      });
 
-  try {
-    const response = await newsService.getSectorsNews({
-      languageId: Number(langId),
-      pageIndex: page,
-      pageSize: ITEMS_PER_PAGE,
-      search: term,
-    });
+      setFilteredNews(response?.result || []);
+      setMoveNext(false);
+      setMovePrevious(false);
+    } catch (error) {
+      console.error("Error fetching abbreviation news:", error);
+      setFilteredNews([]);
+      setMoveNext(false);
+      setMovePrevious(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    setFilteredNews(response?.result || []);
-    setMoveNext(response?.moveNext || false);
-    setMovePrevious(response?.movePrevious || false);
-  } catch (error) {
-    console.error("Error fetching sector news:", error);
-    setFilteredNews([]);
-    setMoveNext(false);
-    setMovePrevious(false);
-  } finally {
-    setIsLoading(false);
-  }
-};
+  const runSearch = async (term) => {
+    const trimmed = term.trim();
+    setCurrentPage(1);
 
-const runSearch = async (term) => {
-  const trimmed = term.trim();
-  setCurrentPage(1);
+    if (!trimmed) {
+      setAppliedSearchTerm("");
+      fetchNews();
+      return;
+    }
 
-  if (!trimmed) {
-    setAppliedSearchTerm("");
-    fetchNews(1, "");
-    return;
-  }
-
-  setIsLoading(true);
-
-  try {
-    const response = await newsService.getSectorsNews({
-      languageId: Number(langId),
-      pageIndex: 1,
-      pageSize: ITEMS_PER_PAGE,
-      search: trimmed,
-    });
-
-    setFilteredNews(response?.result || []);
-    setMoveNext(response?.moveNext || false);
-    setMovePrevious(response?.movePrevious || false);
     setAppliedSearchTerm(trimmed);
-  } catch (error) {
-    console.error("Error searching sector news:", error);
-    setFilteredNews([]);
+
+    const response = await newsService.searchByAbbreviation({
+      abbreviation: sectorName,
+      lid: Number(langId),
+    });
+
+    const allNews = response?.result || [];
+
+    const filtered = allNews.filter((item) => {
+      const title = item?.newsDetails?.head || "";
+      const body = item?.newsDetails?.body || "";
+      const abbr = item?.newsDetails?.abbr || "";
+
+      return `${title} ${body} ${abbr}`
+        .toLowerCase()
+        .includes(trimmed.toLowerCase());
+    });
+
+    setFilteredNews(filtered);
     setMoveNext(false);
     setMovePrevious(false);
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   useEffect(() => {
-    fetchNews(currentPage, appliedSearchTerm);
-  }, [langId, currentPage, sectorName]);
+    fetchNews();
+  }, [langId, sectorName]);
 
   useEffect(() => {
     if (debounceTimerRef.current) {
@@ -318,7 +299,9 @@ const runSearch = async (term) => {
 
         <div className="news-hero-content">
           <p className="news-hero-subtitle">
-            {isArabic ? "UNIVERSITY ADMINISTRATION" : "UNIVERSITY ADMINISTRATION"}
+            {isArabic
+              ? "UNIVERSITY ADMINISTRATION"
+              : "UNIVERSITY ADMINISTRATION"}
           </p>
 
           <h1 className="news-hero-title">{sectorTitle}</h1>
@@ -376,7 +359,9 @@ const runSearch = async (term) => {
           ) : filteredNews.length === 0 ? (
             <div className="news-no-results">
               <h2>
-                {isArabic ? "لا توجد نتائج لهذا القطاع" : "No results found for this sector"}
+                {isArabic
+                  ? "لا توجد نتائج لهذا القطاع"
+                  : "No results found for this sector"}
               </h2>
             </div>
           ) : (
@@ -391,12 +376,16 @@ const runSearch = async (term) => {
                     <div className="news-card-text">
                       <h3 className="news-card-title">
                         {news?.newsDetails?.head?.slice(0, 85) || ""}
-                        {(news?.newsDetails?.head?.length || 0) > 85 ? "..." : ""}
+                        {(news?.newsDetails?.head?.length || 0) > 85
+                          ? "..."
+                          : ""}
                       </h3>
 
                       <p className="news-card-description">
                         {news?.newsDetails?.abbr?.slice(0, 110) || ""}
-                        {(news?.newsDetails?.abbr?.length || 0) > 110 ? "..." : ""}
+                        {(news?.newsDetails?.abbr?.length || 0) > 110
+                          ? "..."
+                          : ""}
                       </p>
 
                       <span className="news-card-date">
@@ -406,9 +395,9 @@ const runSearch = async (term) => {
 
                     <div className="news-card-image">
                       <SmartImage
-  src={getImageUrl(news?.newsImg)}
-  alt={news?.newsDetails?.head || ""}
-/>
+                        src={getImageUrl(news?.newsImg)}
+                        alt={news?.newsDetails?.head || ""}
+                      />
                     </div>
 
                     <div className="news-card-arrow">
