@@ -1,0 +1,141 @@
+/* ─── About ─── */
+.about-container {
+  display: flex;
+  align-items: center;
+  margin: 60px 0;
+  padding: 16px 32px;
+  justify-content: flex-start;
+  gap: clamp(60px, 10vw, 205px);
+  position: relative;
+  overflow-x: clip;
+}
+
+/* RTL/LTR text align */
+.about-ltr { direction: ltr; }
+.about-rtl { direction: rtl; }
+
+/* ─── Content block ─── */
+.about-content {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.about-logo {
+  width: 64px;
+  height: 64px;
+  background-color: #f1f8fb;
+  border-radius: 50%;
+  margin-bottom: 24px;
+}
+
+.about-subtitle {
+  width: 310px;
+  font-weight: 500;
+}
+
+/* ─── Title ─── */
+.about-title {
+  width: 510px;
+  max-width: 100%;
+  font-size: var(--MNF_Heading_Size1);
+  color: #001351;
+}
+
+/* ─── Fonts ─── */
+.font-ar   { font-family: var(--MNF_Body_AR),    sans-serif; }
+.font-en   { font-family: var(--MNF_Body_EN),    sans-serif; }
+.heading-ar { font-family: var(--MNF_Heading_AR), sans-serif; }
+.heading-en { font-family: var(--MNF_Heading_EN), sans-serif; }
+
+/* ─── Curve line ─── */
+.about-curve {
+  position: absolute;
+  top: -300px;
+  width: 500px;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* LTR: يمين */
+.about-ltr .about-curve {
+  right: -38px;
+  left: auto;
+}
+
+/* RTL: شمال + مقلوبة */
+.about-rtl .about-curve {
+  left: -38px;
+  right: auto;
+  transform: rotateY(180deg);
+}
+
+/* ─── Wide screens ─── */
+@media (min-width: 1900px) {
+  .about-container { justify-content: center; }
+}
+
+/* ─── 1110px ─── */
+@media (max-width: 1110px) {
+  .about-curve        { width: 350px; top: -150px; }
+  .about-rtl .about-curve { left: -60px; }
+  .about-title        { font-size: 55px; }
+}
+
+/* ─── 1024px ─── */
+@media (max-width: 1024px) {
+  .about-curve        { width: 320px; }
+  .about-title        { font-size: 45px; }
+  .about-subtitle     { width: 270px; }
+}
+
+/* ─── 930px ─── */
+@media (max-width: 930px) {
+  .about-container { margin: 0 36px; padding: 14px; }
+}
+
+/* ─── 850px ─── */
+@media (max-width: 850px) {
+  .about-curve    { width: 300px; }
+  .about-title    { font-size: 40px; }
+  .about-subtitle { width: 260px; font-size: 15px; }
+}
+
+/* ─── 768px — stack vertically ─── */
+@media (max-width: 768px) {
+  .about-container {
+    flex-direction: column-reverse;
+    gap: 40px;
+    text-align: center;
+    padding: 16px 20px;
+  }
+
+  .about-content  { align-items: center; }
+  .about-logo     { width: 56px; height: 56px; }
+  .about-title    { font-size: 40px; width: 100%; }
+  .about-curve    { width: 280px; }
+  .about-rtl .about-curve { left: -60px; }
+
+  .about-subtitle {
+    width: 100%;
+    font-size: 15px;
+    padding: 10px;
+  }
+}
+
+/* ─── 548px ─── */
+@media (max-width: 548px) {
+  .about-title    { font-size: 30px; }
+  .about-subtitle { font-size: 14px; }
+  .about-rtl .about-curve { left: -60px; }
+}
+
+/* ─── 450px ─── */
+@media (max-width: 450px) {
+  .about-curve { width: 220px; top: -110px; }
+}
+
+/* ─── 370px ─── */
+@media (max-width: 370px) {
+  .about-curve { width: 210px; top: -110px; }
+}

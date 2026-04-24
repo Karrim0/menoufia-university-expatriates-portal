@@ -1,0 +1,276 @@
+{
+  "note": {
+    "expatriate_activities": "الأنشطة الطلابية للوافدين",
+    "No colleges found": "لم يتم العثور على كليات",
+    "Clear Search": "مسح البحث ",
+    "searchPlaceholder": "ابحث عن برنامج أو كلية...",
+    "programs": " البرامج"
+  },
+    "tooltip": {
+   "details": "اضغط لرؤية التفاصيل"
+  },
+  "button": {
+    "learn_more": "المزيد",
+    "show_all": "عرض الكل"
+  },
+  "no_programs_available": "لا توجد برامج متاحة",
+  "colleges": [
+    {
+      "name": "العلوم",
+      "image": "https://scontent.fcai20-5.fna.fbcdn.net/v/t39.30808-6/468570085_551891111093682_5914489035878882531_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=RUMO6GksodUQ7kNvwHbSKO3&_nc_oc=Adm7uy2AG0SNr2OD_8BcUnuP6KtrH4RHpLkg0E06NLf8fMFxMBo4Mxiy5Q83swIo0ic&_nc_zt=23&_nc_ht=scontent.fcai20-5.fna&_nc_gid=h2C4kXDpgc4Pmtrg7astew&oh=00_AfKyFlk_29PNI1db6NkHqYTtA2iuVrTiR_-m-QOELAn4JA&oe=682E83ED",
+      "link": "https://www.menofia.edu.eg/SCI/Home/ar",
+      "programs": [
+        "الرياضيات البحتة و علوم الحاسب",
+        "الفيزياء",
+        "الرياضيات",
+        "الكيمياء",
+        "الجيولوجيا",
+        "النبات",
+        "علم الحشرات",
+        "علم الحيوان",
+        "الرياضيات البحتة و الاحصاء",
+        "جيولوجيا البترول",
+        "الجيوفيزياء",
+        "الفيزياء و الكيمياء",
+        "الفيزياء و الجيولوجيا",
+        "الفيزياء و علوم الحاسب",
+        "الفيزياء وعلوم الليزر",
+        "الرياضيات البحتة و الفيزياء",
+        "الكيمياء و الجيولوجيا",
+        "الكيمياء و النبات",
+        "الكيمياء و علم الميكروبيولوجى",
+        "الكيمياء و علم الحيوان",
+        "الكيمياء و علم الحشرات",
+        "الكيمياء و الكيمياء الحيوية"
+      ]
+    },
+    {
+      "name": "الزراعه",
+      "image": "https://media.aldawlanews.com/img/23/05/11/1068063.jpg",
+      "link": "https://www.menofia.edu.eg/AGR/Home/ar",
+      "programs": [
+        "برنامج الانتاج النباتى",
+        "برنامج الانتاج الحيوانى والداجنى",
+        "برنامج وقاية النبات",
+        "برنامج العلوم الاقتصادية والاجتماعية الزراعية",
+        "برنامج التصنيع الغذائى والالبان",
+        "برنامج الاراضى والمياة",
+        "برنامج التكنولوجيا الحيوية الزراعية",
+        "برنامج الهندسة الزراعية",
+        "برنامج إدارة االعمال الزراعية"
+      ]
+    },
+    {
+      "name": "الهندسه",
+      "image": "https://media.elwatannews.com/media/img/mediaarc/large/7734959691720353371.jpg",
+      "link": "https://www.menofia.edu.eg/ENG/Home/ar",
+      "programs": [
+        "برنامج هندسة القوى الكهربية والآلآت",
+        "برنامج هندسة القوى الميكانيكية",
+        "برنامج هندسة الانتاج والتصميم الميكانيكي",
+        "برنامج الهندسة المدنية",
+        "برنامج الهندسه المعمارية",
+        "برنامج الهندسة الكهربية والحاسبات",
+        "برنامج الطاقة المتجددة والمستدامة",
+        "برنامج هندسة الميكاترونيات",
+        "برنامج هندسة التشييد و إدارة المشروعات",
+        "برنامج هندسة العمارة البيئية والتراث",
+        "برنامج هندسة و إدارة نظم الطاقة الكهربية"
+      ]
+    },
+    {
+      "name": "الهندسه الالكترونيه بمنوف",
+      "image": "https://media.elwatannews.com/media/img/mediaarc/large/7831388801659951839.jpg",
+      "link": "https://www.menofia.edu.eg/FEE/Home/ar",
+      "programs": [
+        "هندسة وعلوم الحاسبات",
+        "هندسة الالكترونيات الصناعية والتحكم",
+        "هندسة الالكترونيات والاتصالات الكهربية",
+        "برنامج هندسة الاتصالات والشبكات",
+        "برنامج الهندسة الطبية الحيوية والتكنولوجيا",
+        "برنامج هندسة الالكترونيات الصناعية",
+        "برنامج هندسة الامن السيبرانى وتحليل البيانات"
+      ]
+    },
+    {
+      "name": "الحاسبات و معلومات",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/FCI-MU.jpg/1200px-FCI-MU.jpg",
+      "link": "https://www.menofia.edu.eg/fci/Home/ar",
+      "programs": [
+        "برنامج هندسة البرمجيات",
+        "برنامج الحوسبة المعلوماتية الحيوية",
+        "تكنولوجيا المعلومات",
+        "نظم المعلومات",
+        "علوم الحاسب"
+      ]
+    },
+    {
+      "name": "الذكاء الاصطناعي",
+      "image": "https://egy-map.com/uploads/projects//project-1633409235615bd8d33dc10.jpg",
+      "link": "https://mu.menofia.edu.eg/ai/Home/ar",
+      "programs": [
+        "ذكاء الاله",
+        "علوم البيانات",
+        "الاكمن السيبراني",
+        "النظم الذكيه"
+      ]
+    },
+    {
+      "name": "التربيه",
+      "image": "https://scontent.fcai20-3.fna.fbcdn.net/v/t39.30808-6/299303332_3465258743799726_8321148404820402534_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=2285d6&_nc_ohc=oce914_4_LYQ7kNvwHcz5vD&_nc_oc=AdljZIi5BDwA3htrdPo4mid5ghS8fnv8SftzBi2MZ9xi86-HOWUeYj-EE-hi0hecOTI&_nc_zt=23&_nc_ht=scontent.fcai20-3.fna&_nc_gid=vmYIQnAMRhyHgOgq3WV_eQ&oh=00_AfJHYpXWVk55urCFzGSNQ2WEXDrrGCCmSxl-UEH_rS0SGg&oe=682E8206",
+      "link": "https://www.menofia.edu.eg/EDU/Home/ar",
+      "programs": [
+        "اللغه الفرنسيه",
+        "اللغه الالمانيه",
+        "التاريخ",
+        "الجغرافيا",
+        "الفلسلفه و الاجتماع",
+        "علم النفس",
+        "الرياضيات",
+        "الفيزياء",
+        "الكيمياء",
+        "اللغه العربيه",
+        "اللغه الانجليزيه",
+        "العلوم البيولوجيه و الجيولوجيه",
+        "الحاسب الالي",
+        "التربيه الخاصه"
+      ]
+    },
+    {
+      "name": "التجاره",
+      "image": "https://scontent.fcai20-6.fna.fbcdn.net/v/t39.30808-6/467986049_10161122585416996_337435991551168292_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=86c6b0&_nc_eui2=AeFKH6cl66MkLUT6yFuqiXQlUeagwtfCZtNR5qDC18Jm0wy8Ilf6z00J2XiZw7h8bpTyQSuzv9kOAycTgLpRNVB4&_nc_ohc=tQjk6CMQ7tcQ7kNvwG0Goi0&_nc_oc=AdnphiZ6xDXQIm-n2f1IAIuSCXibrYp5eppfM2QD0O-c4UmnIjp4GMCt8xNAqkBFong&_nc_zt=23&_nc_ht=scontent.fcai20-6.fna&_nc_gid=MdvGM22eTi3XkpGrgzMf4w&oh=00_AfJRyYPAzMvZBn4x9WimeJeLsFiDJxymlsBSvF9MD5bILA&oe=682EA1DF",
+      "link": "https://www.menofia.edu.eg/COM/Home/ar",
+      "programs": [
+        "العربي",
+        "لغات",
+        "نظم معلومات الاعمال BIS"
+      ]
+    },
+    {
+      "name": "اداب",
+      "image": "https://gate.ahram.org.eg/Media/News/2021/10/31/19_2021-637712893488120350-812.jpeg",
+      "link": "https://www.menofia.edu.eg/ART/Home/ar",
+      "programs": [
+        "اللغه العربيه",
+        "اللغه الانجليزيه",
+        "اللغه الفرنسيه",
+        "اللغه الفارسيه",
+        "اللغه العبريه",
+        "علم الاجتماع",
+        "التاريخ",
+        "الجغرافيا و المساحه",
+        "الفلسلفه",
+        "علم نفس",
+        "الاثار المصريه",
+        "المكتبات و المعلومات"
+      ]
+    },
+    {
+      "name": "الطب",
+      "image": "https://vid.alarabiya.net/images/2025/03/14/728f9c83-6a39-45f3-a2ed-e324bdb6a4de/728f9c83-6a39-45f3-a2ed-e324bdb6a4de.jpg?crop=4:3&width=1200",
+      "link": "https://www.menofia.edu.eg/MED/Home/ar",
+      "programs": [
+        "طب عام",
+        "طب اسنان عام",
+        "التمريض النفسي و الصحه النفسيه",
+        "تمريض الأطفال",
+        "تمريض صحه المجتمع",
+        "تمريض صحه الام و حديثي الولاده",
+        "تمريض المسنيين"
+      ]
+    },
+    {
+      "name": "الطب البيطري",
+      "image": "https://www.presidency.eg/media/131811/%D8%A8%D8%B7%D8%B1%D9%8A-%D9%85%D9%86%D9%88%D9%81%D9%8A%D8%A9-jpg.jpg",
+      "link": "https://mu.menofia.edu.eg/vmed/Home/ar",
+      "programs": []
+    },
+    {
+      "name": "صيدله",
+      "image": "https://media.elwatannews.com/media/img/mediaarc/large/18042357411630238517.jpg",
+      "link": "https://mu.menofia.edu.eg/pharm/Home/ar",
+      "programs": [
+        "الصيدله الاكلينيكيه",
+        "فارم دي"
+      ]
+    },
+    {
+      "name": "التمريض",
+      "image": "https://scontent.fcai20-3.fna.fbcdn.net/v/t39.30808-6/492129421_974705341514700_2430112832649065205_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=LIzFcthKJDsQ7kNvwEIvHhx&_nc_oc=AdlaVPB_I7J0JuISjaokLpJdqDwwJjaRXxGl-cfve535tLCzbdLJ4U5_zXrlc5GUbAo&_nc_zt=23&_nc_ht=scontent.fcai20-3.fna&_nc_gid=zwAa5Ms00l7iAZ5Lda2hQA&oh=00_AfJVqdujtPAIUFp5sJ1OXoCRh0T7qy0u6g7oV7hoW9BuGw&oe=682EB019",
+      "link": "https://www.menofia.edu.eg/NUR/Home/ar",
+      "programs": [
+        "تمريض عام",
+        "التخصصي في التمريض",
+        "المكثف في التمريض"
+      ]
+    },
+    {
+      "name": "تكنولوجيا العلوم الصحيه التطبيقيه",
+      "image": "https://media.elwatannews.com/media/img/mediaarc/large/12329347861659882769.jpg",
+      "link": "https://mu.menofia.edu.eg/fa/Home/ar",
+      "programs": [
+        "تكنولوجيا المختبرات الطبيه",
+        "تكنولوجيا علوم الاشعه و التصوير الطبي",
+        "تكنولوجيا الاجهزه الطبيه الحيويه",
+        "تكنولوجيا صناعه تركيبات الاسنان",
+        "تكنولوجيا البصريات",
+        "تكنولوجيا الرعايه النفسيه",
+        "تكنولوجيا المختبرات الطبيه",
+        "تكنولوجيا الاشعه و التصوير الطبي"
+      ]
+    },
+    {
+      "name": "الحقوق",
+      "image": "https://watanimg.elwatannews.com/image_archive/original_lower_quality/5583914771630244862.jpg",
+      "link": "https://www.menofia.edu.eg/LAW/Home/ar",
+      "programs": [
+        "عربي",
+        "لغات"
+      ]
+    },
+    {
+      "name": "الاعلام",
+      "image": "https://scontent.fcai20-5.fna.fbcdn.net/v/t1.6435-9/91203824_3046098485447061_3151476560322625536_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_ohc=hIgBlmBWH_8Q7kNvwGyoqlP&_nc_oc=AdnegwUv_uCIIntjNr7se3fLsFpZ2zNYwqAEVAV44MVCdvhFTWVD9FM65SgmjNWPBqM&_nc_zt=23&_nc_ht=scontent.fcai20-5.fna&_nc_gid=WuI8jM_81EPFU1xIJthwqQ&oh=00_AfK5_RuPMA-hChePE_Z3tqnyQmrUnsDLJfQOe6H9vzlqBQ&oe=68503D5C",
+      "link": "https://mu.menofia.edu.eg/media/Home/ar",
+      "programs": [
+        "الصحافه الرقميه",
+        "الاتصال التسويقي المتكامل",
+        "الاذاعه و التلفزيون",
+        "التسويق الرقمي",
+        "قسم الصحافه المطبوعه و الاكترونيه"
+      ]
+    },
+    {
+      "name": "التربيه النوعيه",
+      "image": "https://lh5.googleusercontent.com/p/AF1QipMMuTHBHgz492Yq2Iu1TJsKAEQW_d0qIwu75Dgs=w408-h272-k-no",
+      "link": "https://www.menofia.edu.eg/EDV/Home/ar",
+      "programs": [
+        "الاقتصاد المنزلى التربوي",
+        "التربية الفنية",
+        "التربية الموسيقية",
+        "الاعلام التربوى",
+        "تكنولوجيا التعليم والمعلومات"
+      ]
+    },
+    {
+      "name": "التربيه للطفوله المبكره",
+      "image": "https://lh5.googleusercontent.com/p/AF1QipNsQYTnnqa1Fup-75goAzHi4hK47XjXlnovHdp1=w408-h272-k-no",
+      "link": "https://mu.menofia.edu.eg/ECEDU/Home/ar",
+      "programs": [
+        "التربيه الخاصه",
+        "رياض الأطفال",
+        "رياض الأطفال باللغه الانجليزيه"
+      ]
+    },
+    {
+      "name": "التربيه الرياضيه",
+      "image": "https://www.shorouknews.com/uploadedimages/Other/original/%D9%83%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D8%AA%D8%B1%D8%A8%D9%8A%D8%A9%20%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%D9%8A%D8%A9%20%D9%81%D9%8A%20%D8%A7%D9%84%D9%85%D9%86%D9%88%D9%81%D9%8A%D8%A9.jpg",
+      "link": "https://mu.menofia.edu.eg/fpe/Home/ar",
+      "programs": [
+        "الرياضه المدرسيه",
+        "التدريب الرياضي",
+        "الاداره الرياضه و الترويح"
+      ]
+    }
+  ]
+}

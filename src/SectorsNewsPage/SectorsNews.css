@@ -1,0 +1,27 @@
+@import "../NewsPage/News.css";
+
+/* قطاع إدارة الجامعة */
+.sectors-page-wrapper {
+  background: #ffffff;
+}
+
+.sectors-hero .news-hero-title {
+  font-size: clamp(32px, 4vw, 60px);
+  line-height: 1.25;
+  max-width: 1100px;
+}
+
+.sectors-hero .news-hero-subtitle {
+  letter-spacing: 1px;
+  opacity: 0.95;
+}
+
+.sectors-page-wrapper .news-search-status {
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .sectors-hero .news-hero-title {
+    font-size: 30px;
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "nav": {
+  "home": "Start",
+  "about": "Über uns",
+  "about.digitalIdentity": "Digitale ID",
+  "about.presidentWord": "Grußwort",
+  "about.sectors": "Bereiche",
+  "about.units": "Zentren",
+  "about.departments": "Abteilungen",
+  "about.sitemap": "Seitenplan",
+  "about.history": "Überblick",
+  "about.history.vision": "Vision",
+  "about.history.mission": "Mission",
+  "about.history.goals": "Ziele",
+  "about.history.ranking": "Ranking",
+
+  "programs": "Fakultäten",
+
+  "universityManagement": "Leitung",
+  "presidentSector": "Präsidium",
+  "educationSector": "Studium",
+  "communitySector": "Gesellschaft",
+  "postgraduateSector": "Forschung",
+  "secretarySector": "Sekretariat",
+
+  "students": "Studierende",
+  "students.platforms": "Plattformen",
+  "students.admission": "Zulassung",
+  "students.ethics": "Ethik",
+  "students.scholarships": "Stipendien",
+  "students.fees": "Gebühren",
+  "students.services": "Services",
+  "students.services.housing": "Wohnheim",
+  "students.services.transport": "Transport",
+
+  "expatriates": "International",
+  "expatriates.apply": "Bewerbung",
+  "expatriates.programs": "Programme",
+  "expatriates.expenses": "Kosten",
+  "expatriates.housing": "Wohnen",
+  "expatriates.residency": "Visum",
+  "expatriates.studentLife": "Campusleben",
+
+  "staff": "Mitarbeitende",
+  "systems": "Systeme",
+
+  "news": "News",
+  "news.newsList": "News",
+  "news.archive": "Archiv",
+  "news.media": "Medien",
+  "news.media.photos": "Fotos",
+  "news.media.videos": "Videos",
+  "news.media.channel": "Kanal",
+
+  "contact": "Kontakt"
+},
+  "search": {
+    "placeholder": "Suchen..."
+  },
+  "header": {
+    "home": "Startseite",
+    "MNF Uni": "Über die Universität",
+    "Programs": "Fakultäten und Programme",
+    "students": "Studierende",
+    "expatriates": "Internationale Studierende",
+    "team": "Lehrende und Mitarbeitende",
+    "systems": "Elektronische Systeme",
+    "News": "Nachrichten",
+    "contact US": "Kontakt",
+    "Arabic": "Arabisch",
+    "English": "Englisch",
+    "Spanish": "Spanisch",
+    "code": "A",
+    "More News": "Mehr Nachrichten"
+  },
+  "hero": {
+    "title": "Willkommen an der Menoufia-Universität für internationale Studierende"
+  },
+  "about": {
+    "title": "Büro für internationale Studierende",
+    "subtitle": "Unterstützung internationaler Studierender bei Einschreibung, Visum und kultureller Integration, um einen reibungslosen Übergang und eine angenehme akademische Erfahrung an der Menoufia-Universität zu gewährleisten."
+  },
+  "footer": {
+    "keyInformation": "Wichtige Informationen",
+    "latestDecisions": "Bedingungen für interne und externe Überweisungen",
+    "conditionsTransfers": "Ergebnisse der vierteljährlichen Prüfungen",
+    "administrativeDirectives": "Papierbasierte Dienstleistungen und Daten für Studierende",
+    "financialTransferControls": "Neueste Beschlüsse",
+    "quarterlyExamResults": "Administrative Richtlinien",
+    "generalGuidelines": "Kontrollen für finanzielle Überweisungen",
+    "paperServices": "Allgemeine Richtlinien",
+    "stoppingRegistration": "Registrierung stoppen und Konten einfrieren",
+    "importantLinks": "Wichtige Links",
+    "importantLatestDecisions": "Portal der ägyptischen Universitäten",
+    "importantConditionsTransfers": "Nationales Zentrum für E-Learning",
+    "importantAdministrativeDirectives": "Ägyptisches Regierungsportal",
+    "importantFinancialTransferControls": "Portal der Provinz Menoufia",
+    "importantQuarterlyExamResults": "Fonds für Wissenschafts- und Technologieentwicklung",
+    "importantGeneralGuidelines": "Verband der Bibliotheken ägyptischer Universitäten",
+    "importantPaperServices": "Verband der arabischen Universitäten",
+    "importantStoppingRegistration": "Oberster Rat der Universitäten",
+    "MinistryofHigherEducation": "Ministerium für Hochschulbildung",
+    "NationalAuthorityforQualityAssuranceandAccreditation": "Nationale Behörde für Qualitätssicherung und Akkreditierung",
+    "serviceGuide": "Serviceleitfaden",
+    "serviceGuideLatestDecisions": "Bewerbung und Zulassung",
+    "serviceGuideConditionsTransfers": "Leitfaden zu Zulassungs- und Studiengebühren",
+    "serviceGuideAdministrativeDirectives": "Leitfaden für internationale Studierende und Studienprogramme",
+    "serviceGuideFinancialTransferControls": "Kontakt und Standort",
+    "serviceGuideQuarterlyExamResults": "Aufenthalt und Unterkunft",
+    "serviceGuideGeneralGuidelines": "Studieren in Ägypten",
+    "serviceGuidePaperServices": "Medizinische Versorgung",
+    "serviceGuideStoppingRegistration": "Aufenthaltsgenehmigungen und Reisepässe beantragen",
+    "serviceReview": "Sozial- und Sportclub",
+    "EntertainmentCorner": "Unterhaltungsecke",
+    "Evaluationcomplaintsandsuggestions": "Bewertung, Beschwerden und Vorschläge",
+    "performanceEvaluation": "Leistungsbewertung",
+    "generalComplaints": "Allgemeine Beschwerden",
+    "sendSuggestions": "Senden Sie Ihre Vorschläge",
+    "copyrights": "Alle Rechte vorbehalten – Menoufia-Universität"
+  },
+  "details": {
+    "latest": "Neueste Nachrichten",
+    "page": "Seiten",
+    "of": "von",
+    "search": "Suche",
+    "noResultsFound": "Keine Ergebnisse gefunden",
+    "searchPlaceholder": "Suchen Sie nach den neuesten Nachrichten, die Sie interessieren"
+  },
+  "tooltip": {
+    "details": "Klicken, um Details zu sehen"
+  }
+}

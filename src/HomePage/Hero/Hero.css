@@ -1,0 +1,324 @@
+:root {
+  --hero-orange:       #f66b15;
+  --hero-orange-hover: #e55d0f;
+  --hero-white:        #ffffff;
+
+  /* Fluid scale — بتتغير مع breakpoints */
+--hero-height: calc(100vh - var(--nav-height));
+  --hero-margin:       48px;
+  --hero-radius:       24px;
+  --hero-card-width:   750px;
+  --hero-card-bottom:  80px;
+  --hero-card-inset:   80px;
+  --hero-card-pad-v:   32px;
+  --hero-card-pad-h:   40px;
+  --hero-font-size:    32px;
+  --hero-arrow-size:   64px;
+  --hero-dot-size:     12px;
+  --hero-dot-active:   32px;
+}
+
+/* ─── Wrapper ─── */
+.hero-carousel-wrapper {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ─── Main ─── */
+.hero-carousel-main {
+  position: relative;
+  width: 100%;
+  max-width: 1792px;
+  height: var(--hero-height );
+  overflow: hidden;
+  border-radius: var(--hero-radius);
+  direction: ltr !important;
+  margin: 0 32px;
+   height: calc(100dvh - var(--nav-height));
+  min-height: 620px;
+}
+
+/* ─── Track ─── */
+.hero-carousel-track {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  transition: transform 0.8s ease-in-out;
+}
+
+/* ─── Slide ─── */
+.hero-carousel-slide {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex: 1 0 100%;
+  overflow: hidden;
+}
+
+/* ─── Image ─── */
+.hero-carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* ─── Overlay ─── */
+.hero-carousel-overlay {
+  position: absolute;
+  inset: 0;
+background: linear-gradient(
+  180deg,
+  rgba(0,0,0,0.15) 0%,
+  rgba(0,0,0,0.65) 100%
+);  z-index: 1;
+}
+
+/* ─── Content Card ─── */
+.hero-content-card {
+  position: absolute;
+  z-index: 2;
+  bottom: 80px;
+  width: var(--hero-card-width);
+  max-width: var(--hero-card-width);
+  min-height: 180px;
+  max-height: 450px;
+  padding: var(--hero-card-pad-v) var(--hero-card-pad-h);
+  background-color: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  overflow: hidden;
+}
+
+.hero-content-card.card-rtl {
+  right: var(--hero-card-inset);
+  left: auto;
+  direction: rtl;
+}
+
+.hero-content-card.card-ltr {
+  left: var(--hero-card-inset);
+  right: auto;
+  direction: ltr;
+}
+
+/* ─── Heading ─── */
+.hero-main-heading {
+  color: #ffffff;
+  font-size: var(--hero-font-size);
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hero-main-heading.font-ar { font-family: var(--MNF_Heading_AR), sans-serif; }
+.hero-main-heading.font-en { font-family: var(--MNF_Heading_EN), sans-serif; }
+
+/* ─── Arrow ─── */
+.hero-arrow-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  flex-shrink: 0;
+}
+
+.hero-arrow-container {
+  position: relative;
+  display: inline-flex;
+}
+
+.hero-arrow-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--hero-arrow-size);
+  height: var(--hero-arrow-size);
+  background-color: var(--hero-white);
+  border-radius: 50%;
+  transition: background-color 0.3s, transform 0.3s;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.hero-arrow-link svg {
+  width: 24px;
+  height: 24px;
+  transition: fill 0.3s, transform 0.3s;
+}
+
+.hero-arrow-link:hover {
+  background-color: var(--hero-orange);
+  transform: scale(1.05);
+}
+
+.hero-arrow-link:hover svg {
+  fill: var(--hero-white) !important;
+  transform: translate(4px, -4px);
+}
+
+/* ─── Tooltip ─── */
+.hero-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.hero-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: rgba(0,0,0,0.75);
+}
+
+/* ─── Pagination ─── */
+.hero-pagination-dots {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 3;
+}
+
+.hero-pagination-dot {
+  width: var(--hero-dot-size);
+  height: var(--hero-dot-size);
+  border-radius: 50%;
+  background-color: rgba(255,255,255,0.5);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s, width 0.3s;
+  user-select: none;
+}
+
+.hero-pagination-dot:hover {
+  background-color: rgba(255,255,255,0.8);
+  transform: scale(1.2);
+}
+
+.hero-pagination-dot:focus-visible {
+  outline: 2px solid var(--hero-orange);
+  outline-offset: 2px;
+}
+
+.hero-pagination-dot-active {
+  width: var(--hero-dot-active);
+  background-color: var(--hero-white);
+  border-radius: 6px;
+  transform: none;
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE — HERO
+══════════════════════════════════════ */
+
+@media (max-width: 1599px) {
+  :root {
+    --hero-height: calc(100dvh - var(--nav-height));
+    --hero-card-width: 700px;
+    --hero-card-bottom: 52px;
+    --hero-card-inset: 70px;
+    --hero-card-pad-v: 30px;
+    --hero-card-pad-h: 36px;
+    --hero-font-size: 30px;
+    --hero-arrow-size: 60px;
+  }
+}
+
+@media (max-width: 1199px) {
+  :root {
+    --hero-height: calc(100dvh - var(--nav-height));
+    --hero-radius: 20px;
+    --hero-card-width: 580px;
+    --hero-card-bottom: 44px;
+    --hero-card-inset: 48px;
+    --hero-font-size: 26px;
+    --hero-arrow-size: 54px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --hero-height: calc(100dvh - var(--nav-height));
+    --hero-radius: 0;
+    --hero-card-width: calc(100% - 44px);
+    --hero-card-bottom: 72px;
+    --hero-card-inset: 22px;
+    --hero-card-pad-v: 18px;
+    --hero-card-pad-h: 20px;
+    --hero-font-size: 16px;
+    --hero-arrow-size: 42px;
+    --hero-dot-size: 8px;
+    --hero-dot-active: 24px;
+  }
+
+  .hero-carousel-main {
+    margin: 0;
+    border-radius: 0;
+    min-height: calc(100dvh - var(--nav-height));
+  }
+
+  .hero-carousel-image {
+    object-position: center top;
+  }
+
+  .hero-content-card {
+    min-height: 150px;
+    max-height: 230px;
+    border-radius: 18px;
+    gap: 14px;
+  }
+
+  .hero-main-heading {
+    -webkit-line-clamp: 3;
+    line-height: 1.45;
+  }
+
+  .hero-pagination-dots {
+    bottom: 34px;
+  }
+}
+
+@media (max-width: 430px) {
+  :root {
+    --hero-height: calc(100dvh - var(--nav-height));
+    --hero-card-width: calc(100% - 36px);
+    --hero-card-bottom: 70px;
+    --hero-card-inset: 18px;
+    --hero-card-pad-v: 16px;
+    --hero-card-pad-h: 18px;
+    --hero-font-size: 15.5px;
+    --hero-arrow-size: 40px;
+  }
+}

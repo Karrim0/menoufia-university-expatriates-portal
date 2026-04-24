@@ -1,0 +1,58 @@
+/* ─── Google Fonts ─────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Noto+Kufi+Arabic:wght@400;500;600;700&family=Almarai:wght@400;700;800&display=swap');
+
+:root {
+  --MNF_Body_EN:    "Source Sans 3", sans-serif;
+  --MNF_Heading_EN: "Montserrat",    sans-serif;
+  --MNF_Body_AR:    "Noto Kufi Arabic", sans-serif;
+  --MNF_Heading_AR: "Almarai",       sans-serif;
+
+  --MNF_Heading_Size1: 64px;
+  --MNF_Heading_Size2: 32px;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* body يتغير font تلقائياً مع اللغة */
+html[dir="ltr"] body {
+  font-family: var(--MNF_Body_EN);
+}
+html[dir="rtl"] body {
+  font-family: var(--MNF_Body_AR);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #303d5e;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+}
