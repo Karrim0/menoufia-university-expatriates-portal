@@ -353,9 +353,22 @@ function SectorsNews() {
       <section className="news-main-content" dir={isArabic ? "rtl" : "ltr"}>
         <div className="news-content-wrapper">
           {isLoading ? (
-            <div className="news-no-results">
-              <h2>{isArabic ? "جاري التحميل..." : "Loading..."}</h2>
-            </div>
+            <div className="news-cards-grid">
+  {Array.from({ length: 6 }).map((_, index) => (
+    <article key={index} className="news-card skeleton-card">
+      <div className="news-card-text">
+        <div className="skeleton skeleton-title"></div>
+        <div className="skeleton skeleton-line"></div>
+        <div className="skeleton skeleton-line short"></div>
+        <div className="skeleton skeleton-date"></div>
+      </div>
+
+      <div className="news-card-image">
+        <div className="skeleton skeleton-image"></div>
+      </div>
+    </article>
+  ))}
+</div>
           ) : filteredNews.length === 0 ? (
             <div className="news-no-results">
               <h2>
