@@ -36,7 +36,7 @@ const sectorConfig = {
 
 function SectorsNews() {
   const savedLang = JSON.parse(localStorage.getItem("lang") || "{}");
-  const { t } = useTranslation("News");
+const { t, i18n } = useTranslation("News");
   const { isLoggedIn } = useAuth();
   const { sectorName } = useParams();
 
@@ -45,7 +45,7 @@ function SectorsNews() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredNews, setFilteredNews] = useState([]);
-  const [langId] = useState(Number(savedLang?.id) || 1);
+const [langId, setLangId] = useState(Number(savedLang?.id) || 1);
   const [moveNext, setMoveNext] = useState(false);
   const [movePrevious, setMovePrevious] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -63,7 +63,23 @@ function SectorsNews() {
     isLoading: false,
   });
 
-  const isArabic = savedLang?.code === "ar";
+const isArabic = i18n.language === "ar";
+
+useEffect(() => {
+  const langMap = {
+    ar: 1,
+    en: 2,
+    fr: 3,
+    de: 4,
+  };
+
+  setLangId(langMap[i18n.language] || 1);
+  setCurrentPage(1);
+  setSearchTerm("");
+  setAppliedSearchTerm("");
+  allNewsRef.current = [];
+  lastFetchKeyRef.current = "";
+}, [i18n.language]);
 
   useEffect(() => {
     setSearchTerm("");
@@ -380,9 +396,13 @@ const highlightText = (text, term) => {
                     <div className="skeleton skeleton-date"></div>
                   </div>
 
-                  <div className="news-card-image">
-                    <div className="skeleton skeleton-image"></div>
-                  </div>
+  <div className="news-card-image">
+  <div className="skeleton skeleton-image"></div>
+
+  <div className="news-card-arrow skeleton">
+    <i className="fa-solid fa-arrow-up"></i>
+  </div>
+</div>
                 </article>
               ))}
             </div>

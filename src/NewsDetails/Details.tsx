@@ -205,7 +205,7 @@ useEffect(() => {
     };
 
     fetchRelatedNews();
- }, [langId, id, newsType, location.state?.abbreviation]);
+  }, [langId, id, newsType]);
 
   const handleLanguageClick = async (selectedLangId) => {
     try {

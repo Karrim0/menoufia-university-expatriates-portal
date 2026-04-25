@@ -443,16 +443,16 @@ function News() {
                       </span>
                     </div>
 
-                    <div className="news-card-image">
-                      <SmartImage
-                        src={getImageUrl(news?.newsImg)}
-                        alt={news?.newsDetails?.head || ""}
-                      />
-                    </div>
+<div className="news-card-image">
+  <SmartImage
+    src={getImageUrl(news?.newsImg)}
+    alt={news?.newsDetails?.head || ""}
+  />
 
-                    <div className="news-card-arrow">
-                      <i className="fa-solid fa-arrow-up"></i>
-                    </div>
+  <div className="news-card-arrow">
+    <i className="fa-solid fa-arrow-up"></i>
+  </div>
+</div>
 
                     {isLoggedIn && (
                       <div className="news-admin-actions">
