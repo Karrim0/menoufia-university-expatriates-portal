@@ -37,32 +37,32 @@ const getNavItems = (t: any) => [
     ],
   },
   { key: "programs", label: t("nav.programs"), link: "/colleges-programs" },
-{
-  key: "university-management",
-  label: t("nav.universityManagement"),
-  children: [
-    { key: "wafiden", label: t("nav.wafiden"), link: "/sectors/wafiden" },
-    { key: "ceneva", label: t("nav.ceneva"), link: "/sectors/cenev" },
-    { key: "educ", label: t("nav.educ"), link: "/sectors/educ" },
-    { key: "env", label: t("nav.env"), link: "/sectors/env" },
-    { key: "env2", label: t("nav.env2"), link: "/sectors/env2" },
-    { key: "nci", label: t("nav.nci"), link: "/sectors/nci" },
-    { key: "postgrad", label: t("nav.postgrad"), link: "/sectors/postgrad" },
-    { key: "sadat", label: t("nav.sadat"), link: "/sectors/sadat" },
-    { key: "secr", label: t("nav.secr"), link: "/sectors/secr" },
-    { key: "tico", label: t("nav.tico"), link: "/sectors/tico" },
-    { key: "univpres", label: t("nav.univpres"), link: "/sectors/univpres" },
-  ],
-},
+  {
+    key: "university-management",
+    label: t("nav.universityManagement"),
+    children: [
+      { key: "wafiden", label: t("nav.wafiden"), link: "/sectors/wafiden" },
+      { key: "ceneva",  label: t("nav.ceneva"),  link: "/sectors/cenev"   },
+      { key: "educ",    label: t("nav.educ"),    link: "/sectors/educ"    },
+      { key: "env",     label: t("nav.env"),     link: "/sectors/env"     },
+      { key: "env2",    label: t("nav.env2"),    link: "/sectors/env2"    },
+      { key: "nci",     label: t("nav.nci"),     link: "/sectors/nci"     },
+      { key: "postgrad",label: t("nav.postgrad"),link: "/sectors/postgrad"},
+      { key: "sadat",   label: t("nav.sadat"),   link: "/sectors/sadat"   },
+      { key: "secr",    label: t("nav.secr"),    link: "/sectors/secr"    },
+      { key: "tico",    label: t("nav.tico"),    link: "/sectors/tico"    },
+      { key: "univpres",label: t("nav.univpres"),link: "/sectors/univpres"},
+    ],
+  },
   {
     key: "students",
     label: t("nav.students"),
     children: [
-      { key: "platforms",   label: t("nav.students.platforms"),   link: "/" },
-      { key: "admission",   label: t("nav.students.admission"),   link: "/" },
-      { key: "ethics",      label: t("nav.students.ethics"),      link: "/" },
-      { key: "scholarships",label: t("nav.students.scholarships"),link: "/" },
-      { key: "fees",        label: t("nav.students.fees"),        link: "/" },
+      { key: "platforms",    label: t("nav.students.platforms"),    link: "/" },
+      { key: "admission",    label: t("nav.students.admission"),    link: "/" },
+      { key: "ethics",       label: t("nav.students.ethics"),       link: "/" },
+      { key: "scholarships", label: t("nav.students.scholarships"), link: "/" },
+      { key: "fees",         label: t("nav.students.fees"),         link: "/" },
       {
         key: "services",
         label: t("nav.students.services"),
@@ -107,18 +107,24 @@ const getNavItems = (t: any) => [
   { key: "contact", label: t("nav.contact"), link: "/contactUs" },
 ];
 
-// ─── Level-2 dropdown item (supports one more level of nesting) ───
+/* ─────────────────────────────────────────────
+   Detect desktop vs mobile
+───────────────────────────────────────────── */
+const isDesktop = () => window.innerWidth > 1100;
+
+/* ─────────────────────────────────────────────
+   SubDropdownItem — level 2+
+   Desktop  → hover open/close
+   Mobile   → click toggle
+───────────────────────────────────────────── */
 const SubDropdownItem = ({ item }: any) => {
-  const [open, setOpen] = useState(false);
-  const hasChildren = item.children?.length > 0;
-  const ref            = useRef<HTMLDivElement | null>(null);
-  const subDropdownRef = useRef<HTMLDivElement | null>(null);
+  const [open, setOpen]     = useState(false);
+  const hasChildren         = item.children?.length > 0;
+  const ref                 = useRef<HTMLDivElement | null>(null);
+  const subDropdownRef      = useRef<HTMLDivElement | null>(null);
+  const closeTimer          = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const handleToggle = (e: React.MouseEvent) => {
-    if (hasChildren) { e.preventDefault(); e.stopPropagation(); setOpen(p => !p); }
-  };
-
-  // Flip sub-dropdown if it bleeds off screen
+  /* Flip sub-dropdown if it bleeds off screen */
   useEffect(() => {
     if (!open || !subDropdownRef.current) return;
     const rect = subDropdownRef.current.getBoundingClientRect();
@@ -131,6 +137,7 @@ const SubDropdownItem = ({ item }: any) => {
     }
   }, [open]);
 
+  /* Outside-click close (mobile only really) */
   useEffect(() => {
     if (!open) return;
     const handler = (e: MouseEvent) => {
@@ -140,13 +147,33 @@ const SubDropdownItem = ({ item }: any) => {
     return () => document.removeEventListener("mousedown", handler);
   }, [open]);
 
+  const handleMouseEnter = () => {
+    if (!hasChildren || !isDesktop()) return;
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (!hasChildren || !isDesktop()) return;
+    closeTimer.current = setTimeout(() => setOpen(false), 120);
+  };
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (!hasChildren || isDesktop()) return;
+    e.preventDefault();
+    e.stopPropagation();
+    setOpen(p => !p);
+  };
+
   return (
     <div
       className={`dropdown-item ${hasChildren ? "has-sub" : ""} ${open ? "sub-open" : ""}`}
       ref={ref}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {hasChildren ? (
-        <span className="dropdown-item-label" onClick={handleToggle}>
+        <span className="dropdown-item-label" onClick={handleClick}>
           <span className="dropdown-item-text">{item.label}</span>
           <ChevronLeft size={12} className="sub-arrow" />
         </span>
@@ -157,7 +184,12 @@ const SubDropdownItem = ({ item }: any) => {
       )}
 
       {hasChildren && open && (
-        <div className="sub-dropdown" ref={subDropdownRef}>
+        <div
+          className="sub-dropdown"
+          ref={subDropdownRef}
+          onMouseEnter={() => { if (closeTimer.current) clearTimeout(closeTimer.current); }}
+          onMouseLeave={handleMouseLeave}
+        >
           {item.children.map((child: any) => (
             <Link key={child.key} to={child.link} className="dropdown-item-label solo">
               <span className="dropdown-item-text">{child.label}</span>
@@ -169,16 +201,32 @@ const SubDropdownItem = ({ item }: any) => {
   );
 };
 
-// ─── Level-1 nav item ───
+/* ─────────────────────────────────────────────
+   NavItem — level 1
+   Desktop  → hover open/close (with small delay on leave)
+   Mobile   → click toggle
+───────────────────────────────────────────── */
 const NavItem = ({ item, isActive }: any) => {
   const [open, setOpen] = useState(false);
-  const hasChildren = item.children?.length > 0;
-  const ref = useRef<HTMLLIElement | null>(null);
+  const hasChildren     = item.children?.length > 0;
+  const ref             = useRef<HTMLLIElement | null>(null);
+  const closeTimer      = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const handleToggle = (e: React.MouseEvent) => {
-    if (hasChildren) { e.preventDefault(); e.stopPropagation(); setOpen(p => !p); }
+  const openDropdown  = () => { if (closeTimer.current) clearTimeout(closeTimer.current); setOpen(true);  };
+  const closeDropdown = () => { closeTimer.current = setTimeout(() => setOpen(false), 150); };
+
+  const handleMouseEnter = () => { if (hasChildren && isDesktop()) openDropdown(); };
+  const handleMouseLeave = () => { if (hasChildren && isDesktop()) closeDropdown(); };
+
+  /* Click — only for mobile */
+  const handleClick = (e: React.MouseEvent) => {
+    if (!hasChildren || isDesktop()) return;
+    e.preventDefault();
+    e.stopPropagation();
+    setOpen(p => !p);
   };
 
+  /* Outside-click close (safety net) */
   useEffect(() => {
     if (!open) return;
     const handler = (e: MouseEvent) => {
@@ -192,9 +240,11 @@ const NavItem = ({ item, isActive }: any) => {
     <li
       className={`nav-item ${isActive ? "active" : ""} ${hasChildren ? "has-dropdown" : ""} ${open ? "dropdown-open" : ""}`}
       ref={ref}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {hasChildren ? (
-        <span className="nav-link" onClick={handleToggle}>
+        <span className="nav-link" onClick={handleClick}>
           <span className="nav-link-text">{item.label}</span>
           <ChevronDown size={11} className="nav-arrow" />
         </span>
@@ -205,7 +255,12 @@ const NavItem = ({ item, isActive }: any) => {
       )}
 
       {hasChildren && open && (
-        <div className="dropdown-menu">
+        <div
+          className="dropdown-menu"
+          /* keep open while mouse is inside the menu itself */
+          onMouseEnter={() => { if (closeTimer.current) clearTimeout(closeTimer.current); }}
+          onMouseLeave={handleMouseLeave}
+        >
           {item.children.map((child: any) => (
             <SubDropdownItem key={child.key} item={child} />
           ))}
@@ -215,12 +270,13 @@ const NavItem = ({ item, isActive }: any) => {
   );
 };
 
-// ─── Main Header ───
+/* ─────────────────────────────────────────────
+   Main Header
+───────────────────────────────────────────── */
 const Header = () => {
   const { i18n, t } = useTranslation();
   const location    = useLocation();
 
-  // Read lang from localStorage — falls back to Arabic
   const getSavedLang = () => {
     try { return JSON.parse(localStorage.getItem("lang") || '{"code":"ar","id":1}'); }
     catch { return { code: "ar", id: 1 }; }
@@ -235,16 +291,13 @@ const Header = () => {
 
   const NAV_ITEMS = getNavItems(t);
 
-  // Sync dir + i18n on mount
   useEffect(() => {
     i18n.changeLanguage(currentLang.code);
     document.documentElement.dir = currentLang.code === "ar" ? "rtl" : "ltr";
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => { setMenuActive(false); }, [location.pathname]);
 
-  // Close search & lang dropdown on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (searchOpen && searchRef.current && !searchRef.current.contains(e.target as Node)) {
@@ -259,7 +312,6 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handler);
   }, [searchOpen, langActive]);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = menuActive ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };

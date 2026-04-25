@@ -140,19 +140,6 @@
   color: #324677;
 }
 
-.news-search-status {
-  font-weight: 600px;
-  margin-top: 14px;
-  color: #ffffff;
-  font-size: 14px;
-  text-align: center;
-  font-family: "Cairo", var(--MNF_Body_AR, Arial, sans-serif);
-}
-
-.news-search-mode {
-  opacity: 0.9;
-}
-
 /* =========================
    Content
 ========================= */
@@ -177,56 +164,56 @@
 
 /* =========================
    Card
+   ─ الخلفية أزرق فاتح زي Image 2
 ========================= */
 .news-card {
-  background: #ffffff;
-  border-radius: 16px;
-  overflow: hidden;
+  background: #dce8f2;
+  border-radius: 20px;
+  overflow: visible; /* ← مهم: عشان السهم ميتقطعش */
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  border: none;
+  box-shadow: none;
 }
 
 .news-card:hover {
   transform: translateY(-6px);
-  box-shadow:
-    0 20px 40px rgba(50, 70, 119, 0.10),
-    0 4px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 20px 40px rgba(50, 70, 119, 0.12);
 }
 
+/*
+  ─ grid: text (1fr) | image (280px)
+  ─ في RTL: text ← يمين  |  image ← شمال  ✓
+  ─ padding-bottom كبير عشان السهم يتنفس
+*/
 .news-card-link {
   position: relative;
-  min-height: 230px;
+  min-height: 260px;
   display: grid;
-  grid-template-columns: 1fr 200px;
-  gap: 20px;
+  grid-template-columns: 1fr 280px;
+  gap: 24px;
   align-items: start;
-  padding: 24px 22px 32px;
+  padding: 28px 28px 96px;
   text-decoration: none;
   color: inherit;
+  border-radius: 20px;
+  overflow: hidden; /* ← يقص الصورة من الكارت نفسه */
 }
-.news-card-footer {
-  margin-top: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+
 .news-card-text {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  padding-top: 2px;
-    height: 100%;
-
+  padding-top: 4px;
+  height: 100%;
 }
 
 .news-card-title {
-  margin: 0 0 10px;
+  margin: 0 0 14px;
   color: #1a2744;
   font-family: "Cairo", var(--MNF_Heading_AR, Arial, sans-serif);
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.5;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.55;
   text-align: right;
   transition: color 0.25s ease;
 }
@@ -236,12 +223,12 @@
 }
 
 .news-card-description {
-  margin: 0 0 12px;
+  margin: 0 0 14px;
   color: #5a6580;
   font-family: "Cairo", var(--MNF_Body_AR, Arial, sans-serif);
   font-size: 14px;
   font-weight: 400;
-  line-height: 1.85;
+  line-height: 1.9;
   text-align: right;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -250,8 +237,8 @@
 }
 
 .news-card-date {
-  margin-top: 0;
-  color: #94a0b8;
+  margin-top: auto;
+  color: #7a8baa;
   font-family: "Cairo", var(--MNF_Body_AR, Arial, sans-serif);
   font-size: 13px;
   font-weight: 500;
@@ -261,13 +248,19 @@
   gap: 6px;
 }
 
+/* =========================
+   Card Image
+   ─ position: static عشان السهم
+     يتبع الـ card-link مش الصورة
+========================= */
 .news-card-image {
-  position: relative;
+  position: static; /* ← مهم: يحرر السهم من الصورة */
   width: 100%;
-  height: 180px;
-  border-radius: 12px;
+  height: 100%;
+  min-height: 240px;
+  border-radius: 0; /* الكارت-لينك بيعمل الـ clip */
   overflow: hidden;
-  align-self: start;
+  align-self: stretch;
 }
 
 .news-card-image img {
@@ -282,21 +275,28 @@
   transform: scale(1.06);
 }
 
+/* =========================
+   Arrow
+   ─ position: absolute بالنسبة لـ .news-card-link
+   ─ دايرة بيضاء/فاتحة كبيرة — زي Image 2
+========================= */
 .news-card-arrow {
   position: absolute;
-  left: 12px;
-  bottom: 12px;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: #f0f3f8;
+  left: 24px;
+  bottom: 20px;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.82);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #324677;
-  font-size: 13px;
+  font-size: 17px;
   transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
-  z-index: 2;
+  z-index: 4;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 
 .news-card-arrow i {
@@ -307,7 +307,8 @@
 .news-card:hover .news-card-arrow {
   background: #324677;
   color: #ffffff;
-  transform: translate(2px, -2px);
+  transform: translate(3px, -3px);
+  box-shadow: 0 6px 20px rgba(50, 70, 119, 0.25);
 }
 
 .news-card:hover .news-card-arrow i {
@@ -394,7 +395,7 @@
 }
 
 /* =========================
-   Pagination — دايماً LTR عشان الأسهم متتقلبش
+   Pagination — دايماً LTR
 ========================= */
 .news-pagination {
   margin-top: 40px;
@@ -464,6 +465,7 @@
 .news-search-status {
   width: auto;
   max-width: fit-content;
+  margin-top: 14px;
   padding: 7px 12px;
   border-radius: 999px;
   background: rgba(220, 237, 244, 0.65);
@@ -508,11 +510,11 @@
   }
 
   .news-card-link {
-    grid-template-columns: 1fr 170px;
+    grid-template-columns: 1fr 240px;
   }
 
   .news-card-image {
-    height: 165px;
+    min-height: 220px;
   }
 }
 
@@ -524,12 +526,12 @@
   }
 
   .news-card-link {
-    grid-template-columns: 1fr 200px;
-    min-height: 200px;
+    grid-template-columns: 1fr 260px;
+    min-height: 220px;
   }
 
   .news-card-image {
-    height: 180px;
+    min-height: 220px;
   }
 }
 
@@ -576,11 +578,12 @@
     max-width: none;
   }
 
+  /* موبايل: صورة فوق، نص تحت */
   .news-card-link {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
     gap: 0;
-    padding: 20px 18px 68px;
+    padding: 20px 18px 88px;
     min-height: unset;
   }
 
@@ -592,8 +595,9 @@
   .news-card-image {
     order: 2;
     width: 100%;
+    min-height: 200px;
     height: 200px;
-    border-radius: 12px;
+    border-radius: 0;
     margin-top: 16px;
     align-self: unset;
   }
@@ -616,9 +620,10 @@
 
   .news-card-arrow {
     left: 18px;
-    bottom: 18px;
-    width: 38px;
-    height: 38px;
+    bottom: 16px;
+    width: 58px;
+    height: 58px;
+    font-size: 15px;
   }
 
   .news-admin-actions {
@@ -692,16 +697,17 @@
   }
 
   .news-card {
-    border-radius: 14px;
+    border-radius: 16px;
   }
 
   .news-card-link {
-    padding: 16px 16px 64px;
+    padding: 16px 16px 80px;
+    border-radius: 16px;
   }
 
   .news-card-image {
+    min-height: 175px;
     height: 175px;
-    border-radius: 10px;
     margin-top: 14px;
   }
 
@@ -720,12 +726,11 @@
   }
 
   .news-card-arrow {
-    width: 34px;
-    height: 34px;
-    font-size: 12px;
+    width: 52px;
+    height: 52px;
+    font-size: 14px;
     left: 16px;
-    bottom: 16px;
-    border-radius: 10px;
+    bottom: 14px;
   }
 
   .news-pagination {
@@ -775,10 +780,11 @@
   }
 
   .news-card-link {
-    padding: 14px 14px 60px;
+    padding: 14px 14px 76px;
   }
 
   .news-card-image {
+    min-height: 155px;
     height: 155px;
   }
 

@@ -449,11 +449,11 @@ function News() {
     alt={news?.newsDetails?.head || ""}
   />
 
+
+</div>
   <div className="news-card-arrow">
     <i className="fa-solid fa-arrow-up"></i>
   </div>
-</div>
-
                     {isLoggedIn && (
                       <div className="news-admin-actions">
                         <button
