@@ -51,7 +51,17 @@ function Details() {
   };
 
   const isArabic = savedLang?.code === "ar";
+useEffect(() => {
+  const stateNews = location.state?.news;
 
+  if (stateNews && String(stateNews.id) === String(id)) {
+    setCurrentNews(stateNews);
+  } else {
+    setCurrentNews(null);
+  }
+
+  setIsLoading(true);
+}, [id, location.state?.news]);
   const formatDate = (rawDate) => {
     if (!rawDate) return "";
 
@@ -86,7 +96,7 @@ function Details() {
 
       if (!newsId || !languageId) return;
 
-      if (!currentNews) setIsLoading(true);
+      setIsLoading(true);
 
       try {
         let response = null;
@@ -195,7 +205,7 @@ function Details() {
     };
 
     fetchRelatedNews();
-  }, [langId, id, newsType]);
+ }, [langId, id, newsType, location.state?.abbreviation]);
 
   const handleLanguageClick = async (selectedLangId) => {
     try {
