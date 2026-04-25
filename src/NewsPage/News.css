@@ -205,12 +205,19 @@
   text-decoration: none;
   color: inherit;
 }
-
+.news-card-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .news-card-text {
   display: flex;
   flex-direction: column;
   min-width: 0;
   padding-top: 2px;
+    height: 100%;
+
 }
 
 .news-card-title {
@@ -275,7 +282,7 @@
 }
 
 .news-card-arrow {
-  position: absolute;
+  position: static;
   left: 20px;
   bottom: 20px;
   width: 40px;
