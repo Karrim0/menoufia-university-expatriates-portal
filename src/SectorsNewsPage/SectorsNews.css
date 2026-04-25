@@ -1,8 +1,10 @@
 @import "../NewsPage/News.css";
 
-/* قطاع إدارة الجامعة */
+/* /* =========================
+   Sectors Overrides
+========================= */
 .sectors-page-wrapper {
-  background: #ffffff;
+  background: #f8fafb;
 }
 
 .sectors-hero .news-hero-title {
@@ -12,8 +14,8 @@
 }
 
 .sectors-hero .news-hero-subtitle {
-  letter-spacing: 1px;
-  opacity: 0.95;
+  letter-spacing: 2px;
+  opacity: 0.85;
 }
 
 .sectors-page-wrapper .news-search-status {
@@ -25,6 +27,10 @@
     font-size: 30px;
   }
 }
+
+/* =========================
+   Skeleton Loading
+========================= */
 .skeleton-card {
   pointer-events: none;
 }
@@ -32,7 +38,7 @@
 .skeleton {
   position: relative;
   overflow: hidden;
-  background: #e8e8e8;
+  background: #ebeef3;
   border-radius: 10px;
 }
 
@@ -44,15 +50,15 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.65),
+    rgba(255, 255, 255, 0.55),
     transparent
   );
-  animation: skeleton-loading 1.3s infinite;
+  animation: skeleton-loading 1.4s ease-in-out infinite;
 }
 
 .skeleton-title {
-  width: 80%;
-  height: 24px;
+  width: 75%;
+  height: 22px;
   margin-bottom: 16px;
 }
 
@@ -63,11 +69,11 @@
 }
 
 .skeleton-line.short {
-  width: 65%;
+  width: 60%;
 }
 
 .skeleton-date {
-  width: 120px;
+  width: 100px;
   height: 13px;
   margin-top: 18px;
 }
@@ -76,11 +82,12 @@
   width: 100%;
   height: 100%;
   min-height: 180px;
-  border-radius: 18px;
+  border-radius: 12px;
 }
 
 @keyframes skeleton-loading {
   100% {
     transform: translateX(100%);
   }
-}
+} 
+

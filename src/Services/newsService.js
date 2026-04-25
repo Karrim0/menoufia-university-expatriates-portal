@@ -47,11 +47,25 @@ const newsService = {
     return response.data;
   },
 
-  searchByAbbreviation: async ({ abbreviation, lid }) => {
+  getNewsById: async (id, lid) => {
+    const response = await api.get(`/News/${id}/${lid}`);
+    return response.data;
+  },
+
+  searchByAbbreviation: async ({
+    abbreviation,
+    lid,
+    pageIndex = 1,
+    pageSize = 10,
+    search = "",
+  }) => {
     const response = await api.get("/news/SearchAbbreviation", {
       params: {
-        abbreviation,
-        lid,
+        Abbreviation: abbreviation,
+        Lid: lid,
+        PageIndex: pageIndex,
+        PageSize: pageSize,
+        Search: search,
       },
     });
 

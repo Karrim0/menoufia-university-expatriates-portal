@@ -1,759 +1,791 @@
-.college-programs-page {
-  --cap-primary: #001351;
-  --cap-primary-2: #1746a2;
-  --cap-bg: #f6f8fc;
+/* ══════════════════════════════════════
+   College & Programs Page — Redesign
+══════════════════════════════════════ */
+
+.cap-page {
+  --cap-navy: #1a2744;
+  --cap-blue: #324677;
+  --cap-accent: #f66b15;
+  --cap-bg: #f5f7fa;
   --cap-card: #ffffff;
-  --cap-soft: #edf4ff;
-  --cap-border: #e5ecf6;
-  --cap-text: #0f172a;
+  --cap-border: #e8ecf3;
+  --cap-text: #1e293b;
   --cap-muted: #64748b;
-  --cap-shadow: 0 14px 40px rgba(15, 23, 42, 0.08);
+  --cap-soft: #eef3fb;
+  --cap-radius: 16px;
 
   min-height: 100vh;
-  background:
-    radial-gradient(
-      circle at top right,
-      rgba(23, 70, 162, 0.08),
-      transparent 32%
-    ),
-    var(--cap-bg);
+  background: var(--cap-bg);
   color: var(--cap-text);
 }
 
-.college-programs-page.rtl {
-  direction: rtl;
+.cap-rtl { direction: rtl; }
+.cap-ltr { direction: ltr; }
+
+.cap-rtl, .cap-rtl input, .cap-rtl button, .cap-rtl a {
+  font-family: var(--MNF_Body_AR), sans-serif;
+}
+.cap-ltr, .cap-ltr input, .cap-ltr button, .cap-ltr a {
+  font-family: var(--MNF_Body_EN), sans-serif;
 }
 
-.college-programs-page.ltr {
-  direction: ltr;
-}
-
-.college-programs-page.rtl,
-.college-programs-page.rtl input,
-.college-programs-page.rtl button,
-.college-programs-page.rtl a {
-  font-family: var(--MNF_Body_AR);
-}
-
-.college-programs-page.ltr,
-.college-programs-page.ltr input,
-.college-programs-page.ltr button,
-.college-programs-page.ltr a {
-  font-family: var(--MNF_Body_EN);
-}
-
-.cap-container {
-  width: min(1220px, calc(100% - 32px));
+.cap-wrap {
+  width: min(1400px, calc(100% - 48px));
   margin: 0 auto;
 }
 
-/* Hero */
+/* ══════════════════════════
+   Hero
+══════════════════════════ */
 .cap-hero {
   position: relative;
-  min-height: 360px;
+  min-height: 420px;
   display: flex;
   align-items: center;
-  justify-content: center;
   overflow: hidden;
 }
 
-.cap-hero::after {
-  display: none;
+.cap-hero-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.cap-hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .cap-hero-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    90deg,
-    rgba(35, 35, 60, 0.82),
-    rgba(91, 108, 125, 0.52)
+    135deg,
+    rgba(26, 39, 68, 0.88) 0%,
+    rgba(50, 70, 119, 0.72) 100%
   );
 }
 
-.cap-hero-content {
+.cap-hero-inner {
   position: relative;
   z-index: 2;
-  width: min(1120px, calc(100% - 48px));
+  width: min(1100px, calc(100% - 48px));
   margin: 0 auto;
-  padding: 40px 0;
-  text-align: start;
+  padding: 56px 0;
   color: #fff;
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  backdrop-filter: none;
-  box-shadow: none;
 }
 
-.cap-badge {
+.cap-hero-badge {
   display: inline-flex;
-  padding: 8px 18px;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
+
+.cap-hero-title {
+  margin: 0 0 14px;
+  font-size: clamp(1.8rem, 4vw, 3rem);
   font-weight: 800;
-  margin-bottom: 18px;
+  line-height: 1.25;
+  max-width: 700px;
 }
 
-.cap-title {
-  margin: 0 0 12px;
-  font-size: clamp(2rem, 4vw, 3.6rem);
-  font-weight: 900;
-  line-height: 1.2;
+.cap-hero-desc {
+  margin: 0 0 28px;
+  max-width: 600px;
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: rgba(255, 255, 255, 0.85);
 }
 
-.cap-subtitle {
-  margin: 0 0 24px;
-  max-width: 680px;
-  font-size: 1rem;
-  line-height: 1.9;
-  color: rgba(255, 255, 255, 0.9);
+/* ── Search ── */
+.cap-search {
+  position: relative;
+  width: min(560px, 100%);
+  margin-bottom: 20px;
 }
 
-/* Search */
-.cap-searchBox {
-  width: min(620px, 100%);
-  margin: 0 0 18px;
+.cap-search-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  inset-inline-start: 16px;
+  color: var(--cap-blue);
+  font-size: 15px;
+  pointer-events: none;
+  z-index: 1;
 }
 
-.cap-searchBox input {
+.cap-search input {
   width: 100%;
-  height: 54px;
+  height: 50px;
   border: none;
   outline: none;
-  border-radius: 12px;
-  padding-inline-start: 52px;
-  padding-inline-end: 18px;
-  background: #ffffff;
+  border-radius: 14px;
+  padding-inline-start: 46px;
+  padding-inline-end: 42px;
+  background: #fff;
   color: #1f2937;
-  font-size: 0.98rem;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+  font-size: 0.92rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.10);
+  transition: box-shadow 0.25s ease;
 }
 
-.cap-searchBox input:focus {
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.22);
+.cap-search input:focus {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.10), 0 0 0 3px rgba(255, 255, 255, 0.18);
 }
 
-.cap-searchBox input::placeholder {
+.cap-search input::placeholder {
   color: #94a3b8;
 }
 
-.cap-searchIcon {
-  inset-inline-start: 18px;
-  color: var(--cap-primary);
-}
-
-/* Switcher */
-.cap-switcher {
-  display: inline-flex;
-  gap: 6px;
-  padding: 5px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.13);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-}
-
-.cap-switchBtn {
-  min-width: 120px;
-  padding: 10px 18px;
-  border-radius: 9px;
-  font-size: 0.92rem;
-  font-weight: 800;
-}
-
-.cap-switchBtn:hover {
-  background: rgba(255, 255, 255, 0.14) !important;
-}
-
-.cap-switchBtn.active {
-  background: #ffffff;
-  color: var(--cap-primary);
-  box-shadow: none;
-}
-
-/* Content */
-.cap-content {
-  padding: 58px 0 88px;
-}
-
-.cap-sectionHead {
-  margin-bottom: 30px;
-  text-align: center;
-}
-
-.cap-sectionHead h2 {
-  margin: 0 0 10px;
-  color: var(--cap-primary);
-  font-size: clamp(1.8rem, 2.6vw, 2.6rem);
-  font-weight: 900;
-}
-
-.cap-sectionHead p {
-  margin: 0 auto;
-  max-width: 760px;
-  color: var(--cap-muted);
-  font-size: 1rem;
-  line-height: 1.9;
-}
-
-/* No results */
-.cap-noResults {
-  background: #fff;
-  border: 1px solid var(--cap-border);
-  border-radius: 26px;
-  padding: 46px 20px;
-  text-align: center;
-  box-shadow: var(--cap-shadow);
-}
-
-.cap-noResults svg {
-  font-size: 2.6rem;
-  color: var(--cap-primary-2);
-  margin-bottom: 14px;
-}
-
-.cap-noResults h3 {
-  margin: 0 0 16px;
-  color: var(--cap-primary);
-  font-size: 1.25rem;
-  font-weight: 900;
-}
-
-.cap-noResults button {
+.cap-search-clear {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  inset-inline-end: 14px;
+  background: none;
   border: none;
-  background: var(--cap-primary-2);
-  color: #fff;
-  border-radius: 14px;
-  padding: 12px 22px;
-  font-weight: 800;
+  color: #94a3b8;
+  font-size: 14px;
   cursor: pointer;
-  transition: 0.25s ease;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.2s ease;
 }
 
-.cap-noResults button:hover {
-  background: #123c89 !important;
-  transform: translateY(-2px);
+.cap-search-clear:hover {
+  color: #475569;
 }
 
-/* Programs */
-.cap-programsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 26px;
-  align-items: stretch;
+/* ── Tabs ── */
+.cap-tabs {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.14);
 }
 
-.cap-programCard {
-  min-height: 590px;
+.cap-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 130px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 11px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.cap-tab:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.cap-tab--active {
+  background: #fff !important;
+  color: var(--cap-navy);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.cap-tab svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* ══════════════════════════
+   Body
+══════════════════════════ */
+.cap-body {
+  padding: 52px 0 80px;
+}
+
+.cap-section-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.cap-section-header h2 {
+  margin: 0 0 8px;
+  color: var(--cap-navy);
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  font-weight: 800;
+}
+
+.cap-section-header p {
+  margin: 0 auto;
+  max-width: 600px;
+  color: var(--cap-muted);
+  font-size: 0.92rem;
+  line-height: 1.8;
+}
+
+/* ── Empty state ── */
+.cap-empty {
+  text-align: center;
+  padding: 56px 24px;
   background: #fff;
-  border-radius: 28px;
+  border: 1px dashed var(--cap-border);
+  border-radius: var(--cap-radius);
+}
+
+.cap-empty-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--cap-soft);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  color: var(--cap-blue);
+  font-size: 20px;
+}
+
+.cap-empty h3 {
+  margin: 0 0 16px;
+  color: var(--cap-navy);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.cap-empty button {
+  border: none;
+  background: var(--cap-blue);
+  color: #fff;
+  border-radius: 12px;
+  padding: 10px 24px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.cap-empty button:hover {
+  background: var(--cap-navy);
+}
+
+/* ══════════════════════════
+   Program Cards
+══════════════════════════ */
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.cap-card {
+  background: #fff;
+  border-radius: var(--cap-radius);
   border: 1px solid var(--cap-border);
-  box-shadow: 0 12px 34px rgba(15, 23, 42, 0.07);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: 0.28s ease;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease,
+    border-color 0.3s ease;
 }
 
-.cap-programCard:hover {
-  transform: translateY(-7px);
-  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.12);
-  border-color: rgba(23, 70, 162, 0.22);
+.cap-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(50, 70, 119, 0.10);
+  border-color: rgba(50, 70, 119, 0.15);
 }
 
-.cap-programImage {
-  display: block;
+/* Image */
+.cap-card-img {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.cap-card-img img {
   width: 100%;
-  height: 215px;
+  height: 100%;
   object-fit: cover;
-  background: #edf1f7;
-  border-bottom: 1px solid #eef2f7;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.cap-programBody {
+.cap-card:hover .cap-card-img img {
+  transform: scale(1.05);
+}
+
+.cap-card-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(26, 39, 68, 0.6) 0%, transparent 50%);
+  display: flex;
+  align-items: flex-end;
+  padding: 14px 18px;
+}
+
+.cap-card-count {
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  border-radius: 999px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Body */
+.cap-card-body {
   padding: 22px;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
-.cap-programTitle {
-  margin: 0 0 10px;
-  color: var(--cap-primary);
-  font-size: 1.2rem;
-  font-weight: 900;
-  line-height: 1.6;
-}
-
-.cap-programSubtitle {
+.cap-card-title {
   margin: 0 0 14px;
-  color: #536073;
-  font-size: 0.96rem;
-  font-weight: 800;
+  color: var(--cap-navy);
+  font-size: 1.08rem;
+  font-weight: 700;
+  line-height: 1.5;
 }
 
-.cap-programList {
+.cap-card-list {
   list-style: none;
-  padding: 14px;
-  margin: 0;
-  border-radius: 18px;
-  background: linear-gradient(180deg, #f8fbff, #f4f8ff);
-  border: 1px solid #edf3fb;
+  padding: 0;
+  margin: 0 0 18px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  max-height: 230px;
-  overflow-y: auto;
+  gap: 8px;
   flex: 1;
+  max-height: 240px;
+  overflow-y: auto;
 }
 
-.cap-programList li {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  color: #334155;
-  line-height: 1.75;
-  font-size: 0.95rem;
+.cap-card-list::-webkit-scrollbar {
+  width: 5px;
 }
 
-.cap-programList li svg {
-  color: var(--cap-primary-2);
-  flex-shrink: 0;
-  margin-top: 5px;
+.cap-card-list::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-.cap-programList::-webkit-scrollbar {
-  width: 6px;
-}
-
-.cap-programList::-webkit-scrollbar-thumb {
-  background: #cad5e6;
+.cap-card-list::-webkit-scrollbar-thumb {
+  background: #d0d8e4;
   border-radius: 999px;
 }
 
-.cap-programFooter {
-  margin-top: auto;
-  padding-top: 18px;
+.cap-card-list::-webkit-scrollbar-thumb:hover {
+  background: #b0bccf;
+}
+
+.cap-card-list li {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  gap: 10px;
+  color: #475569;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  padding: 8px 14px;
+  background: var(--cap-bg);
+  border-radius: 10px;
+  transition: background 0.2s ease;
 }
 
-.college-programs-page.rtl .cap-programFooter {
-  justify-content: flex-start;
+.cap-card-list li:hover {
+  background: var(--cap-soft);
 }
 
-.cap-programLink {
+.cap-card-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cap-accent);
+  flex-shrink: 0;
+}
+
+/* Button */
+.cap-card-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 128px;
+  gap: 6px;
+  width: 100%;
   padding: 12px 20px;
-  border-radius: 14px;
-  background: var(--cap-primary-2);
+  border-radius: 12px;
+  background: var(--cap-navy);
   color: #fff;
   text-decoration: none;
-  font-size: 0.94rem;
-  font-weight: 900;
-  transition: 0.25s ease;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-top: auto;
+  transition: background 0.25s ease, transform 0.2s ease;
 }
 
-.cap-programLink:hover {
-  background: #123c89 !important;
-  transform: translateY(-2px);
+.cap-card-btn:hover {
+  background: var(--cap-blue);
+  transform: translateY(-1px);
 }
 
-/* Colleges / Sectors */
-.cap-rankingCard {
+.cap-rtl .cap-card-btn svg {
+  transform: rotate(180deg);
+}
+
+/* ══════════════════════════
+   Highlight / Ranking
+══════════════════════════ */
+.cap-highlight {
+  background: linear-gradient(135deg, var(--cap-navy) 0%, var(--cap-blue) 100%);
+  border-radius: var(--cap-radius);
+  padding: 40px 36px;
+  margin-bottom: 40px;
+  color: #fff;
   position: relative;
   overflow: hidden;
-  background: #fff;
-  border: 1px solid var(--cap-border);
-  border-radius: 30px;
-  padding: 38px 30px;
-  margin-bottom: 42px;
-  text-align: center;
-  box-shadow: var(--cap-shadow);
 }
 
-.cap-rankingCard::before {
+.cap-highlight::before {
   content: "";
   position: absolute;
-  inset-inline-start: -80px;
-  top: -80px;
-  width: 190px;
-  height: 190px;
+  inset-inline-end: -40px;
+  top: -40px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
-  background: rgba(23, 70, 162, 0.08);
+  background: rgba(255, 255, 255, 0.06);
 }
 
-.cap-rankingLabel {
+.cap-highlight::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 30%;
+  bottom: -60px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(246, 107, 21, 0.08);
+}
+
+.cap-highlight-content {
   position: relative;
+  text-align: center;
+}
+
+.cap-highlight-label {
   display: inline-flex;
-  padding: 8px 18px;
+  padding: 5px 14px;
   border-radius: 999px;
-  background: var(--cap-soft);
-  color: var(--cap-primary-2);
-  font-weight: 900;
-  margin-bottom: 18px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 16px;
 }
 
-.cap-rankingCard h2 {
-  position: relative;
-  margin: 0 0 16px;
-  color: var(--cap-primary);
-  font-size: clamp(1.8rem, 3vw, 3rem);
-  font-weight: 950;
+.cap-highlight h2 {
+  margin: 0 0 14px;
+  font-size: clamp(1.5rem, 2.6vw, 2.2rem);
+  font-weight: 800;
 }
 
-.cap-rankingCard p {
-  position: relative;
+.cap-highlight p {
   margin: 0 auto;
-  max-width: 930px;
-  color: #334155;
-  line-height: 2;
-  font-size: 1rem;
+  max-width: 750px;
+  font-size: 0.92rem;
+  line-height: 1.9;
+  color: rgba(255, 255, 255, 0.85);
 }
 
-.cap-sectorsList {
+/* ══════════════════════════
+   Accordion (Sectors)
+══════════════════════════ */
+.cap-accordion {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 12px;
 }
 
-.cap-sectorCard {
-  overflow: hidden;
-  border-radius: 24px;
+.cap-acc-item {
   background: #fff;
   border: 1px solid var(--cap-border);
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06);
-  transition: 0.25s ease;
+  border-radius: var(--cap-radius);
+  overflow: hidden;
+  transition: border-color 0.25s ease, box-shadow 0.3s ease;
 }
 
-.cap-sectorCard:hover {
-  border-color: rgba(23, 70, 162, 0.22) !important;
-  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.09);
+.cap-acc-item:hover {
+  border-color: rgba(50, 70, 119, 0.18);
 }
 
-.cap-sectorHeader {
+.cap-acc-item--open {
+  border-color: rgba(50, 70, 119, 0.22);
+  box-shadow: 0 4px 16px rgba(50, 70, 119, 0.06);
+}
+
+.cap-acc-trigger {
   width: 100%;
-  padding: 24px 26px;
+  padding: 20px 24px;
   border: none;
-  background: #fff;
+  background: transparent;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 18px;
+  gap: 16px;
   text-align: inherit;
+  font: inherit;
+  transition: background 0.2s ease;
 }
 
-.cap-sectorHeader h3 {
-  margin: 0 0 8px;
-  color: var(--cap-primary);
-  font-size: 1.35rem;
-  font-weight: 950;
+.cap-acc-trigger:hover {
+  background: #fafbfd;
 }
 
-.cap-sectorHeader p {
+.cap-acc-trigger-text h3 {
+  margin: 0 0 4px;
+  color: var(--cap-navy);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.cap-acc-trigger-text p {
   margin: 0;
   color: var(--cap-muted);
-  font-size: 0.98rem;
-  line-height: 1.7;
+  font-size: 0.88rem;
+  line-height: 1.6;
 }
 
-.cap-sectorHeader span {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
+.cap-acc-chevron {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
   background: var(--cap-soft);
-  color: var(--cap-primary-2);
+  color: var(--cap-blue);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.55rem;
-  font-weight: 900;
+  font-size: 13px;
   flex-shrink: 0;
-  transition: 0.25s ease;
+  transition: transform 0.35s ease, background 0.25s ease, color 0.25s ease;
 }
 
-.cap-sectorCard.expanded .cap-sectorHeader {
-  background: linear-gradient(180deg, #ffffff, #f9fbff);
-}
-
-.cap-sectorCard.expanded .cap-sectorHeader span {
-  background: var(--cap-primary-2);
+.cap-acc-item--open .cap-acc-chevron {
+  transform: rotate(180deg);
+  background: var(--cap-blue);
   color: #fff;
 }
 
-.cap-sectorDetails {
+/* Panel */
+.cap-acc-panel {
   max-height: 0;
   overflow: hidden;
-  opacity: 0;
-  padding: 0 26px;
-  background: #f3f7ff;
-  transition: 0.35s ease;
+  transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.cap-sectorCard.expanded .cap-sectorDetails {
-  max-height: 620px;
-  opacity: 1;
-  padding: 24px 26px 26px;
-  border-top: 1px solid #e3ebf7;
+.cap-acc-item--open .cap-acc-panel {
+  max-height: 600px;
 }
 
-.cap-sectorAbout {
-  margin-bottom: 24px;
+.cap-acc-panel-inner {
+  padding: 0 24px 24px;
+  border-top: 1px solid #eef2f7;
+  padding-top: 20px;
 }
 
-.cap-sectorAbout h4,
-.cap-sectorColleges h4 {
-  margin: 0 0 10px;
-  color: var(--cap-primary);
-  font-size: 1.05rem;
-  font-weight: 950;
+.cap-acc-about {
+  margin-bottom: 20px;
 }
 
-.cap-sectorAbout p {
+.cap-acc-about h4,
+.cap-acc-colleges h4 {
+  margin: 0 0 8px;
+  color: var(--cap-navy);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.cap-acc-about p {
   margin: 0;
   color: #475569;
-  line-height: 2;
+  font-size: 0.9rem;
+  line-height: 1.9;
 }
 
-.cap-sectorColleges div {
+.cap-acc-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
 }
 
-.cap-sectorColleges span {
+.cap-acc-tag {
   display: inline-flex;
-  padding: 8px 14px;
-  border-radius: 13px;
-  background: #fff;
-  border: 1px solid #cbd8ee;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 10px;
+  background: var(--cap-bg);
+  border: 1px solid var(--cap-border);
   color: #334155;
-  font-weight: 800;
-  font-size: 0.92rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
 }
 
-/* Responsive */
-@media (max-width: 992px) {
-  .cap-hero {
-    min-height: 400px;
-  }
+.cap-acc-tag:hover {
+  border-color: var(--cap-blue);
+  background: var(--cap-soft);
+  color: var(--cap-navy);
+}
 
-  .cap-hero-content {
-    padding: 32px 22px;
-  }
-
-  .cap-programImage {
-    height: 195px;
-  }
-
-  .cap-programCard {
-    min-height: 560px;
+/* ══════════════════════════
+   Responsive
+══════════════════════════ */
+@media (max-width: 1200px) {
+  .cap-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 768px) {
-  .cap-container {
-    width: min(100% - 24px, 1220px);
+  .cap-wrap {
+    width: calc(100% - 32px);
   }
 
-  .cap-content {
-    padding: 44px 0 66px;
-  }
-
-  .cap-hero {
-    min-height: 390px;
-  }
-
-  .cap-hero-content {
-    width: calc(100% - 24px);
-    padding: 26px 16px;
-    border-radius: 22px;
-  }
-
-  .cap-subtitle {
-    font-size: 0.96rem;
-    line-height: 1.8;
-  }
-
-  .cap-searchBox input {
-    height: 54px;
-    border-radius: 17px;
-  }
-
-  .cap-switcher {
-    width: 100%;
-  }
-
-  .cap-switchBtn {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .cap-programsGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .cap-programCard {
-    min-height: auto;
-  }
-
-  .cap-programImage {
-    height: 210px;
-  }
-
-  .cap-sectorHeader {
-    padding: 20px;
-  }
-
-  .cap-sectorHeader h3 {
-    font-size: 1.15rem;
-  }
-
-  .cap-sectorCard.expanded .cap-sectorDetails {
-    max-height: 850px;
-    padding: 20px;
-  }
-
-  .cap-rankingCard {
-    padding: 30px 20px;
-    border-radius: 24px;
-  }
-}
-
-@media (max-width: 520px) {
   .cap-hero {
     min-height: 360px;
   }
 
-  .cap-title {
-    font-size: 1.8rem;
-  }
-
-  .cap-badge {
-    font-size: 0.84rem;
-    padding: 7px 14px;
-  }
-
-  .cap-programCard,
-  .cap-sectorCard {
-    border-radius: 20px;
-  }
-
-  .cap-programBody {
-    padding: 16px;
-  }
-
-  .cap-programList {
-    padding: 12px;
-    max-height: 220px;
-  }
-
-  .cap-programLink {
-    width: 100%;
-  }
-
-  .cap-programFooter {
-    justify-content: stretch;
-  }
-
-  .college-programs-page.rtl .cap-programFooter {
-    justify-content: stretch;
-  }
-
-  .cap-sectorHeader {
-    align-items: flex-start;
-  }
-
-  .cap-sectorColleges span {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-/* Override any global button hover */
-.college-programs-page .cap-sectorsList .cap-sectorCard .cap-sectorHeader,
-.college-programs-page .cap-sectorsList .cap-sectorCard .cap-sectorHeader:hover,
-.college-programs-page .cap-sectorsList .cap-sectorCard .cap-sectorHeader:focus,
-.college-programs-page
-  .cap-sectorsList
-  .cap-sectorCard
-  .cap-sectorHeader:active {
-  background: #ffffff !important;
-  color: inherit !important;
-  box-shadow: none !important;
-}
-
-.college-programs-page
-  .cap-sectorsList
-  .cap-sectorCard.expanded
-  .cap-sectorHeader,
-.college-programs-page
-  .cap-sectorsList
-  .cap-sectorCard.expanded
-  .cap-sectorHeader:hover,
-.college-programs-page
-  .cap-sectorsList
-  .cap-sectorCard.expanded
-  .cap-sectorHeader:focus,
-.college-programs-page
-  .cap-sectorsList
-  .cap-sectorCard.expanded
-  .cap-sectorHeader:active {
-  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%) !important;
-  color: inherit !important;
-}
-
-/* خلي الهوفر على الكارت نفسه شيك بدل الزرار */
-.college-programs-page .cap-sectorsList .cap-sectorCard:hover {
-  background: #ffffff !important;
-  border-color: rgba(23, 70, 162, 0.24) !important;
-  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.09) !important;
-}
-
-/* تأمين النصوص جوه الهيدر */
-.college-programs-page .cap-sectorHeader:hover h3,
-.college-programs-page .cap-sectorHeader:focus h3,
-.college-programs-page .cap-sectorHeader:active h3 {
-  color: var(--cap-primary) !important;
-}
-
-.college-programs-page .cap-sectorHeader:hover p,
-.college-programs-page .cap-sectorHeader:focus p,
-.college-programs-page .cap-sectorHeader:active p {
-  color: var(--cap-muted) !important;
-}
-@media (max-width: 768px) {
-  .cap-hero {
-    min-height: 330px;
-  }
-
-  .cap-hero-content {
-    width: calc(100% - 28px);
-    padding: 34px 0;
+  .cap-hero-inner {
+    width: calc(100% - 32px);
+    padding: 40px 0;
     text-align: center;
   }
 
-  .cap-subtitle {
+  .cap-hero-desc {
     margin-inline: auto;
   }
 
-  .cap-searchBox {
-    margin: 0 auto 16px;
+  .cap-search {
+    margin-inline: auto;
+    margin-bottom: 16px;
   }
 
-  .cap-switcher {
+  .cap-tabs {
     width: 100%;
   }
 
-  .cap-switchBtn {
+  .cap-tab {
     flex: 1;
     min-width: 0;
+    justify-content: center;
+  }
+
+  .cap-body {
+    padding: 40px 0 60px;
+  }
+
+  .cap-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .cap-card-img {
+    height: 180px;
+  }
+
+  .cap-highlight {
+    padding: 30px 24px;
+  }
+
+  .cap-acc-trigger {
+    padding: 16px 20px;
+  }
+
+  .cap-acc-trigger-text h3 {
+    font-size: 1rem;
+  }
+
+  .cap-acc-panel-inner {
+    padding: 0 20px 20px;
+    padding-top: 16px;
+  }
+}
+
+@media (max-width: 520px) {
+  .cap-hero-title {
+    font-size: 1.6rem;
+  }
+
+  .cap-hero-badge {
+    font-size: 0.76rem;
+  }
+
+  .cap-card {
+    border-radius: 14px;
+  }
+
+  .cap-card-body {
+    padding: 18px;
+  }
+
+  .cap-card-list li {
+    font-size: 0.84rem;
+    padding: 7px 12px;
+  }
+
+  .cap-acc-item {
+    border-radius: 14px;
+  }
+
+  .cap-acc-trigger {
+    padding: 14px 16px;
+    align-items: flex-start;
+  }
+
+  .cap-acc-tags {
+    gap: 8px;
+  }
+
+  .cap-acc-tag {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cap-highlight {
+    padding: 24px 18px;
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 380px) {
+  .cap-wrap {
+    width: calc(100% - 24px);
+  }
+
+  .cap-hero-title {
+    font-size: 1.4rem;
+  }
+
+  .cap-hero-desc {
+    font-size: 0.88rem;
+  }
+
+  .cap-search input {
+    height: 46px;
+    font-size: 0.85rem;
+  }
+
+  .cap-card-title {
+    font-size: 0.98rem;
   }
 }

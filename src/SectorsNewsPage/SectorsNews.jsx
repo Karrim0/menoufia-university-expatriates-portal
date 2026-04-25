@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Edit, Trash2, Search, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -8,49 +8,29 @@ import { useAuth } from "../hooks/useAuth";
 import api from "../Services/api";
 import newsService from "../Services/newsService";
 import DeleteConfirmModal from "../components/DeleteConfirmModal";
+import { SmartImage, getImageUrl } from "../utils/imageHelper";
 import "./SectorsNews.css";
 
 const ITEMS_PER_PAGE = 10;
 const DEBOUNCE_DELAY = 500;
-const FALLBACK_IMAGE = "/src/assets/raes.jpg";
-const UPLOADS_BASE_URL = "https://mu.menofia.edu.eg/uploads/";
-
-const getImageUrl = (img) => {
-  if (!img) return "";
-
-  if (img.startsWith("http")) return img;
-
-  return `${UPLOADS_BASE_URL}${img}`;
-};
-const SmartImage = ({ src, alt = "", className = "", style = {} }) => {
-  const [imageSrc, setImageSrc] = useState(FALLBACK_IMAGE);
-
-  useEffect(() => {
-    if (!src) {
-      setImageSrc(FALLBACK_IMAGE);
-      return;
-    }
-
-    const img = new Image();
-    img.src = src;
-    img.onload = () => setImageSrc(src);
-    img.onerror = () => setImageSrc(FALLBACK_IMAGE);
-  }, [src]);
-
-  return <img src={imageSrc} alt={alt} className={className} style={style} />;
-};
 
 const sectorConfig = {
   wafiden: { ar: "وافدين", en: "Wafiden" },
   cenev: { ar: "مركز CENEVA", en: "CENEVA Center" },
   educ: { ar: "قطاع التعليم", en: "Education Sector" },
   env: { ar: "شؤون البيئة", en: "Environmental Affairs" },
-  env2: { ar: "إدارة شؤون البيئة", en: "Environmental Affairs Administration" },
+  env2: {
+    ar: "إدارة شؤون البيئة",
+    en: "Environmental Affairs Administration",
+  },
   nci: { ar: "المركز القومي للمعلومات", en: "National Information Center" },
   postgrad: { ar: "الدراسات العليا", en: "Postgraduate Studies" },
   sadat: { ar: "جامعة السادات", en: "Sadat University" },
   secr: { ar: "الأمانة العامة", en: "General Secretariat" },
-  tico: { ar: "مركز تكنولوجيا المعلومات", en: "Technology Information Center" },
+  tico: {
+    ar: "مركز تكنولوجيا المعلومات",
+    en: "Technology Information Center",
+  },
   univpres: { ar: "رئاسة الجامعة", en: "University Presidency" },
 };
 
@@ -65,7 +45,7 @@ function SectorsNews() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredNews, setFilteredNews] = useState([]);
-  const [langId, setLangId] = useState(Number(savedLang?.id) || 2);
+  const [langId] = useState(Number(savedLang?.id) || 1);
   const [moveNext, setMoveNext] = useState(false);
   const [movePrevious, setMovePrevious] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -73,6 +53,8 @@ function SectorsNews() {
   const [isLoading, setIsLoading] = useState(false);
 
   const debounceTimerRef = useRef(null);
+  const allNewsRef = useRef([]);
+  const lastFetchKeyRef = useRef("");
 
   const [deleteModal, setDeleteModal] = useState({
     isOpen: false,
@@ -84,20 +66,15 @@ function SectorsNews() {
   const isArabic = savedLang?.code === "ar";
 
   useEffect(() => {
-    if (savedLang?.id) {
-      setLangId(Number(savedLang.id));
-    }
-  }, [savedLang?.id]);
-
-  useEffect(() => {
     setSearchTerm("");
     setAppliedSearchTerm("");
     setCurrentPage(1);
+    allNewsRef.current = [];
+    lastFetchKeyRef.current = "";
   }, [sectorName]);
 
   const formatDate = (rawDate) => {
     if (!rawDate) return "";
-
     const date = new Date(rawDate);
     return date.toLocaleDateString(isArabic ? "ar-EG" : "en-US", {
       year: "numeric",
@@ -106,70 +83,101 @@ function SectorsNews() {
     });
   };
 
-  const fetchNews = async () => {
-    setIsLoading(true);
+  // Apply client-side pagination from cached data
+  const applyPagination = useCallback((page) => {
+    const allResults = allNewsRef.current;
+    const totalPages = Math.ceil(allResults.length / ITEMS_PER_PAGE);
+    const startIndex = (page - 1) * ITEMS_PER_PAGE;
+    const paginatedResults = allResults.slice(
+      startIndex,
+      startIndex + ITEMS_PER_PAGE
+    );
 
-    try {
-      const response = await newsService.searchByAbbreviation({
-        abbreviation: sectorName,
-        lid: Number(langId),
-      });
+    setFilteredNews(paginatedResults);
+    setMoveNext(page < totalPages);
+    setMovePrevious(page > 1);
+  }, []);
 
-      setFilteredNews(response?.result || []);
-      setMoveNext(false);
-      setMovePrevious(false);
-    } catch (error) {
-      console.error("Error fetching abbreviation news:", error);
-      setFilteredNews([]);
-      setMoveNext(false);
-      setMovePrevious(false);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // Fetch all news once, then paginate client-side
+  const fetchNews = useCallback(
+    async (page = 1, term = "") => {
+      const fetchKey = `${sectorName}_${langId}_${term}`;
 
-  const runSearch = async (term) => {
-    const trimmed = term.trim();
-    setCurrentPage(1);
+      // If we already have cached data for this sector/lang/search, just paginate
+      if (fetchKey === lastFetchKeyRef.current && allNewsRef.current.length > 0) {
+        applyPagination(page);
+        return;
+      }
 
-    if (!trimmed) {
-      setAppliedSearchTerm("");
-      fetchNews();
-      return;
-    }
+      setIsLoading(true);
 
-    setAppliedSearchTerm(trimmed);
+      try {
+        const response = await newsService.searchByAbbreviation({
+          abbreviation: sectorName,
+          lid: Number(langId),
+          pageIndex: 1,
+          pageSize: 99999,
+          search: term,
+        });
 
-    const response = await newsService.searchByAbbreviation({
-      abbreviation: sectorName,
-      lid: Number(langId),
-    });
+        allNewsRef.current = response?.result || [];
+        lastFetchKeyRef.current = fetchKey;
 
-    const allNews = response?.result || [];
+        applyPagination(page);
+      } catch (error) {
+        console.error("Error fetching news:", error);
+        allNewsRef.current = [];
+        lastFetchKeyRef.current = "";
+        setFilteredNews([]);
+        setMoveNext(false);
+        setMovePrevious(false);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [sectorName, langId, applyPagination]
+  );
 
-    const filtered = allNews.filter((item) => {
-      const title = item?.newsDetails?.head || "";
-      const body = item?.newsDetails?.body || "";
-      const abbr = item?.newsDetails?.abbr || "";
+  const runSearch = useCallback(
+    (term) => {
+      const trimmed = term.trim();
+      setAppliedSearchTerm(trimmed);
+      setCurrentPage(1);
+      allNewsRef.current = [];
+      lastFetchKeyRef.current = "";
+      fetchNews(1, trimmed);
+    },
+    [fetchNews]
+  );
 
-      return `${title} ${body} ${abbr}`
-        .toLowerCase()
-        .includes(trimmed.toLowerCase());
-    });
-
-    setFilteredNews(filtered);
-    setMoveNext(false);
-    setMovePrevious(false);
-  };
-
+  // Main effect: fetch on sector/lang change or page change
   useEffect(() => {
-    fetchNews();
-  }, [langId, sectorName]);
+    fetchNews(currentPage, appliedSearchTerm);
+  }, [langId, sectorName, currentPage, fetchNews]);
 
+  // Debounced search
   useEffect(() => {
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
     }
+
+    if (!searchTerm.trim() && appliedSearchTerm) {
+      debounceTimerRef.current = setTimeout(() => {
+        setAppliedSearchTerm("");
+        setCurrentPage(1);
+        allNewsRef.current = [];
+        lastFetchKeyRef.current = "";
+        fetchNews(1, "");
+      }, DEBOUNCE_DELAY);
+
+      return () => {
+        if (debounceTimerRef.current) {
+          clearTimeout(debounceTimerRef.current);
+        }
+      };
+    }
+
+    if (!searchTerm.trim()) return;
 
     debounceTimerRef.current = setTimeout(() => {
       runSearch(searchTerm);
@@ -180,7 +188,7 @@ function SectorsNews() {
         clearTimeout(debounceTimerRef.current);
       }
     };
-  }, [searchTerm, langId, sectorName]);
+  }, [searchTerm]);
 
   const handleManualSearch = () => {
     if (debounceTimerRef.current) {
@@ -193,17 +201,17 @@ function SectorsNews() {
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
     }
-
     setSearchTerm("");
     setAppliedSearchTerm("");
     setCurrentPage(1);
+    allNewsRef.current = [];
+    lastFetchKeyRef.current = "";
     fetchNews(1, "");
   };
 
   const handleDeleteClick = (e, news) => {
     e.preventDefault();
     e.stopPropagation();
-
     setDeleteModal({
       isOpen: true,
       newsId: news.id,
@@ -239,16 +247,21 @@ function SectorsNews() {
         isLoading: false,
       });
 
-      if (!appliedSearchTerm && filteredNews.length === 1 && currentPage > 1) {
-        setCurrentPage((prev) => prev - 1);
+      // Remove from cache and re-paginate
+      allNewsRef.current = allNewsRef.current.filter(
+        (n) => n.id !== deleteModal.newsId
+      );
+
+      const totalPages = Math.ceil(
+        allNewsRef.current.length / ITEMS_PER_PAGE
+      );
+      const newPage =
+        currentPage > totalPages ? Math.max(1, totalPages) : currentPage;
+
+      if (newPage !== currentPage) {
+        setCurrentPage(newPage);
       } else {
-        setTimeout(() => {
-          if (appliedSearchTerm) {
-            runSearch(appliedSearchTerm);
-          } else {
-            fetchNews(currentPage, "");
-          }
-        }, 100);
+        applyPagination(newPage);
       }
 
       toast.success(t("delete.messages.success"), {
@@ -258,6 +271,7 @@ function SectorsNews() {
     } catch (error) {
       console.error("Error deleting sector news:", error);
       setDeleteModal((prev) => ({ ...prev, isLoading: false }));
+
       toast.error(t("delete.messages.error"), {
         position: "top-right",
         autoClose: 4000,
@@ -275,17 +289,24 @@ function SectorsNews() {
   };
 
   const handleNextPage = () => {
-    if (!appliedSearchTerm && moveNext && !isLoading) {
+    if (moveNext && !isLoading) {
       setCurrentPage((prev) => prev + 1);
     }
   };
 
   const handlePreviousPage = () => {
-    if (!appliedSearchTerm && movePrevious && !isLoading) {
+    if (movePrevious && !isLoading) {
       setCurrentPage((prev) => prev - 1);
     }
   };
-
+const highlightText = (text, term) => {
+  if (!term || !text) return text;
+  const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  const parts = text.split(regex);
+  return parts.map((part, i) =>
+    regex.test(part) ? <span key={i} className="highlight">{part}</span> : part
+  );
+};
   const handleSearchInputKeyDown = (e) => {
     if (e.key === "Enter") {
       handleManualSearch();
@@ -298,11 +319,7 @@ function SectorsNews() {
         <div className="news-hero-overlay"></div>
 
         <div className="news-hero-content">
-          <p className="news-hero-subtitle">
-            {isArabic
-              ? "UNIVERSITY ADMINISTRATION"
-              : "UNIVERSITY ADMINISTRATION"}
-          </p>
+          <p className="news-hero-subtitle">UNIVERSITY ADMINISTRATION</p>
 
           <h1 className="news-hero-title">{sectorTitle}</h1>
 
@@ -313,8 +330,8 @@ function SectorsNews() {
               onClick={handleManualSearch}
               aria-label="search"
             >
-              <Search size={24} />
-            </button>
+<i className="fa-solid fa-magnifying-glass"></i>            
+</button>
 
             <input
               type="text"
@@ -354,21 +371,21 @@ function SectorsNews() {
         <div className="news-content-wrapper">
           {isLoading ? (
             <div className="news-cards-grid">
-  {Array.from({ length: 6 }).map((_, index) => (
-    <article key={index} className="news-card skeleton-card">
-      <div className="news-card-text">
-        <div className="skeleton skeleton-title"></div>
-        <div className="skeleton skeleton-line"></div>
-        <div className="skeleton skeleton-line short"></div>
-        <div className="skeleton skeleton-date"></div>
-      </div>
+              {Array.from({ length: 6 }).map((_, index) => (
+                <article key={index} className="news-card skeleton-card">
+                  <div className="news-card-text">
+                    <div className="skeleton skeleton-title"></div>
+                    <div className="skeleton skeleton-line"></div>
+                    <div className="skeleton skeleton-line short"></div>
+                    <div className="skeleton skeleton-date"></div>
+                  </div>
 
-      <div className="news-card-image">
-        <div className="skeleton skeleton-image"></div>
-      </div>
-    </article>
-  ))}
-</div>
+                  <div className="news-card-image">
+                    <div className="skeleton skeleton-image"></div>
+                  </div>
+                </article>
+              ))}
+            </div>
           ) : filteredNews.length === 0 ? (
             <div className="news-no-results">
               <h2>
@@ -383,23 +400,30 @@ function SectorsNews() {
                 <article key={news.id} className="news-card">
                   <Link
                     to={`/details/${news.id}`}
-                    state={{ news, newsType: "sector" }}
+                    state={{
+                      news,
+                      newsType: "sector",
+                      lid: Number(langId),
+                      abbreviation: sectorName,
+                    }}
                     className="news-card-link"
                   >
                     <div className="news-card-text">
-                      <h3 className="news-card-title">
-                        {news?.newsDetails?.head?.slice(0, 85) || ""}
-                        {(news?.newsDetails?.head?.length || 0) > 85
-                          ? "..."
-                          : ""}
-                      </h3>
+                     <h3 className="news-card-title">
+  {highlightText(
+    (news?.newsDetails?.head?.slice(0, 85) || "") +
+    ((news?.newsDetails?.head?.length || 0) > 85 ? "..." : ""),
+    appliedSearchTerm
+  )}
+</h3>
 
-                      <p className="news-card-description">
-                        {news?.newsDetails?.abbr?.slice(0, 110) || ""}
-                        {(news?.newsDetails?.abbr?.length || 0) > 110
-                          ? "..."
-                          : ""}
-                      </p>
+                   <p className="news-card-description">
+  {highlightText(
+    (news?.newsDetails?.abbr?.slice(0, 110) || "") +
+    ((news?.newsDetails?.abbr?.length || 0) > 110 ? "..." : ""),
+    appliedSearchTerm
+  )}
+</p>
 
                       <span className="news-card-date">
                         {formatDate(news.date)}
@@ -442,7 +466,7 @@ function SectorsNews() {
             </div>
           )}
 
-          {!appliedSearchTerm && filteredNews.length > 0 && (
+          {filteredNews.length > 0 && (
             <div className="news-pagination">
               <button
                 className="news-pagination-arrow"
@@ -450,7 +474,7 @@ function SectorsNews() {
                 disabled={!movePrevious || isLoading}
                 aria-label="Previous page"
               >
-                <i className="fa-solid fa-chevron-right"></i>
+                <i className="fa-solid fa-chevron-left"></i>
               </button>
 
               <div className="news-pagination-number active">{currentPage}</div>
@@ -461,7 +485,7 @@ function SectorsNews() {
                 disabled={!moveNext || isLoading}
                 aria-label="Next page"
               >
-                <i className="fa-solid fa-chevron-left"></i>
+                <i className="fa-solid fa-chevron-right"></i>
               </button>
             </div>
           )}

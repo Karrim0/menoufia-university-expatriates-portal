@@ -9,4 +9,20 @@ const api = axios.create({
   },
 });
 
+api.interceptors.response.use(
+  (response) => {
+    if (response.data && response.data.success === false) {
+      console.warn("API returned success: false →", response.data.message);
+    }
+    return response;
+  },
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);
+
 export default api;

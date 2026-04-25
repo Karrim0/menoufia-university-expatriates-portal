@@ -2,39 +2,14 @@ import React, { useState, useEffect } from "react";
 import "./Details.css";
 import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import defaultImg from "../assets/raes.jpg";
 import { Edit, Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
+import DOMPurify from "dompurify";
 import { useAuth } from "../hooks/useAuth";
 import DeleteConfirmModal from "../components/DeleteConfirmModal";
 import api from "../Services/api";
 import newsService from "../Services/newsService";
-const UPLOADS_BASE_URL = "https://mu.menofia.edu.eg/uploads/";
-
-const getImageUrl = (img) => {
-  if (!img) return "";
-
-  if (img.startsWith("http")) return img;
-
-  return `${UPLOADS_BASE_URL}${img}`;
-};
-const SmartImage = ({ src, alt = "", className = "", style = {} }) => {
-  const [imageSrc, setImageSrc] = useState(defaultImg);
-
-  useEffect(() => {
-    if (!src) {
-      setImageSrc(defaultImg);
-      return;
-    }
-
-    const img = new Image();
-    img.src = src;
-    img.onload = () => setImageSrc(src);
-    img.onerror = () => setImageSrc(defaultImg);
-  }, [src]);
-
-  return <img src={imageSrc} alt={alt} className={className} style={style} />;
-};
+import { SmartImage, getImageUrl } from "../utils/imageHelper";
 
 function Details() {
   const savedLang = JSON.parse(localStorage.getItem("lang") || "{}");
@@ -47,9 +22,9 @@ function Details() {
   const { t: tDetails } = useTranslation("NewsDetails");
   const { isLoggedIn } = useAuth();
 
-  const [currentNews, setCurrentNews] = useState(null);
+  const [currentNews, setCurrentNews] = useState(location.state?.news || null);
   const [filteredNews, setFilteredNews] = useState([]);
-  const [langId, setLangId] = useState(Number(savedLang?.id) || 2);
+  const [langId, setLangId] = useState(Number(savedLang?.id) || 1);
   const [isLoading, setIsLoading] = useState(true);
 
   const [deleteModal, setDeleteModal] = useState({
@@ -94,6 +69,16 @@ function Details() {
     }
   }, [savedLang?.id]);
 
+  const fetchNewsById = async (newsId, languageId, type) => {
+    if (type === "sector") {
+      return await newsService.getSectorNewsById(newsId, languageId);
+    }
+    if (type === "university") {
+      return await newsService.getUniversityNewsById(newsId, languageId);
+    }
+    return await newsService.getNewsById(newsId, languageId);
+  };
+
   useEffect(() => {
     const fetchCurrentNews = async () => {
       const newsId = Number(id);
@@ -101,26 +86,60 @@ function Details() {
 
       if (!newsId || !languageId) return;
 
-      setIsLoading(true);
+      if (!currentNews) setIsLoading(true);
 
       try {
-        let response;
+        let response = null;
 
-        if (newsType === "sector") {
-          response = await newsService.getSectorNewsById(newsId, languageId);
-        } else {
-          response = await newsService.getUniversityNewsById(newsId, languageId);
+        try {
+          response = await fetchNewsById(newsId, languageId, newsType);
+        } catch {
+          response = null;
         }
 
         if (!response?.result) {
-          navigate("/news");
-          return;
+          const fallbackType =
+            newsType === "sector" ? "university" : "sector";
+          try {
+            response = await fetchNewsById(newsId, languageId, fallbackType);
+          } catch {
+            response = null;
+          }
         }
 
-        setCurrentNews(response.result);
+        if (!response?.result) {
+          try {
+            response = await newsService.getNewsById(newsId, languageId);
+          } catch {
+            response = null;
+          }
+        }
+
+        if (response?.result) {
+          const apiData = response.result;
+
+          // Preserve the image from state if API didn't return one
+          if (!apiData.newsImg && currentNews?.newsImg) {
+            apiData.newsImg = currentNews.newsImg;
+          }
+
+          // Preserve languages from state if API didn't return them
+          if (
+            (!apiData.languages || apiData.languages.length === 0) &&
+            currentNews?.languages?.length > 0
+          ) {
+            apiData.languages = currentNews.languages;
+          }
+
+          setCurrentNews(apiData);
+        } else if (!location.state?.news) {
+          navigate("/news");
+        }
       } catch (error) {
         console.error("Error fetching news details:", error);
-        navigate("/news");
+        if (!location.state?.news) {
+          navigate("/news");
+        }
       } finally {
         setIsLoading(false);
       }
@@ -137,24 +156,39 @@ function Details() {
         let response;
 
         if (newsType === "sector") {
-          response = await newsService.getSectorsNews({
-            languageId: Number(langId),
-            pageIndex: 1,
-            pageSize: 50,
-            search: "",
-          });
+          const abbreviation = location.state?.abbreviation;
+
+          if (abbreviation) {
+            // Fetch related news from the same sector
+            response = await newsService.searchByAbbreviation({
+              abbreviation,
+              lid: Number(langId),
+              pageIndex: 1,
+              pageSize: 10,
+              search: "",
+            });
+          } else {
+            response = await newsService.getSectorsNews({
+              languageId: Number(langId),
+              pageIndex: 1,
+              pageSize: 10,
+              search: "",
+            });
+          }
         } else {
           response = await newsService.getUniversityNews({
             languageId: Number(langId),
             pageIndex: 1,
-            pageSize: 50,
+            pageSize: 10,
             search: "",
           });
         }
 
         const newsList = response?.result || [];
-        const related = newsList.filter((item) => String(item.id) !== String(id));
-        setFilteredNews(related);
+        const related = newsList.filter(
+          (item) => String(item.id) !== String(id)
+        );
+        setFilteredNews(related.slice(0, 9));
       } catch (error) {
         console.error("Error fetching related news:", error);
       }
@@ -165,22 +199,38 @@ function Details() {
 
   const handleLanguageClick = async (selectedLangId) => {
     try {
-      let response;
+      let response = null;
 
-      if (newsType === "sector") {
-        response = await newsService.getSectorNewsById(
+      try {
+        response = await fetchNewsById(
           Number(id),
-          Number(selectedLangId)
+          Number(selectedLangId),
+          newsType
         );
-      } else {
-        response = await newsService.getUniversityNewsById(
-          Number(id),
-          Number(selectedLangId)
-        );
+      } catch {
+        response = null;
+      }
+
+      if (!response?.result) {
+        try {
+          response = await newsService.getNewsById(
+            Number(id),
+            Number(selectedLangId)
+          );
+        } catch {
+          response = null;
+        }
       }
 
       if (response?.result) {
-        setCurrentNews(response.result);
+        const apiData = response.result;
+
+        // Preserve image if API didn't return one
+        if (!apiData.newsImg && currentNews?.newsImg) {
+          apiData.newsImg = currentNews.newsImg;
+        }
+
+        setCurrentNews(apiData);
       }
     } catch (error) {
       console.error("Error fetching translated news:", error);
@@ -248,7 +298,12 @@ function Details() {
     });
   };
 
-  if (isLoading) {
+  const availableLanguages = (currentNews?.languages || []).filter(
+    (lang) => lang.flag && lang.flag.trim() !== ""
+  );
+  const showLanguageSwitcher = availableLanguages.length >= 2;
+
+  if (isLoading && !currentNews) {
     return (
       <div className="main">
         <div className="containerr">
@@ -293,7 +348,12 @@ function Details() {
                 {filteredNews.slice(0, 10).map((news, index) => (
                   <Link
                     to={`/details/${news.id}`}
-                    state={{ news, newsType }}
+                    state={{
+                      news,
+                      newsType,
+                      lid: Number(langId),
+                      abbreviation: location.state?.abbreviation,
+                    }}
                     onClick={() => window.scrollTo(0, 0)}
                     className="about-news"
                     key={news.id || index}
@@ -302,7 +362,9 @@ function Details() {
                       <div className="news-content">
                         <h4 style={isArabic ? pArStyle : pEnStyle}>
                           {news?.newsDetails?.head?.slice(0, 65) || ""}
-                          {(news?.newsDetails?.head?.length || 0) > 65 ? "..." : ""}
+                          {(news?.newsDetails?.head?.length || 0) > 65
+                            ? "..."
+                            : ""}
                         </h4>
 
                         <p style={isArabic ? pArStyle : pEnStyle}>
@@ -311,7 +373,7 @@ function Details() {
                       </div>
 
                       <SmartImage
-                      src={getImageUrl(news?.newsImg)}
+                        src={getImageUrl(news?.newsImg)}
                         alt={news?.newsDetails?.head || `News ${index}`}
                         className={isArabic ? "news-imagear" : "news-image"}
                       />
@@ -351,10 +413,10 @@ function Details() {
                   )}
                 </div>
 
-                {!!currentNews?.languages?.length && (
+                {showLanguageSwitcher && (
                   <div className="slider">
                     <div className="languages-container">
-                      {currentNews.languages.map((language) => (
+                      {availableLanguages.map((language) => (
                         <div
                           key={language.id}
                           className="language-card"
@@ -377,7 +439,7 @@ function Details() {
                 <div className="carousel-track">
                   <div className="carousel-slide">
                     <SmartImage
-  src={getImageUrl(currentNews?.newsImg)}
+                      src={getImageUrl(currentNews?.newsImg)}
                       alt={currentNews?.newsDetails?.head || ""}
                       className="carousel-image"
                     />
@@ -389,7 +451,9 @@ function Details() {
                 className="event-description"
                 style={isArabic ? pArStyle : pEnStyle}
                 dangerouslySetInnerHTML={{
-                  __html: currentNews?.newsDetails?.body || "",
+                  __html: DOMPurify.sanitize(
+                    currentNews?.newsDetails?.body || ""
+                  ),
                 }}
               ></p>
 

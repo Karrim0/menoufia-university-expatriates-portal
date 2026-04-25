@@ -13,7 +13,6 @@ import Header from "./HomePage/Header/Header";
 import Footer from "./HomePage/Footer/Footer";
 import CollegeAndProgramsPage from "./CollegeAndProgramsPage/CollegeAndProgramsPage";
 import SectorsNews from "./SectorsNewsPage/SectorsNews";
-import "react-toastify/dist/ReactToastify.css";
 import { useTranslation } from "react-i18next";
 
 function App() {

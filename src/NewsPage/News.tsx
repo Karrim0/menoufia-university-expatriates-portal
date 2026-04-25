@@ -8,37 +8,11 @@ import { useAuth } from "../hooks/useAuth";
 import api from "../Services/api";
 import newsService from "../Services/newsService";
 import DeleteConfirmModal from "../components/DeleteConfirmModal";
+import { SmartImage, getImageUrl } from "../utils/imageHelper";
 import "./News.css";
 
 const ITEMS_PER_PAGE = 10;
 const DEBOUNCE_DELAY = 500;
-const FALLBACK_IMAGE = "/src/assets/raes.jpg";
-const UPLOADS_BASE_URL = "https://mu.menofia.edu.eg/uploads/";
-
-const getImageUrl = (img?: string) => {
-  if (!img) return "";
-
-  if (img.startsWith("http")) return img;
-
-  return `${UPLOADS_BASE_URL}${img}`;
-};
-const SmartImage = ({ src, alt = "", className = "", style = {} }) => {
-  const [imageSrc, setImageSrc] = useState(FALLBACK_IMAGE);
-
-  useEffect(() => {
-    if (!src) {
-      setImageSrc(FALLBACK_IMAGE);
-      return;
-    }
-
-    const img = new Image();
-    img.src = src;
-    img.onload = () => setImageSrc(src);
-    img.onerror = () => setImageSrc(FALLBACK_IMAGE);
-  }, [src]);
-
-  return <img src={imageSrc} alt={alt} className={className} style={style} />;
-};
 
 interface NewsItem {
   id: number;
@@ -71,9 +45,11 @@ function News() {
   const [searchTerm, setSearchTerm] = useState("");
   const [appliedSearchTerm, setAppliedSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [usedAbbreviationFallback, setUsedAbbreviationFallback] = useState(false);
+  const [usedAbbreviationFallback, setUsedAbbreviationFallback] =
+    useState(false);
 
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isFirstRender = useRef(true);
 
   const [deleteModal, setDeleteModal] = useState({
     isOpen: false,
@@ -127,13 +103,13 @@ function News() {
     }
   };
 
-  const runSearch = async (term: string) => {
+  const runSearch = async (term: string, page = 1) => {
     const trimmed = term.trim();
-
-    setCurrentPage(1);
 
     if (!trimmed) {
       setAppliedSearchTerm("");
+      setUsedAbbreviationFallback(false);
+      setCurrentPage(1);
       fetchNews(1, "");
       return;
     }
@@ -143,7 +119,7 @@ function News() {
     try {
       const generalResponse = await newsService.getUniversityNews({
         languageId: Number(langId),
-        pageIndex: 1,
+        pageIndex: page,
         pageSize: ITEMS_PER_PAGE,
         search: trimmed,
       });
@@ -162,12 +138,14 @@ function News() {
       const abbrResponse = await newsService.searchByAbbreviation({
         abbreviation: trimmed,
         lid: Number(langId),
+        pageIndex: page,
+        pageSize: ITEMS_PER_PAGE,
       });
 
       const abbrResults = abbrResponse?.result || [];
       setFilteredNews(abbrResults);
-      setMoveNext(false);
-      setMovePrevious(false);
+      setMoveNext(abbrResponse?.moveNext || false);
+      setMovePrevious(abbrResponse?.movePrevious || false);
       setAppliedSearchTerm(trimmed);
       setUsedAbbreviationFallback(abbrResults.length > 0);
     } catch (error) {
@@ -181,19 +159,30 @@ function News() {
     }
   };
 
+  // ─── الـ useEffect الرئيسي — ده بس اللي بيضرب الـ API ───
   useEffect(() => {
-    if (!appliedSearchTerm) {
+    if (appliedSearchTerm) {
+      runSearch(appliedSearchTerm, currentPage);
+    } else {
       fetchNews(currentPage, "");
     }
   }, [langId, currentPage]);
 
+  // ─── الـ debounce — بيشتغل بس لما اليوزر يكتب في الـ search ───
   useEffect(() => {
+    // أول mount سيبه للـ useEffect الرئيسي
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
     }
 
     debounceTimerRef.current = setTimeout(() => {
-      runSearch(searchTerm);
+      setCurrentPage(1);
+      runSearch(searchTerm, 1);
     }, DEBOUNCE_DELAY);
 
     return () => {
@@ -201,13 +190,14 @@ function News() {
         clearTimeout(debounceTimerRef.current);
       }
     };
-  }, [searchTerm, langId]);
+  }, [searchTerm]);
 
   const handleManualSearch = () => {
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
     }
-    runSearch(searchTerm);
+    setCurrentPage(1);
+    runSearch(searchTerm, 1);
   };
 
   const handleClearSearch = () => {
@@ -261,12 +251,12 @@ function News() {
         isLoading: false,
       });
 
-      if (!appliedSearchTerm && filteredNews.length === 1 && currentPage > 1) {
+      if (filteredNews.length === 1 && currentPage > 1) {
         setCurrentPage((prev) => prev - 1);
       } else {
         setTimeout(() => {
           if (appliedSearchTerm) {
-            runSearch(appliedSearchTerm);
+            runSearch(appliedSearchTerm, currentPage);
           } else {
             fetchNews(currentPage, "");
           }
@@ -297,13 +287,13 @@ function News() {
   };
 
   const handleNextPage = () => {
-    if (!appliedSearchTerm && moveNext && !isLoading) {
+    if (moveNext && !isLoading) {
       setCurrentPage((prev) => prev + 1);
     }
   };
 
   const handlePreviousPage = () => {
-    if (!appliedSearchTerm && movePrevious && !isLoading) {
+    if (movePrevious && !isLoading) {
       setCurrentPage((prev) => prev - 1);
     }
   };
@@ -315,19 +305,24 @@ function News() {
       handleManualSearch();
     }
   };
-const highlightText = (text: string = "", keyword: string = "") => {
-  if (!keyword) return text;
 
-  const regex = new RegExp(`(${keyword})`, "gi");
+  const highlightText = (text: string = "", keyword: string = "") => {
+    if (!keyword) return text;
 
-  return text.split(regex).map((part, i) =>
-    part.toLowerCase() === keyword.toLowerCase() ? (
-      <span key={i} className="highlight">{part}</span>
-    ) : (
-      part
-    )
-  );
-};
+    const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(`(${escaped})`, "gi");
+
+    return text.split(regex).map((part, i) =>
+      part.toLowerCase() === keyword.toLowerCase() ? (
+        <span key={i} className="highlight">
+          {part}
+        </span>
+      ) : (
+        part
+      )
+    );
+  };
+
   return (
     <div className="news-page-wrapper">
       <section className="news-hero">
@@ -351,7 +346,7 @@ const highlightText = (text: string = "", keyword: string = "") => {
               onClick={handleManualSearch}
               aria-label="search"
             >
-              <Search size={24} />
+  <i className="fa-solid fa-magnifying-glass"></i>
             </button>
 
             <input
@@ -375,22 +370,24 @@ const highlightText = (text: string = "", keyword: string = "") => {
           </div>
 
           {appliedSearchTerm && (
-  <div className="news-search-status-wrapper">
-    <div className="news-search-status">
-      <span>
-        {isArabic ? "نتائج البحث عن" : "Search results for"}
-      </span>
+            <div className="news-search-status-wrapper">
+              <div className="news-search-status">
+                <span>
+                  {isArabic ? "نتائج البحث عن" : "Search results for"}
+                </span>
 
-      <strong>{appliedSearchTerm}</strong>
+                <strong>{appliedSearchTerm}</strong>
 
-      {usedAbbreviationFallback && (
-        <span className="news-search-mode">
-          {isArabic ? "مطابقة abbreviation" : "abbreviation match"}
-        </span>
-      )}
-    </div>
-  </div>
-)}
+                {usedAbbreviationFallback && (
+                  <span className="news-search-mode">
+                    {isArabic
+                      ? "مطابقة abbreviation"
+                      : "abbreviation match"}
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -413,27 +410,33 @@ const highlightText = (text: string = "", keyword: string = "") => {
                 <article key={news.id} className="news-card">
                   <Link
                     to={`/details/${news.id}`}
-                    state={{ news, newsType: "university" }}
+                    state={{
+                      news,
+                      newsType: "university",
+                      lid: Number(langId),
+                    }}
                     className="news-card-link"
                   >
                     <div className="news-card-text">
                       <h3 className="news-card-title">
                         {highlightText(
-  news?.newsDetails?.head?.slice(0, 85),
-  appliedSearchTerm
-)}
+                          news?.newsDetails?.head?.slice(0, 85),
+                          appliedSearchTerm
+                        )}
                         {(news?.newsDetails?.head?.length || 0) > 85
                           ? "..."
                           : ""}
                       </h3>
 
                       <p className="news-card-description">
-  {highlightText(
-    news?.newsDetails?.abbr?.slice(0, 110) || "",
-    appliedSearchTerm
-  )}
-  {(news?.newsDetails?.abbr?.length || 0) > 110 ? "..." : ""}
-</p>
+                        {highlightText(
+                          news?.newsDetails?.abbr?.slice(0, 110) || "",
+                          appliedSearchTerm
+                        )}
+                        {(news?.newsDetails?.abbr?.length || 0) > 110
+                          ? "..."
+                          : ""}
+                      </p>
 
                       <span className="news-card-date">
                         {formatDate(news.date)}
@@ -442,9 +445,9 @@ const highlightText = (text: string = "", keyword: string = "") => {
 
                     <div className="news-card-image">
                       <SmartImage
-  src={getImageUrl(news?.newsImg)}
-  alt={news?.newsDetails?.head || ""}
-/>
+                        src={getImageUrl(news?.newsImg)}
+                        alt={news?.newsDetails?.head || ""}
+                      />
                     </div>
 
                     <div className="news-card-arrow">
@@ -476,7 +479,7 @@ const highlightText = (text: string = "", keyword: string = "") => {
             </div>
           )}
 
-          {!appliedSearchTerm && filteredNews.length > 0 && (
+          {filteredNews.length > 0 && (
             <div className="news-pagination">
               <button
                 className="news-pagination-arrow"
@@ -484,7 +487,7 @@ const highlightText = (text: string = "", keyword: string = "") => {
                 disabled={!movePrevious || isLoading}
                 aria-label="Previous page"
               >
-                <i className="fa-solid fa-chevron-right"></i>
+                <i className="fa-solid fa-chevron-left"></i>
               </button>
 
               <div className="news-pagination-number active">{currentPage}</div>
@@ -495,7 +498,7 @@ const highlightText = (text: string = "", keyword: string = "") => {
                 disabled={!moveNext || isLoading}
                 aria-label="Next page"
               >
-                <i className="fa-solid fa-chevron-left"></i>
+                <i className="fa-solid fa-chevron-right"></i>
               </button>
             </div>
           )}

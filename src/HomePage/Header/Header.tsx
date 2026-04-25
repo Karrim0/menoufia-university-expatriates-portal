@@ -334,7 +334,7 @@ const Header = () => {
                 autoFocus
               />
               <button type="submit" className="search-submit-btn" aria-label="submit search">
-                <SearchIcon size={18} />
+                <i className="fa-solid fa-magnifying-glass"></i>
               </button>
             </form>
           )}
