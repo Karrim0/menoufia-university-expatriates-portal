@@ -41,8 +41,7 @@ const { t, i18n } = useTranslation("News");
   const { sectorName } = useParams();
 
   const sector = sectorConfig[sectorName] || sectorConfig.univpres;
-  const sectorTitle = savedLang?.code === "ar" ? sector.ar : sector.en;
-
+const sectorTitle = i18n.language === "ar" ? sector.ar : sector.en;
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredNews, setFilteredNews] = useState([]);
 const [langId, setLangId] = useState(Number(savedLang?.id) || 1);
@@ -66,20 +65,19 @@ const [langId, setLangId] = useState(Number(savedLang?.id) || 1);
 const isArabic = i18n.language === "ar";
 
 useEffect(() => {
-  const langMap = {
-    ar: 1,
-    en: 2,
-    fr: 3,
-    de: 4,
-  };
+  const currentLang = JSON.parse(localStorage.getItem("lang") || "{}");
 
-  setLangId(langMap[i18n.language] || 1);
+  if (currentLang?.id) {
+    setLangId(Number(currentLang.id));
+  }
+
   setCurrentPage(1);
   setSearchTerm("");
   setAppliedSearchTerm("");
   allNewsRef.current = [];
   lastFetchKeyRef.current = "";
 }, [i18n.language]);
+
 
   useEffect(() => {
     setSearchTerm("");

@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Header.css";
 import logo from "../../assets/logo.jpg";
 import { useTranslation } from "react-i18next";
 import { Search as SearchIcon, Globe, ChevronDown, ChevronLeft } from "lucide-react";
+import newsService from "../../Services/newsService";
 
 const FIXED_LANGUAGES = [
   { code: "ar", name: "عربي",    id: 1, flag: "https://flagcdn.com/w40/eg.png" },
@@ -107,24 +108,33 @@ const getNavItems = (t: any) => [
   { key: "contact", label: t("nav.contact"), link: "/contactUs" },
 ];
 
-/* ─────────────────────────────────────────────
-   Detect desktop vs mobile
-───────────────────────────────────────────── */
 const isDesktop = () => window.innerWidth > 1100;
 
+// ─── helper: حوّل menu item من الـ API لـ nav item ───
+const mapMenuItem = (item: any): any => {
+  const hasSubMenus =
+    Array.isArray(item.subMenus) &&
+    item.subMenus.length > 0 &&
+    item.subMenus.some((s: any) => s !== null && typeof s === "object");
+
+  return {
+    key:   String(item.id),
+    label: item.title,
+    link:  item.url || "/",
+    ...(hasSubMenus ? { children: item.subMenus.map(mapMenuItem) } : {}),
+  };
+};
+
 /* ─────────────────────────────────────────────
-   SubDropdownItem — level 2+
-   Desktop  → hover open/close
-   Mobile   → click toggle
+   SubDropdownItem
 ───────────────────────────────────────────── */
 const SubDropdownItem = ({ item }: any) => {
-  const [open, setOpen]     = useState(false);
-  const hasChildren         = item.children?.length > 0;
-  const ref                 = useRef<HTMLDivElement | null>(null);
-  const subDropdownRef      = useRef<HTMLDivElement | null>(null);
-  const closeTimer          = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [open, setOpen]    = useState(false);
+  const hasChildren        = item.children?.length > 0;
+  const ref                = useRef<HTMLDivElement | null>(null);
+  const subDropdownRef     = useRef<HTMLDivElement | null>(null);
+  const closeTimer         = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  /* Flip sub-dropdown if it bleeds off screen */
   useEffect(() => {
     if (!open || !subDropdownRef.current) return;
     const rect = subDropdownRef.current.getBoundingClientRect();
@@ -137,7 +147,6 @@ const SubDropdownItem = ({ item }: any) => {
     }
   }, [open]);
 
-  /* Outside-click close (mobile only really) */
   useEffect(() => {
     if (!open) return;
     const handler = (e: MouseEvent) => {
@@ -202,9 +211,7 @@ const SubDropdownItem = ({ item }: any) => {
 };
 
 /* ─────────────────────────────────────────────
-   NavItem — level 1
-   Desktop  → hover open/close (with small delay on leave)
-   Mobile   → click toggle
+   NavItem
 ───────────────────────────────────────────── */
 const NavItem = ({ item, isActive }: any) => {
   const [open, setOpen] = useState(false);
@@ -218,7 +225,6 @@ const NavItem = ({ item, isActive }: any) => {
   const handleMouseEnter = () => { if (hasChildren && isDesktop()) openDropdown(); };
   const handleMouseLeave = () => { if (hasChildren && isDesktop()) closeDropdown(); };
 
-  /* Click — only for mobile */
   const handleClick = (e: React.MouseEvent) => {
     if (!hasChildren || isDesktop()) return;
     e.preventDefault();
@@ -226,7 +232,6 @@ const NavItem = ({ item, isActive }: any) => {
     setOpen(p => !p);
   };
 
-  /* Outside-click close (safety net) */
   useEffect(() => {
     if (!open) return;
     const handler = (e: MouseEvent) => {
@@ -257,7 +262,6 @@ const NavItem = ({ item, isActive }: any) => {
       {hasChildren && open && (
         <div
           className="dropdown-menu"
-          /* keep open while mouse is inside the menu itself */
           onMouseEnter={() => { if (closeTimer.current) clearTimeout(closeTimer.current); }}
           onMouseLeave={handleMouseLeave}
         >
@@ -282,14 +286,69 @@ const Header = () => {
     catch { return { code: "ar", id: 1 }; }
   };
 
-  const [menuActive, setMenuActive] = useState(false);
-  const [langActive, setLangActive] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentLang, setCurrentLang] = useState(getSavedLang);
+  const [menuActive, setMenuActive]       = useState(false);
+  const [langActive, setLangActive]       = useState(false);
+  const [searchOpen, setSearchOpen]       = useState(false);
+  const [searchTerm, setSearchTerm]       = useState("");
+  const [currentLang, setCurrentLang]     = useState(getSavedLang);
+  const [languages, setLanguages]         = useState(FIXED_LANGUAGES);
+  const [aboutChildren, setAboutChildren] = useState<any[]>([]);
   const searchRef = useRef<HTMLDivElement | null>(null);
 
-  const NAV_ITEMS = getNavItems(t);
+  // ─── جيب اللغات ───
+  useEffect(() => {
+    const fetchLanguages = async () => {
+      try {
+        const response = await newsService.getLanguages();
+        const result = response?.result;
+        if (Array.isArray(result) && result.length > 0 && result.every((l: any) => l.code)) {
+          setLanguages(result);
+        }
+      } catch {
+        // fallback على FIXED_LANGUAGES
+      }
+    };
+    fetchLanguages();
+  }, []);
+
+  // ─── جيب الـ full-menu لقسم "عن الجامعة" ───
+  useEffect(() => {
+    const fetchMenu = async () => {
+      try {
+        const langId = currentLang?.id || 1;
+        const data = await newsService.getFullMenu(langId);
+        if (Array.isArray(data) && data.length > 0) {
+          setAboutChildren(data.map(mapMenuItem));
+        }
+      } catch {
+        setAboutChildren([]);
+      }
+    };
+    fetchMenu();
+  }, [currentLang?.id]);
+
+  // ─── NAV_ITEMS مع دمج API data في قسم "عن الجامعة" ───
+const NAV_ITEMS = useMemo(() => {
+  const items = getNavItems(t);
+  if (aboutChildren.length === 0) return items;
+
+  return items.map((item) => {
+    if (item.key === "about") {
+      return { ...item, children: aboutChildren };
+    }
+    if (item.key === "university-management") {
+      const mgmt = aboutChildren.find(
+        (c: any) =>
+          c.label?.includes("ادار") ||
+          c.label?.toLowerCase().includes("manag")
+      );
+      if (mgmt?.children?.length) {
+        return { ...item, children: mgmt.children };
+      }
+    }
+    return item;
+  });
+}, [t, aboutChildren]);
 
   useEffect(() => {
     i18n.changeLanguage(currentLang.code);
@@ -318,7 +377,12 @@ const Header = () => {
   }, [menuActive]);
 
   const changeLanguage = (lang: any) => {
-    localStorage.setItem("lang", JSON.stringify(lang));
+    localStorage.setItem("lang", JSON.stringify({
+      id:   lang.id,
+      name: lang.name,
+      code: lang.code,
+      flag: lang.flag,
+    }));
     i18n.changeLanguage(lang.code);
     document.documentElement.dir = lang.code === "ar" ? "rtl" : "ltr";
     setCurrentLang(lang);
@@ -352,25 +416,35 @@ const Header = () => {
       </nav>
 
       <div className="nav-icons">
+        {/* Language Selector */}
         <div className="lang-wrapper" onClick={() => setLangActive(p => !p)}>
           <Globe size={20} />
-          <span className="lang-code">{currentLang.code.toUpperCase()}</span>
+          <span className="lang-code">{currentLang.code?.toUpperCase()}</span>
           <ChevronDown size={14} className={`lang-arrow ${langActive ? "rotated" : ""}`} />
 
           <div className={`lang-dropdown ${langActive ? "open" : ""}`}>
-            {FIXED_LANGUAGES.map((lang) => (
+            {languages.map((lang: any) => (
               <div
                 key={lang.code}
                 className={`lang-option ${currentLang.code === lang.code ? "current" : ""}`}
                 onClick={(e) => { e.stopPropagation(); changeLanguage(lang); }}
               >
-                <img src={lang.flag} alt={lang.name} width={20} height={20} />
+                {lang.flag && (
+                  <img
+                    src={lang.flag}
+                    alt={lang.name}
+                    width={20}
+                    height={15}
+                    style={{ objectFit: "cover", borderRadius: "2px" }}
+                  />
+                )}
                 <span>{lang.name}</span>
               </div>
             ))}
           </div>
         </div>
 
+        {/* Search */}
         <div className="search-wrapper" ref={searchRef}>
           <button className="icon-btn search-btn" onClick={() => setSearchOpen(p => !p)} aria-label="search">
             <SearchIcon size={20} />
@@ -392,6 +466,7 @@ const Header = () => {
           )}
         </div>
 
+        {/* Mobile Menu Button */}
         <button className="icon-btn menu-btn" onClick={() => setMenuActive(true)} aria-label="open menu">
           <i className="fa-solid fa-bars" />
         </button>

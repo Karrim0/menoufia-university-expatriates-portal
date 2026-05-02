@@ -52,6 +52,21 @@ const newsService = {
     return response.data;
   },
 
+  getLanguages: async () => {
+    const response = await api.get("/languages");
+    return response.data;
+  },
+
+  getFullMenu: async (langId) => {
+    const response = await api.get(`/UniversityMenu/full-menu/${langId}`);
+    return response.data;
+  },
+
+  getColleges: async (langId) => {
+    const response = await api.get(`/UniversityMenu/colleges/${langId}`);
+    return response.data;
+  },
+
   searchByAbbreviation: async ({
     abbreviation,
     lid,
