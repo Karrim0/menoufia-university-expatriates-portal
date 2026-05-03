@@ -344,7 +344,7 @@
 }
 
 .news-card:hover .news-card-arrow {
-  background: #324677;
+  background: #f66b15;
   color: #ffffff;
   transform: translate(3px, -3px);
   box-shadow: 0 6px 20px rgba(50, 70, 119, 0.25);

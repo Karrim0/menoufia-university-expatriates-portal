@@ -51,17 +51,17 @@ function Details() {
   };
 
   const isArabic = savedLang?.code === "ar";
-useEffect(() => {
-  const stateNews = location.state?.news;
+  useEffect(() => {
+    const stateNews = location.state?.news;
 
-  if (stateNews && String(stateNews.id) === String(id)) {
-    setCurrentNews(stateNews);
-  } else {
-    setCurrentNews(null);
-  }
+    if (stateNews && String(stateNews.id) === String(id)) {
+      setCurrentNews(stateNews);
+    } else {
+      setCurrentNews(null);
+    }
 
-  setIsLoading(true);
-}, [id, location.state?.news]);
+    setIsLoading(true);
+  }, [id, location.state?.news]);
   const formatDate = (rawDate) => {
     if (!rawDate) return "";
 
@@ -108,8 +108,7 @@ useEffect(() => {
         }
 
         if (!response?.result) {
-          const fallbackType =
-            newsType === "sector" ? "university" : "sector";
+          const fallbackType = newsType === "sector" ? "university" : "sector";
           try {
             response = await fetchNewsById(newsId, languageId, fallbackType);
           } catch {
@@ -196,7 +195,7 @@ useEffect(() => {
 
         const newsList = response?.result || [];
         const related = newsList.filter(
-          (item) => String(item.id) !== String(id)
+          (item) => String(item.id) !== String(id),
         );
         setFilteredNews(related.slice(0, 9));
       } catch (error) {
@@ -215,7 +214,7 @@ useEffect(() => {
         response = await fetchNewsById(
           Number(id),
           Number(selectedLangId),
-          newsType
+          newsType,
         );
       } catch {
         response = null;
@@ -225,7 +224,7 @@ useEffect(() => {
         try {
           response = await newsService.getNewsById(
             Number(id),
-            Number(selectedLangId)
+            Number(selectedLangId),
           );
         } catch {
           response = null;
@@ -309,7 +308,7 @@ useEffect(() => {
   };
 
   const availableLanguages = (currentNews?.languages || []).filter(
-    (lang) => lang.flag && lang.flag.trim() !== ""
+    (lang) => lang.flag && lang.flag.trim() !== "",
   );
   const showLanguageSwitcher = availableLanguages.length >= 2;
 
@@ -462,7 +461,7 @@ useEffect(() => {
                 style={isArabic ? pArStyle : pEnStyle}
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(
-                    currentNews?.newsDetails?.body || ""
+                    currentNews?.newsDetails?.body || "",
                   ),
                 }}
               ></p>
