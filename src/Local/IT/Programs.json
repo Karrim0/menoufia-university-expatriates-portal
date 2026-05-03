@@ -1,0 +1,276 @@
+{
+  "note": {
+    "expatriate_activities": "Attività degli studenti internazionali",
+    "No colleges found": "Nessuna facoltà trovata",
+    "Clear Search": "Cancella ricerca",
+    "searchPlaceholder": "Cerca un programma o una facoltà...",
+    "programs": "Programmi"
+  },
+  "tooltip": {
+    "details": "Clicca per visualizzare i dettagli"
+  },
+  "button": {
+    "learn_more": "Scopri di più",
+    "show_all": "Mostra tutto"
+  },
+  "no_programs_available": "Nessun programma disponibile",
+  "colleges": [
+    {
+      "name": "Scienze",
+      "image": "https://scontent.fcai20-5.fna.fbcdn.net/v/t39.30808-6/468570085_551891111093682_5914489035878882531_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=RUMO6GksodUQ7kNvwHbSKO3&_nc_oc=Adm7uy2AG0SNr2OD_8BcUnuP6KtrH4RHpLkg0E06NLf8fMFxMBo4Mxiy5Q83swIo0ic&_nc_zt=23&_nc_ht=scontent.fcai20-5.fna&_nc_gid=h2C4kXDpgc4Pmtrg7astew&oh=00_AfKyFlk_29PNI1db6NkHqYTtA2iuVrTiR_-m-QOELAn4JA&oe=682E83ED",
+      "link": "https://www.menofia.edu.eg/SCI/Home/ar",
+      "programs": [
+        "Matematica pura e Informatica",
+        "Fisica",
+        "Matematica",
+        "Chimica",
+        "Geologia",
+        "Botanica",
+        "Entomologia",
+        "Zoologia",
+        "Matematica pura e Statistica",
+        "Geologia del petrolio",
+        "Geofisica",
+        "Fisica e Chimica",
+        "Fisica e Geologia",
+        "Fisica e Informatica",
+        "Fisica e Scienze laser",
+        "Matematica pura e Fisica",
+        "Chimica e Geologia",
+        "Chimica e Botanica",
+        "Chimica e Microbiologia",
+        "Chimica e Zoologia",
+        "Chimica ed Entomologia",
+        "Chimica e Biochimica"
+      ]
+    },
+    {
+      "name": "Agricoltura",
+      "image": "https://media.aldawlanews.com/img/23/05/11/1068063.jpg",
+      "link": "https://www.menofia.edu.eg/AGR/Home/ar",
+      "programs": [
+        "Programma di Produzione Vegetale",
+        "Programma di Produzione Animale e Avicola",
+        "Programma di Protezione delle Piante",
+        "Programma di Scienze Economiche e Sociali Agrarie",
+        "Programma di Lavorazione di Alimenti e Latticini",
+        "Programma Terra e Acqua",
+        "Programma di Biotecnologia Agraria",
+        "Programma di Ingegneria Agraria",
+        "Programma di Gestione Aziendale Agricola"
+      ]
+    },
+    {
+      "name": "Ingegneria",
+      "image": "https://media.elwatannews.com/media/img/mediaarc/large/7734959691720353371.jpg",
+      "link": "https://www.menofia.edu.eg/ENG/Home/ar",
+      "programs": [
+        "Programma di Ingegneria dell'Energia Elettrica e delle Macchine",
+        "Programma di Ingegneria dell'Energia Meccanica",
+        "Programma di Ingegneria della Produzione e Progettazione Meccanica",
+        "Programma di Ingegneria Civile",
+        "Programma di Ingegneria Architettonica",
+        "Programma di Ingegneria Elettrica e Informatica",
+        "Programma di Energia Rinnovabile e Sostenibile",
+        "Programma di Ingegneria Meccatronica",
+        "Programma di Gestione delle Costruzioni e dei Progetti",
+        "Programma di Ingegneria dell'Architettura Ambientale e del Patrimonio",
+        "Programma di Gestione e Ingegneria dei Sistemi di Energia Elettrica"
+      ]
+    },
+    {
+      "name": "Ingegneria Elettronica a Menouf",
+      "image": "https://media.elwatannews.com/media/img/mediaarc/large/7831388801659951839.jpg",
+      "link": "https://www.menofia.edu.eg/FEE/Home/ar",
+      "programs": [
+        "Ingegneria e Scienze Informatiche",
+        "Ingegneria dell'Elettronica Industriale e del Controllo",
+        "Ingegneria Elettronica e delle Comunicazioni Elettriche",
+        "Programma di Ingegneria delle Comunicazioni e delle Reti",
+        "Programma di Ingegneria Biomedica e Tecnologica",
+        "Programma di Ingegneria Elettronica Industriale",
+        "Programma di Ingegneria della Cybersecurity e Analisi dei Dati"
+      ]
+    },
+    {
+      "name": "Informatica e Informazione",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/FCI-MU.jpg/1200px-FCI-MU.jpg",
+      "link": "https://www.menofia.edu.eg/fci/Home/ar",
+      "programs": [
+        "Programma di Ingegneria del Software",
+        "Programma di Informatica Bioinformatica",
+        "Tecnologia dell'Informazione",
+        "Sistemi Informativi",
+        "Informatica"
+      ]
+    },
+    {
+      "name": "Intelligenza Artificiale",
+      "image": "https://egy-map.com/uploads/projects//project-1633409235615bd8d33dc10.jpg",
+      "link": "https://mu.menofia.edu.eg/ai/Home/ar",
+      "programs": [
+        "Intelligenza delle Macchine",
+        "Scienza dei Dati",
+        "Cybersecurity",
+        "Sistemi Intelligenti"
+      ]
+    },
+    {
+      "name": "Educazione",
+      "image": "https://scontent.fcai20-3.fna.fbcdn.net/v/t39.30808-6/299303332_3465258743799726_8321148404820402534_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=2285d6&_nc_ohc=oce914_4_LYQ7kNvwHcz5vD&_nc_oc=AdljZIi5BDwA3htrdPo4mid5ghS8fnv8SftzBi2MZ9xi86-HOWUeYj-EE-hi0hecOTI&_nc_zt=23&_nc_ht=scontent.fcai20-3.fna&_nc_gid=vmYIQnAMRhyHgOgq3WV_eQ&oh=00_AfJHYpXWVk55urCFzGSNQ2WEXDrrGCCmSxl-UEH_rS0SGg&oe=682E8206",
+      "link": "https://www.menofia.edu.eg/EDU/Home/ar",
+      "programs": [
+        "Lingua francese",
+        "Lingua tedesca",
+        "Storia",
+        "Geografia",
+        "Filosofia e Sociologia",
+        "Psicologia",
+        "Matematica",
+        "Fisica",
+        "Chimica",
+        "Lingua araba",
+        "Lingua inglese",
+        "Scienze biologiche e geologiche",
+        "Informatica",
+        "Educazione speciale"
+      ]
+    },
+    {
+      "name": "Commercio",
+      "image": "https://scontent.fcai20-6.fna.fbcdn.net/v/t39.30808-6/467986049_10161122585416996_337435991551168292_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=86c6b0&_nc_eui2=AeFKH6cl66MkLUT6yFuqiXQlUeagwtfCZtNR5qDC18Jm0wy8Ilf6z00J2XiZw7h8bpTyQSuzv9kOAycTgLpRNVB4&_nc_ohc=tQjk6CMQ7tcQ7kNvwG0Goi0&_nc_oc=AdnphiZ6xDXQIm-n2f1IAIuSCXibrYp5eppfM2QD0O-c4UmnIjp4GMCt8xNAqkBFong&_nc_zt=23&_nc_ht=scontent.fcai20-6.fna&_nc_gid=MdvGM22eTi3XkpGrgzMf4w&oh=00_AfJRyYPAzMvZBn4x9WimeJeLsFiDJxymlsBSvF9MD5bILA&oe=682EA1DF",
+      "link": "https://www.menofia.edu.eg/COM/Home/ar",
+      "programs": [
+        "Arabo",
+        "Lingue",
+        "Sistemi Informativi Aziendali BIS"
+      ]
+    },
+    {
+      "name": "Lettere",
+      "image": "https://gate.ahram.org.eg/Media/News/2021/10/31/19_2021-637712893488120350-812.jpeg",
+      "link": "https://www.menofia.edu.eg/ART/Home/ar",
+      "programs": [
+        "Lingua araba",
+        "Lingua inglese",
+        "Lingua francese",
+        "Lingua persiana",
+        "Lingua ebraica",
+        "Sociologia",
+        "Storia",
+        "Geografia e Topografia",
+        "Filosofia",
+        "Psicologia",
+        "Archeologia egizia",
+        "Biblioteconomia e Informazione"
+      ]
+    },
+    {
+      "name": "Medicina",
+      "image": "https://vid.alarabiya.net/images/2025/03/14/728f9c83-6a39-45f3-a2ed-e324bdb6a4de/728f9c83-6a39-45f3-a2ed-e324bdb6a4de.jpg?crop=4:3&width=1200",
+      "link": "https://www.menofia.edu.eg/MED/Home/ar",
+      "programs": [
+        "Medicina generale",
+        "Odontoiatria generale",
+        "Infermieristica psichiatrica e salute mentale",
+        "Infermieristica pediatrica",
+        "Infermieristica di salute comunitaria",
+        "Infermieristica materna e neonatale",
+        "Infermieristica geriatrica"
+      ]
+    },
+    {
+      "name": "Medicina Veterinaria",
+      "image": "https://www.presidency.eg/media/131811/%D8%A8%D8%B7%D8%B1%D9%8A-%D9%85%D9%86%D9%88%D9%81%D9%8A%D8%A9-jpg.jpg",
+      "link": "https://mu.menofia.edu.eg/vmed/Home/ar",
+      "programs": []
+    },
+    {
+      "name": "Farmacia",
+      "image": "https://media.elwatannews.com/media/img/mediaarc/large/18042357411630238517.jpg",
+      "link": "https://mu.menofia.edu.eg/pharm/Home/ar",
+      "programs": [
+        "Farmacia clinica",
+        "Pharm D"
+      ]
+    },
+    {
+      "name": "Infermieristica",
+      "image": "https://scontent.fcai20-3.fna.fbcdn.net/v/t39.30808-6/492129421_974705341514700_2430112832649065205_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=LIzFcthKJDsQ7kNvwEIvHhx&_nc_oc=AdlaVPB_I7J0JuISjaokLpJdqDwwJjaRXxGl-cfve535tLCzbdLJ4U5_zXrlc5GUbAo&_nc_zt=23&_nc_ht=scontent.fcai20-3.fna&_nc_gid=zwAa5Ms00l7iAZ5Lda2hQA&oh=00_AfJVqdujtPAIUFp5sJ1OXoCRh0T7qy0u6g7oV7hoW9BuGw&oe=682EB019",
+      "link": "https://www.menofia.edu.eg/NUR/Home/ar",
+      "programs": [
+        "Infermieristica generale",
+        "Programma di Infermieristica specializzata",
+        "Programma di Infermieristica intensiva"
+      ]
+    },
+    {
+      "name": "Tecnologia delle Scienze della Salute Applicate",
+      "image": "https://media.elwatannews.com/media/img/mediaarc/large/12329347861659882769.jpg",
+      "link": "https://mu.menofia.edu.eg/fa/Home/ar",
+      "programs": [
+        "Tecnologia dei laboratori medici",
+        "Tecnologia di radiologia e imaging medico",
+        "Tecnologia delle apparecchiature biomediche",
+        "Tecnologia di produzione di protesi dentarie",
+        "Tecnologia ottica",
+        "Tecnologia dell'assistenza respiratoria",
+        "Tecnologia dei laboratori medici",
+        "Tecnologia di radiologia e imaging medico"
+      ]
+    },
+    {
+      "name": "Giurisprudenza",
+      "image": "https://watanimg.elwatannews.com/image_archive/original_lower_quality/5583914771630244862.jpg",
+      "link": "https://www.menofia.edu.eg/LAW/Home/ar",
+      "programs": [
+        "Arabo",
+        "Lingue"
+      ]
+    },
+    {
+      "name": "Media",
+      "image": "https://scontent.fcai20-5.fna.fbcdn.net/v/t1.6435-9/91203824_3046098485447061_3151476560322625536_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_ohc=hIgBlmBWH_8Q7kNvwGyoqlP&_nc_oc=AdnegwUv_uCIIntjNr7se3fLsFpZ2zNYwqAEVAV44MVCdvhFTWVD9FM65SgmjNWPBqM&_nc_zt=23&_nc_ht=scontent.fcai20-5.fna&_nc_gid=WuI8jM_81EPFU1xIJthwqQ&oh=00_AfK5_RuPMA-hChePE_Z3tqnyQmrUnsDLJfQOe6H9vzlqBQ&oe=68503D5C",
+      "link": "https://mu.menofia.edu.eg/media/Home/ar",
+      "programs": [
+        "Giornalismo digitale",
+        "Comunicazione di marketing integrata",
+        "Radio e televisione",
+        "Marketing digitale",
+        "Dipartimento di giornalismo stampato ed elettronico"
+      ]
+    },
+    {
+      "name": "Educazione Specifica",
+      "image": "https://lh5.googleusercontent.com/p/AF1QipMMuTHBHgz492Yq2Iu1TJsKAEQW_d0qIwu75Dgs=w408-h272-k-no",
+      "link": "https://www.menofia.edu.eg/EDV/Home/ar",
+      "programs": [
+        "Economia domestica educativa",
+        "Educazione artistica",
+        "Educazione musicale",
+        "Media educativi",
+        "Educazione e Tecnologia dell'Informazione"
+      ]
+    },
+    {
+      "name": "Educazione della Prima Infanzia",
+      "image": "https://lh5.googleusercontent.com/p/AF1QipNsQYTnnqa1Fup-75goAzHi4hK47XjXlnovHdp1=w408-h272-k-no",
+      "link": "https://mu.menofia.edu.eg/ECEDU/Home/ar",
+      "programs": [
+        "Educazione speciale",
+        "Scuola dell'infanzia",
+        "Scuola dell'infanzia in inglese"
+      ]
+    },
+    {
+      "name": "Educazione Fisica",
+      "image": "https://www.shorouknews.com/uploadedimages/Other/original/%D9%83%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D8%AA%D8%B1%D8%A8%D9%8A%D8%A9%20%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%D9%8A%D8%A9%20%D9%81%D9%8A%20%D8%A7%D9%84%D9%85%D9%86%D9%88%D9%81%D9%8A%D8%A9.jpg",
+      "link": "https://mu.menofia.edu.eg/fpe/Home/ar",
+      "programs": [
+        "Sport scolastico",
+        "Allenamento sportivo",
+        "Gestione sportiva e ricreazione"
+      ]
+    }
+  ]
+}

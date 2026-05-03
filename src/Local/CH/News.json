@@ -1,0 +1,154 @@
+{
+  "title": "Mås Nuebu na Notisia",
+  "description": "Fan-update yan i mås nuebu na notisia yan events",
+  "addNews": {
+    "title": "Na'hålom Nuebu na Notisia",
+    "buttonText": "Na'hålom Nuebu na Notisia",
+    "sections": {
+      "mainInfo": "Main Information"
+    },
+    "form": {
+      "imageUpload": {
+        "title": "Litråton Notisia",
+        "dragDrop": "Drag yan drop i litråtu guini, pat click para un select",
+        "clickToSelect": "Click para un select i litråtu",
+        "currentImage": "Current image",
+        "newImageSelected": "Nuebu na litråtu ma-select",
+        "removeImage": "Remove image",
+        "fileTypes": "Supported formats: JPG, PNG, GIF max 5MB"
+      },
+      "published": "Published",
+      "featured": "Featured",
+      "translations": {
+        "title": "Translation siha gi Notisia",
+        "translationNumber": "Translation {{number}}",
+        "addTranslation": "Add Translation",
+        "allLanguagesAdded": "✓ Todu i Lengguahi Ma-add",
+        "removeTranslation": "Remove Translation",
+        "atLeastOneRequired": "At least one translation is required",
+        "allLanguagesSelected": "Todu i available na lengguahi ma-select. Ti siña un add mås translation.",
+        "warningMessages": {
+          "allLanguagesUsed": "Todu i available na lengguahi ma-select. Ti siña un add mås translation.",
+          "minimumTranslations": "At least one translation is required"
+        },
+        "fields": {
+          "language": "Lengguahi",
+          "selectLanguage": "Select language",
+          "allLanguagesSelectedWarning": "Todu i lengguahi ma-select esta",
+          "title": "Titulu i Notisia",
+          "summary": "Summary i Notisia",
+          "content": "Content i Notisia",
+          "source": "Source i Notisia",
+          "imageAlt": "Image Alt Text",
+          "titlePlaceholder": "Halom i titulu i notisia...",
+          "summaryPlaceholder": "Halom i summary i notisia...",
+          "sourcePlaceholder": "Halom i source i notisia...",
+          "imageAltPlaceholder": "Halom i description i litråtu..."
+        }
+      },
+      "buttons": {
+        "submit": "Na'hålom Notisia",
+        "submitting": "Adding News...",
+        "cancel": "Cancel",
+        "back": "Back to News"
+      }
+    },
+    "messages": {
+      "success": "Ma-add i notisia successfully!",
+      "error": "Failed to add news. Put fabot, try ta'lo.",
+      "validation": {
+        "titleRequired": "Title is required",
+        "summaryRequired": "Summary is required",
+        "contentRequired": "Content is required",
+        "languageRequired": "Put fabot select i lengguahi",
+        "imageRequired": "Put fabot select i litråtu"
+      }
+    }
+  },
+  "editNews": {
+    "title": "Edit Notisia",
+    "loading": "Loading news data...",
+    "form": {
+      "buttons": {
+        "submit": "Update Notisia",
+        "submitting": "Updating News...",
+        "cancel": "Cancel",
+        "back": "Back to News"
+      }
+    },
+    "messages": {
+      "success": "Ma-update i notisia successfully!",
+      "error": "Failed to update news. Put fabot, try ta'lo.",
+      "loadError": "Failed to load news data"
+    }
+  },
+  "list": {
+    "search": {
+      "placeholder": "Search notisia...",
+      "button": "Search",
+      "noResults": "Tåya' notisia ni match i search-mu"
+    },
+    "pagination": {
+      "page": "Page",
+      "of": "of",
+      "previous": "Previous",
+      "next": "Next",
+      "goto": "Go to page"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "view": "View Details"
+    },
+    "status": {
+      "published": "Published",
+      "draft": "Draft",
+      "featured": "Featured"
+    }
+  },
+  "delete": {
+    "confirm": {
+      "title": "Confirm Delete",
+      "message": "Seguro hao na malago' hao delete este na notisia?",
+      "warning": "Este na action ti siña ma-undo.",
+      "buttons": {
+        "confirm": "Hunggan, Delete",
+        "cancel": "Cancel",
+        "deleting": "Deleting..."
+      }
+    },
+    "messages": {
+      "success": "Ma-delete i notisia successfully!",
+      "error": "Failed to delete news. Put fabot, try ta'lo."
+    }
+  },
+  "details": {
+    "searchPlaceholder": "Search notisia...",
+    "search": "Search",
+    "noResultsFound": "Tåya' notisia",
+    "loading": "Loading...",
+    "publishedOn": "Published on",
+    "source": "Source",
+    "readMore": "Read More",
+    "backToNews": "Back to News List"
+  },
+  "tooltip": {
+    "details": "Click para un li'e' i details"
+  },
+  "newsItems": [
+    {
+      "id": 1,
+      "title": "University Announcement",
+      "date": "2025-06-01",
+      "summary": "Important university announcement",
+      "content": "Latest updates from the university administration"
+    },
+    {
+      "id": 2,
+      "title": "Academic Achievement",
+      "date": "2025-05-30",
+      "summary": "Student achievements and awards",
+      "content": "Celebrating our students' success"
+    }
+  ]
+}

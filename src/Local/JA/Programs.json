@@ -1,0 +1,276 @@
+{
+  "note": {
+    "expatriate_activities": "留学生の活動",
+    "No colleges found": "学部が見つかりません",
+    "Clear Search": "検索をクリア",
+    "searchPlaceholder": "プログラムまたは学部を検索...",
+    "programs": "プログラム"
+  },
+  "tooltip": {
+    "details": "クリックして詳細を表示"
+  },
+  "button": {
+    "learn_more": "もっと詳しく",
+    "show_all": "すべて表示"
+  },
+  "no_programs_available": "利用可能なプログラムはありません",
+  "colleges": [
+    {
+      "name": "理学部",
+      "image": "https://scontent.fcai20-5.fna.fbcdn.net/v/t39.30808-6/468570085_551891111093682_5914489035878882531_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=RUMO6GksodUQ7kNvwHbSKO3&_nc_oc=Adm7uy2AG0SNr2OD_8BcUnuP6KtrH4RHpLkg0E06NLf8fMFxMBo4Mxiy5Q83swIo0ic&_nc_zt=23&_nc_ht=scontent.fcai20-5.fna&_nc_gid=h2C4kXDpgc4Pmtrg7astew&oh=00_AfKyFlk_29PNI1db6NkHqYTtA2iuVrTiR_-m-QOELAn4JA&oe=682E83ED",
+      "link": "https://www.menofia.edu.eg/SCI/Home/ar",
+      "programs": [
+        "純粋数学・コンピュータサイエンス",
+        "物理学",
+        "数学",
+        "化学",
+        "地質学",
+        "植物学",
+        "昆虫学",
+        "動物学",
+        "純粋数学・統計学",
+        "石油地質学",
+        "地球物理学",
+        "物理学・化学",
+        "物理学・地質学",
+        "物理学・コンピュータサイエンス",
+        "物理学・レーザー科学",
+        "純粋数学・物理学",
+        "化学・地質学",
+        "化学・植物学",
+        "化学・微生物学",
+        "化学・動物学",
+        "化学・昆虫学",
+        "化学・生化学"
+      ]
+    },
+    {
+      "name": "農学部",
+      "image": "https://media.aldawlanews.com/img/23/05/11/1068063.jpg",
+      "link": "https://www.menofia.edu.eg/AGR/Home/ar",
+      "programs": [
+        "植物生産プログラム",
+        "動物・家禽生産プログラム",
+        "植物保護プログラム",
+        "農業経済・社会科学プログラム",
+        "食品・乳製品加工プログラム",
+        "土地・水資源プログラム",
+        "農業バイオテクノロジープログラム",
+        "農業工学プログラム",
+        "農業ビジネス管理プログラム"
+      ]
+    },
+    {
+      "name": "工学部",
+      "image": "https://media.elwatannews.com/media/img/mediaarc/large/7734959691720353371.jpg",
+      "link": "https://www.menofia.edu.eg/ENG/Home/ar",
+      "programs": [
+        "電力・電気機械工学プログラム",
+        "機械動力工学プログラム",
+        "生産・機械設計工学プログラム",
+        "土木工学プログラム",
+        "建築工学プログラム",
+        "電気・コンピュータ工学プログラム",
+        "再生可能・持続可能エネルギープログラム",
+        "メカトロニクス工学プログラム",
+        "建設・プロジェクト管理工学プログラム",
+        "環境・遺産建築工学プログラム",
+        "電力システム管理・工学プログラム"
+      ]
+    },
+    {
+      "name": "メヌーフ電子工学部",
+      "image": "https://media.elwatannews.com/media/img/mediaarc/large/7831388801659951839.jpg",
+      "link": "https://www.menofia.edu.eg/FEE/Home/ar",
+      "programs": [
+        "コンピュータ工学・科学",
+        "産業電子・制御工学",
+        "電子・電気通信工学",
+        "通信・ネットワーク工学プログラム",
+        "生体医用・技術工学プログラム",
+        "産業電子工学プログラム",
+        "サイバーセキュリティ・データ分析工学プログラム"
+      ]
+    },
+    {
+      "name": "コンピュータ・情報学部",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/FCI-MU.jpg/1200px-FCI-MU.jpg",
+      "link": "https://www.menofia.edu.eg/fci/Home/ar",
+      "programs": [
+        "ソフトウェア工学プログラム",
+        "バイオインフォマティクス・コンピューティングプログラム",
+        "情報技術",
+        "情報システム",
+        "コンピュータサイエンス"
+      ]
+    },
+    {
+      "name": "人工知能学部",
+      "image": "https://egy-map.com/uploads/projects//project-1633409235615bd8d33dc10.jpg",
+      "link": "https://mu.menofia.edu.eg/ai/Home/ar",
+      "programs": [
+        "機械知能",
+        "データサイエンス",
+        "サイバーセキュリティ",
+        "知能システム"
+      ]
+    },
+    {
+      "name": "教育学部",
+      "image": "https://scontent.fcai20-3.fna.fbcdn.net/v/t39.30808-6/299303332_3465258743799726_8321148404820402534_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=2285d6&_nc_ohc=oce914_4_LYQ7kNvwHcz5vD&_nc_oc=AdljZIi5BDwA3htrdPo4mid5ghS8fnv8SftzBi2MZ9xi86-HOWUeYj-EE-hi0hecOTI&_nc_zt=23&_nc_ht=scontent.fcai20-3.fna&_nc_gid=vmYIQnAMRhyHgOgq3WV_eQ&oh=00_AfJHYpXWVk55urCFzGSNQ2WEXDrrGCCmSxl-UEH_rS0SGg&oe=682E8206",
+      "link": "https://www.menofia.edu.eg/EDU/Home/ar",
+      "programs": [
+        "フランス語",
+        "ドイツ語",
+        "歴史",
+        "地理",
+        "哲学・社会学",
+        "心理学",
+        "数学",
+        "物理学",
+        "化学",
+        "アラビア語",
+        "英語",
+        "生物・地質科学",
+        "コンピュータサイエンス",
+        "特別支援教育"
+      ]
+    },
+    {
+      "name": "商学部",
+      "image": "https://scontent.fcai20-6.fna.fbcdn.net/v/t39.30808-6/467986049_10161122585416996_337435991551168292_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=86c6b0&_nc_eui2=AeFKH6cl66MkLUT6yFuqiXQlUeagwtfCZtNR5qDC18Jm0wy8Ilf6z00J2XiZw7h8bpTyQSuzv9kOAycTgLpRNVB4&_nc_ohc=tQjk6CMQ7tcQ7kNvwG0Goi0&_nc_oc=AdnphiZ6xDXQIm-n2f1IAIuSCXibrYp5eppfM2QD0O-c4UmnIjp4GMCt8xNAqkBFong&_nc_zt=23&_nc_ht=scontent.fcai20-6.fna&_nc_gid=MdvGM22eTi3XkpGrgzMf4w&oh=00_AfJRyYPAzMvZBn4x9WimeJeLsFiDJxymlsBSvF9MD5bILA&oe=682EA1DF",
+      "link": "https://www.menofia.edu.eg/COM/Home/ar",
+      "programs": [
+        "アラビア語",
+        "言語",
+        "ビジネス情報システム BIS"
+      ]
+    },
+    {
+      "name": "文学部",
+      "image": "https://gate.ahram.org.eg/Media/News/2021/10/31/19_2021-637712893488120350-812.jpeg",
+      "link": "https://www.menofia.edu.eg/ART/Home/ar",
+      "programs": [
+        "アラビア語",
+        "英語",
+        "フランス語",
+        "ペルシア語",
+        "ヘブライ語",
+        "社会学",
+        "歴史",
+        "地理・測量",
+        "哲学",
+        "心理学",
+        "エジプト考古学",
+        "図書館・情報学"
+      ]
+    },
+    {
+      "name": "医学部",
+      "image": "https://vid.alarabiya.net/images/2025/03/14/728f9c83-6a39-45f3-a2ed-e324bdb6a4de/728f9c83-6a39-45f3-a2ed-e324bdb6a4de.jpg?crop=4:3&width=1200",
+      "link": "https://www.menofia.edu.eg/MED/Home/ar",
+      "programs": [
+        "一般医学",
+        "一般歯学",
+        "精神看護・メンタルヘルス",
+        "小児看護",
+        "地域保健看護",
+        "母子・新生児保健看護",
+        "老年看護"
+      ]
+    },
+    {
+      "name": "獣医学部",
+      "image": "https://www.presidency.eg/media/131811/%D8%A8%D8%B7%D8%B1%D9%8A-%D9%85%D9%86%D9%88%D9%81%D9%8A%D8%A9-jpg.jpg",
+      "link": "https://mu.menofia.edu.eg/vmed/Home/ar",
+      "programs": []
+    },
+    {
+      "name": "薬学部",
+      "image": "https://media.elwatannews.com/media/img/mediaarc/large/18042357411630238517.jpg",
+      "link": "https://mu.menofia.edu.eg/pharm/Home/ar",
+      "programs": [
+        "臨床薬学",
+        "Pharm D"
+      ]
+    },
+    {
+      "name": "看護学部",
+      "image": "https://scontent.fcai20-3.fna.fbcdn.net/v/t39.30808-6/492129421_974705341514700_2430112832649065205_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=LIzFcthKJDsQ7kNvwEIvHhx&_nc_oc=AdlaVPB_I7J0JuISjaokLpJdqDwwJjaRXxGl-cfve535tLCzbdLJ4U5_zXrlc5GUbAo&_nc_zt=23&_nc_ht=scontent.fcai20-3.fna&_nc_gid=zwAa5Ms00l7iAZ5Lda2hQA&oh=00_AfJVqdujtPAIUFp5sJ1OXoCRh0T7qy0u6g7oV7hoW9BuGw&oe=682EB019",
+      "link": "https://www.menofia.edu.eg/NUR/Home/ar",
+      "programs": [
+        "一般看護",
+        "専門看護プログラム",
+        "集中看護プログラム"
+      ]
+    },
+    {
+      "name": "応用健康科学技術学部",
+      "image": "https://media.elwatannews.com/media/img/mediaarc/large/12329347861659882769.jpg",
+      "link": "https://mu.menofia.edu.eg/fa/Home/ar",
+      "programs": [
+        "医療検査技術",
+        "放射線・医療画像技術",
+        "生体医用機器技術",
+        "歯科補綴製造技術",
+        "光学技術",
+        "呼吸ケア技術",
+        "医療検査技術",
+        "放射線・医療画像技術"
+      ]
+    },
+    {
+      "name": "法学部",
+      "image": "https://watanimg.elwatannews.com/image_archive/original_lower_quality/5583914771630244862.jpg",
+      "link": "https://www.menofia.edu.eg/LAW/Home/ar",
+      "programs": [
+        "アラビア語",
+        "言語"
+      ]
+    },
+    {
+      "name": "メディア学部",
+      "image": "https://scontent.fcai20-5.fna.fbcdn.net/v/t1.6435-9/91203824_3046098485447061_3151476560322625536_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_ohc=hIgBlmBWH_8Q7kNvwGyoqlP&_nc_oc=AdnegwUv_uCIIntjNr7se3fLsFpZ2zNYwqAEVAV44MVCdvhFTWVD9FM65SgmjNWPBqM&_nc_zt=23&_nc_ht=scontent.fcai20-5.fna&_nc_gid=WuI8jM_81EPFU1xIJthwqQ&oh=00_AfK5_RuPMA-hChePE_Z3tqnyQmrUnsDLJfQOe6H9vzlqBQ&oe=68503D5C",
+      "link": "https://mu.menofia.edu.eg/media/Home/ar",
+      "programs": [
+        "デジタルジャーナリズム",
+        "統合マーケティングコミュニケーション",
+        "ラジオ・テレビ",
+        "デジタルマーケティング",
+        "印刷・電子ジャーナリズム学科"
+      ]
+    },
+    {
+      "name": "特定教育学部",
+      "image": "https://lh5.googleusercontent.com/p/AF1QipMMuTHBHgz492Yq2Iu1TJsKAEQW_d0qIwu75Dgs=w408-h272-k-no",
+      "link": "https://www.menofia.edu.eg/EDV/Home/ar",
+      "programs": [
+        "教育家庭経済",
+        "美術教育",
+        "音楽教育",
+        "教育メディア",
+        "教育・情報技術"
+      ]
+    },
+    {
+      "name": "幼児教育学部",
+      "image": "https://lh5.googleusercontent.com/p/AF1QipNsQYTnnqa1Fup-75goAzHi4hK47XjXlnovHdp1=w408-h272-k-no",
+      "link": "https://mu.menofia.edu.eg/ECEDU/Home/ar",
+      "programs": [
+        "特別支援教育",
+        "幼稚園",
+        "英語幼稚園"
+      ]
+    },
+    {
+      "name": "体育学部",
+      "image": "https://www.shorouknews.com/uploadedimages/Other/original/%D9%83%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D8%AA%D8%B1%D8%A8%D9%8A%D8%A9%20%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%D9%8A%D8%A9%20%D9%81%D9%8A%20%D8%A7%D9%84%D9%85%D9%86%D9%88%D9%81%D9%8A%D8%A9.jpg",
+      "link": "https://mu.menofia.edu.eg/fpe/Home/ar",
+      "programs": [
+        "学校スポーツ",
+        "スポーツトレーニング",
+        "スポーツ管理・レクリエーション"
+      ]
+    }
+  ]
+}

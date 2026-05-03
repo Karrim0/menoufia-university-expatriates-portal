@@ -1,0 +1,154 @@
+{
+  "title": "最新ニュース",
+  "description": "最新のニュースやイベントを確認しましょう",
+  "addNews": {
+    "title": "新しいニュースを追加",
+    "buttonText": "新しいニュースを追加",
+    "sections": {
+      "mainInfo": "基本情報"
+    },
+    "form": {
+      "imageUpload": {
+        "title": "ニュース画像",
+        "dragDrop": "ここに画像をドラッグ＆ドロップするか、クリックして選択してください",
+        "clickToSelect": "クリックして画像を選択",
+        "currentImage": "現在の画像",
+        "newImageSelected": "新しい画像が選択されました",
+        "removeImage": "画像を削除",
+        "fileTypes": "対応形式: JPG、PNG、GIF 最大5MB"
+      },
+      "published": "公開済み",
+      "featured": "注目",
+      "translations": {
+        "title": "ニュース翻訳",
+        "translationNumber": "翻訳 {{number}}",
+        "addTranslation": "翻訳を追加",
+        "allLanguagesAdded": "✓ すべての言語が追加されました",
+        "removeTranslation": "翻訳を削除",
+        "atLeastOneRequired": "少なくとも1つの翻訳が必要です",
+        "allLanguagesSelected": "利用可能なすべての言語が選択されています。これ以上翻訳を追加できません。",
+        "warningMessages": {
+          "allLanguagesUsed": "利用可能なすべての言語が選択されています。これ以上翻訳を追加できません。",
+          "minimumTranslations": "少なくとも1つの翻訳が必要です"
+        },
+        "fields": {
+          "language": "言語",
+          "selectLanguage": "言語を選択",
+          "allLanguagesSelectedWarning": "すべての言語はすでに選択されています",
+          "title": "ニュースタイトル",
+          "summary": "ニュース概要",
+          "content": "ニュース本文",
+          "source": "ニュースソース",
+          "imageAlt": "画像の代替テキスト",
+          "titlePlaceholder": "ニュースタイトルを入力...",
+          "summaryPlaceholder": "ニュース概要を入力...",
+          "sourcePlaceholder": "ニュースソースを入力...",
+          "imageAltPlaceholder": "画像の説明を入力..."
+        }
+      },
+      "buttons": {
+        "submit": "ニュースを追加",
+        "submitting": "ニュースを追加中...",
+        "cancel": "キャンセル",
+        "back": "ニュースへ戻る"
+      }
+    },
+    "messages": {
+      "success": "ニュースが正常に追加されました！",
+      "error": "ニュースの追加に失敗しました。もう一度お試しください。",
+      "validation": {
+        "titleRequired": "タイトルは必須です",
+        "summaryRequired": "概要は必須です",
+        "contentRequired": "本文は必須です",
+        "languageRequired": "言語を選択してください",
+        "imageRequired": "画像を選択してください"
+      }
+    }
+  },
+  "editNews": {
+    "title": "ニュースを編集",
+    "loading": "ニュースデータを読み込み中...",
+    "form": {
+      "buttons": {
+        "submit": "ニュースを更新",
+        "submitting": "ニュースを更新中...",
+        "cancel": "キャンセル",
+        "back": "ニュースへ戻る"
+      }
+    },
+    "messages": {
+      "success": "ニュースが正常に更新されました！",
+      "error": "ニュースの更新に失敗しました。もう一度お試しください。",
+      "loadError": "ニュースデータの読み込みに失敗しました"
+    }
+  },
+  "list": {
+    "search": {
+      "placeholder": "ニュースを検索...",
+      "button": "検索",
+      "noResults": "検索条件に一致するニュースは見つかりませんでした"
+    },
+    "pagination": {
+      "page": "ページ",
+      "of": "の",
+      "previous": "前へ",
+      "next": "次へ",
+      "goto": "ページへ移動"
+    },
+    "actions": {
+      "edit": "編集",
+      "delete": "削除",
+      "view": "詳細を見る"
+    },
+    "status": {
+      "published": "公開済み",
+      "draft": "下書き",
+      "featured": "注目"
+    }
+  },
+  "delete": {
+    "confirm": {
+      "title": "削除の確認",
+      "message": "このニュース項目を削除してもよろしいですか？",
+      "warning": "この操作は元に戻せません。",
+      "buttons": {
+        "confirm": "はい、削除",
+        "cancel": "キャンセル",
+        "deleting": "削除中..."
+      }
+    },
+    "messages": {
+      "success": "ニュースが正常に削除されました！",
+      "error": "ニュースの削除に失敗しました。もう一度お試しください。"
+    }
+  },
+  "details": {
+    "searchPlaceholder": "ニュースを検索...",
+    "search": "検索",
+    "noResultsFound": "ニュースが見つかりません",
+    "loading": "読み込み中...",
+    "publishedOn": "公開日",
+    "source": "ソース",
+    "readMore": "続きを読む",
+    "backToNews": "ニュース一覧に戻る"
+  },
+  "tooltip": {
+    "details": "クリックして詳細を表示"
+  },
+  "newsItems": [
+    {
+      "id": 1,
+      "title": "大学からのお知らせ",
+      "date": "2025-06-01",
+      "summary": "大学からの重要なお知らせ",
+      "content": "大学運営部からの最新情報"
+    },
+    {
+      "id": 2,
+      "title": "学業成績",
+      "date": "2025-05-30",
+      "summary": "学生の成果と受賞",
+      "content": "学生たちの成功を祝います"
+    }
+  ]
+}

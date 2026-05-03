@@ -6,11 +6,33 @@ import { useTranslation } from "react-i18next";
 import { Search as SearchIcon, Globe, ChevronDown, ChevronLeft } from "lucide-react";
 import newsService from "../../Services/newsService";
 
+
+
+const LANGUAGE_ORDER = ["ar", "en", "fr", "de", "ja", "tr", "fa", "ru", "ch", "it"];
+
+const sortLanguages = (langs: any[]) => {
+  return [...langs].sort((a, b) => {
+    const indexA = LANGUAGE_ORDER.indexOf(a.code);
+    const indexB = LANGUAGE_ORDER.indexOf(b.code);
+
+    return (
+      (indexA === -1 ? 999 : indexA) -
+      (indexB === -1 ? 999 : indexB)
+    );
+  });
+};
+
 const FIXED_LANGUAGES = [
-  { code: "ar", name: "عربي",    id: 1, flag: "https://flagcdn.com/w40/eg.png" },
+  { code: "ar", name: "عربي", id: 1, flag: "https://flagcdn.com/w40/eg.png" },
   { code: "en", name: "English", id: 2, flag: "https://flagcdn.com/w40/gb.png" },
-  { code: "fr", name: "Français",id: 3, flag: "https://flagcdn.com/w40/fr.png" },
-  { code: "de", name: "Deutsch", id: 4, flag: "https://flagcdn.com/w40/de.png" },
+  { code: "fr", name: "Français", id: 3, flag: "https://flagcdn.com/w40/fr.png" },
+  { code: "de", name: "Deutsch", id: 24, flag: "https://flagcdn.com/w40/de.png" },
+  { code: "ja", name: "Japanese", id: 23, flag: "https://flagcdn.com/w40/jp.png" },
+  { code: "tr", name: "Turkish", id: 25, flag: "https://flagcdn.com/w40/tr.png" },
+  { code: "fa", name: "Persian", id: 26, flag: "https://flagcdn.com/w40/ir.png" },
+  { code: "ru", name: "Russian", id: 27, flag: "https://flagcdn.com/w40/ru.png" },
+  { code: "ch", name: "Chamorro", id: 28, flag: "https://flagcdn.com/w40/mp.png" },
+  { code: "it", name: "Italian", id: 29, flag: "https://flagcdn.com/w40/it.png" },
 ];
 
 const getNavItems = (t: any) => [
@@ -110,7 +132,6 @@ const getNavItems = (t: any) => [
 
 const isDesktop = () => window.innerWidth > 1100;
 
-// ─── helper: حوّل menu item من الـ API لـ nav item ───
 const mapMenuItem = (item: any): any => {
   const hasSubMenus =
     Array.isArray(item.subMenus) &&
@@ -302,7 +323,7 @@ const Header = () => {
         const response = await newsService.getLanguages();
         const result = response?.result;
         if (Array.isArray(result) && result.length > 0 && result.every((l: any) => l.code)) {
-          setLanguages(result);
+          setLanguages(sortLanguages(result));
         }
       } catch {
         // fallback على FIXED_LANGUAGES
@@ -311,7 +332,6 @@ const Header = () => {
     fetchLanguages();
   }, []);
 
-  // ─── جيب الـ full-menu لقسم "عن الجامعة" ───
   useEffect(() => {
     const fetchMenu = async () => {
       try {
@@ -327,7 +347,6 @@ const Header = () => {
     fetchMenu();
   }, [currentLang?.id]);
 
-  // ─── NAV_ITEMS مع دمج API data في قسم "عن الجامعة" ───
 const NAV_ITEMS = useMemo(() => {
   const items = getNavItems(t);
   if (aboutChildren.length === 0) return items;

@@ -2,92 +2,119 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-// English (EN) imports
+// ─── EN ───
 import enHome from './Local/EN/Home.json';
-import enCollege from "./Local/EN/College.json";
-import enContact from "./Local/EN/Contact.json";
-import enPrograms from "./Local/EN/Programs.json";
-import enNews from "./Local/EN/News.json";
-import enNewsDetails from "./Local/EN/NewsDetails.json";
-import enLogin from "./Local/EN/Login.json";
+import enCollege from './Local/EN/College.json';
+import enContact from './Local/EN/Contact.json';
+import enPrograms from './Local/EN/Programs.json';
+import enNews from './Local/EN/News.json';
+import enNewsDetails from './Local/EN/NewsDetails.json';
+import enLogin from './Local/EN/Login.json';
 
-// Arabic (AR) imports
+// ─── AR ───
 import arHome from './Local/AR/Home.json';
-import arCollege from "./Local/AR/College.json";
-import arContact from "./Local/AR/Contact.json";
-import arPrograms from "./Local/AR/Programs.json";
-import arNews from "./Local/AR/News.json";
-import arNewsDetails from "./Local/AR/NewsDetails.json";
-import arLogin from "./Local/AR/Login.json";
+import arCollege from './Local/AR/College.json';
+import arContact from './Local/AR/Contact.json';
+import arPrograms from './Local/AR/Programs.json';
+import arNews from './Local/AR/News.json';
+import arNewsDetails from './Local/AR/NewsDetails.json';
+import arLogin from './Local/AR/Login.json';
 
-
-// French (FR) imports
+// ─── FR ───
 import frHome from './Local/FR/Home.json';
-import frCollege from "./Local/FR/College.json";
-import frContact from "./Local/FR/Contact.json";
-import frPrograms from "./Local/FR/Programs.json";
-import frNews from "./Local/FR/News.json";
-import frNewsDetails from "./Local/FR/NewsDetails.json";
-import frLogin from "./Local/FR/Login.json";
+import frCollege from './Local/FR/College.json';
+import frContact from './Local/FR/Contact.json';
+import frPrograms from './Local/FR/Programs.json';
+import frNews from './Local/FR/News.json';
+import frNewsDetails from './Local/FR/NewsDetails.json';
+import frLogin from './Local/FR/Login.json';
 
-// German (DE) imports
+// ─── DE ───
 import deHome from './Local/DE/Home.json';
-import deCollege from "./Local/DE/College.json";
-import deContact from "./Local/DE/Contact.json";
-import dePrograms from "./Local/DE/Programs.json";
-import deNews from "./Local/DE/News.json";
-import deNewsDetails from "./Local/DE/NewsDetails.json";
-import deLogin from "./Local/DE/Login.json";
+import deCollege from './Local/DE/College.json';
+import deContact from './Local/DE/Contact.json';
+import dePrograms from './Local/DE/Programs.json';
+import deNews from './Local/DE/News.json';
+import deNewsDetails from './Local/DE/NewsDetails.json';
+import deLogin from './Local/DE/Login.json';
 
+// ─── CH ───
+import chHome from './Local/CH/Home.json';
+import chCollege from './Local/CH/College.json';
+import chContact from './Local/CH/Contact.json';
+import chPrograms from './Local/CH/Programs.json';
+import chNews from './Local/CH/News.json';
+import chNewsDetails from './Local/CH/NewsDetails.json';
+import chLogin from './Local/CH/Login.json';
+
+// ─── FA ───
+import faHome from './Local/FA/Home.json';
+import faCollege from './Local/FA/College.json';
+import faContact from './Local/FA/Contact.json';
+import faPrograms from './Local/FA/Programs.json';
+import faNews from './Local/FA/News.json';
+import faNewsDetails from './Local/FA/NewsDetails.json';
+import faLogin from './Local/FA/Login.json';
+
+// ─── IT ───
+import itHome from './Local/IT/Home.json';
+import itCollege from './Local/IT/College.json';
+import itContact from './Local/IT/Contact.json';
+import itPrograms from './Local/IT/Programs.json';
+import itNews from './Local/IT/News.json';
+import itNewsDetails from './Local/IT/NewsDetails.json';
+import itLogin from './Local/IT/Login.json';
+
+// ─── JA ───
+import jaHome from './Local/JA/Home.json';
+import jaCollege from './Local/JA/College.json';
+import jaContact from './Local/JA/Contact.json';
+import jaPrograms from './Local/JA/Programs.json';
+import jaNews from './Local/JA/News.json';
+import jaNewsDetails from './Local/JA/NewsDetails.json';
+import jaLogin from './Local/JA/Login.json';
+
+// ─── RU ───
+import ruHome from './Local/RU/Home.json';
+import ruCollege from './Local/RU/College.json';
+import ruContact from './Local/RU/Contact.json';
+import ruPrograms from './Local/RU/Programs.json';
+import ruNews from './Local/RU/News.json';
+import ruNewsDetails from './Local/RU/NewsDetails.json';
+import ruLogin from './Local/RU/Login.json';
+
+// ─── TR ───
+import trHome from './Local/TR/Home.json';
+import trCollege from './Local/TR/College.json';
+import trContact from './Local/TR/Contact.json';
+import trPrograms from './Local/TR/Programs.json';
+import trNews from './Local/TR/News.json';
+import trNewsDetails from './Local/TR/NewsDetails.json';
+import trLogin from './Local/TR/Login.json';
+
+const buildResources = (
+  Home: any, College: any, Contact: any,
+  Programs: any, News: any, NewsDetails: any, Login: any
+) => ({ translation: Home, College, Contact, Programs, News, NewsDetails, Login });
 
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources: {
-      en: {
-        translation: enHome,
-        Contact: enContact,
-        College: enCollege,
-        Programs: enPrograms,
-        News: enNews,
-        NewsDetails: enNewsDetails,
-        Login: enLogin
-      },
-      ar: {
-        translation: arHome,
-        Contact: arContact,
-        College: arCollege,
-        Programs: arPrograms,
-        News: arNews,
-        NewsDetails: arNewsDetails,
-        Login: arLogin
-      },
-
-      fr: {
-        translation: frHome,
-        Contact: frContact,
-        College: frCollege,
-        Programs: frPrograms,
-        News: frNews,
-        NewsDetails: frNewsDetails,
-        Login: frLogin
-      },
-      de: {
-        translation: deHome,
-        Contact: deContact,
-        College: deCollege,
-        Programs: dePrograms,
-        News: deNews,
-        NewsDetails: deNewsDetails,
-        Login: deLogin
-      },
-  
+      en: buildResources(enHome, enCollege, enContact, enPrograms, enNews, enNewsDetails, enLogin),
+      ar: buildResources(arHome, arCollege, arContact, arPrograms, arNews, arNewsDetails, arLogin),
+      fr: buildResources(frHome, frCollege, frContact, frPrograms, frNews, frNewsDetails, frLogin),
+      de: buildResources(deHome, deCollege, deContact, dePrograms, deNews, deNewsDetails, deLogin),
+      ch: buildResources(chHome, chCollege, chContact, chPrograms, chNews, chNewsDetails, chLogin),
+      fa: buildResources(faHome, faCollege, faContact, faPrograms, faNews, faNewsDetails, faLogin),
+      it: buildResources(itHome, itCollege, itContact, itPrograms, itNews, itNewsDetails, itLogin),
+      ja: buildResources(jaHome, jaCollege, jaContact, jaPrograms, jaNews, jaNewsDetails, jaLogin),
+      ru: buildResources(ruHome, ruCollege, ruContact, ruPrograms, ruNews, ruNewsDetails, ruLogin),
+      tr: buildResources(trHome, trCollege, trContact, trPrograms, trNews, trNewsDetails, trLogin),
     },
     fallbackLng: 'en',
-    interpolation: {
-      escapeValue: false
-    }
+    interpolation: { escapeValue: false },
   });
 
 export default i18n;

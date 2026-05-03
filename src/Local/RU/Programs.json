@@ -1,0 +1,276 @@
+{
+  "note": {
+    "expatriate_activities": "Мероприятия для иностранных студентов",
+    "No colleges found": "Факультеты не найдены",
+    "Clear Search": "Очистить поиск",
+    "searchPlaceholder": "Поиск программы или факультета...",
+    "programs": "Программы"
+  },
+  "tooltip": {
+    "details": "Нажмите, чтобы посмотреть подробности"
+  },
+  "button": {
+    "learn_more": "Узнать больше",
+    "show_all": "Показать все"
+  },
+  "no_programs_available": "Нет доступных программ",
+  "colleges": [
+    {
+      "name": "Наука",
+      "image": "https://scontent.fcai20-5.fna.fbcdn.net/v/t39.30808-6/468570085_551891111093682_5914489035878882531_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=RUMO6GksodUQ7kNvwHbSKO3&_nc_oc=Adm7uy2AG0SNr2OD_8BcUnuP6KtrH4RHpLkg0E06NLf8fMFxMBo4Mxiy5Q83swIo0ic&_nc_zt=23&_nc_ht=scontent.fcai20-5.fna&_nc_gid=h2C4kXDpgc4Pmtrg7astew&oh=00_AfKyFlk_29PNI1db6NkHqYTtA2iuVrTiR_-m-QOELAn4JA&oe=682E83ED",
+      "link": "https://www.menofia.edu.eg/SCI/Home/ar",
+      "programs": [
+        "Чистая математика и информатика",
+        "Физика",
+        "Математика",
+        "Химия",
+        "Геология",
+        "Ботаника",
+        "Энтомология",
+        "Зоология",
+        "Чистая математика и статистика",
+        "Нефтяная геология",
+        "Геофизика",
+        "Физика и химия",
+        "Физика и геология",
+        "Физика и информатика",
+        "Физика и лазерные науки",
+        "Чистая математика и физика",
+        "Химия и геология",
+        "Химия и ботаника",
+        "Химия и микробиология",
+        "Химия и зоология",
+        "Химия и энтомология",
+        "Химия и биохимия"
+      ]
+    },
+    {
+      "name": "Сельское хозяйство",
+      "image": "https://media.aldawlanews.com/img/23/05/11/1068063.jpg",
+      "link": "https://www.menofia.edu.eg/AGR/Home/ar",
+      "programs": [
+        "Программа растениеводства",
+        "Программа животноводства и птицеводства",
+        "Программа защиты растений",
+        "Программа сельскохозяйственных экономических и социальных наук",
+        "Программа переработки пищевых и молочных продуктов",
+        "Программа земли и воды",
+        "Программа сельскохозяйственной биотехнологии",
+        "Программа сельскохозяйственной инженерии",
+        "Программа управления агробизнесом"
+      ]
+    },
+    {
+      "name": "Инженерия",
+      "image": "https://media.elwatannews.com/media/img/mediaarc/large/7734959691720353371.jpg",
+      "link": "https://www.menofia.edu.eg/ENG/Home/ar",
+      "programs": [
+        "Программа инженерии электрической энергии и машин",
+        "Программа инженерии механической энергии",
+        "Программа инженерии производства и механического проектирования",
+        "Программа гражданского строительства",
+        "Программа архитектурной инженерии",
+        "Программа электротехники и компьютерной инженерии",
+        "Программа возобновляемой и устойчивой энергетики",
+        "Программа мехатронной инженерии",
+        "Программа инженерии управления строительством и проектами",
+        "Программа инженерии экологической и историко-культурной архитектуры",
+        "Программа управления и инженерии электрических энергосистем"
+      ]
+    },
+    {
+      "name": "Электронная инженерия в Менуфе",
+      "image": "https://media.elwatannews.com/media/img/mediaarc/large/7831388801659951839.jpg",
+      "link": "https://www.menofia.edu.eg/FEE/Home/ar",
+      "programs": [
+        "Компьютерная инженерия и науки",
+        "Промышленная электроника и инженерия управления",
+        "Электроника и инженерия электрических коммуникаций",
+        "Программа инженерии связи и сетей",
+        "Программа биомедицинской и технологической инженерии",
+        "Программа промышленной электронной инженерии",
+        "Программа инженерии кибербезопасности и анализа данных"
+      ]
+    },
+    {
+      "name": "Компьютеры и информация",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/FCI-MU.jpg/1200px-FCI-MU.jpg",
+      "link": "https://www.menofia.edu.eg/fci/Home/ar",
+      "programs": [
+        "Программа инженерии программного обеспечения",
+        "Программа вычислительной биоинформатики",
+        "Информационные технологии",
+        "Информационные системы",
+        "Информатика"
+      ]
+    },
+    {
+      "name": "Искусственный интеллект",
+      "image": "https://egy-map.com/uploads/projects//project-1633409235615bd8d33dc10.jpg",
+      "link": "https://mu.menofia.edu.eg/ai/Home/ar",
+      "programs": [
+        "Машинный интеллект",
+        "Наука о данных",
+        "Кибербезопасность",
+        "Интеллектуальные системы"
+      ]
+    },
+    {
+      "name": "Образование",
+      "image": "https://scontent.fcai20-3.fna.fbcdn.net/v/t39.30808-6/299303332_3465258743799726_8321148404820402534_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=2285d6&_nc_ohc=oce914_4_LYQ7kNvwHcz5vD&_nc_oc=AdljZIi5BDwA3htrdPo4mid5ghS8fnv8SftzBi2MZ9xi86-HOWUeYj-EE-hi0hecOTI&_nc_zt=23&_nc_ht=scontent.fcai20-3.fna&_nc_gid=vmYIQnAMRhyHgOgq3WV_eQ&oh=00_AfJHYpXWVk55urCFzGSNQ2WEXDrrGCCmSxl-UEH_rS0SGg&oe=682E8206",
+      "link": "https://www.menofia.edu.eg/EDU/Home/ar",
+      "programs": [
+        "Французский язык",
+        "Немецкий язык",
+        "История",
+        "География",
+        "Философия и социология",
+        "Психология",
+        "Математика",
+        "Физика",
+        "Химия",
+        "Арабский язык",
+        "Английский язык",
+        "Биологические и геологические науки",
+        "Информатика",
+        "Специальное образование"
+      ]
+    },
+    {
+      "name": "Коммерция",
+      "image": "https://scontent.fcai20-6.fna.fbcdn.net/v/t39.30808-6/467986049_10161122585416996_337435991551168292_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=86c6b0&_nc_eui2=AeFKH6cl66MkLUT6yFuqiXQlUeagwtfCZtNR5qDC18Jm0wy8Ilf6z00J2XiZw7h8bpTyQSuzv9kOAycTgLpRNVB4&_nc_ohc=tQjk6CMQ7tcQ7kNvwG0Goi0&_nc_oc=AdnphiZ6xDXQIm-n2f1IAIuSCXibrYp5eppfM2QD0O-c4UmnIjp4GMCt8xNAqkBFong&_nc_zt=23&_nc_ht=scontent.fcai20-6.fna&_nc_gid=MdvGM22eTi3XkpGrgzMf4w&oh=00_AfJRyYPAzMvZBn4x9WimeJeLsFiDJxymlsBSvF9MD5bILA&oe=682EA1DF",
+      "link": "https://www.menofia.edu.eg/COM/Home/ar",
+      "programs": [
+        "Арабский",
+        "Языки",
+        "Бизнес-информационные системы BIS"
+      ]
+    },
+    {
+      "name": "Искусства",
+      "image": "https://gate.ahram.org.eg/Media/News/2021/10/31/19_2021-637712893488120350-812.jpeg",
+      "link": "https://www.menofia.edu.eg/ART/Home/ar",
+      "programs": [
+        "Арабский язык",
+        "Английский язык",
+        "Французский язык",
+        "Персидский язык",
+        "Иврит",
+        "Социология",
+        "История",
+        "География и геодезия",
+        "Философия",
+        "Психология",
+        "Египетская археология",
+        "Библиотечное дело и информация"
+      ]
+    },
+    {
+      "name": "Медицина",
+      "image": "https://vid.alarabiya.net/images/2025/03/14/728f9c83-6a39-45f3-a2ed-e324bdb6a4de/728f9c83-6a39-45f3-a2ed-e324bdb6a4de.jpg?crop=4:3&width=1200",
+      "link": "https://www.menofia.edu.eg/MED/Home/ar",
+      "programs": [
+        "Общая медицина",
+        "Общая стоматология",
+        "Психиатрическая сестринская помощь и психическое здоровье",
+        "Педиатрическая сестринская помощь",
+        "Сестринская помощь в общественном здравоохранении",
+        "Сестринская помощь матери и новорожденному",
+        "Гериатрическая сестринская помощь"
+      ]
+    },
+    {
+      "name": "Ветеринарная медицина",
+      "image": "https://www.presidency.eg/media/131811/%D8%A8%D8%B7%D8%B1%D9%8A-%D9%85%D9%86%D9%88%D9%81%D9%8A%D8%A9-jpg.jpg",
+      "link": "https://mu.menofia.edu.eg/vmed/Home/ar",
+      "programs": []
+    },
+    {
+      "name": "Фармация",
+      "image": "https://media.elwatannews.com/media/img/mediaarc/large/18042357411630238517.jpg",
+      "link": "https://mu.menofia.edu.eg/pharm/Home/ar",
+      "programs": [
+        "Клиническая фармация",
+        "Pharm D"
+      ]
+    },
+    {
+      "name": "Сестринское дело",
+      "image": "https://scontent.fcai20-3.fna.fbcdn.net/v/t39.30808-6/492129421_974705341514700_2430112832649065205_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=LIzFcthKJDsQ7kNvwEIvHhx&_nc_oc=AdlaVPB_I7J0JuISjaokLpJdqDwwJjaRXxGl-cfve535tLCzbdLJ4U5_zXrlc5GUbAo&_nc_zt=23&_nc_ht=scontent.fcai20-3.fna&_nc_gid=zwAa5Ms00l7iAZ5Lda2hQA&oh=00_AfJVqdujtPAIUFp5sJ1OXoCRh0T7qy0u6g7oV7hoW9BuGw&oe=682EB019",
+      "link": "https://www.menofia.edu.eg/NUR/Home/ar",
+      "programs": [
+        "Общее сестринское дело",
+        "Программа специализированного сестринского дела",
+        "Программа интенсивного сестринского дела"
+      ]
+    },
+    {
+      "name": "Технология прикладных медицинских наук",
+      "image": "https://media.elwatannews.com/media/img/mediaarc/large/12329347861659882769.jpg",
+      "link": "https://mu.menofia.edu.eg/fa/Home/ar",
+      "programs": [
+        "Технология медицинской лаборатории",
+        "Технология радиологии и медицинской визуализации",
+        "Технология биомедицинского оборудования",
+        "Технология изготовления зубных протезов",
+        "Оптическая технология",
+        "Технология респираторной помощи",
+        "Технология медицинской лаборатории",
+        "Технология радиологии и медицинской визуализации"
+      ]
+    },
+    {
+      "name": "Право",
+      "image": "https://watanimg.elwatannews.com/image_archive/original_lower_quality/5583914771630244862.jpg",
+      "link": "https://www.menofia.edu.eg/LAW/Home/ar",
+      "programs": [
+        "Арабский",
+        "Языки"
+      ]
+    },
+    {
+      "name": "Медиа",
+      "image": "https://scontent.fcai20-5.fna.fbcdn.net/v/t1.6435-9/91203824_3046098485447061_3151476560322625536_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_ohc=hIgBlmBWH_8Q7kNvwGyoqlP&_nc_oc=AdnegwUv_uCIIntjNr7se3fLsFpZ2zNYwqAEVAV44MVCdvhFTWVD9FM65SgmjNWPBqM&_nc_zt=23&_nc_ht=scontent.fcai20-5.fna&_nc_gid=WuI8jM_81EPFU1xIJthwqQ&oh=00_AfK5_RuPMA-hChePE_Z3tqnyQmrUnsDLJfQOe6H9vzlqBQ&oe=68503D5C",
+      "link": "https://mu.menofia.edu.eg/media/Home/ar",
+      "programs": [
+        "Цифровая журналистика",
+        "Интегрированные маркетинговые коммуникации",
+        "Радио и телевидение",
+        "Цифровой маркетинг",
+        "Кафедра печатной и электронной журналистики"
+      ]
+    },
+    {
+      "name": "Специальное образование",
+      "image": "https://lh5.googleusercontent.com/p/AF1QipMMuTHBHgz492Yq2Iu1TJsKAEQW_d0qIwu75Dgs=w408-h272-k-no",
+      "link": "https://www.menofia.edu.eg/EDV/Home/ar",
+      "programs": [
+        "Образовательная домашняя экономика",
+        "Художественное образование",
+        "Музыкальное образование",
+        "Образовательные медиа",
+        "Образование и информационные технологии"
+      ]
+    },
+    {
+      "name": "Дошкольное образование",
+      "image": "https://lh5.googleusercontent.com/p/AF1QipNsQYTnnqa1Fup-75goAzHi4hK47XjXlnovHdp1=w408-h272-k-no",
+      "link": "https://mu.menofia.edu.eg/ECEDU/Home/ar",
+      "programs": [
+        "Специальное образование",
+        "Детский сад",
+        "Детский сад на английском языке"
+      ]
+    },
+    {
+      "name": "Физическое воспитание",
+      "image": "https://www.shorouknews.com/uploadedimages/Other/original/%D9%83%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D8%AA%D8%B1%D8%A8%D9%8A%D8%A9%20%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%D9%8A%D8%A9%20%D9%81%D9%8A%20%D8%A7%D9%84%D9%85%D9%86%D9%88%D9%81%D9%8A%D8%A9.jpg",
+      "link": "https://mu.menofia.edu.eg/fpe/Home/ar",
+      "programs": [
+        "Школьный спорт",
+        "Спортивная подготовка",
+        "Спортивное управление и рекреация"
+      ]
+    }
+  ]
+}

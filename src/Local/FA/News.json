@@ -1,0 +1,154 @@
+{
+  "title": "آخرین اخبار",
+  "description": "با آخرین اخبار و رویدادها به‌روز بمانید",
+  "addNews": {
+    "title": "افزودن خبر جدید",
+    "buttonText": "افزودن خبر جدید",
+    "sections": {
+      "mainInfo": "اطلاعات اصلی"
+    },
+    "form": {
+      "imageUpload": {
+        "title": "تصویر خبر",
+        "dragDrop": "تصویر را اینجا بکشید و رها کنید، یا برای انتخاب کلیک کنید",
+        "clickToSelect": "برای انتخاب تصویر کلیک کنید",
+        "currentImage": "تصویر فعلی",
+        "newImageSelected": "تصویر جدید انتخاب شد",
+        "removeImage": "حذف تصویر",
+        "fileTypes": "فرمت‌های پشتیبانی‌شده: JPG، PNG، GIF حداکثر ۵ مگابایت"
+      },
+      "published": "منتشر شده",
+      "featured": "ویژه",
+      "translations": {
+        "title": "ترجمه‌های خبر",
+        "translationNumber": "ترجمه {{number}}",
+        "addTranslation": "افزودن ترجمه",
+        "allLanguagesAdded": "✓ همه زبان‌ها اضافه شدند",
+        "removeTranslation": "حذف ترجمه",
+        "atLeastOneRequired": "حداقل یک ترجمه الزامی است",
+        "allLanguagesSelected": "همه زبان‌های موجود انتخاب شده‌اند. نمی‌توانید ترجمه بیشتری اضافه کنید.",
+        "warningMessages": {
+          "allLanguagesUsed": "همه زبان‌های موجود انتخاب شده‌اند. نمی‌توانید ترجمه بیشتری اضافه کنید.",
+          "minimumTranslations": "حداقل یک ترجمه الزامی است"
+        },
+        "fields": {
+          "language": "زبان",
+          "selectLanguage": "انتخاب زبان",
+          "allLanguagesSelectedWarning": "همه زبان‌ها قبلاً انتخاب شده‌اند",
+          "title": "عنوان خبر",
+          "summary": "خلاصه خبر",
+          "content": "محتوای خبر",
+          "source": "منبع خبر",
+          "imageAlt": "متن جایگزین تصویر",
+          "titlePlaceholder": "عنوان خبر را وارد کنید...",
+          "summaryPlaceholder": "خلاصه خبر را وارد کنید...",
+          "sourcePlaceholder": "منبع خبر را وارد کنید...",
+          "imageAltPlaceholder": "توضیح تصویر را وارد کنید..."
+        }
+      },
+      "buttons": {
+        "submit": "افزودن خبر",
+        "submitting": "در حال افزودن خبر...",
+        "cancel": "لغو",
+        "back": "بازگشت به اخبار"
+      }
+    },
+    "messages": {
+      "success": "خبر با موفقیت اضافه شد!",
+      "error": "افزودن خبر ناموفق بود. لطفاً دوباره تلاش کنید.",
+      "validation": {
+        "titleRequired": "عنوان الزامی است",
+        "summaryRequired": "خلاصه الزامی است",
+        "contentRequired": "محتوا الزامی است",
+        "languageRequired": "لطفاً یک زبان انتخاب کنید",
+        "imageRequired": "لطفاً یک تصویر انتخاب کنید"
+      }
+    }
+  },
+  "editNews": {
+    "title": "ویرایش خبر",
+    "loading": "در حال بارگذاری اطلاعات خبر...",
+    "form": {
+      "buttons": {
+        "submit": "به‌روزرسانی خبر",
+        "submitting": "در حال به‌روزرسانی خبر...",
+        "cancel": "لغو",
+        "back": "بازگشت به اخبار"
+      }
+    },
+    "messages": {
+      "success": "خبر با موفقیت به‌روزرسانی شد!",
+      "error": "به‌روزرسانی خبر ناموفق بود. لطفاً دوباره تلاش کنید.",
+      "loadError": "بارگذاری اطلاعات خبر ناموفق بود"
+    }
+  },
+  "list": {
+    "search": {
+      "placeholder": "جستجوی اخبار...",
+      "button": "جستجو",
+      "noResults": "خبری مطابق جستجوی شما یافت نشد"
+    },
+    "pagination": {
+      "page": "صفحه",
+      "of": "از",
+      "previous": "قبلی",
+      "next": "بعدی",
+      "goto": "رفتن به صفحه"
+    },
+    "actions": {
+      "edit": "ویرایش",
+      "delete": "حذف",
+      "view": "مشاهده جزئیات"
+    },
+    "status": {
+      "published": "منتشر شده",
+      "draft": "پیش‌نویس",
+      "featured": "ویژه"
+    }
+  },
+  "delete": {
+    "confirm": {
+      "title": "تأیید حذف",
+      "message": "آیا مطمئن هستید که می‌خواهید این خبر را حذف کنید؟",
+      "warning": "این عمل قابل بازگشت نیست.",
+      "buttons": {
+        "confirm": "بله، حذف شود",
+        "cancel": "لغو",
+        "deleting": "در حال حذف..."
+      }
+    },
+    "messages": {
+      "success": "خبر با موفقیت حذف شد!",
+      "error": "حذف خبر ناموفق بود. لطفاً دوباره تلاش کنید."
+    }
+  },
+  "details": {
+    "searchPlaceholder": "جستجوی اخبار...",
+    "search": "جستجو",
+    "noResultsFound": "خبری یافت نشد",
+    "loading": "در حال بارگذاری...",
+    "publishedOn": "منتشر شده در",
+    "source": "منبع",
+    "readMore": "ادامه مطلب",
+    "backToNews": "بازگشت به فهرست اخبار"
+  },
+  "tooltip": {
+    "details": "برای مشاهده جزئیات کلیک کنید"
+  },
+  "newsItems": [
+    {
+      "id": 1,
+      "title": "اطلاعیه دانشگاه",
+      "date": "2025-06-01",
+      "summary": "اطلاعیه مهم دانشگاه",
+      "content": "آخرین به‌روزرسانی‌ها از مدیریت دانشگاه"
+    },
+    {
+      "id": 2,
+      "title": "دستاورد علمی",
+      "date": "2025-05-30",
+      "summary": "دستاوردها و جوایز دانشجویان",
+      "content": "گرامیداشت موفقیت دانشجویان ما"
+    }
+  ]
+}

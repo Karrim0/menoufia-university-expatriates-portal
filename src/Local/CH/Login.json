@@ -1,0 +1,55 @@
+{
+  "title": "Sign In",
+  "subtitle": "Halom i credentials-mu para un fanhalom gi account-mu",
+  "form": {
+    "email": {
+      "label": "Email",
+      "placeholder": "Halom i email-mu",
+      "required": "Email is required",
+      "invalid": "Put fabot, halom valid na email"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Halom i password-mu",
+      "required": "Password is required",
+      "minLength": "I password debi na u åtmenos 6 character",
+      "show": "Na'fanmanli'e' i password",
+      "hide": "Na'tåya' fanmanli'e' i password"
+    },
+    "rememberMe": "Remember yu'",
+    "forgotPassword": "Malago' hao i password?",
+    "signIn": "Sign In",
+    "signingIn": "Signing in..."
+  },
+  "errors": {
+    "general": "Login failed. Put fabot, try ta'lo.",
+    "invalidCredentials": "Invalid email pat password",
+    "networkError": "Network error. Put fabot, check i connection-mu.",
+    "serverError": "Server error. Put fabot, try ta'lo later."
+  },
+  "messages": {
+    "success": {
+      "title": "Login Successful!",
+      "text": "Bienbenidu ta'lo! Ma-successfully login hao.",
+      "confirm": "Continue"
+    },
+    "error": {
+      "title": "Login Failed",
+      "text": "Put fabot, check i credentials-mu yan try ta'lo.",
+      "confirm": "Try Again"
+    },
+    "welcome": "Bienbenidu ta'lo!",
+    "loginSuccess": "Login successful. Redirecting...",
+    "sessionExpired": "I session-mu expired. Put fabot, login ta'lo."
+  },
+  "links": {
+    "signUp": "Sign up",
+    "noAccount": "Tåya' account-mu?",
+    "backToHome": "Back to Home"
+  },
+  "accessibility": {
+    "logo": "Company Logo",
+    "togglePassword": "Toggle password visibility",
+    "loginForm": "Login form"
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "title": "Ultime Notizie",
+  "description": "Resta aggiornato con le ultime notizie ed eventi",
+  "addNews": {
+    "title": "Aggiungi Nuova Notizia",
+    "buttonText": "Aggiungi Nuova Notizia",
+    "sections": {
+      "mainInfo": "Informazioni Principali"
+    },
+    "form": {
+      "imageUpload": {
+        "title": "Immagine della Notizia",
+        "dragDrop": "Trascina e rilascia un'immagine qui, oppure clicca per selezionarla",
+        "clickToSelect": "Clicca per selezionare un'immagine",
+        "currentImage": "Immagine attuale",
+        "newImageSelected": "Nuova immagine selezionata",
+        "removeImage": "Rimuovi immagine",
+        "fileTypes": "Formati supportati: JPG, PNG, GIF max 5MB"
+      },
+      "published": "Pubblicata",
+      "featured": "In evidenza",
+      "translations": {
+        "title": "Traduzioni della Notizia",
+        "translationNumber": "Traduzione {{number}}",
+        "addTranslation": "Aggiungi Traduzione",
+        "allLanguagesAdded": "✓ Tutte le lingue aggiunte",
+        "removeTranslation": "Rimuovi Traduzione",
+        "atLeastOneRequired": "È richiesta almeno una traduzione",
+        "allLanguagesSelected": "Tutte le lingue disponibili sono state selezionate. Non puoi aggiungere altre traduzioni.",
+        "warningMessages": {
+          "allLanguagesUsed": "Tutte le lingue disponibili sono state selezionate. Non puoi aggiungere altre traduzioni.",
+          "minimumTranslations": "È richiesta almeno una traduzione"
+        },
+        "fields": {
+          "language": "Lingua",
+          "selectLanguage": "Seleziona lingua",
+          "allLanguagesSelectedWarning": "Tutte le lingue sono già selezionate",
+          "title": "Titolo della Notizia",
+          "summary": "Riepilogo della Notizia",
+          "content": "Contenuto della Notizia",
+          "source": "Fonte della Notizia",
+          "imageAlt": "Testo alternativo dell'immagine",
+          "titlePlaceholder": "Inserisci il titolo della notizia...",
+          "summaryPlaceholder": "Inserisci il riepilogo della notizia...",
+          "sourcePlaceholder": "Inserisci la fonte della notizia...",
+          "imageAltPlaceholder": "Inserisci la descrizione dell'immagine..."
+        }
+      },
+      "buttons": {
+        "submit": "Aggiungi Notizia",
+        "submitting": "Aggiunta notizia...",
+        "cancel": "Annulla",
+        "back": "Torna alle Notizie"
+      }
+    },
+    "messages": {
+      "success": "Notizia aggiunta con successo!",
+      "error": "Impossibile aggiungere la notizia. Riprova.",
+      "validation": {
+        "titleRequired": "Il titolo è obbligatorio",
+        "summaryRequired": "Il riepilogo è obbligatorio",
+        "contentRequired": "Il contenuto è obbligatorio",
+        "languageRequired": "Seleziona una lingua",
+        "imageRequired": "Seleziona un'immagine"
+      }
+    }
+  },
+  "editNews": {
+    "title": "Modifica Notizia",
+    "loading": "Caricamento dati della notizia...",
+    "form": {
+      "buttons": {
+        "submit": "Aggiorna Notizia",
+        "submitting": "Aggiornamento notizia...",
+        "cancel": "Annulla",
+        "back": "Torna alle Notizie"
+      }
+    },
+    "messages": {
+      "success": "Notizia aggiornata con successo!",
+      "error": "Impossibile aggiornare la notizia. Riprova.",
+      "loadError": "Impossibile caricare i dati della notizia"
+    }
+  },
+  "list": {
+    "search": {
+      "placeholder": "Cerca notizie...",
+      "button": "Cerca",
+      "noResults": "Nessuna notizia trovata corrispondente alla tua ricerca"
+    },
+    "pagination": {
+      "page": "Pagina",
+      "of": "di",
+      "previous": "Precedente",
+      "next": "Successiva",
+      "goto": "Vai alla pagina"
+    },
+    "actions": {
+      "edit": "Modifica",
+      "delete": "Elimina",
+      "view": "Visualizza dettagli"
+    },
+    "status": {
+      "published": "Pubblicata",
+      "draft": "Bozza",
+      "featured": "In evidenza"
+    }
+  },
+  "delete": {
+    "confirm": {
+      "title": "Conferma Eliminazione",
+      "message": "Sei sicuro di voler eliminare questa notizia?",
+      "warning": "Questa azione non può essere annullata.",
+      "buttons": {
+        "confirm": "Sì, Elimina",
+        "cancel": "Annulla",
+        "deleting": "Eliminazione..."
+      }
+    },
+    "messages": {
+      "success": "Notizia eliminata con successo!",
+      "error": "Impossibile eliminare la notizia. Riprova."
+    }
+  },
+  "details": {
+    "searchPlaceholder": "Cerca notizie...",
+    "search": "Cerca",
+    "noResultsFound": "Nessuna notizia trovata",
+    "loading": "Caricamento...",
+    "publishedOn": "Pubblicato il",
+    "source": "Fonte",
+    "readMore": "Leggi di più",
+    "backToNews": "Torna all'elenco delle notizie"
+  },
+  "tooltip": {
+    "details": "Clicca per visualizzare i dettagli"
+  },
+  "newsItems": [
+    {
+      "id": 1,
+      "title": "Annuncio Universitario",
+      "date": "2025-06-01",
+      "summary": "Importante annuncio universitario",
+      "content": "Ultimi aggiornamenti dall'amministrazione universitaria"
+    },
+    {
+      "id": 2,
+      "title": "Risultato Accademico",
+      "date": "2025-05-30",
+      "summary": "Risultati e premi degli studenti",
+      "content": "Celebriamo il successo dei nostri studenti"
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "title": "Son Haberler",
+  "description": "Son haberler ve etkinliklerden haberdar olun",
+  "addNews": {
+    "title": "Yeni Haber Ekle",
+    "buttonText": "Yeni Haber Ekle",
+    "sections": {
+      "mainInfo": "Ana Bilgiler"
+    },
+    "form": {
+      "imageUpload": {
+        "title": "Haber Görseli",
+        "dragDrop": "Bir görseli buraya sürükleyip bırakın veya seçmek için tıklayın",
+        "clickToSelect": "Görsel seçmek için tıklayın",
+        "currentImage": "Mevcut görsel",
+        "newImageSelected": "Yeni görsel seçildi",
+        "removeImage": "Görseli kaldır",
+        "fileTypes": "Desteklenen formatlar: JPG, PNG, GIF maksimum 5MB"
+      },
+      "published": "Yayınlandı",
+      "featured": "Öne çıkan",
+      "translations": {
+        "title": "Haber Çevirileri",
+        "translationNumber": "Çeviri {{number}}",
+        "addTranslation": "Çeviri Ekle",
+        "allLanguagesAdded": "✓ Tüm Diller Eklendi",
+        "removeTranslation": "Çeviriyi Kaldır",
+        "atLeastOneRequired": "En az bir çeviri gereklidir",
+        "allLanguagesSelected": "Mevcut tüm diller seçildi. Daha fazla çeviri ekleyemezsiniz.",
+        "warningMessages": {
+          "allLanguagesUsed": "Mevcut tüm diller seçildi. Daha fazla çeviri ekleyemezsiniz.",
+          "minimumTranslations": "En az bir çeviri gereklidir"
+        },
+        "fields": {
+          "language": "Dil",
+          "selectLanguage": "Dil seçin",
+          "allLanguagesSelectedWarning": "Tüm diller zaten seçildi",
+          "title": "Haber Başlığı",
+          "summary": "Haber Özeti",
+          "content": "Haber İçeriği",
+          "source": "Haber Kaynağı",
+          "imageAlt": "Görsel Alternatif Metni",
+          "titlePlaceholder": "Haber başlığını girin...",
+          "summaryPlaceholder": "Haber özetini girin...",
+          "sourcePlaceholder": "Haber kaynağını girin...",
+          "imageAltPlaceholder": "Görsel açıklamasını girin..."
+        }
+      },
+      "buttons": {
+        "submit": "Haber Ekle",
+        "submitting": "Haber ekleniyor...",
+        "cancel": "İptal",
+        "back": "Haberlere Dön"
+      }
+    },
+    "messages": {
+      "success": "Haber başarıyla eklendi!",
+      "error": "Haber eklenemedi. Lütfen tekrar deneyin.",
+      "validation": {
+        "titleRequired": "Başlık gereklidir",
+        "summaryRequired": "Özet gereklidir",
+        "contentRequired": "İçerik gereklidir",
+        "languageRequired": "Lütfen bir dil seçin",
+        "imageRequired": "Lütfen bir görsel seçin"
+      }
+    }
+  },
+  "editNews": {
+    "title": "Haberi Düzenle",
+    "loading": "Haber verileri yükleniyor...",
+    "form": {
+      "buttons": {
+        "submit": "Haberi Güncelle",
+        "submitting": "Haber güncelleniyor...",
+        "cancel": "İptal",
+        "back": "Haberlere Dön"
+      }
+    },
+    "messages": {
+      "success": "Haber başarıyla güncellendi!",
+      "error": "Haber güncellenemedi. Lütfen tekrar deneyin.",
+      "loadError": "Haber verileri yüklenemedi"
+    }
+  },
+  "list": {
+    "search": {
+      "placeholder": "Haber ara...",
+      "button": "Ara",
+      "noResults": "Aramanızla eşleşen haber bulunamadı"
+    },
+    "pagination": {
+      "page": "Sayfa",
+      "of": "/",
+      "previous": "Önceki",
+      "next": "Sonraki",
+      "goto": "Sayfaya git"
+    },
+    "actions": {
+      "edit": "Düzenle",
+      "delete": "Sil",
+      "view": "Detayları Gör"
+    },
+    "status": {
+      "published": "Yayınlandı",
+      "draft": "Taslak",
+      "featured": "Öne çıkan"
+    }
+  },
+  "delete": {
+    "confirm": {
+      "title": "Silmeyi Onayla",
+      "message": "Bu haber öğesini silmek istediğinizden emin misiniz?",
+      "warning": "Bu işlem geri alınamaz.",
+      "buttons": {
+        "confirm": "Evet, Sil",
+        "cancel": "İptal",
+        "deleting": "Siliniyor..."
+      }
+    },
+    "messages": {
+      "success": "Haber başarıyla silindi!",
+      "error": "Haber silinemedi. Lütfen tekrar deneyin."
+    }
+  },
+  "details": {
+    "searchPlaceholder": "Haber ara...",
+    "search": "Ara",
+    "noResultsFound": "Haber bulunamadı",
+    "loading": "Yükleniyor...",
+    "publishedOn": "Yayınlanma tarihi",
+    "source": "Kaynak",
+    "readMore": "Devamını Oku",
+    "backToNews": "Haber Listesine Dön"
+  },
+  "tooltip": {
+    "details": "Detayları görüntülemek için tıklayın"
+  },
+  "newsItems": [
+    {
+      "id": 1,
+      "title": "Üniversite Duyurusu",
+      "date": "2025-06-01",
+      "summary": "Önemli üniversite duyurusu",
+      "content": "Üniversite yönetiminden son güncellemeler"
+    },
+    {
+      "id": 2,
+      "title": "Akademik Başarı",
+      "date": "2025-05-30",
+      "summary": "Öğrenci başarıları ve ödülleri",
+      "content": "Öğrencilerimizin başarısını kutluyoruz"
+    }
+  ]
+}
