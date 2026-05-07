@@ -1,4 +1,12 @@
 import api from "./api";
+import axios from "axios";
+
+const facultyApi = axios.create({
+  baseURL: "http://193.227.24.31:5050/api",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 const newsService = {
   getUniversityNews: async ({
@@ -81,6 +89,37 @@ const newsService = {
         PageIndex: pageIndex,
         PageSize: pageSize,
         Search: search,
+      },
+    });
+
+    return response.data;
+  },
+
+  getFacultyNews: async ({
+    fac,
+    langId,
+    pageIndex = 1,
+    pageSize = 10,
+    search = "",
+  }) => {
+    const response = await facultyApi.get("/faculty-news", {
+      params: {
+        fac,
+        langId,
+        PageIndex: pageIndex,
+        PageSize: pageSize,
+        Search: search,
+      },
+    });
+
+    return response.data;
+  },
+
+  getFacultyNewsDetails: async (id, langId) => {
+    const response = await facultyApi.get("/faculty-news/details", {
+      params: {
+        id,
+        langId,
       },
     });
 

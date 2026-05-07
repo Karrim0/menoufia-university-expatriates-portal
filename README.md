@@ -7,23 +7,7 @@ Expatriates-master-main
 ├─ package-lock.json
 ├─ package.json
 ├─ public
-│  ├─ calendar-deal-list(1).svg
-│  ├─ calendar-deal-list.svg
-│  ├─ flags
-│  │  ├─ eg(1).webp
-│  │  ├─ eg.webp
-│  │  ├─ es(1).webp
-│  │  ├─ es.webp
-│  │  ├─ fr(1).webp
-│  │  ├─ fr.webp
-│  │  ├─ gb(1).webp
-│  │  ├─ gb.webp
-│  │  ├─ us(1).webp
-│  │  └─ us.webp
-│  ├─ raes.jpg
-│  ├─ vite(1).svg
-│  └─ vite.svg
-├─ raes.ico
+├─ 
 ├─ src
 │  ├─ App.css
 │  ├─ App.jsx
@@ -64,6 +48,9 @@ Expatriates-master-main
 │  │  ├─ ContactUs.css
 │  │  └─ ContactUs.tsx
 │  ├─ custom.d.ts
+│  ├─ FacultyNews
+│  │  ├─ FacultyNews.css
+│  │  └─ FacultyNews.tsx
 │  ├─ HomePage
 │  │  ├─ About
 │  │  │  ├─ About.css
@@ -98,6 +85,14 @@ Expatriates-master-main
 │  │  │  ├─ News.json
 │  │  │  ├─ NewsDetails.json
 │  │  │  └─ Programs.json
+│  │  ├─ CH
+│  │  │  ├─ College.json
+│  │  │  ├─ Contact.json
+│  │  │  ├─ Home.json
+│  │  │  ├─ Login.json
+│  │  │  ├─ News.json
+│  │  │  ├─ NewsDetails.json
+│  │  │  └─ Programs.json
 │  │  ├─ DE
 │  │  │  ├─ College.json
 │  │  │  ├─ Contact.json
@@ -114,7 +109,47 @@ Expatriates-master-main
 │  │  │  ├─ News.json
 │  │  │  ├─ NewsDetails.json
 │  │  │  └─ Programs.json
-│  │  └─ FR
+│  │  ├─ FA
+│  │  │  ├─ College.json
+│  │  │  ├─ Contact.json
+│  │  │  ├─ Home.json
+│  │  │  ├─ Login.json
+│  │  │  ├─ News.json
+│  │  │  ├─ NewsDetails.json
+│  │  │  └─ Programs.json
+│  │  ├─ FR
+│  │  │  ├─ College.json
+│  │  │  ├─ Contact.json
+│  │  │  ├─ Home.json
+│  │  │  ├─ Login.json
+│  │  │  ├─ News.json
+│  │  │  ├─ NewsDetails.json
+│  │  │  └─ Programs.json
+│  │  ├─ IT
+│  │  │  ├─ College.json
+│  │  │  ├─ Contact.json
+│  │  │  ├─ Home.json
+│  │  │  ├─ Login.json
+│  │  │  ├─ News.json
+│  │  │  ├─ NewsDetails.json
+│  │  │  └─ Programs.json
+│  │  ├─ JA
+│  │  │  ├─ College.json
+│  │  │  ├─ Contact.json
+│  │  │  ├─ Home.json
+│  │  │  ├─ Login.json
+│  │  │  ├─ News.json
+│  │  │  ├─ NewsDetails.json
+│  │  │  └─ Programs.json
+│  │  ├─ RU
+│  │  │  ├─ College.json
+│  │  │  ├─ Contact.json
+│  │  │  ├─ Home.json
+│  │  │  ├─ Login.json
+│  │  │  ├─ News.json
+│  │  │  ├─ NewsDetails.json
+│  │  │  └─ Programs.json
+│  │  └─ TR
 │  │     ├─ College.json
 │  │     ├─ Contact.json
 │  │     ├─ Home.json

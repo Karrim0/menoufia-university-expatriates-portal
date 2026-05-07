@@ -1,6 +1,6 @@
 .cp-section {
-  padding: 48px 0;
-  background: #eaf3f9;
+  padding: 48px 0 28px;
+  background: #dcedf480;
   margin-bottom: 50px;
 }
 
@@ -14,176 +14,333 @@
 
 .cp-container {
   width: 100%;
-  max-width: 1778px;
-  padding: 0 32px;
+  /* max-width: 1440px; */
+  padding: 0px 32px;
   margin: 0 auto;
   box-sizing: border-box;
 }
 
 /* ─── Title ─── */
 .cp-titleWrap {
-  display: inline-flex;
+  width: 100%;
+  display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  margin-bottom: 32px;
+  margin-bottom: 22px;
 }
 
 .cp-section.cp-rtl .cp-titleWrap {
-  align-items: flex-end;
+  align-items: flex-start;
+  text-align: right;
+}
+
+.cp-section.cp-ltr .cp-titleWrap {
+  align-items: flex-start;
+  text-align: left;
 }
 
 .cp-title {
   margin: 0;
-  font-size: 28px;
-  font-weight: 700;
+  font-size: 31px;
+  font-weight: 800;
   line-height: 1.2;
-  color: #1a2744;
+  color: #26385d;
+  letter-spacing: -0.4px;
+  font-family: Cairo;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 36px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: right;
+  vertical-align: middle;
 }
 
 .cp-underline {
   display: block;
-  width: 60px;
-  height: 3px;
-  margin-top: 10px;
-  background: #f66b15;
+  width: 39px;
+  height: 2px;
+  margin-top: 12px;
+  background: #f8904f;
   border-radius: 999px;
+  angle: -180 deg;
+  opacity: 1;
+  border-width: 2px;
+}
+
+/* ─── Status ─── */
+.cp-loading,
+.cp-empty {
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #26385d;
+  font-size: 17px;
+  font-weight: 700;
 }
 
 /* ─── Grid ─── */
 .cp-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
+  gap: 20px 10px;
   align-items: stretch;
 }
 
-/* ─── Item ─── */
-.cp-item {
+/* ─── Card ─── */
+.cp-card {
+  padding: 17px 26px 14px;
+  box-sizing: border-box;
+
+  width: 345;
+  height: 90;
+  border-radius: 10px;
+  angle: 0 deg;
+  opacity: 1;
+
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
-  appearance: none;
-  background: rgba(255, 255, 255, 0.65);
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  padding: 14px 18px;
-  border-radius: 12px;
-  margin: 0;
-  text-align: inherit;
-  text-decoration: none;
-  font: inherit;
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 1.55;
-  color: #2c4a6e;
+  justify-content: center;
+  gap: 11px;
+
+  background: #ffffff;
+  border: 1px solid rgba(27, 45, 80, 0.04);
+  border-radius: 8px;
+
+  color: #26385d;
   cursor: pointer;
-  position: relative;
+  user-select: none;
+
+  box-shadow: none;
+
   transition:
-    color 0.25s ease,
-    background 0.25s ease,
-    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.3s ease,
-    border-color 0.25s ease;
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease,
+    background-color 0.22s ease;
 }
 
-.cp-item::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #b0c4d8;
-  flex-shrink: 0;
-  transition:
-    background 0.25s ease,
-    transform 0.25s ease;
+.cp-card:hover .cp-classic-link {
+  color: #fff;
 }
 
-.cp-item:hover {
-  color: #ffffff;
-  background: #324677;
-  border-color: #324677;
+.cp-card:hover .cp-card-title {
+  color: #fff;
+}
+.cp-card:hover .cp-dot {
+  background-color: #f66b15;
+}
+.cp-card:hover {
+  background-color: #303d5e;
   transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(50, 70, 119, 0.18);
+  border-color: rgba(38, 56, 93, 0.12);
+  box-shadow: 0 10px 25px rgba(38, 56, 93, 0.11);
 }
 
-.cp-item:hover::before {
-  background: #f66b15;
-  transform: scale(1.4);
+.cp-card:focus-visible {
+  outline: 2px solid #26385d;
+  outline-offset: 3px;
 }
 
-.cp-section.cp-rtl .cp-item {
-  text-align: right;
+/* ─── College Name ─── */
+.cp-card-title {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  max-width: 100%;
+  color: #303d5e;
+  font-size: 21px;
+  font-weight: 800;
+  line-height: 1.25;
+  text-align: center;
+  font-family: Cairo;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 20px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.cp-card-title span:last-child {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #64748b80;
+  flex-shrink: 0;
+}
+
+/* ─── Classic Website Link ─── */
+.cp-classic-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  color: #303d5e;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+  font-family: Cairo;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 15px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+}
+.cp-classic-link:hover {
+  color: #f66b15 !important;
+  transform: translateY(-1px);
+}
+.cp-classic-link svg {
+  width: 17px;
+  height: 17px;
+  stroke-width: 2.4;
+  flex-shrink: 0;
+}
+
+.cp-classic-link:hover {
+  color: #f36b1d;
+  transform: translateY(-1px);
+}
+
+/* العربي: النقطة بعد الاسم زي الصورة */
+.cp-section.cp-rtl .cp-card-title {
   flex-direction: row-reverse;
 }
 
-.cp-section.cp-ltr .cp-item {
-  text-align: left;
+/* الإنجليزي: النقطة قبل الاسم */
+.cp-section.cp-ltr .cp-card-title {
+  flex-direction: row;
 }
 
-.cp-item:focus-visible {
-  outline: 2px solid #324677;
-  outline-offset: 2px;
+/* ─── Responsive  ─── */
+
+@media (max-width: 1400px) {
+  .cp-container {
+    padding: 0 28px;
+  }
+
+  .cp-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px 12px;
+  }
+
+  .cp-card {
+    min-height: 90px;
+    padding: 16px 18px;
+  }
+
+  .cp-card-title {
+    font-size: 18px;
+  }
+
+  .cp-classic-link {
+    font-size: 14px;
+  }
 }
 
-/* ─── Responsive ─── */
 @media (max-width: 1200px) {
+  .cp-section {
+    padding: 42px 0 26px;
+  }
+
   .cp-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px 12px;
+  }
+
+  .cp-title {
+    font-size: 32px;
+  }
+
+  .cp-card {
+    min-height: 88px;
   }
 }
 
-@media (max-width: 900px) {
-  .cp-section {
-    padding: 36px 0;
-  }
-
+@media (max-width: 992px) {
   .cp-container {
-    padding: 0 24px;
+    padding: 0 22px;
   }
 
+  .cp-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .cp-title {
+    font-size: 29px;
+  }
+
+  .cp-card {
+    min-height: 86px;
+    padding: 15px 16px;
+    border-radius: 9px;
+  }
+
+  .cp-card-title {
+    font-size: 17px;
+    gap: 8px;
+  }
+
+  .cp-dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .cp-classic-link {
+    font-size: 13.5px;
+  }
+
+  .cp-classic-link svg {
+    width: 15px;
+    height: 15px;
+  }
+}
+@media (max-width: 768px) {
   .cp-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
   }
 
-  .cp-title {
-    font-size: 24px;
+  .cp-card {
+    min-height: 50px;
+    padding: 8px 5px;
   }
 
-  .cp-item {
-    font-size: 14px;
-    padding: 12px 16px;
-    border-radius: 10px;
+  .cp-card-title {
+    font-size: 14.5px;
+  }
+
+  .cp-classic-link {
+    font-size: 12.5px;
   }
 }
 
-@media (max-width: 520px) {
-  .cp-container {
-    padding: 0 16px;
-  }
-
+@media (max-width: 390px) {
   .cp-grid {
     grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .cp-title {
-    font-size: 22px;
-  }
-
-  .cp-titleWrap {
-    margin-bottom: 24px;
-  }
-
-  .cp-item {
-    font-size: 14px;
-    padding: 12px 14px;
-  }
-}
-
-@media (max-width: 380px) {
-  .cp-item {
-    font-size: 13px;
-    padding: 11px 12px;
-    gap: 8px;
   }
 }

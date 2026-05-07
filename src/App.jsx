@@ -13,6 +13,8 @@ import Header from "./HomePage/Header/Header";
 import Footer from "./HomePage/Footer/Footer";
 import CollegeAndProgramsPage from "./CollegeAndProgramsPage/CollegeAndProgramsPage";
 import SectorsNews from "./SectorsNewsPage/SectorsNews";
+import FacultyNewsPage from "./FacultyNewsPage/FacultyNews";
+
 import { useTranslation } from "react-i18next";
 
 function App() {
@@ -29,8 +31,11 @@ function App() {
         <Route path="/details/:id" element={<Details />} />
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/collage" element={<Collage />} />
-<Route path="/colleges-programs" element={<CollegeAndProgramsPage />} />        <Route path="/login" element={<Login />} />
+        <Route path="/colleges-programs" element={<CollegeAndProgramsPage />} />        
+        <Route path="/login" element={<Login />} />
         <Route path="/sectors/:sectorName" element={<SectorsNews />} />
+        <Route path="/faculty-news/:fac" element={<FacultyNewsPage />} />
+
       </Routes>
       <Footer />
 
