@@ -278,58 +278,59 @@ function News() {
               <div className="filter-panel-inner" dir={isArabic ? "rtl" : "ltr"}>
                 <div className="filter-panell-body">
 
-                  <div className="filter-section">
-                    <span className="filter-labell">
-                      <Calendar size={13} />
-                      {isArabic ? "فلتر سريع" : "Quick Filter"}
-                    </span>
-                    <div className="filter-chips">
-                      {DATE_FILTERS.map(f => (
-                        <button
-                          key={f.value}
-                          type="button"
-                          className={`filter-chip ${
-                            (f.value === 0 && dateFilter === 0 && !fromDate && !toDate) ||
-                            (f.value !== 0 && dateFilter === f.value)
-                              ? "chip-active" : ""
-                          }`}
-                          onClick={() => handleApplyDateFilter(f.value)}
-                        >
-                          {isArabic ? f.labelAr : f.labelEn}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+  <div className="filter-section filterr-dates" style={{width: "100%"}}>
+    <span className="filterr-labell">
+      <Calendar size={13} />
+      {isArabic ? "نطاق مخصص" : "Custom Range"}
+    </span>
+    <div className="filter-date-inputs">
+      <div className="date-input-wrap">
+        <label>{isArabic ? "من" : "From"}</label>
+        <input
+          type="date"
+          value={fromDate}
+          onChange={e => handleFromDate(e.target.value)}
+          max={toDate || undefined}
+        />
+      </div>
+      <span className="date-separator">—</span>
+      <div className="date-input-wrap">
+        <label>{isArabic ? "إلى" : "To"}</label>
+        <input
+          type="date"
+          value={toDate}
+          onChange={e => handleToDate(e.target.value)}
+          min={fromDate || undefined}
+        />
+      </div>
+    </div>
+  </div>
 
-                  <div className="filter-section filterr-dates">
-                    <span className="filterr-labell">
-                      <Calendar size={13} />
-                      {isArabic ? "نطاق مخصص" : "Custom Range"}
-                    </span>
-                    <div className="filter-date-inputs">
-                      <div className="date-input-wrap">
-                        <label>{isArabic ? "من" : "From"}</label>
-                        <input
-                          type="date"
-                          value={fromDate}
-                          onChange={e => handleFromDate(e.target.value)}
-                          max={toDate || undefined}
-                        />
-                      </div>
-                      <span className="date-separator">—</span>
-                      <div className="date-input-wrap">
-                        <label>{isArabic ? "إلى" : "To"}</label>
-                        <input
-                          type="date"
-                          value={toDate}
-                          onChange={e => handleToDate(e.target.value)}
-                          min={fromDate || undefined}
-                        />
-                      </div>
-                    </div>
-                  </div>
+  {/* ── Quick chips تحت ── */}
+  <div className="filter-section" style={{width: "100%"}}>
+    <span className="filter-labell">
+      <Calendar size={13} />
+      {isArabic ? "فلتر سريع" : "Quick Filter"}
+    </span>
+    <div className="filter-chips">
+      {DATE_FILTERS.map(f => (
+        <button
+          key={f.value}
+          type="button"
+          className={`filter-chip ${
+            (f.value === 0 && dateFilter === 0 && !fromDate && !toDate) ||
+            (f.value !== 0 && dateFilter === f.value)
+              ? "chip-active" : ""
+          }`}
+          onClick={() => handleApplyDateFilter(f.value)}
+        >
+          {isArabic ? f.labelAr : f.labelEn}
+        </button>
+      ))}
+    </div>
+  </div>
 
-                </div>
+</div>
 
                 {activeFiltersCount > 0 && (
                   <div className="filter-panel-footer">

@@ -84,6 +84,8 @@
   gap: 28px;
   align-items: flex-start;
   flex-wrap: wrap;
+    flex-direction: column; 
+
 }
 
 .filter-section {
