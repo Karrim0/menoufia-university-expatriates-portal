@@ -1,5 +1,6 @@
 import Home from "./HomePage/Home";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import News from "./NewsPage/News";
@@ -14,14 +15,24 @@ import Footer from "./HomePage/Footer/Footer";
 import CollegeAndProgramsPage from "./CollegeAndProgramsPage/CollegeAndProgramsPage";
 import SectorsNews from "./SectorsNewsPage/SectorsNews";
 import FacultyNewsPage from "./FacultyNewsPage/FacultyNews";
-
+import UniversityHistory from "./HomePage/UniversityHistory/UniversityHistory";
+import FacultyNewsDetails from "./FacultyNewsDetails/FacultyNewsDetails";
 import { useTranslation } from "react-i18next";
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [pathname]);
+  return null;
+};
+
 function App() {
-    const { i18n } = useTranslation();
+  const { i18n } = useTranslation();
 
   return (
     <Router>
+      <ScrollToTop />
       <Header index={2} />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -31,21 +42,21 @@ function App() {
         <Route path="/details/:id" element={<Details />} />
         <Route path="/contactUs" element={<ContactUs />} />
         <Route path="/collage" element={<Collage />} />
-        <Route path="/colleges-programs" element={<CollegeAndProgramsPage />} />        
+        <Route path="/colleges-programs" element={<CollegeAndProgramsPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/sectors/:sectorName" element={<SectorsNews />} />
         <Route path="/faculty-news/:fac" element={<FacultyNewsPage />} />
-
+        <Route path="/university-history" element={<UniversityHistory />} />
+        <Route path="/faculty-news/details/:id" element={<FacultyNewsDetails />} />
       </Routes>
       <Footer />
-
-<ToastContainer
+      <ToastContainer
         position="top-center"
         autoClose={2500}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
-        rtl={i18n.language === "ar"}  
+        rtl={i18n.language === "ar"}
         pauseOnFocusLoss
         draggable
         pauseOnHover

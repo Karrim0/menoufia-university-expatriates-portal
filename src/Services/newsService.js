@@ -10,22 +10,27 @@ const facultyApi = axios.create({
 
 const newsService = {
   getUniversityNews: async ({
-    languageId,
-    pageIndex = 1,
-    pageSize = 10,
-    search = "",
-  }) => {
-    const response = await api.get("/news/NewsUniv", {
-      params: {
-        LanguageId: languageId,
-        PageIndex: pageIndex,
-        PageSize: pageSize,
-        Search: search,
-      },
-    });
-
-    return response.data;
-  },
+  languageId,
+  pageIndex  = 1,
+  pageSize   = 10,
+  search     = "",
+  fromDate,
+  toDate,
+  dateFilter,
+}) => {
+  const response = await api.get("/news/NewsUniv", {
+    params: {
+      LanguageId:  languageId,
+      PageIndex:   pageIndex,
+      PageSize:    pageSize,
+      Search:      search,
+      ...(dateFilter ? { DateFilter: dateFilter } : {}),
+      ...(fromDate   ? { FromDate: fromDate }      : {}),
+      ...(toDate     ? { ToDate:   toDate   }      : {}),
+    },
+  });
+  return response.data;
+},
 
   getSectorsNews: async ({
     languageId,
@@ -125,6 +130,16 @@ const newsService = {
 
     return response.data;
   },
+  getFacultyNewsDetails: async (id, fac, langId) => {
+  const response = await facultyApi.get("/faculty-news/details", {
+    params: {
+      id,
+      fac,
+      langId,
+    },
+  });
+  return response.data;
+},
 };
 
 export default newsService;

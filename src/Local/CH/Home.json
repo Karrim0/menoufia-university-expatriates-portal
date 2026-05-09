@@ -1,68 +1,102 @@
 {
   "nav": {
     "home": "Guma'",
-    "about": "Put",
-    "about.digitalIdentity": "Identity",
-    "about.presidentWord": "Mensåhen i Presidenti",
-    "about.sectors": "Sektot siha",
-    "about.units": "Sentro siha",
-    "about.departments": "Dipåttamento siha",
-    "about.sitemap": "Mapa i Site",
-    "about.history": "Overview",
-    "about.history.vision": "Vision",
-    "about.history.mission": "Mission",
-    "about.history.goals": "Goals",
-    "about.history.ranking": "Ranking",
+    "about": "Put i Unibetsidåt",
     "programs": "Kolehio yan Programa siha",
-    "universityManagement": "Manihamentu",
+    "universityManagement": "Manihamentu i Unibetsidåt",
+    "universitySystems": "Sistema yan Setbision i Unibetsidåt",
+    "sectors": "Sektot siha",
+    "newsEvents": "Notisia yan Event siha",
+    "newsStatistics": "Estadistika i Notisia",
+
     "wafiden": "Estudiante Internasionåt siha",
     "ceneva": "Sentron CENEVA",
     "educ": "Sektot Edukasion",
-    "env": "Environmental Affairs",
-    "env2": "Environmental Affairs Administration",
+    "env": "Asunton Environmental",
+    "env2": "Dipåttamenton Asunton Environmental",
     "nci": "National Information Center",
     "postgrad": "Postgraduate Studies",
     "sadat": "Sadat University",
     "secr": "General Secretariat",
     "tico": "Information Technology Center",
     "univpres": "University Presidency",
+
     "students": "Estudiante siha",
-    "students.platforms": "Platform siha",
-    "students.admission": "Admission",
-    "students.ethics": "Ethics",
-    "students.scholarships": "Scholarship siha",
-    "students.fees": "Fees",
-    "students.services": "Setbisio siha",
-    "students.services.housing": "Housing",
-    "students.services.transport": "Transport",
-    "expatriates": "Internasionåt",
-    "expatriates.apply": "Apply",
+
+    "studentsList": {
+      "admission": "Admission yan Registration",
+      "scholarships": "Scholarship siha",
+      "fees": "Tuition Fees",
+      "ethics": "Honor Codes",
+      "platforms": "Student Platform siha",
+      "services": "Student Services",
+      "housing": "University Housing",
+      "transport": "Transportation",
+      "sports": "Sports Activities",
+      "cultural": "Cultural Activities"
+    },
+
+    "sectorsList": {
+      "univpres": "University President Sector",
+      "educ": "Vice President for Education and Student Affairs Sector",
+      "env": "Vice President for Community Service and Environmental Development Sector",
+      "postgrad": "Vice President for Postgraduate Studies and Research Sector",
+      "secr": "University Secretary General Sector"
+    },
+
+    "expatriates": "Estudiante Internasionåt siha",
+    "expatriates.apply": "Admission yan Application",
     "expatriates.programs": "Programa siha",
-    "expatriates.expenses": "Costs",
-    "expatriates.housing": "Housing",
-    "expatriates.residency": "Visa",
-    "expatriates.studentLife": "Campus Life",
-    "staff": "Staff",
-    "systems": "Sistema siha",
-    "news": "Notisia",
-    "news.newsList": "Notisia",
-    "news.archive": "Archive",
-    "news.media": "Media",
-    "news.media.photos": "Litråtu siha",
-    "news.media.videos": "Video siha",
-    "news.media.channel": "Channel",
-    "contact": "Kontakto"
+    "expatriates.expenses": "Gastun Estudio",
+    "expatriates.housing": "Housing yan Living",
+    "expatriates.residency": "Residence yan Visa",
+    "expatriates.studentLife": "Student Life",
+
+    "staff": "Faculty yan Staff",
+    "staffList": {
+      "personalWebsite": "Personal Website Data",
+      "cv": "CV",
+      "searchFaculty": "Search for Faculty Member",
+      "electronicServices": "Electronic Services",
+      "getEmail": "Get Email Account",
+      "universityEmailLogin": "Login to University Email",
+      "collegeEmailLogin": "Login to College Email"
+    },
+
+    "systems": "Electronic Systems",
+
+    "research": "Research yan Scientific Activities",
+    "researchList": {
+      "eulc": "Egyptian Universities Libraries Consortium",
+      "protocols": "Cooperation Protocols yan International Agreements",
+      "scientificActivities": "Scientific Activities",
+      "scientificReports": "Scientific Reports",
+      "scientificRepository": "Scientific Publishing Repository"
+    },
+
+    "news": {
+      "newsList": "Notisia",
+      "archive": "Archive",
+      "media": "University Media",
+      "photos": "Photo Album",
+      "videos": "Video siha",
+      "channel": "Media Channel"
+    },
+
+    "contact": "Kontakta Ham"
   },
+
   "search": {
     "placeholder": "Search..."
   },
+
   "header": {
     "home": "Guma'",
-    "MNF Uni": "MNF University",
+    "MNF Uni": "Put i Unibetsidåt",
     "Programs": "Kolehio yan Programa siha",
     "students": "Estudiante siha",
     "expatriates": "Estudiante Internasionåt siha",
-    "team": "Faculty Members yan Staff",
+    "team": "Faculty yan Staff",
     "systems": "Electronic Systems",
     "News": "Notisia",
     "contact US": "Kontakta Ham",
@@ -72,21 +106,31 @@
     "code": "CH",
     "More News": "Mås Notisia"
   },
+
   "hero": {
-    "title": "Bienbenidu gi MNF University para Estudiante Internasionåt siha"
+    "title": "Bienbenidu gi Menoufia University para Estudiante Internasionåt siha"
   },
+
   "about": {
     "title": "Ofisinan International Students Affairs",
-    "subtitle": "In na'i suporta para estudiante internasionåt siha gi registration, visa, yan cultural integration para u guaha smooth transition yan enjoyable academic journey gi MNF University."
+    "subtitle": "In na'i suporta para estudiante internasionåt siha gi registration, visa, yan cultural integration para u guaha smooth transition yan enjoyable academic journey gi Menoufia University."
   },
+
+  "aboutSection": {
+    "title": "Establishment of Menoufia University",
+    "description": "Menoufia University was established in 1976 in Shebin El-Kom to meet the growing demand for higher education and support community development. It began with a limited number of faculties, then gradually expanded to include a wide range of scientific and humanities disciplines, contributing to preparing qualified cadres to serve society and the labor market.",
+    "readMore": "Read More",
+    "imageAlt": "Menoufia University"
+  },
+
   "footer": {
     "keyInformation": "Important na Informasion",
-    "latestDecisions": "Måolek na Decision siha",
-    "conditionsTransfers": "Condition siha para Transfer",
-    "administrativeDirectives": "Administrative Directive siha",
-    "financialTransferControls": "Financial Transfer Control siha",
+    "latestDecisions": "Latest Decisions",
+    "conditionsTransfers": "Conditions of Transfers",
+    "administrativeDirectives": "Administrative Directives",
+    "financialTransferControls": "Financial Transfer Controls",
     "quarterlyExamResults": "Quarterly Exam Results",
-    "generalGuidelines": "General Guideline siha",
+    "generalGuidelines": "General Guidelines",
     "paperServices": "Paper Services",
     "stoppingRegistration": "Stopping Registration yan Freezing Accounts",
     "importantLinks": "Important Links",
@@ -117,6 +161,76 @@
     "sendSuggestions": "Send i Suggestions-mu",
     "copyrights": "All rights reserved to Menoufia University"
   },
+
+  "footerModern": {
+    "copyrights": "Menoufia University — All rights reserved",
+    "sections": {
+      "community": {
+        "title": "Community yan Units",
+        "links": {
+          "convoys": "University Convoys",
+          "notary": "Notary Services",
+          "specialServices": "Special Services",
+          "crisisManagement": "Crisis Management",
+          "complaints": "Suggestions yan Complaints",
+          "importantSites": "Important Sites"
+        }
+      },
+      "campusLife": {
+        "title": "Campus Life yan Services",
+        "links": {
+          "youthCare": "Youth Care",
+          "militaryEducation": "Military Education Centers",
+          "universityCities": "University Dormitories",
+          "takaful": "Takaful",
+          "healthCare": "Health Care",
+          "staffInsurance": "Staff Insurance Fund"
+        }
+      },
+      "researchDevelopment": {
+        "title": "Research yan Development",
+        "links": {
+          "measurementCenter": "Measurement and Evaluation Center",
+          "excellenceCenters": "Centers of Excellence",
+          "isoCourses": "ISO Quality Courses",
+          "researchEthics": "Research Ethics",
+          "erj": "ERJ Journal"
+        }
+      },
+      "digitalTransformation": {
+        "title": "Digital Transformation yan E-Services",
+        "links": {
+          "digitalSystems": "Information Systems and Digital Transformation",
+          "eLearningCenter": "E-Learning Center",
+          "digitalLibrary": "Digital Library",
+          "engineeringLibrary": "Engineering Digital Library",
+          "governmentComplaints": "Government Complaints"
+        }
+      },
+      "programsEducation": {
+        "title": "Programs yan Education",
+        "links": {
+          "commercePrograms": "Faculty of Commerce Programs",
+          "openLegalEducation": "Open Legal Education",
+          "blendedArts": "Blended Education - Arts",
+          "integratedMedicine": "Integrated Medicine Program",
+          "electricalComputers": "Electrical Engineering and Computers"
+        }
+      },
+      "academicServices": {
+        "title": "Academic Services",
+        "links": {
+          "expatriates": "International Students",
+          "staffServices": "Faculty Staff Services",
+          "undergraduateServices": "Undergraduate Student Services",
+          "postgraduateServices": "Postgraduate Student Services",
+          "postgraduateRegistration": "Postgraduate Registration",
+          "candidateCollege": "Candidate College Inquiry"
+        }
+      }
+    }
+  },
+
   "details": {
     "latest": "Mås nuebu na notisia",
     "page": "Numiru i Page siha",
@@ -125,7 +239,89 @@
     "search": "Search",
     "noResultsFound": "Tåya' result"
   },
+
   "tooltip": {
     "details": "Click para un li'e' i details"
+  },
+  "globalSearch": {
+  "title": "Menoufia University",
+  "placeholder": "Search for college, program, service or news...",
+  "loading": "Searching...",
+  "noResults": "Tåya' result",
+  "searchAria": "Search",
+  "clearAria": "Clear search",
+  "groups": {
+    "news": "University News",
+    "faculty": "Faculty News",
+    "college": "Kolehio siha",
+    "program": "Programa siha"
   }
+},
+"universityHistory": {
+  "heroTitle": "Establishment of Menoufia University",
+  "imageAlt": "Menoufia University",
+  "intro": {
+    "title": "University Overview",
+    "paragraphs": [
+      "Menoufia University was established in 1976 in Shebin El-Kom to support higher education and community development.",
+      "At the beginning, it started with four main faculties:"
+    ],
+    "tags": ["Agriculture", "Engineering", "Education", "Electronic Engineering"]
+  },
+  "timeline": {
+    "title": "Growth Timeline",
+    "items": [
+      {
+        "side": "right",
+        "year": "1976",
+        "text": "The university started with four faculties, 9,500 students, 214 faculty members, and 372 assistants."
+      },
+      {
+        "side": "left",
+        "year": "1975-1976",
+        "title": "New Faculties",
+        "text": "New faculties were added:",
+        "tags": ["Science", "Commerce", "Medicine"]
+      },
+      {
+        "side": "right",
+        "year": "1987-1990",
+        "title": "Expansion",
+        "text": "The university expanded with more faculties:",
+        "tags": ["Law", "Arts", "Nursing", "Home Economics"],
+        "extraText": "The Liver Institute later became the National Liver Institute."
+      },
+      {
+        "side": "left",
+        "year": "1990s",
+        "text": "The university expanded to Sadat City:",
+        "tags": ["Physical Education", "Tourism", "Veterinary Medicine"],
+        "extraText": "Genetic Engineering and Environmental Studies institutes were added."
+      },
+      {
+        "side": "right",
+        "year": "2003-2013",
+        "text": "Computers and Information was established. In 2013, Sadat branch became an independent university."
+      },
+      {
+        "side": "left",
+        "year": "2015-2019",
+        "title": "New Faculties",
+        "list": [
+          "Physical Education and Applied Health Sciences were established.",
+          "Veterinary Medicine was established in 2015.",
+          "Pharmacy was established in 2016/2019.",
+          "Early Childhood Education became a faculty.",
+          "Mass Communication was established in 2018.",
+          "Dentistry was established in 2017."
+        ]
+      },
+      {
+        "side": "right",
+        "year": "Future",
+        "text": "The university continues to create new faculties for society and labor market needs."
+      }
+    ]
+  }
+}
 }

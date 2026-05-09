@@ -1,138 +1,327 @@
 {
   "nav": {
-  "home": "Accueil",
-  "about": "À propos",
-  "about.digitalIdentity": "Identité",
-  "about.presidentWord": "Mot du président",
-  "about.sectors": "Secteurs",
-  "about.units": "Centres",
-  "about.departments": "Départements",
-  "about.sitemap": "Plan",
-  "about.history": "Présentation",
-  "about.history.vision": "Vision",
-  "about.history.mission": "Mission",
-  "about.history.goals": "Objectifs",
-  "about.history.ranking": "Classement",
+    "home": "Accueil",
+    "about": "Université",
+    "programs": "Facultés",
+    "universityManagement": "Direction",
+    "universitySystems": "Services Univ.",
+    "sectors": "Secteurs",
+    "newsEvents": "Actualités",
+    "newsStatistics": "Stats des actualités",
 
-  "programs": "Facultés",
+    "wafiden": "Internationaux",
+    "ceneva": "CENEVA",
+    "educ": "Éducation",
+    "env": "Environnement",
+    "env2": "Affaires env.",
+    "nci": "Centre d’info.",
+    "postgrad": "Postgraduate",
+    "sadat": "Univ. Sadate",
+    "secr": "Secrétariat",
+    "tico": "TICO",
+    "univpres": "Présidence",
 
-"universityManagement": "Direction",
-"wafiden": "Étudiants internationaux",
-"ceneva": "Centre CENEVA",
-"educ": "Secteur de l’éducation",
-"env": "Affaires environnementales",
-"env2": "Gestion des affaires environnementales",
-"nci": "Centre national d’information",
-"postgrad": "Études supérieures",
-"sadat": "Université Sadate",
-"secr": "Secrétariat général",
-"tico": "Centre des technologies de l’information",
-"univpres": "Présidence de l’université",
+    "students": "Étudiants",
 
-  "students": "Étudiants",
-  "students.platforms": "Plateformes",
-  "students.admission": "Admission",
-  "students.ethics": "Éthique",
-  "students.scholarships": "Bourses",
-  "students.fees": "Frais",
-  "students.services": "Services",
-  "students.services.housing": "Logement",
-  "students.services.transport": "Transport",
+    "studentsList": {
+      "admission": "Admission",
+      "scholarships": "Bourses",
+      "fees": "Frais",
+      "ethics": "Charte éthique",
+      "platforms": "Plateformes",
+      "services": "Services étudiants",
+      "housing": "Logement",
+      "transport": "Transport",
+      "sports": "Sport",
+      "cultural": "Culture"
+    },
 
-  "expatriates": "International",
-  "expatriates.apply": "Candidature",
-  "expatriates.programs": "Programmes",
-  "expatriates.expenses": "Frais",
-  "expatriates.housing": "Logement",
-  "expatriates.residency": "Visa",
-  "expatriates.studentLife": "Vie étudiante",
+    "sectorsList": {
+      "univpres": "Présidence de l’université",
+      "educ": "Éducation et étudiants",
+      "env": "Service communautaire et env.",
+      "postgrad": "Postgraduate et recherche",
+      "secr": "Secrétaire général"
+    },
 
-  "staff": "Personnel",
-  "systems": "Systèmes",
+    "expatriates": "Étudiants internationaux",
+    "expatriates.apply": "Admission",
+    "expatriates.programs": "Programmes",
+    "expatriates.expenses": "Frais",
+    "expatriates.housing": "Logement",
+    "expatriates.residency": "Visa",
+    "expatriates.studentLife": "Vie étudiante",
 
-  "news": "Actualités",
-  "news.newsList": "Actualités",
-  "news.archive": "Archives",
-  "news.media": "Médias",
-  "news.media.photos": "Photos",
-  "news.media.videos": "Vidéos",
-  "news.media.channel": "Chaîne",
+    "staff": "Personnel",
+    "staffList": {
+      "personalWebsite": "Site personnel",
+      "cv": "CV",
+      "searchFaculty": "Chercher un enseignant",
+      "electronicServices": "E-services",
+      "getEmail": "Obtenir un e-mail",
+      "universityEmailLogin": "E-mail université",
+      "collegeEmailLogin": "E-mail faculté"
+    },
 
-  "contact": "Contact"
-},
+    "systems": "Systèmes",
+
+    "research": "Recherche",
+    "researchList": {
+      "eulc": "Bibliothèques universitaires",
+      "protocols": "Accords internationaux",
+      "scientificActivities": "Activités scientifiques",
+      "scientificReports": "Rapports scientifiques",
+      "scientificRepository": "Dépôt scientifique"
+    },
+
+    "news": {
+      "newsList": "Actualités",
+      "archive": "Archives",
+      "media": "Médias",
+      "photos": "Photos",
+      "videos": "Vidéos",
+      "channel": "Chaîne"
+    },
+
+    "contact": "Contact"
+  },
+
   "search": {
     "placeholder": "Rechercher..."
   },
+
   "header": {
     "home": "Accueil",
-    "MNF Uni": "À propos de l’université",
-    "Programs": "Facultés et programmes",
+    "MNF Uni": "Université",
+    "Programs": "Facultés",
     "students": "Étudiants",
-    "expatriates": "Étudiants internationaux",
-    "team": "Enseignants et personnel",
-    "systems": "Systèmes électroniques",
+    "expatriates": "Internationaux",
+    "team": "Personnel",
+    "systems": "Systèmes",
     "News": "Actualités",
-    "contact US": "Nous contacter",
+    "contact US": "Contact",
     "Arabic": "Arabe",
     "English": "Anglais",
     "Spanish": "Espagnol",
-    "code": "A",
+    "code": "FR",
     "More News": "Plus d’actualités"
   },
+
   "hero": {
     "title": "Bienvenue aux étudiants internationaux à l’Université de Menoufia"
   },
+
   "about": {
     "title": "Bureau des étudiants internationaux",
-    "subtitle": "Soutenir les étudiants internationaux dans l’inscription, le visa et l’intégration culturelle afin d’assurer une transition fluide et une expérience académique agréable à l’Université de Menoufia."
+    "subtitle": "Accompagnement des étudiants internationaux pour l’inscription, le visa et l’intégration culturelle à l’Université de Menoufia."
   },
+
+  "aboutSection": {
+    "title": "Création de l’Université de Menoufia",
+    "description": "L’Université de Menoufia a été créée en 1976 à Shebin El-Kom pour répondre à la demande croissante d’enseignement supérieur et soutenir le développement de la société. Elle a commencé avec quelques facultés, puis s’est progressivement développée dans divers domaines scientifiques et humains.",
+    "readMore": "Lire plus",
+    "imageAlt": "Université de Menoufia"
+  },
+
   "footer": {
     "keyInformation": "Informations clés",
-    "latestDecisions": "Conditions des transferts internes et externes",
-    "conditionsTransfers": "Résultats des examens trimestriels",
-    "administrativeDirectives": "Services et documents papier fournis aux étudiants",
-    "financialTransferControls": "Dernières décisions",
-    "quarterlyExamResults": "Directives administratives",
-    "generalGuidelines": "Règles de contrôle des transferts financiers",
-    "paperServices": "Directives générales",
-    "stoppingRegistration": "Arrêt de l’inscription et gel des comptes",
+    "latestDecisions": "Dernières décisions",
+    "conditionsTransfers": "Conditions de transfert",
+    "administrativeDirectives": "Directives administratives",
+    "financialTransferControls": "Contrôles financiers",
+    "quarterlyExamResults": "Résultats trimestriels",
+    "generalGuidelines": "Directives générales",
+    "paperServices": "Services papier",
+    "stoppingRegistration": "Arrêt d’inscription",
     "importantLinks": "Liens importants",
     "importantLatestDecisions": "Portail des universités égyptiennes",
-    "importantConditionsTransfers": "Centre national de l’enseignement en ligne",
-    "importantAdministrativeDirectives": "Portail du gouvernement égyptien",
-    "importantFinancialTransferControls": "Portail du gouvernorat de Menoufia",
-    "importantQuarterlyExamResults": "Fonds de développement des sciences et de la technologie",
-    "importantGeneralGuidelines": "Union des bibliothèques des universités égyptiennes",
-    "importantPaperServices": "Union des universités arabes",
-    "importantStoppingRegistration": "Conseil supérieur des universités",
+    "importantConditionsTransfers": "Centre e-learning",
+    "importantAdministrativeDirectives": "Portail gouvernemental",
+    "importantFinancialTransferControls": "Portail de Menoufia",
+    "importantQuarterlyExamResults": "Fonds science et technologie",
+    "importantGeneralGuidelines": "Bibliothèques universitaires",
+    "importantPaperServices": "Universités arabes",
+    "importantStoppingRegistration": "Conseil supérieur",
     "MinistryofHigherEducation": "Ministère de l’Enseignement supérieur",
-    "NationalAuthorityforQualityAssuranceandAccreditation": "Autorité nationale d’assurance qualité et d’accréditation",
-    "serviceGuide": "Guide des services",
-    "serviceGuideLatestDecisions": "Candidature et admission",
-    "serviceGuideConditionsTransfers": "Guide des frais d’admission et d’études",
-    "serviceGuideAdministrativeDirectives": "Guide de l’étudiant international et programmes d’études",
-    "serviceGuideFinancialTransferControls": "Contact et localisation",
-    "serviceGuideQuarterlyExamResults": "Résidence et hébergement",
+    "NationalAuthorityforQualityAssuranceandAccreditation": "Assurance qualité",
+    "serviceGuide": "Guide services",
+    "serviceGuideLatestDecisions": "Admission",
+    "serviceGuideConditionsTransfers": "Frais d’études",
+    "serviceGuideAdministrativeDirectives": "Guide étudiant international",
+    "serviceGuideFinancialTransferControls": "Contact et lieu",
+    "serviceGuideQuarterlyExamResults": "Résidence",
     "serviceGuideGeneralGuidelines": "Étudier en Égypte",
     "serviceGuidePaperServices": "Soins médicaux",
-    "serviceGuideStoppingRegistration": "Obtenir des permis de séjour et passeports",
+    "serviceGuideStoppingRegistration": "Permis de séjour",
     "serviceReview": "Club social et sportif",
-    "EntertainmentCorner": "Coin divertissement",
-    "Evaluationcomplaintsandsuggestions": "Évaluation, réclamations et suggestions",
-    "performanceEvaluation": "Évaluation des performances",
-    "generalComplaints": "Réclamations générales",
-    "sendSuggestions": "Envoyez vos suggestions",
+    "EntertainmentCorner": "Divertissement",
+    "Evaluationcomplaintsandsuggestions": "Évaluation et suggestions",
+    "performanceEvaluation": "Évaluation",
+    "generalComplaints": "Réclamations",
+    "sendSuggestions": "Envoyer suggestion",
     "copyrights": "Tous droits réservés – Université de Menoufia"
   },
+
+  "footerModern": {
+    "copyrights": "Université de Menoufia — Tous droits réservés",
+    "sections": {
+      "community": {
+        "title": "Communauté",
+        "links": {
+          "convoys": "Convois universitaires",
+          "notary": "Services notariaux",
+          "specialServices": "Services spéciaux",
+          "crisisManagement": "Gestion de crise",
+          "complaints": "Suggestions et plaintes",
+          "importantSites": "Sites importants"
+        }
+      },
+      "campusLife": {
+        "title": "Vie universitaire",
+        "links": {
+          "youthCare": "Vie étudiante",
+          "militaryEducation": "Éducation militaire",
+          "universityCities": "Résidences",
+          "takaful": "Takaful",
+          "healthCare": "Santé",
+          "staffInsurance": "Assurance personnel"
+        }
+      },
+      "researchDevelopment": {
+        "title": "Recherche",
+        "links": {
+          "measurementCenter": "Mesure et évaluation",
+          "excellenceCenters": "Centres d’excellence",
+          "isoCourses": "Cours ISO",
+          "researchEthics": "Éthique recherche",
+          "erj": "Revue ERJ"
+        }
+      },
+      "digitalTransformation": {
+        "title": "Numérique",
+        "links": {
+          "digitalSystems": "Systèmes d’info",
+          "eLearningCenter": "E-learning",
+          "digitalLibrary": "Bibliothèque numérique",
+          "engineeringLibrary": "Bibliothèque ingénierie",
+          "governmentComplaints": "Plaintes gouvernementales"
+        }
+      },
+      "programsEducation": {
+        "title": "Programmes",
+        "links": {
+          "commercePrograms": "Programmes commerce",
+          "openLegalEducation": "Droit ouvert",
+          "blendedArts": "Arts hybride",
+          "integratedMedicine": "Médecine intégrée",
+          "electricalComputers": "Électricité et informatique"
+        }
+      },
+      "academicServices": {
+        "title": "Services académiques",
+        "links": {
+          "expatriates": "Internationaux",
+          "staffServices": "Services enseignants",
+          "undergraduateServices": "Licence",
+          "postgraduateServices": "Postgraduate",
+          "postgraduateRegistration": "Inscription PG",
+          "candidateCollege": "Faculté candidate"
+        }
+      }
+    }
+  },
+
   "details": {
     "latest": "Dernières actualités",
     "page": "Pages",
     "of": "sur",
     "search": "Recherche",
     "noResultsFound": "Aucun résultat trouvé",
-    "searchPlaceholder": "Recherchez les dernières actualités qui vous intéressent"
+    "searchPlaceholder": "Rechercher les actualités importantes"
   },
+
   "tooltip": {
     "details": "Cliquez pour voir les détails"
+  },
+  "globalSearch": {
+  "title": "Université de Menoufia",
+  "placeholder": "Rechercher une faculté, un programme, un service ou une actualité...",
+  "loading": "Recherche...",
+  "noResults": "Aucun résultat",
+  "searchAria": "Rechercher",
+  "clearAria": "Effacer",
+  "groups": {
+    "news": "Actualités Univ.",
+    "faculty": "Actualités facultés",
+    "college": "Facultés",
+    "program": "Programmes"
   }
+},
+"universityHistory": {
+  "heroTitle": "Création de l’Université de Menoufia",
+  "imageAlt": "Université de Menoufia",
+  "intro": {
+    "title": "Aperçu de l’université",
+    "paragraphs": [
+      "L’Université de Menoufia a été créée par la loi n°93 en août 1976, avec son siège à Shebin El-Kom, pour répondre à la demande croissante d’enseignement supérieur.",
+      "À ses débuts, elle regroupait des facultés affiliées à l’Université de Tanta et commença avec quatre facultés:"
+    ],
+    "tags": ["Agriculture", "Ingénierie", "Éducation", "Ingénierie électronique"]
+  },
+  "timeline": {
+    "title": "Étapes de développement",
+    "items": [
+      {
+        "side": "right",
+        "year": "1976",
+        "text": "L’université a été créée avec quatre facultés, 9 500 étudiants, 214 enseignants et 372 assistants."
+      },
+      {
+        "side": "left",
+        "year": "1975-1976",
+        "title": "Nouvelles facultés",
+        "text": "De nouvelles facultés ont été ajoutées:",
+        "tags": ["Sciences", "Commerce", "Médecine"]
+      },
+      {
+        "side": "right",
+        "year": "1987-1990",
+        "title": "Expansion",
+        "text": "L’université a poursuivi son expansion:",
+        "tags": ["Droit", "Lettres", "Soins infirmiers", "Économie familiale"],
+        "extraText": "L’Institut du foie est devenu plus tard l’Institut national du foie."
+      },
+      {
+        "side": "left",
+        "year": "Années 1990",
+        "text": "L’université s’est étendue à la ville de Sadate:",
+        "tags": ["Éducation physique", "Tourisme", "Médecine vétérinaire"],
+        "extraText": "Des instituts de génie génétique et d’études environnementales ont aussi été ajoutés."
+      },
+      {
+        "side": "right",
+        "year": "2003-2013",
+        "text": "La Faculté d’informatique a été créée, puis des branches à Sadate. En 2013, la branche de Sadate est devenue une université indépendante."
+      },
+      {
+        "side": "left",
+        "year": "2015-2019",
+        "title": "Nouvelles facultés",
+        "list": [
+          "Création de l’éducation physique et des sciences de la santé appliquées.",
+          "Création de la médecine vétérinaire en 2015.",
+          "Création de la pharmacie en 2016/2019.",
+          "Création de la petite enfance.",
+          "Création des médias en 2018.",
+          "Création de la dentisterie en 2017."
+        ]
+      },
+      {
+        "side": "right",
+        "year": "Avenir",
+        "text": "L’université poursuit la création de nouvelles facultés selon les besoins de la société et du marché."
+      }
+    ]
+  }
+}
 }

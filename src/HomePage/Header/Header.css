@@ -151,7 +151,8 @@ html[dir="ltr"] .nav-link {
 .dropdown-menu {
   position: absolute;
   top: calc(100% + 10px);
-  inset-inline-end: 0;
+  inset-inline-end: auto;
+  inset-inline-start: 0;
   width: var(--drop-width);
   max-width: min(320px, calc(100vw - 32px));
   background-color: var(--drop-bg);
@@ -289,9 +290,7 @@ html[dir="ltr"] .sub-arrow {
   color: var(--nav-text);
   padding: 8px;
   border-radius: 8px;
-  transition:
-    background-color 0.2s,
-    color 0.2s;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 .icon-btn:hover {
@@ -412,14 +411,15 @@ html[dir="ltr"] .search-input-pro {
 /* Dropdown box */
 .lang-dropdown {
   display: none;
-  position: absolute;
-  top: calc(100% + 8px);
-  inset-inline-end: 0;
+  position: fixed;
+  top:  var(--nav-height);
+  inset-inline-end:16px;
+  inset-inline-start: auto;
 
-  width: 135px;
-  max-height: 141px;
+  width: 150px;
+  max-height: 180px;
 
-  padding: 16px;
+  padding: 12px;
   box-sizing: border-box;
 
   background-color: var(--drop-bg, #fff);

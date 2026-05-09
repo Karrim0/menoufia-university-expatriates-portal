@@ -1,213 +1,256 @@
 import React from "react";
-import { ExternalLink } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import "./Footer.css";
 import logo1 from "../../assets/MNF_logo.png";
-import logo2 from "../../assets/image.png";
-import { useTranslation } from "react-i18next";
 
-const Footer = () => {
-  const date = new Date().getFullYear();
-  const savedLang = JSON.parse(localStorage.getItem("lang"));
+type FooterLink = {
+  label: string;
+  href: string;
+};
+
+type FooterSection = {
+  title: string;
+  icon: string;
+  color: string;
+  links: FooterLink[];
+};
+
+const Footer: React.FC = () => {
   const { i18n, t } = useTranslation();
 
-  const ArStyle = {
-    fontFamily: "var(--MNF_Body_AR)",
-    lineHeight: "1.5",
-  }
+  const isRTL = i18n.dir() === "rtl";
+  const currentYear = new Date().getFullYear();
 
-  const EnStyle = {
-    fontFamily: "var(--MNF_Body_EN)",
-  }
+  const sections: FooterSection[] = [
+    {
+      title: t("footerModern.sections.community.title"),
+      icon: "fa-solid fa-building-columns",
+      color: "#e6f25c",
+      links: [
+        {
+          label: t("footerModern.sections.community.links.convoys"),
+          href: "https://www.menofia.edu.eg/View/43474/ar",
+        },
+        {
+          label: t("footerModern.sections.community.links.notary"),
+          href: "https://www.menofia.edu.eg/View/133384/ar",
+        },
+        {
+          label: t("footerModern.sections.community.links.specialServices"),
+          href: "https://www.menofia.edu.eg/View/66343/ar",
+        },
+        {
+          label: t("footerModern.sections.community.links.crisisManagement"),
+          href: "https://mu.menofia.edu.eg/env2/SectorsHome/ar",
+        },
+        {
+          label: t("footerModern.sections.community.links.complaints"),
+          href: "https://www.menofia.edu.eg/Complains/ar",
+        },
+        {
+          label: t("footerModern.sections.community.links.importantSites"),
+          href: "https://www.menofia.edu.eg/View/66343/ar",
+        },
+      ],
+    },
+    {
+      title: t("footerModern.sections.campusLife.title"),
+      icon: "fa-solid fa-seedling",
+      color: "#58df9c",
+      links: [
+        {
+          label: t("footerModern.sections.campusLife.links.youthCare"),
+          href: "https://mu.menofia.edu.eg/yw/Home/ar",
+        },
+        {
+          label: t("footerModern.sections.campusLife.links.militaryEducation"),
+          href: "https://mu.menofia.edu.eg/miliarityEdu/Home2",
+        },
+        {
+          label: t("footerModern.sections.campusLife.links.universityCities"),
+          href: "https://mu.menofia.edu.eg/house/Home/ar",
+        },
+        {
+          label: t("footerModern.sections.campusLife.links.takaful"),
+          href: "https://services.menofia.education/Takaful/Account/Login",
+        },
+        {
+          label: t("footerModern.sections.campusLife.links.healthCare"),
+          href: "https://193.227.24.9/health/",
+        },
+        {
+          label: t("footerModern.sections.campusLife.links.staffInsurance"),
+          href: "https://mu.menofia.edu.eg/SIF/SUHome/ar",
+        },
+      ],
+    },
+    {
+      title: t("footerModern.sections.researchDevelopment.title"),
+      icon: "fa-solid fa-user-group",
+      color: "#cfa000",
+      links: [
+        {
+          label: t("footerModern.sections.researchDevelopment.links.measurementCenter"),
+          href: "https://mu.menofia.edu.eg/CenEv/SectorsHome/ar",
+        },
+        {
+          label: t("footerModern.sections.researchDevelopment.links.excellenceCenters"),
+          href: "https://www.menofia.edu.eg/View/63344/ar",
+        },
+        {
+          label: t("footerModern.sections.researchDevelopment.links.isoCourses"),
+          href: "https://www.menofia.edu.eg/View/126087/ar",
+        },
+        {
+          label: t("footerModern.sections.researchDevelopment.links.researchEthics"),
+          href: "https://mu.menofia.edu.eg/sci/IACUC/Home/ar",
+        },
+        {
+          label: t("footerModern.sections.researchDevelopment.links.erj"),
+          href: "https://erjm.journals.ekb.eg/",
+        },
+      ],
+    },
+    {
+      title: t("footerModern.sections.digitalTransformation.title"),
+      icon: "fa-solid fa-desktop",
+      color: "#d48df5",
+      links: [
+        {
+          label: t("footerModern.sections.digitalTransformation.links.digitalSystems"),
+          href: "https://services.menofia.education/dtfc/Account/Login",
+        },
+        {
+          label: t("footerModern.sections.digitalTransformation.links.eLearningCenter"),
+          href: "https://melc.menofia.edu.eg/",
+        },
+        {
+          label: t("footerModern.sections.digitalTransformation.links.digitalLibrary"),
+          href: "https://mu.menofia.edu.eg/library/LibraryHome/ar",
+        },
+        {
+          label: t("footerModern.sections.digitalTransformation.links.engineeringLibrary"),
+          href: "https://www.menofia.edu.eg/View/129655/ar",
+        },
+        {
+          label: t("footerModern.sections.digitalTransformation.links.governmentComplaints"),
+          href: "https://www.shakwa.eg/GCP/Default.aspx",
+        },
+      ],
+    },
+    {
+      title: t("footerModern.sections.programsEducation.title"),
+      icon: "fa-solid fa-book-open",
+      color: "#46b9dd",
+      links: [
+        {
+          label: t("footerModern.sections.programsEducation.links.commercePrograms"),
+          href: "https://www.menofia.edu.eg/View/12737/ar",
+        },
+        {
+          label: t("footerModern.sections.programsEducation.links.openLegalEducation"),
+          href: "https://www.menofia.edu.eg/View/12738/ar",
+        },
+        {
+          label: t("footerModern.sections.programsEducation.links.blendedArts"),
+          href: "https://www.menofia.edu.eg/View/12739/ar",
+        },
+        {
+          label: t("footerModern.sections.programsEducation.links.integratedMedicine"),
+          href: "https://www.menofia.edu.eg/View/69836/ar",
+        },
+        {
+          label: t("footerModern.sections.programsEducation.links.electricalComputers"),
+          href: "https://www.menofia.edu.eg/View/12740/ar",
+        },
+      ],
+    },
+    {
+      title: t("footerModern.sections.academicServices.title"),
+      icon: "fa-solid fa-graduation-cap",
+      color: "#5a8d68",
+      links: [
+        {
+          label: t("footerModern.sections.academicServices.links.expatriates"),
+          href: "https://mu.menofia.edu.eg/MUIS/Home/ar",
+        },
+        {
+          label: t("footerModern.sections.academicServices.links.staffServices"),
+          href: "https://mu.menofia.edu.eg/MUIS/Home/ar",
+        },
+        {
+          label: t("footerModern.sections.academicServices.links.undergraduateServices"),
+          href: "https://www.menofia.edu.eg/View/64477/ar",
+        },
+        {
+          label: t("footerModern.sections.academicServices.links.postgraduateServices"),
+          href: "https://www.menofia.edu.eg/View/64484/ar",
+        },
+        {
+          label: t("footerModern.sections.academicServices.links.postgraduateRegistration"),
+          href: "http://193.227.24.15/umisbuilt_new/Registration/PG_admin.aspx",
+        },
+        {
+          label: t("footerModern.sections.academicServices.links.candidateCollege"),
+          href: "https://www.menofia.edu.eg/Students/ar",
+        },
+      ],
+    },
+  ];
 
   return (
-    <div>
-      <div className="footer-container" style={savedLang?.code === `ar` ? ArStyle : EnStyle}>
-        <div className="footer-sector">
-          <h3 className={savedLang?.code === `ar` ? "footer-title footer-titleAr" : "footer-title"}>{t("footer.keyInformation")}</h3>
-          <div className="ul-container">
-            <ul>
-              <li>
-                {" "}
-                <a target="blank" href="https://www.menofia.edu.eg/View/39378/ar">{t("footer.latestDecisions")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://mu.menofia.edu.eg/AllFacResults/ar">{t("footer.conditionsTransfers")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://www.menofia.edu.eg/View/172590/ar">{t("footer.administrativeDirectives")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://mu.menofia.edu.eg/News/ar">{t("footer.financialTransferControls")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://mu.menofia.edu.eg/View/13755/ar">{t("footer.quarterlyExamResults")}</a>{" "}
-              </li>
-            </ul>
-            <ul>
-              <li>
-                {" "}
-                <a target="blank" href="https://mu.menofia.edu.eg/View/13753/ar">{t("footer.generalGuidelines")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://www.menofia.edu.eg/View/135683/ar">{t("footer.paperServices")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://www.menofia.edu.eg/View/39381/ar">{t("footer.stoppingRegistration")}</a>{" "}
-              </li>
-            </ul>
-          </div>
-        </div>
+    <footer className="ft-root" dir={isRTL ? "rtl" : "ltr"}>
+      <div className="ft-grid">
+        {sections.map((sec, si) => (
+          <div
+            className="ft-col"
+            key={si}
+            style={{ "--ac": sec.color } as React.CSSProperties}
+          >
+            <div className="ft-icon-wrap">
+              <span className="ft-icon-ring" />
+              <i className={`${sec.icon} ft-icon-glyph`} />
+            </div>
 
-        <div className="footer-sector">
-          <h3 className={savedLang?.code === `ar` ? "footer-title footer-titleAr" : "footer-title"}>{t("footer.importantLinks")}</h3>
-          <div className="ul-container">
-            <ul>
-              <li>
-                {" "}
-                <a target="blank" href="https://scu.eg/eksc_units/%d8%b4%d8%a8%d9%83%d8%a9-%d8%a7%d9%84%d8%ac%d8%a7%d9%85%d8%b9%d8%a7%d8%aa-%d8%a7%d9%84%d9%85%d8%b5%d8%b1%d9%8a%d9%87/">{t("footer.importantLatestDecisions")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://nelc.gov.sa/">{t("footer.importantConditionsTransfers")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://digital.gov.eg/">{t("footer.importantAdministrativeDirectives")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="http://www.monofeya.gov.eg/Default.aspx">{t("footer.importantFinancialTransferControls")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://stdf.eg/">{t("footer.importantQuarterlyExamResults")}</a>{" "}
-              </li>
-            </ul>
-            <ul>
-              <li>
-                {" "}
-                <a target="blank" href="http://srv4.eulc.edu.eg/eulc_v5/libraries/start.aspx">{t("footer.importantGeneralGuidelines")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://www.aaru.edu.jo/home.aspx">{t("footer.importantPaperServices")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://scu.eg/">{t("footer.importantStoppingRegistration")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://mohesr.gov.eg/ar-eg/Pages/Home.aspx">{t("footer.MinistryofHigherEducation")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://naqaae.eg/">{t("footer.NationalAuthorityforQualityAssuranceandAccreditation")}</a>{" "}
-              </li>
-            </ul>
-          </div>
-        </div>
+            <h3 className="ft-col-title">
+              {sec.title.split("\n").map((line, li) => (
+                <React.Fragment key={li}>
+                  {line}
+                  {li < sec.title.split("\n").length - 1 && <br />}
+                </React.Fragment>
+              ))}
+            </h3>
 
-        <div className="footer-sector">
-          <h3 className={savedLang?.code === `ar` ? "footer-title footer-titleAr" : "footer-title"}>{t("footer.serviceGuide")}</h3>
-          <div className="ul-container">
-            <ul>
-              <li>
-                {" "}
-                <a target="blank" href="https://www.menofia.edu.eg/View/39388/ar">{t("footer.serviceGuideLatestDecisions")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://www.menofia.edu.eg/View/39378/ar">{t("footer.serviceGuideConditionsTransfers")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://www.menofia.edu.eg/View/39393/ar">{t("footer.serviceGuideAdministrativeDirectives")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://www.topuniversitiesegypt.com/ar/%D8%AC%D8%A7%D9%85%D8%B9%D8%A9-%D8%A7%D9%84%D9%85%D9%86%D9%88%D9%81%D9%8A%D8%A9/%D8%AC%D9%87%D8%A7%D8%AA_%D8%A7%D9%84%D8%A7%D8%AA%D8%B5%D8%A7%D9%84">{t("footer.serviceGuideFinancialTransferControls")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://admission.study-in-egypt.gov.eg/">{t("footer.serviceGuideGeneralGuidelines")}</a>{" "}
-              </li>
-            </ul>
-            <ul>
-              <li>
-                {" "}
-                <a target="blank" href="https://mu.menofia.edu.eg/educ/View/63355/ar">{t("footer.serviceGuidePaperServices")}</a>{""}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://mu.menofia.edu.eg/MUIS/View/140688/ar">{t("footer.serviceGuideStoppingRegistration")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://mu.menofia.edu.eg/educ/View/61892/ar">{t("footer.serviceReview")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a target="blank" href="https://mu.menofia.edu.eg/educ/View/61891/ar">{t("footer.EntertainmentCorner")}</a>{" "}
-              </li>
-            </ul>
-          </div>
-        </div>
+            <span className="ft-rule" />
 
-        <div className="footer-sector">
-          <h3 className={savedLang?.code === `ar` ? "footer-title footer-titleAr" : "footer-title"}>
-            {t("footer.Evaluationcomplaintsandsuggestions")}
-          </h3>
-          <div className="ul-container">
-            <ul>
-              <li>
-                {" "}
-                <a href="/contactUs">{t("footer.performanceEvaluation")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a href="/contactUs">{t("footer.generalComplaints")}</a>{" "}
-              </li>
-              <li>
-                {" "}
-                <a href="/contactUs">{t("footer.sendSuggestions")}</a>{" "}
-              </li>
+            <ul className="ft-links">
+              {sec.links.map((lk, li) => (
+                <li key={li}>
+                  <a
+                    href={lk.href}
+                    className="ft-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span className="ft-link-text">{lk.label}</span>
+                    <span className="ft-link-dot" />
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
-        </div>
+        ))}
       </div>
 
-      <div className="bottom-footer-container">
-        <div className="footer-logos">
-          <img src={logo2} alt="Expatriate_logo" />
-          <img src={logo1} alt="MNF_logo" />
-        </div>
+      <div className="ft-divider" />
 
-        <div className="social-copyRights" style={savedLang?.code === `ar` ? ArStyle : EnStyle}>
-          <p>{t("footer.copyrights")} {date}. ©</p>
-
-          <div className="social">
-            <a target="blank" href="https://www.facebook.com/menofia.edu.eg?locale=ar_AR"><div className="social-facebook">
-              <i className="fa-brands fa-facebook"></i>
-            </div></a>
-
-            <a target="blank" href="https://x.com/mediamenoufiaun?t=ZwQujlS2aAqMHCSmbJNk7A&s=09"><div className="social-x">
-              <i className="fa-brands fa-x-twitter"></i>
-            </div></a>
-
-            <a target="blank" href="https://youtube.com/@menoufiauniversitychannel9727"><div className="social-youtube">
-              <i className="fa-brands fa-youtube"></i>
-            </div></a>
-          </div>
-        </div>
+      <div className="ft-bottom">
+        <img src={logo1} alt="Menofia University" className="ft-logo" />
+        <p className="ft-copy">
+          ©️ {currentYear} {t("footerModern.copyrights")}
+        </p>
       </div>
-    </div>
+    </footer>
   );
 };
 

@@ -1,6 +1,5 @@
-/* =========================
-   Page
-========================= */
+@import "./News.filter.css"; 
+
 .news-page-wrapper {
   width: 100%;
   min-height: 100vh;
@@ -14,7 +13,7 @@
   position: relative;
   margin: 0;
   min-height: 430px;
-  overflow: hidden;
+  overflow: visible;
   background-image: url("/src/assets/01.jpg");
   background-size: cover;
   background-position: center;
@@ -180,13 +179,12 @@
 }
 
 /* =========================
-   Card
-   ─ الخلفية أزرق فاتح زي Image 2
+  Card
 ========================= */
 .news-card {
   background: #dce8f2;
   border-radius: 20px;
-  overflow: visible; /* ← مهم: عشان السهم ميتقطعش */
+  overflow: visible;
   transition:
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 0.35s ease;
@@ -439,7 +437,7 @@
 }
 
 /* =========================
-   Pagination — دايماً LTR
+   Pagination —  LTR
 ========================= */
 .news-pagination {
   margin-top: 40px;
@@ -553,14 +551,11 @@
 }
 
 /* =========================
-   Responsive
-========================= */
-/* =========================
-   Responsive Pro
+  Responsive
 ========================= */
 
+
 @media (max-width: 1600px) {
- 
 
   .news-card-link {
     grid-template-columns: 1fr 250px;

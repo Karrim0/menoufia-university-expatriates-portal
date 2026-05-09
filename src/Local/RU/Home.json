@@ -1,131 +1,327 @@
 {
   "nav": {
     "home": "Главная",
-    "about": "О нас",
-    "about.digitalIdentity": "Идентичность",
-    "about.presidentWord": "Послание президента",
-    "about.sectors": "Секторы",
-    "about.units": "Центры",
-    "about.departments": "Отделы",
-    "about.sitemap": "Карта сайта",
-    "about.history": "Обзор",
-    "about.history.vision": "Видение",
-    "about.history.mission": "Миссия",
-    "about.history.goals": "Цели",
-    "about.history.ranking": "Рейтинг",
-    "programs": "Факультеты и программы",
+    "about": "Университет",
+    "programs": "Факультеты",
     "universityManagement": "Управление",
+    "universitySystems": "Сервисы вуза",
+    "sectors": "Секторы",
+    "newsEvents": "Новости",
+    "newsStatistics": "Статистика новостей",
+
     "wafiden": "Иностранные студенты",
-    "ceneva": "Центр CENEVA",
-    "educ": "Образовательный сектор",
-    "env": "Экологические вопросы",
-    "env2": "Управление экологическими вопросами",
-    "nci": "Национальный информационный центр",
+    "ceneva": "CENEVA",
+    "educ": "Образование",
+    "env": "Экология",
+    "env2": "Эко-отдел",
+    "nci": "Инфоцентр",
     "postgrad": "Аспирантура",
-    "sadat": "Университет Садат",
-    "secr": "Генеральный секретариат",
-    "tico": "Центр информационных технологий",
-    "univpres": "Президентство университета",
+    "sadat": "Ун-т Садат",
+    "secr": "Секретариат",
+    "tico": "TICO",
+    "univpres": "Президентство",
+
     "students": "Студенты",
-    "students.platforms": "Платформы",
-    "students.admission": "Поступление",
-    "students.ethics": "Этика",
-    "students.scholarships": "Стипендии",
-    "students.fees": "Оплата",
-    "students.services": "Услуги",
-    "students.services.housing": "Проживание",
-    "students.services.transport": "Транспорт",
-    "expatriates": "Международный отдел",
-    "expatriates.apply": "Подать заявку",
+
+    "studentsList": {
+      "admission": "Приём и регистрация",
+      "scholarships": "Стипендии",
+      "fees": "Оплата",
+      "ethics": "Кодекс чести",
+      "platforms": "Платформы",
+      "services": "Студ. услуги",
+      "housing": "Общежитие",
+      "transport": "Транспорт",
+      "sports": "Спорт",
+      "cultural": "Культура"
+    },
+
+    "sectorsList": {
+      "univpres": "Сектор президента",
+      "educ": "Образование и студенты",
+      "env": "Общество и экология",
+      "postgrad": "Аспирантура и наука",
+      "secr": "Генсек университета"
+    },
+
+    "expatriates": "Иностранные студенты",
+    "expatriates.apply": "Поступление",
     "expatriates.programs": "Программы",
     "expatriates.expenses": "Стоимость",
     "expatriates.housing": "Проживание",
     "expatriates.residency": "Виза",
-    "expatriates.studentLife": "Студенческая жизнь",
-    "staff": "Сотрудники",
+    "expatriates.studentLife": "Студ. жизнь",
+
+    "staff": "Преподаватели",
+    "staffList": {
+      "personalWebsite": "Личный сайт",
+      "cv": "CV",
+      "searchFaculty": "Поиск преподавателя",
+      "electronicServices": "E-сервисы",
+      "getEmail": "Получить e-mail",
+      "universityEmailLogin": "Почта университета",
+      "collegeEmailLogin": "Почта факультета"
+    },
+
     "systems": "Системы",
-    "news": "Новости",
-    "news.newsList": "Новости",
-    "news.archive": "Архив",
-    "news.media": "Медиа",
-    "news.media.photos": "Фотографии",
-    "news.media.videos": "Видео",
-    "news.media.channel": "Канал",
+
+    "research": "Наука",
+    "researchList": {
+      "eulc": "Библиотеки вузов",
+      "protocols": "Междунар. соглашения",
+      "scientificActivities": "Научная деятельность",
+      "scientificReports": "Научные отчёты",
+      "scientificRepository": "Научный репозиторий"
+    },
+
+    "news": {
+      "newsList": "Новости",
+      "archive": "Архив",
+      "media": "Медиа",
+      "photos": "Фото",
+      "videos": "Видео",
+      "channel": "Канал"
+    },
+
     "contact": "Контакты"
   },
+
   "search": {
     "placeholder": "Поиск..."
   },
+
   "header": {
     "home": "Главная",
-    "MNF Uni": "Университет MNF",
-    "Programs": "Факультеты и программы",
+    "MNF Uni": "Университет",
+    "Programs": "Факультеты",
     "students": "Студенты",
     "expatriates": "Иностранные студенты",
-    "team": "Преподаватели и сотрудники",
-    "systems": "Электронные системы",
+    "team": "Преподаватели",
+    "systems": "Системы",
     "News": "Новости",
-    "contact US": "Свяжитесь с нами",
+    "contact US": "Контакты",
     "Arabic": "Арабский",
     "English": "Английский",
     "Spanish": "Испанский",
     "code": "RU",
-    "More News": "Больше новостей"
+    "More News": "Ещё новости"
   },
+
   "hero": {
-    "title": "Добро пожаловать в Университет MNF для иностранных студентов"
+    "title": "Добро пожаловать в Университет Менуфия"
   },
+
   "about": {
-    "title": "Офис по делам иностранных студентов",
-    "subtitle": "Мы предоставляем поддержку иностранным студентам в регистрации, визовых вопросах и культурной адаптации, чтобы обеспечить плавный переход и приятное академическое путешествие в Университете MNF."
+    "title": "Офис иностранных студентов",
+    "subtitle": "Поддержка иностранных студентов в регистрации, визах и адаптации для успешного обучения в Университете Менуфия."
   },
+
+  "aboutSection": {
+    "title": "Основание Университета Менуфия",
+    "description": "Университет Менуфия был основан в 1976 году в Шибин-эль-Коме, чтобы удовлетворить растущий спрос на высшее образование и поддержать развитие общества. Он начался с нескольких факультетов и постепенно расширился в научных и гуманитарных направлениях.",
+    "readMore": "Подробнее",
+    "imageAlt": "Университет Менуфия"
+  },
+
   "footer": {
     "keyInformation": "Ключевая информация",
     "latestDecisions": "Последние решения",
     "conditionsTransfers": "Условия перевода",
-    "administrativeDirectives": "Административные директивы",
-    "financialTransferControls": "Контроль финансовых переводов",
-    "quarterlyExamResults": "Результаты квартальных экзаменов",
-    "generalGuidelines": "Общие рекомендации",
-    "paperServices": "Бумажные услуги",
-    "stoppingRegistration": "Остановка регистрации и заморозка аккаунтов",
+    "administrativeDirectives": "Директивы",
+    "financialTransferControls": "Финансовый контроль",
+    "quarterlyExamResults": "Результаты экзаменов",
+    "generalGuidelines": "Рекомендации",
+    "paperServices": "Документы",
+    "stoppingRegistration": "Остановка регистрации",
     "importantLinks": "Важные ссылки",
-    "importantLatestDecisions": "Портал египетских университетов",
-    "importantConditionsTransfers": "Национальный центр электронного обучения",
-    "importantAdministrativeDirectives": "Портал правительства Египта",
-    "importantFinancialTransferControls": "Портал губернаторства Монуфия",
-    "importantQuarterlyExamResults": "Фонд развития науки и технологий",
-    "importantGeneralGuidelines": "Консорциум библиотек египетских университетов",
-    "importantPaperServices": "Ассоциация арабских университетов",
-    "importantStoppingRegistration": "Высший совет университетов",
-    "MinistryofHigherEducation": "Министерство высшего образования",
-    "NationalAuthorityforQualityAssuranceandAccreditation": "Национальный орган обеспечения качества и аккредитации",
-    "serviceGuide": "Справочник услуг",
-    "serviceGuideLatestDecisions": "Поступление и подача заявления в университет",
-    "serviceGuideConditionsTransfers": "Стоимость обучения и учебная координация",
-    "serviceGuideAdministrativeDirectives": "Руководство для иностранных студентов и учебные программы",
-    "serviceGuideFinancialTransferControls": "Связь и местоположение",
-    "serviceGuideQuarterlyExamResults": "Проживание и размещение",
-    "serviceGuideGeneralGuidelines": "Обучение в Египте",
-    "serviceGuidePaperServices": "Медицинская помощь",
-    "serviceGuideStoppingRegistration": "Виды на жительство и паспорта",
-    "serviceReview": "Социальный и спортивный клуб",
-    "EntertainmentCorner": "Развлекательный уголок",
+    "importantLatestDecisions": "Портал вузов Египта",
+    "importantConditionsTransfers": "E-learning центр",
+    "importantAdministrativeDirectives": "Портал правительства",
+    "importantFinancialTransferControls": "Портал Менуфии",
+    "importantQuarterlyExamResults": "Фонд науки и технологий",
+    "importantGeneralGuidelines": "Библиотеки вузов",
+    "importantPaperServices": "Арабские университеты",
+    "importantStoppingRegistration": "Высший совет вузов",
+    "MinistryofHigherEducation": "Мин. высшего образования",
+    "NationalAuthorityforQualityAssuranceandAccreditation": "Качество и аккредитация",
+    "serviceGuide": "Гид услуг",
+    "serviceGuideLatestDecisions": "Поступление",
+    "serviceGuideConditionsTransfers": "Оплата и обучение",
+    "serviceGuideAdministrativeDirectives": "Гид иностранного студента",
+    "serviceGuideFinancialTransferControls": "Контакты и адрес",
+    "serviceGuideQuarterlyExamResults": "Проживание",
+    "serviceGuideGeneralGuidelines": "Учёба в Египте",
+    "serviceGuidePaperServices": "Медпомощь",
+    "serviceGuideStoppingRegistration": "Вид на жительство",
+    "serviceReview": "Соц. и спортклуб",
+    "EntertainmentCorner": "Развлечения",
     "Evaluationcomplaintsandsuggestions": "Оценка и предложения",
-    "performanceEvaluation": "Оценка эффективности",
-    "generalComplaints": "Общие жалобы",
-    "sendSuggestions": "Отправьте ваши предложения",
+    "performanceEvaluation": "Оценка",
+    "generalComplaints": "Жалобы",
+    "sendSuggestions": "Отправить предложение",
     "copyrights": "Все права защищены Университетом Менуфия"
   },
+
+  "footerModern": {
+    "copyrights": "Университет Менуфия — все права защищены",
+    "sections": {
+      "community": {
+        "title": "Сообщество",
+        "links": {
+          "convoys": "Университетские выезды",
+          "notary": "Нотариальные услуги",
+          "specialServices": "Спецуслуги",
+          "crisisManagement": "Кризис-менеджмент",
+          "complaints": "Предложения и жалобы",
+          "importantSites": "Важные сайты"
+        }
+      },
+      "campusLife": {
+        "title": "Кампус",
+        "links": {
+          "youthCare": "Студ. поддержка",
+          "militaryEducation": "Военная подготовка",
+          "universityCities": "Общежития",
+          "takaful": "Такафул",
+          "healthCare": "Здравоохранение",
+          "staffInsurance": "Страхование сотрудников"
+        }
+      },
+      "researchDevelopment": {
+        "title": "Наука",
+        "links": {
+          "measurementCenter": "Оценочный центр",
+          "excellenceCenters": "Центры excellence",
+          "isoCourses": "Курсы ISO",
+          "researchEthics": "Этика науки",
+          "erj": "Журнал ERJ"
+        }
+      },
+      "digitalTransformation": {
+        "title": "Цифровые сервисы",
+        "links": {
+          "digitalSystems": "Инфосистемы",
+          "eLearningCenter": "E-learning",
+          "digitalLibrary": "Электронная библиотека",
+          "engineeringLibrary": "Инженерная библиотека",
+          "governmentComplaints": "Гос. жалобы"
+        }
+      },
+      "programsEducation": {
+        "title": "Программы",
+        "links": {
+          "commercePrograms": "Программы торговли",
+          "openLegalEducation": "Открытое право",
+          "blendedArts": "Blended Arts",
+          "integratedMedicine": "Интегр. медицина",
+          "electricalComputers": "Электрика и ИТ"
+        }
+      },
+      "academicServices": {
+        "title": "Акад. услуги",
+        "links": {
+          "expatriates": "Иностранные студенты",
+          "staffServices": "Услуги преподавателей",
+          "undergraduateServices": "Бакалавриат",
+          "postgraduateServices": "Аспирантура",
+          "postgraduateRegistration": "Регистрация PG",
+          "candidateCollege": "Назначенный факультет"
+        }
+      }
+    }
+  },
+
   "details": {
     "latest": "Последние новости",
-    "page": "Количество страниц",
+    "page": "Страницы",
     "of": "из",
-    "searchPlaceholder": "Ищите последние новости, которые важны для вас",
+    "searchPlaceholder": "Поиск важных новостей",
     "search": "Поиск",
-    "noResultsFound": "Результаты не найдены"
+    "noResultsFound": "Ничего не найдено"
   },
+
   "tooltip": {
-    "details": "Нажмите, чтобы посмотреть подробности"
+    "details": "Нажмите, чтобы посмотреть детали"
+  },
+  "globalSearch": {
+  "title": "Университет Менуфия",
+  "placeholder": "Поиск факультета, программы, сервиса или новости...",
+  "loading": "Поиск...",
+  "noResults": "Ничего не найдено",
+  "searchAria": "Поиск",
+  "clearAria": "Очистить поиск",
+  "groups": {
+    "news": "Новости вуза",
+    "faculty": "Новости факультетов",
+    "college": "Факультеты",
+    "program": "Программы"
   }
+},
+"universityHistory": {
+  "heroTitle": "Основание Университета Менуфия",
+  "imageAlt": "Университет Менуфия",
+  "intro": {
+    "title": "Краткий обзор",
+    "paragraphs": [
+      "Университет Менуфия был основан в 1976 году в Шибин-эль-Коме для развития высшего образования и общества.",
+      "В начале университет включал четыре факультета:"
+    ],
+    "tags": ["Сельское хозяйство", "Инженерия", "Педагогика", "Электронная инженерия"]
+  },
+  "timeline": {
+    "title": "Этапы развития",
+    "items": [
+      {
+        "side": "right",
+        "year": "1976",
+        "text": "Университет начал работу с четырьмя факультетами, 9 500 студентами, 214 преподавателями и 372 ассистентами."
+      },
+      {
+        "side": "left",
+        "year": "1975-1976",
+        "title": "Новые факультеты",
+        "text": "Были добавлены новые факультеты:",
+        "tags": ["Науки", "Коммерция", "Медицина"]
+      },
+      {
+        "side": "right",
+        "year": "1987-1990",
+        "title": "Расширение",
+        "text": "Университет продолжил расширение:",
+        "tags": ["Право", "Филология", "Сестринское дело", "Домоводство"],
+        "extraText": "Институт печени позже стал Национальным институтом печени."
+      },
+      {
+        "side": "left",
+        "year": "1990-е",
+        "text": "Университет расширился в город Садат:",
+        "tags": ["Физкультура", "Туризм", "Ветеринария"],
+        "extraText": "Также были добавлены институты генетики и экологии."
+      },
+      {
+        "side": "right",
+        "year": "2003-2013",
+        "text": "Был создан факультет компьютеров и информации. В 2013 году филиал в Садате стал отдельным университетом."
+      },
+      {
+        "side": "left",
+        "year": "2015-2019",
+        "title": "Новые факультеты",
+        "list": [
+          "Созданы физкультура и прикладные науки здоровья.",
+          "Ветеринария создана в 2015 году.",
+          "Фармация создана в 2016/2019.",
+          "Дошкольное образование стало факультетом.",
+          "Медиа создано в 2018 году.",
+          "Стоматология создана в 2017 году."
+        ]
+      },
+      {
+        "side": "right",
+        "year": "Будущее",
+        "text": "Университет продолжает создавать новые факультеты в соответствии с нуждами общества и рынка труда."
+      }
+    ]
+  }
+}
 }

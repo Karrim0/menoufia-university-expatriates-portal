@@ -1,75 +1,102 @@
 {
   "nav": {
     "home": "Home",
-    "about": "About",
-    "about.digitalIdentity": "Identity",
-    "about.presidentWord": "President’s Message",
-    "about.sectors": "Sectors",
-    "about.units": "Centers",
-    "about.departments": "Departments",
-    "about.sitemap": "Sitemap",
-    "about.history": "Overview",
-    "about.history.vision": "Vision",
-    "about.history.mission": "Mission",
-    "about.history.goals": "Goals",
-    "about.history.ranking": "Ranking",
-
+    "about": "About University",
     "programs": "Colleges & Programs",
+    "universityManagement": "University Management",
+    "universitySystems": "University Systems & Services",
+    "sectors": "Sectors",
+    "newsEvents": "News & Events",
+    "newsStatistics": "News Statistics",
 
-"universityManagement": "Management",
-"wafiden": "Wafiden",
-"ceneva": "CENEVA Center",
-"educ": "Education Sector",
-"env": "Environmental Affairs",
-"env2": "Environmental Affairs Administration",
-"nci": "National Information Center",
-"postgrad": "Postgraduate Studies",
-"sadat": "Sadat University",
-"secr": "General Secretariat",
-"tico": "Information Technology Center",
-"univpres": "University Presidency",
+    "wafiden": "International Students",
+    "ceneva": "CENEVA Center",
+    "educ": "Education Sector",
+    "env": "Environmental Affairs",
+    "env2": "Environmental Affairs Administration",
+    "nci": "National Information Center",
+    "postgrad": "Postgraduate Studies",
+    "sadat": "Sadat University",
+    "secr": "General Secretariat",
+    "tico": "Information Technology Center",
+    "univpres": "University Presidency",
 
     "students": "Students",
-    "students.platforms": "Platforms",
-    "students.admission": "Admission",
-    "students.ethics": "Ethics",
-    "students.scholarships": "Scholarships",
-    "students.fees": "Fees",
-    "students.services": "Services",
-    "students.services.housing": "Housing",
-    "students.services.transport": "Transport",
 
-    "expatriates": "International",
-    "expatriates.apply": "Apply",
+    "studentsList": {
+      "admission": "Admission & Registration",
+      "scholarships": "Scholarships",
+      "fees": "Tuition Fees",
+      "ethics": "Honor Codes",
+      "platforms": "Student Platforms",
+      "services": "Student Services",
+      "housing": "University Housing",
+      "transport": "Transportation",
+      "sports": "Sports Activities",
+      "cultural": "Cultural Activities"
+    },
+
+    "sectorsList": {
+      "univpres": "University President Sector",
+      "educ": "Vice President for Education and Student Affairs Sector",
+      "env": "Vice President for Community Service and Environmental Development Sector",
+      "postgrad": "Vice President for Postgraduate Studies and Research Sector",
+      "secr": "University Secretary General Sector"
+    },
+
+    "expatriates": "International Students",
+    "expatriates.apply": "Admission & Application",
     "expatriates.programs": "Programs",
-    "expatriates.expenses": "Costs",
-    "expatriates.housing": "Housing",
-    "expatriates.residency": "Visa",
-    "expatriates.studentLife": "Campus Life",
+    "expatriates.expenses": "Expenses",
+    "expatriates.housing": "Housing & Living",
+    "expatriates.residency": "Residence & Visa",
+    "expatriates.studentLife": "Student Life",
 
-    "staff": "Staff",
-    "systems": "Systems",
+    "staff": "Faculty & Staff",
+    "staffList": {
+      "personalWebsite": "Personal Website Data",
+      "cv": "CV",
+      "searchFaculty": "Search for Faculty Member",
+      "electronicServices": "Electronic Services",
+      "getEmail": "Get Email Account",
+      "universityEmailLogin": "Login to University Email",
+      "collegeEmailLogin": "Login to College Email"
+    },
 
-    "news": "News",
-    "news.newsList": "News",
-    "news.archive": "Archive",
-    "news.media": "Media",
-    "news.media.photos": "Photos",
-    "news.media.videos": "Videos",
-    "news.media.channel": "Channel",
+    "systems": "Electronic Systems",
 
-    "contact": "Contact"
+    "research": "Research & Scientific Activities",
+    "researchList": {
+      "eulc": "Egyptian Universities Libraries Consortium",
+      "protocols": "Cooperation Protocols and International Agreements",
+      "scientificActivities": "Scientific Activities",
+      "scientificReports": "Scientific Reports",
+      "scientificRepository": "Scientific Publishing Repository"
+    },
+
+    "news": {
+      "newsList": "News",
+      "archive": "Archive",
+      "media": "University Media",
+      "photos": "Photo Album",
+      "videos": "Videos",
+      "channel": "Media Channel"
+    },
+
+    "contact": "Contact Us"
   },
+
   "search": {
     "placeholder": "Search..."
   },
+
   "header": {
     "home": "Home",
-    "MNF Uni": "MNF University",
+    "MNF Uni": "About University",
     "Programs": "Colleges & Programs",
     "students": "Students",
-    "expatriates": "Expatriates",
-    "team": "Faculty Members & Staff",
+    "expatriates": "International Students",
+    "team": "Faculty & Staff",
     "systems": "Electronic Systems",
     "News": "News",
     "contact US": "Contact Us",
@@ -79,13 +106,23 @@
     "code": "EN",
     "More News": "More News"
   },
+
   "hero": {
-    "title": "Welcome to MNF University for International Students"
+    "title": "Welcome to Menoufia University for International Students"
   },
+
   "about": {
     "title": "International Students Affairs Office",
-    "subtitle": "Providing support for international students in registration, visas, and cultural integration to ensure a smooth transition and an enjoyable academic journey at MNF University."
+    "subtitle": "Providing support for international students in registration, visas, and cultural integration to ensure a smooth transition and an enjoyable academic journey at Menoufia University."
   },
+
+  "aboutSection": {
+    "title": "Establishment of Menoufia University",
+    "description": "Menoufia University was established in 1976 in Shebin El-Kom to meet the growing demand for higher education and support community development. It began with a limited number of faculties, then gradually expanded to include a wide range of scientific and humanities disciplines, contributing to preparing qualified cadres to serve society and the labor market.",
+    "readMore": "Read More",
+    "imageAlt": "Menoufia University"
+  },
+
   "footer": {
     "keyInformation": "Key Information",
     "latestDecisions": "Latest Decisions",
@@ -124,15 +161,167 @@
     "sendSuggestions": "Send Your Suggestions",
     "copyrights": "All rights reserved to Menoufia University"
   },
+
+  "footerModern": {
+    "copyrights": "Menoufia University — All rights reserved",
+    "sections": {
+      "community": {
+        "title": "Community & Units",
+        "links": {
+          "convoys": "University Convoys",
+          "notary": "Notary Services",
+          "specialServices": "Special Services",
+          "crisisManagement": "Crisis Management",
+          "complaints": "Suggestions & Complaints",
+          "importantSites": "Important Sites"
+        }
+      },
+      "campusLife": {
+        "title": "Campus Life & Services",
+        "links": {
+          "youthCare": "Youth Care",
+          "militaryEducation": "Military Education Centers",
+          "universityCities": "University Dormitories",
+          "takaful": "Takaful",
+          "healthCare": "Health Care",
+          "staffInsurance": "Staff Insurance Fund"
+        }
+      },
+      "researchDevelopment": {
+        "title": "Research & Development",
+        "links": {
+          "measurementCenter": "Measurement and Evaluation Center",
+          "excellenceCenters": "Centers of Excellence",
+          "isoCourses": "ISO Quality Courses",
+          "researchEthics": "Research Ethics",
+          "erj": "ERJ Journal"
+        }
+      },
+      "digitalTransformation": {
+        "title": "Digital Transformation & E-Services",
+        "links": {
+          "digitalSystems": "Information Systems and Digital Transformation",
+          "eLearningCenter": "E-Learning Center",
+          "digitalLibrary": "Digital Library",
+          "engineeringLibrary": "Engineering Digital Library",
+          "governmentComplaints": "Government Complaints"
+        }
+      },
+      "programsEducation": {
+        "title": "Programs & Education",
+        "links": {
+          "commercePrograms": "Faculty of Commerce Programs",
+          "openLegalEducation": "Open Legal Education",
+          "blendedArts": "Blended Education - Arts",
+          "integratedMedicine": "Integrated Medicine Program",
+          "electricalComputers": "Electrical Engineering and Computers"
+        }
+      },
+      "academicServices": {
+        "title": "Academic Services",
+        "links": {
+          "expatriates": "International Students",
+          "staffServices": "Faculty Staff Services",
+          "undergraduateServices": "Undergraduate Student Services",
+          "postgraduateServices": "Postgraduate Student Services",
+          "postgraduateRegistration": "Postgraduate Registration",
+          "candidateCollege": "Candidate College Inquiry"
+        }
+      }
+    }
+  },
+
   "details": {
-    "latest": "Latest news",
-    "page": "Number Pages",
+    "latest": "Latest News",
+    "page": "Pages",
     "of": "of",
     "searchPlaceholder": "Search for the latest news that matters to you",
     "search": "Search",
     "noResultsFound": "No results found"
   },
+
   "tooltip": {
     "details": "Click to view details"
+  },
+  "globalSearch": {
+  "title": "Menoufia University",
+  "placeholder": "Search for a college, program, service or news...",
+  "loading": "Searching...",
+  "noResults": "No results found",
+  "searchAria": "Search",
+  "clearAria": "Clear search",
+  "groups": {
+    "news": "University News",
+    "faculty": "Faculty News",
+    "college": "Colleges",
+    "program": "Programs"
   }
+},
+"universityHistory": {
+  "heroTitle": "Establishment of Menoufia University",
+  "imageAlt": "Menoufia University",
+  "intro": {
+    "title": "University Overview",
+    "paragraphs": [
+      "Menoufia University was established by Law No. 93 in August 1976, with its headquarters in Shebin El-Kom, to meet the growing demand for higher education and support community development.",
+      "At the beginning, the university included faculties previously affiliated with Tanta University in Shebin El-Kom and Menouf. It started with four faculties:"
+    ],
+    "tags": ["Faculty of Agriculture", "Faculty of Engineering", "Faculty of Education", "Faculty of Electronic Engineering"]
+  },
+  "timeline": {
+    "title": "Growth Timeline",
+    "items": [
+      {
+        "side": "right",
+        "year": "1976",
+        "text": "The university was established in 1976 with four faculties, 9,500 undergraduate students, 214 faculty members, and 372 assistant staff."
+      },
+      {
+        "side": "left",
+        "year": "1975-1976",
+        "title": "New Faculties",
+        "text": "New faculties were added to meet growing educational needs:",
+        "tags": ["Science", "Commerce", "Medicine"]
+      },
+      {
+        "side": "right",
+        "year": "1987-1990",
+        "title": "Expansion",
+        "text": "The university continued expanding with new faculties:",
+        "tags": ["Law", "Arts", "Nursing", "Home Economics"],
+        "extraText": "The Liver Institute was also developed and later became the National Liver Institute."
+      },
+      {
+        "side": "left",
+        "year": "1990s",
+        "text": "The university expanded to Sadat City and added new faculties and institutes:",
+        "tags": ["Physical Education", "Tourism & Hotels", "Veterinary Medicine"],
+        "extraText": "Genetic Engineering and Environmental Studies institutes were also added."
+      },
+      {
+        "side": "right",
+        "year": "2003-2013",
+        "text": "The Faculty of Computers and Information was established, followed by branches in Sadat City. In 2013, the Sadat branch became an independent university."
+      },
+      {
+        "side": "left",
+        "year": "2015-2019",
+        "title": "New Faculties",
+        "list": [
+          "Physical Education and Applied Health Sciences were established in Shebin El-Kom.",
+          "Faculty of Veterinary Medicine was established in 2015.",
+          "Faculty of Pharmacy was established in 2016/2019.",
+          "Kindergarten Department became the Faculty of Early Childhood Education.",
+          "Faculty of Mass Communication was established in 2018.",
+          "Faculty of Dentistry was established in 2017."
+        ]
+      },
+      {
+        "side": "right",
+        "year": "Future",
+        "text": "The university continues its strategy to establish new faculties and institutes that meet society and labor market needs."
+      }
+    ]
+  }
+}
 }

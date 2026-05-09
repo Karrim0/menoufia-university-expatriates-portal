@@ -5,6 +5,8 @@ import Carousel from "./Carousel/Carousel";
 import { useTranslation } from "react-i18next";
 import CollegesPrograms from "./CollegesPrograms/CollegesPrograms";
 import newsService from "../Services/newsService";
+import GlobalSearch from "./GlobalSearch/GlobalSearch";
+
 import "./Home.css";
 
 function Home() {
@@ -43,12 +45,14 @@ function Home() {
 
   return (
     <div>
+      <GlobalSearch />
       {isNewsLoading ? (
         <div className="home-hero-skeleton" />
       ) : (
         <Hero News={filteredNews} />
       )}
 
+      
       <About />
 
       {isNewsLoading ? (

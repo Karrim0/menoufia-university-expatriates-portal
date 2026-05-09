@@ -112,12 +112,10 @@ useEffect(() => {
     setMovePrevious(page > 1);
   }, []);
 
-  // Fetch all news once, then paginate client-side
   const fetchNews = useCallback(
     async (page = 1, term = "") => {
       const fetchKey = `${sectorName}_${langId}_${term}`;
 
-      // If we already have cached data for this sector/lang/search, just paginate
       if (fetchKey === lastFetchKeyRef.current && allNewsRef.current.length > 0) {
         applyPagination(page);
         return;
@@ -164,7 +162,6 @@ useEffect(() => {
     [fetchNews]
   );
 
-  // Main effect: fetch on sector/lang change or page change
   useEffect(() => {
     fetchNews(currentPage, appliedSearchTerm);
   }, [langId, sectorName, currentPage, fetchNews]);

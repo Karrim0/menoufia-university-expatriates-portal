@@ -1,131 +1,327 @@
 {
   "nav": {
     "home": "خانه",
-    "about": "درباره",
-    "about.digitalIdentity": "هویت",
-    "about.presidentWord": "پیام رئیس دانشگاه",
-    "about.sectors": "بخش‌ها",
-    "about.units": "مراکز",
-    "about.departments": "بخش‌های اداری",
-    "about.sitemap": "نقشه سایت",
-    "about.history": "نمای کلی",
-    "about.history.vision": "چشم‌انداز",
-    "about.history.mission": "ماموریت",
-    "about.history.goals": "اهداف",
-    "about.history.ranking": "رتبه‌بندی",
-    "programs": "دانشکده‌ها و برنامه‌ها",
+    "about": "درباره دانشگاه",
+    "programs": "دانشکده‌ها",
     "universityManagement": "مدیریت",
-    "wafiden": "دانشجویان بین‌المللی",
-    "ceneva": "مرکز CENEVA",
-    "educ": "بخش آموزش",
-    "env": "امور محیط زیست",
-    "env2": "اداره امور محیط زیست",
-    "nci": "مرکز ملی اطلاعات",
+    "universitySystems": "خدمات دانشگاه",
+    "sectors": "بخش‌ها",
+    "newsEvents": "اخبار",
+    "newsStatistics": "آمار اخبار",
+
+    "wafiden": "بین‌المللی",
+    "ceneva": "CENEVA",
+    "educ": "آموزش",
+    "env": "محیط زیست",
+    "env2": "امور محیط زیست",
+    "nci": "مرکز اطلاعات",
     "postgrad": "تحصیلات تکمیلی",
     "sadat": "دانشگاه سادات",
-    "secr": "دبیرخانه عمومی",
-    "tico": "مرکز فناوری اطلاعات",
+    "secr": "دبیرخانه",
+    "tico": "فناوری اطلاعات",
     "univpres": "ریاست دانشگاه",
+
     "students": "دانشجویان",
-    "students.platforms": "پلتفرم‌ها",
-    "students.admission": "پذیرش",
-    "students.ethics": "اخلاق",
-    "students.scholarships": "بورسیه‌ها",
-    "students.fees": "هزینه‌ها",
-    "students.services": "خدمات",
-    "students.services.housing": "اسکان",
-    "students.services.transport": "حمل‌ونقل",
-    "expatriates": "بین‌المللی",
-    "expatriates.apply": "درخواست پذیرش",
+
+    "studentsList": {
+      "admission": "پذیرش و ثبت‌نام",
+      "scholarships": "بورسیه‌ها",
+      "fees": "شهریه",
+      "ethics": "آیین‌نامه اخلاقی",
+      "platforms": "پلتفرم‌ها",
+      "services": "خدمات دانشجویی",
+      "housing": "خوابگاه",
+      "transport": "حمل‌ونقل",
+      "sports": "فعالیت ورزشی",
+      "cultural": "فعالیت فرهنگی"
+    },
+
+    "sectorsList": {
+      "univpres": "ریاست دانشگاه",
+      "educ": "آموزش و دانشجویان",
+      "env": "خدمات جامعه و محیط زیست",
+      "postgrad": "تحصیلات تکمیلی و پژوهش",
+      "secr": "دبیرکل دانشگاه"
+    },
+
+    "expatriates": "دانشجویان بین‌المللی",
+    "expatriates.apply": "پذیرش",
     "expatriates.programs": "برنامه‌ها",
     "expatriates.expenses": "هزینه‌ها",
     "expatriates.housing": "اسکان",
-    "expatriates.residency": "ویزا",
-    "expatriates.studentLife": "زندگی دانشگاهی",
-    "staff": "کارکنان",
+    "expatriates.residency": "اقامت و ویزا",
+    "expatriates.studentLife": "زندگی دانشجویی",
+
+    "staff": "اساتید و کارکنان",
+    "staffList": {
+      "personalWebsite": "اطلاعات سایت شخصی",
+      "cv": "رزومه",
+      "searchFaculty": "جستجوی استاد",
+      "electronicServices": "خدمات الکترونیکی",
+      "getEmail": "دریافت ایمیل",
+      "universityEmailLogin": "ورود ایمیل دانشگاه",
+      "collegeEmailLogin": "ورود ایمیل دانشکده"
+    },
+
     "systems": "سامانه‌ها",
-    "news": "اخبار",
-    "news.newsList": "اخبار",
-    "news.archive": "آرشیو",
-    "news.media": "رسانه",
-    "news.media.photos": "عکس‌ها",
-    "news.media.videos": "ویدیوها",
-    "news.media.channel": "کانال",
+
+    "research": "پژوهش و فعالیت علمی",
+    "researchList": {
+      "eulc": "کتابخانه‌های دانشگاهی مصر",
+      "protocols": "توافق‌نامه‌های بین‌المللی",
+      "scientificActivities": "فعالیت‌های علمی",
+      "scientificReports": "گزارش‌های علمی",
+      "scientificRepository": "مخزن نشر علمی"
+    },
+
+    "news": {
+      "newsList": "اخبار",
+      "archive": "آرشیو",
+      "media": "رسانه دانشگاه",
+      "photos": "آلبوم عکس",
+      "videos": "ویدیوها",
+      "channel": "کانال رسانه"
+    },
+
     "contact": "تماس"
   },
+
   "search": {
     "placeholder": "جستجو..."
   },
+
   "header": {
     "home": "خانه",
     "MNF Uni": "دانشگاه منوفیه",
-    "Programs": "دانشکده‌ها و برنامه‌ها",
+    "Programs": "دانشکده‌ها",
     "students": "دانشجویان",
-    "expatriates": "دانشجویان بین‌المللی",
-    "team": "اعضای هیئت علمی و کارکنان",
-    "systems": "سامانه‌های الکترونیکی",
+    "expatriates": "بین‌المللی",
+    "team": "اساتید و کارکنان",
+    "systems": "سامانه‌ها",
     "News": "اخبار",
-    "contact US": "تماس با ما",
+    "contact US": "تماس",
     "Arabic": "عربی",
     "English": "انگلیسی",
     "Spanish": "اسپانیایی",
     "code": "FA",
     "More News": "اخبار بیشتر"
   },
+
   "hero": {
     "title": "به دانشگاه منوفیه برای دانشجویان بین‌المللی خوش آمدید"
   },
+
   "about": {
-    "title": "دفتر امور دانشجویان بین‌المللی",
-    "subtitle": "ارائه پشتیبانی به دانشجویان بین‌المللی در زمینه ثبت‌نام، ویزا و ادغام فرهنگی برای تضمین انتقالی آسان و تجربه‌ای دانشگاهی لذت‌بخش در دانشگاه منوفیه."
+    "title": "دفتر دانشجویان بین‌المللی",
+    "subtitle": "پشتیبانی از دانشجویان بین‌المللی در ثبت‌نام، ویزا و سازگاری فرهنگی برای تجربه‌ای آسان و موفق در دانشگاه منوفیه."
   },
+
+  "aboutSection": {
+    "title": "تأسیس دانشگاه منوفیه",
+    "description": "دانشگاه منوفیه در سال 1976 در شبین الکوم تأسیس شد تا پاسخگوی نیاز روزافزون به آموزش عالی باشد و از توسعه جامعه حمایت کند. این دانشگاه با چند دانشکده آغاز شد و سپس به رشته‌های علمی و انسانی متنوع گسترش یافت.",
+    "readMore": "بیشتر",
+    "imageAlt": "دانشگاه منوفیه"
+  },
+
   "footer": {
     "keyInformation": "اطلاعات کلیدی",
     "latestDecisions": "آخرین تصمیمات",
     "conditionsTransfers": "شرایط انتقال",
-    "administrativeDirectives": "دستورالعمل‌های اداری",
-    "financialTransferControls": "ضوابط انتقال مالی",
-    "quarterlyExamResults": "نتایج امتحانات فصلی",
-    "generalGuidelines": "راهنمایی‌های عمومی",
+    "administrativeDirectives": "دستورالعمل‌ها",
+    "financialTransferControls": "ضوابط مالی",
+    "quarterlyExamResults": "نتایج آزمون‌ها",
+    "generalGuidelines": "راهنماها",
     "paperServices": "خدمات کاغذی",
-    "stoppingRegistration": "توقف ثبت‌نام و مسدودسازی حساب‌ها",
-    "importantLinks": "لینک‌های مهم",
+    "stoppingRegistration": "توقف ثبت‌نام",
+    "importantLinks": "پیوندهای مهم",
     "importantLatestDecisions": "پرتال دانشگاه‌های مصر",
-    "importantConditionsTransfers": "مرکز ملی آموزش الکترونیکی",
+    "importantConditionsTransfers": "آموزش الکترونیکی",
     "importantAdministrativeDirectives": "پرتال دولت مصر",
-    "importantFinancialTransferControls": "پرتال استان منوفیه",
-    "importantQuarterlyExamResults": "صندوق توسعه علم و فناوری",
-    "importantGeneralGuidelines": "کنسرسیوم کتابخانه‌های دانشگاهی مصر",
-    "importantPaperServices": "انجمن دانشگاه‌های عربی",
+    "importantFinancialTransferControls": "پرتال منوفیه",
+    "importantQuarterlyExamResults": "صندوق علم و فناوری",
+    "importantGeneralGuidelines": "کتابخانه‌های دانشگاهی مصر",
+    "importantPaperServices": "دانشگاه‌های عربی",
     "importantStoppingRegistration": "شورای عالی دانشگاه‌ها",
     "MinistryofHigherEducation": "وزارت آموزش عالی",
-    "NationalAuthorityforQualityAssuranceandAccreditation": "سازمان ملی تضمین کیفیت و اعتباربخشی",
+    "NationalAuthorityforQualityAssuranceandAccreditation": "تضمین کیفیت و اعتباربخشی",
     "serviceGuide": "راهنمای خدمات",
-    "serviceGuideLatestDecisions": "پذیرش و درخواست دانشگاه",
-    "serviceGuideConditionsTransfers": "شهریه و هماهنگی تحصیلی",
-    "serviceGuideAdministrativeDirectives": "راهنمای دانشجویان بین‌المللی و برنامه‌های تحصیلی",
-    "serviceGuideFinancialTransferControls": "ارتباطات و موقعیت مکانی",
-    "serviceGuideQuarterlyExamResults": "اقامت و اسکان",
+    "serviceGuideLatestDecisions": "پذیرش دانشگاه",
+    "serviceGuideConditionsTransfers": "شهریه و تحصیل",
+    "serviceGuideAdministrativeDirectives": "راهنمای دانشجوی بین‌المللی",
+    "serviceGuideFinancialTransferControls": "تماس و موقعیت",
+    "serviceGuideQuarterlyExamResults": "اقامت",
     "serviceGuideGeneralGuidelines": "تحصیل در مصر",
     "serviceGuidePaperServices": "مراقبت پزشکی",
-    "serviceGuideStoppingRegistration": "اجازه اقامت و گذرنامه",
+    "serviceGuideStoppingRegistration": "اجازه اقامت",
     "serviceReview": "باشگاه اجتماعی و ورزشی",
-    "EntertainmentCorner": "بخش سرگرمی",
+    "EntertainmentCorner": "سرگرمی",
     "Evaluationcomplaintsandsuggestions": "ارزیابی و پیشنهادها",
     "performanceEvaluation": "ارزیابی عملکرد",
     "generalComplaints": "شکایات عمومی",
-    "sendSuggestions": "ارسال پیشنهادهای شما",
+    "sendSuggestions": "ارسال پیشنهاد",
     "copyrights": "تمام حقوق متعلق به دانشگاه منوفیه است"
   },
+
+  "footerModern": {
+    "copyrights": "دانشگاه منوفیه — تمام حقوق محفوظ است",
+    "sections": {
+      "community": {
+        "title": "جامعه و واحدها",
+        "links": {
+          "convoys": "کاروان‌های دانشگاه",
+          "notary": "خدمات دفترخانه",
+          "specialServices": "خدمات ویژه",
+          "crisisManagement": "مدیریت بحران",
+          "complaints": "پیشنهادها و شکایات",
+          "importantSites": "سایت‌های مهم"
+        }
+      },
+      "campusLife": {
+        "title": "زندگی دانشگاهی",
+        "links": {
+          "youthCare": "حمایت دانشجویی",
+          "militaryEducation": "آموزش نظامی",
+          "universityCities": "خوابگاه‌ها",
+          "takaful": "تکافل",
+          "healthCare": "مراقبت درمانی",
+          "staffInsurance": "بیمه کارکنان"
+        }
+      },
+      "researchDevelopment": {
+        "title": "پژوهش و توسعه",
+        "links": {
+          "measurementCenter": "مرکز سنجش",
+          "excellenceCenters": "مراکز برتری",
+          "isoCourses": "دوره‌های ISO",
+          "researchEthics": "اخلاق پژوهش",
+          "erj": "مجله ERJ"
+        }
+      },
+      "digitalTransformation": {
+        "title": "تحول دیجیتال",
+        "links": {
+          "digitalSystems": "سامانه‌های اطلاعاتی",
+          "eLearningCenter": "آموزش الکترونیکی",
+          "digitalLibrary": "کتابخانه دیجیتال",
+          "engineeringLibrary": "کتابخانه مهندسی",
+          "governmentComplaints": "شکایات دولتی"
+        }
+      },
+      "programsEducation": {
+        "title": "برنامه‌ها و آموزش",
+        "links": {
+          "commercePrograms": "برنامه‌های تجارت",
+          "openLegalEducation": "آموزش حقوق آزاد",
+          "blendedArts": "آموزش ترکیبی هنر",
+          "integratedMedicine": "پزشکی یکپارچه",
+          "electricalComputers": "برق و کامپیوتر"
+        }
+      },
+      "academicServices": {
+        "title": "خدمات آموزشی",
+        "links": {
+          "expatriates": "دانشجویان بین‌المللی",
+          "staffServices": "خدمات اساتید",
+          "undergraduateServices": "خدمات کارشناسی",
+          "postgraduateServices": "خدمات تحصیلات تکمیلی",
+          "postgraduateRegistration": "ثبت‌نام تحصیلات تکمیلی",
+          "candidateCollege": "استعلام دانشکده"
+        }
+      }
+    }
+  },
+
   "details": {
     "latest": "آخرین اخبار",
-    "page": "تعداد صفحات",
+    "page": "صفحات",
     "of": "از",
-    "searchPlaceholder": "جستجوی آخرین اخباری که برای شما مهم است",
+    "searchPlaceholder": "جستجوی اخبار مهم",
     "search": "جستجو",
     "noResultsFound": "نتیجه‌ای یافت نشد"
   },
+
   "tooltip": {
     "details": "برای مشاهده جزئیات کلیک کنید"
+  },
+  "globalSearch": {
+  "title": "دانشگاه منوفیه",
+  "placeholder": "جستجوی دانشکده، برنامه، خدمت یا خبر...",
+  "loading": "در حال جستجو...",
+  "noResults": "نتیجه‌ای یافت نشد",
+  "searchAria": "جستجو",
+  "clearAria": "پاک کردن جستجو",
+  "groups": {
+    "news": "اخبار دانشگاه",
+    "faculty": "اخبار دانشکده‌ها",
+    "college": "دانشکده‌ها",
+    "program": "برنامه‌ها"
   }
+},
+"universityHistory": {
+  "heroTitle": "تأسیس دانشگاه منوفیه",
+  "imageAlt": "دانشگاه منوفیه",
+  "intro": {
+    "title": "نگاهی کوتاه",
+    "paragraphs": [
+      "دانشگاه منوفیه در سال 1976 در شبین الکوم تأسیس شد تا پاسخگوی نیاز آموزش عالی و توسعه جامعه باشد.",
+      "این دانشگاه در آغاز با چهار دانشکده فعالیت خود را شروع کرد:"
+    ],
+    "tags": ["کشاورزی", "مهندسی", "آموزش", "مهندسی الکترونیک"]
+  },
+  "timeline": {
+    "title": "مراحل توسعه",
+    "items": [
+      {
+        "side": "right",
+        "year": "1976",
+        "text": "دانشگاه با چهار دانشکده، 9500 دانشجو، 214 عضو هیئت علمی و 372 دستیار آغاز شد."
+      },
+      {
+        "side": "left",
+        "year": "1975-1976",
+        "title": "دانشکده‌های جدید",
+        "text": "دانشکده‌های جدید اضافه شدند:",
+        "tags": ["علوم", "بازرگانی", "پزشکی"]
+      },
+      {
+        "side": "right",
+        "year": "1987-1990",
+        "title": "گسترش",
+        "text": "دانشگاه با دانشکده‌های بیشتری گسترش یافت:",
+        "tags": ["حقوق", "ادبیات", "پرستاری", "اقتصاد خانواده"],
+        "extraText": "مؤسسه کبد بعداً به مؤسسه ملی کبد تبدیل شد."
+      },
+      {
+        "side": "left",
+        "year": "دهه 1990",
+        "text": "دانشگاه به شهر سادات گسترش یافت:",
+        "tags": ["تربیت بدنی", "گردشگری", "دامپزشکی"],
+        "extraText": "مؤسسات مهندسی ژنتیک و مطالعات محیط زیست نیز اضافه شدند."
+      },
+      {
+        "side": "right",
+        "year": "2003-2013",
+        "text": "دانشکده کامپیوتر و اطلاعات تأسیس شد و در سال 2013 شعبه سادات به دانشگاه مستقل تبدیل شد."
+      },
+      {
+        "side": "left",
+        "year": "2015-2019",
+        "title": "دانشکده‌های جدید",
+        "list": [
+          "تربیت بدنی و علوم سلامت کاربردی ایجاد شد.",
+          "دامپزشکی در سال 2015 ایجاد شد.",
+          "داروسازی در 2016/2019 ایجاد شد.",
+          "آموزش کودکی به دانشکده تبدیل شد.",
+          "رسانه در سال 2018 ایجاد شد.",
+          "دندانپزشکی در سال 2017 ایجاد شد."
+        ]
+      },
+      {
+        "side": "right",
+        "year": "آینده",
+        "text": "دانشگاه به ایجاد دانشکده‌ها و مؤسسات جدید بر اساس نیاز جامعه ادامه می‌دهد."
+      }
+    ]
+  }
+}
 }

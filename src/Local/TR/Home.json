@@ -1,131 +1,327 @@
 {
   "nav": {
     "home": "Ana Sayfa",
-    "about": "Hakkında",
-    "about.digitalIdentity": "Kimlik",
-    "about.presidentWord": "Başkanın Mesajı",
-    "about.sectors": "Sektörler",
-    "about.units": "Merkezler",
-    "about.departments": "Bölümler",
-    "about.sitemap": "Site Haritası",
-    "about.history": "Genel Bakış",
-    "about.history.vision": "Vizyon",
-    "about.history.mission": "Misyon",
-    "about.history.goals": "Hedefler",
-    "about.history.ranking": "Sıralama",
-    "programs": "Fakülteler ve Programlar",
+    "about": "Üniversite",
+    "programs": "Fakülteler",
     "universityManagement": "Yönetim",
-    "wafiden": "Uluslararası Öğrenciler",
-    "ceneva": "CENEVA Merkezi",
-    "educ": "Eğitim Sektörü",
-    "env": "Çevre İşleri",
-    "env2": "Çevre İşleri İdaresi",
-    "nci": "Ulusal Bilgi Merkezi",
-    "postgrad": "Lisansüstü Çalışmalar",
-    "sadat": "Sadat Üniversitesi",
-    "secr": "Genel Sekreterlik",
-    "tico": "Bilgi Teknolojileri Merkezi",
-    "univpres": "Üniversite Başkanlığı",
+    "universitySystems": "Üniv. Servisleri",
+    "sectors": "Sektörler",
+    "newsEvents": "Haberler",
+    "newsStatistics": "Haber İstatistikleri",
+
+    "wafiden": "Uluslararası",
+    "ceneva": "CENEVA",
+    "educ": "Eğitim",
+    "env": "Çevre",
+    "env2": "Çevre İşleri",
+    "nci": "Bilgi Merkezi",
+    "postgrad": "Lisansüstü",
+    "sadat": "Sadat Üniv.",
+    "secr": "Sekreterlik",
+    "tico": "TICO",
+    "univpres": "Başkanlık",
+
     "students": "Öğrenciler",
-    "students.platforms": "Platformlar",
-    "students.admission": "Kabul",
-    "students.ethics": "Etik",
-    "students.scholarships": "Burslar",
-    "students.fees": "Ücretler",
-    "students.services": "Hizmetler",
-    "students.services.housing": "Konaklama",
-    "students.services.transport": "Ulaşım",
-    "expatriates": "Uluslararası",
-    "expatriates.apply": "Başvur",
+
+    "studentsList": {
+      "admission": "Kabul ve Kayıt",
+      "scholarships": "Burslar",
+      "fees": "Ücretler",
+      "ethics": "Etik Kurallar",
+      "platforms": "Platformlar",
+      "services": "Öğrenci Hizmetleri",
+      "housing": "Yurt",
+      "transport": "Ulaşım",
+      "sports": "Spor",
+      "cultural": "Kültür"
+    },
+
+    "sectorsList": {
+      "univpres": "Üniversite Başkanlığı",
+      "educ": "Eğitim ve Öğrenciler",
+      "env": "Toplum ve Çevre",
+      "postgrad": "Lisansüstü ve Araştırma",
+      "secr": "Genel Sekreter"
+    },
+
+    "expatriates": "Uluslararası Öğrenciler",
+    "expatriates.apply": "Kabul",
     "expatriates.programs": "Programlar",
     "expatriates.expenses": "Masraflar",
     "expatriates.housing": "Konaklama",
     "expatriates.residency": "Vize",
-    "expatriates.studentLife": "Kampüs Yaşamı",
-    "staff": "Personel",
+    "expatriates.studentLife": "Öğrenci Yaşamı",
+
+    "staff": "Akademik Kadro",
+    "staffList": {
+      "personalWebsite": "Kişisel Site",
+      "cv": "CV",
+      "searchFaculty": "Akademisyen Ara",
+      "electronicServices": "E-servisler",
+      "getEmail": "E-posta Al",
+      "universityEmailLogin": "Üniversite E-postası",
+      "collegeEmailLogin": "Fakülte E-postası"
+    },
+
     "systems": "Sistemler",
-    "news": "Haberler",
-    "news.newsList": "Haberler",
-    "news.archive": "Arşiv",
-    "news.media": "Medya",
-    "news.media.photos": "Fotoğraflar",
-    "news.media.videos": "Videolar",
-    "news.media.channel": "Kanal",
+
+    "research": "Araştırma",
+    "researchList": {
+      "eulc": "Üniversite Kütüphaneleri",
+      "protocols": "Uluslararası Anlaşmalar",
+      "scientificActivities": "Bilimsel Etkinlikler",
+      "scientificReports": "Bilimsel Raporlar",
+      "scientificRepository": "Bilimsel Arşiv"
+    },
+
+    "news": {
+      "newsList": "Haberler",
+      "archive": "Arşiv",
+      "media": "Üniversite Medyası",
+      "photos": "Fotoğraflar",
+      "videos": "Videolar",
+      "channel": "Kanal"
+    },
+
     "contact": "İletişim"
   },
+
   "search": {
     "placeholder": "Ara..."
   },
+
   "header": {
     "home": "Ana Sayfa",
-    "MNF Uni": "MNF Üniversitesi",
-    "Programs": "Fakülteler ve Programlar",
+    "MNF Uni": "Üniversite",
+    "Programs": "Fakülteler",
     "students": "Öğrenciler",
-    "expatriates": "Uluslararası Öğrenciler",
-    "team": "Öğretim Üyeleri ve Personel",
-    "systems": "Elektronik Sistemler",
+    "expatriates": "Uluslararası",
+    "team": "Akademik Kadro",
+    "systems": "Sistemler",
     "News": "Haberler",
-    "contact US": "Bize Ulaşın",
+    "contact US": "İletişim",
     "Arabic": "Arapça",
     "English": "İngilizce",
     "Spanish": "İspanyolca",
     "code": "TR",
-    "More News": "Daha Fazla Haber"
+    "More News": "Daha Fazla"
   },
+
   "hero": {
-    "title": "Uluslararası Öğrenciler için MNF Üniversitesi'ne Hoş Geldiniz"
+    "title": "Uluslararası Öğrenciler için Menoufia Üniversitesi’ne Hoş Geldiniz"
   },
+
   "about": {
-    "title": "Uluslararası Öğrenciler İşleri Ofisi",
-    "subtitle": "MNF Üniversitesi'nde sorunsuz bir geçiş ve keyifli bir akademik yolculuk sağlamak için uluslararası öğrencilere kayıt, vize ve kültürel uyum konularında destek sağlıyoruz."
+    "title": "Uluslararası Öğrenci Ofisi",
+    "subtitle": "Menoufia Üniversitesi’nde kayıt, vize ve kültürel uyum konularında uluslararası öğrencilere destek sağlarız."
   },
+
+  "aboutSection": {
+    "title": "Menoufia Üniversitesi’nin Kuruluşu",
+    "description": "Menoufia Üniversitesi, yükseköğretime artan talebi karşılamak ve toplumsal gelişimi desteklemek amacıyla 1976’da Şibin el-Kom’da kuruldu. Az sayıda fakülteyle başlayıp bilimsel ve beşeri alanlarda genişledi.",
+    "readMore": "Devamı",
+    "imageAlt": "Menoufia Üniversitesi"
+  },
+
   "footer": {
     "keyInformation": "Temel Bilgiler",
     "latestDecisions": "Son Kararlar",
     "conditionsTransfers": "Transfer Koşulları",
     "administrativeDirectives": "İdari Talimatlar",
-    "financialTransferControls": "Mali Transfer Kontrolleri",
-    "quarterlyExamResults": "Dönem Sınav Sonuçları",
+    "financialTransferControls": "Mali Kontroller",
+    "quarterlyExamResults": "Sınav Sonuçları",
     "generalGuidelines": "Genel Yönergeler",
-    "paperServices": "Basılı Hizmetler",
-    "stoppingRegistration": "Kayıt Durdurma ve Hesapları Dondurma",
-    "importantLinks": "Önemli Bağlantılar",
+    "paperServices": "Belge Hizmetleri",
+    "stoppingRegistration": "Kayıt Durdurma",
+    "importantLinks": "Önemli Linkler",
     "importantLatestDecisions": "Mısır Üniversiteleri Portalı",
-    "importantConditionsTransfers": "Ulusal E-Öğrenme Merkezi",
-    "importantAdministrativeDirectives": "Mısır Hükümeti Portalı",
-    "importantFinancialTransferControls": "Monufia Valiliği Portalı",
-    "importantQuarterlyExamResults": "Bilim ve Teknoloji Geliştirme Fonu",
-    "importantGeneralGuidelines": "Mısır Üniversiteleri Kütüphane Konsorsiyumu",
-    "importantPaperServices": "Arap Üniversiteleri Birliği",
+    "importantConditionsTransfers": "E-öğrenme Merkezi",
+    "importantAdministrativeDirectives": "Mısır Hükümet Portalı",
+    "importantFinancialTransferControls": "Menoufia Portalı",
+    "importantQuarterlyExamResults": "Bilim ve Teknoloji Fonu",
+    "importantGeneralGuidelines": "Üniversite Kütüphaneleri",
+    "importantPaperServices": "Arap Üniversiteleri",
     "importantStoppingRegistration": "Yüksek Üniversiteler Konseyi",
     "MinistryofHigherEducation": "Yükseköğretim Bakanlığı",
-    "NationalAuthorityforQualityAssuranceandAccreditation": "Kalite Güvencesi ve Akreditasyon Ulusal Kurumu",
+    "NationalAuthorityforQualityAssuranceandAccreditation": "Kalite ve Akreditasyon",
     "serviceGuide": "Hizmet Rehberi",
-    "serviceGuideLatestDecisions": "Üniversite Kabulü ve Başvuru",
-    "serviceGuideConditionsTransfers": "Öğrenim Ücretleri ve Eğitim Koordinasyonu",
-    "serviceGuideAdministrativeDirectives": "Uluslararası Öğrenci Rehberi ve Eğitim Programları",
+    "serviceGuideLatestDecisions": "Üniversite Kabulü",
+    "serviceGuideConditionsTransfers": "Ücretler ve Eğitim",
+    "serviceGuideAdministrativeDirectives": "Uluslararası Öğrenci Rehberi",
     "serviceGuideFinancialTransferControls": "İletişim ve Konum",
-    "serviceGuideQuarterlyExamResults": "İkamet ve Konaklama",
-    "serviceGuideGeneralGuidelines": "Mısır'da Eğitim",
+    "serviceGuideQuarterlyExamResults": "Konaklama",
+    "serviceGuideGeneralGuidelines": "Mısır’da Eğitim",
     "serviceGuidePaperServices": "Tıbbi Bakım",
-    "serviceGuideStoppingRegistration": "Oturma İzinleri ve Pasaportlar",
+    "serviceGuideStoppingRegistration": "Oturma İzni",
     "serviceReview": "Sosyal ve Spor Kulübü",
-    "EntertainmentCorner": "Eğlence Köşesi",
+    "EntertainmentCorner": "Eğlence",
     "Evaluationcomplaintsandsuggestions": "Değerlendirme ve Öneriler",
-    "performanceEvaluation": "Performans Değerlendirmesi",
-    "generalComplaints": "Genel Şikayetler",
-    "sendSuggestions": "Önerilerinizi Gönderin",
-    "copyrights": "Tüm hakları Menoufia Üniversitesi'ne aittir"
+    "performanceEvaluation": "Değerlendirme",
+    "generalComplaints": "Şikayetler",
+    "sendSuggestions": "Öneri Gönder",
+    "copyrights": "Tüm hakları Menoufia Üniversitesi’ne aittir"
   },
+
+  "footerModern": {
+    "copyrights": "Menoufia Üniversitesi — Tüm hakları saklıdır",
+    "sections": {
+      "community": {
+        "title": "Toplum",
+        "links": {
+          "convoys": "Üniversite Konvoyları",
+          "notary": "Noter Hizmetleri",
+          "specialServices": "Özel Hizmetler",
+          "crisisManagement": "Kriz Yönetimi",
+          "complaints": "Öneri ve Şikayetler",
+          "importantSites": "Önemli Siteler"
+        }
+      },
+      "campusLife": {
+        "title": "Kampüs Yaşamı",
+        "links": {
+          "youthCare": "Öğrenci Desteği",
+          "militaryEducation": "Askeri Eğitim",
+          "universityCities": "Yurtlar",
+          "takaful": "Takaful",
+          "healthCare": "Sağlık",
+          "staffInsurance": "Personel Sigortası"
+        }
+      },
+      "researchDevelopment": {
+        "title": "Araştırma",
+        "links": {
+          "measurementCenter": "Ölçme Merkezi",
+          "excellenceCenters": "Mükemmeliyet Merkezleri",
+          "isoCourses": "ISO Kursları",
+          "researchEthics": "Araştırma Etiği",
+          "erj": "ERJ Dergisi"
+        }
+      },
+      "digitalTransformation": {
+        "title": "Dijital",
+        "links": {
+          "digitalSystems": "Bilgi Sistemleri",
+          "eLearningCenter": "E-öğrenme",
+          "digitalLibrary": "Dijital Kütüphane",
+          "engineeringLibrary": "Mühendislik Kütüphanesi",
+          "governmentComplaints": "Kamu Şikayetleri"
+        }
+      },
+      "programsEducation": {
+        "title": "Programlar",
+        "links": {
+          "commercePrograms": "Ticaret Programları",
+          "openLegalEducation": "Açık Hukuk Eğitimi",
+          "blendedArts": "Blended Arts",
+          "integratedMedicine": "Entegre Tıp",
+          "electricalComputers": "Elektrik ve Bilgisayar"
+        }
+      },
+      "academicServices": {
+        "title": "Akademik Hizmetler",
+        "links": {
+          "expatriates": "Uluslararası",
+          "staffServices": "Akademisyen Hizmetleri",
+          "undergraduateServices": "Lisans",
+          "postgraduateServices": "Lisansüstü",
+          "postgraduateRegistration": "Lisansüstü Kayıt",
+          "candidateCollege": "Aday Fakülte"
+        }
+      }
+    }
+  },
+
   "details": {
     "latest": "Son haberler",
-    "page": "Sayfa sayısı",
+    "page": "Sayfa",
     "of": "/",
-    "searchPlaceholder": "Sizin için önemli olan son haberleri arayın",
+    "searchPlaceholder": "Önemli haberlerde ara",
     "search": "Ara",
     "noResultsFound": "Sonuç bulunamadı"
   },
+
   "tooltip": {
     "details": "Detayları görüntülemek için tıklayın"
+  },
+  "globalSearch": {
+  "title": "Menoufia Üniversitesi",
+  "placeholder": "Fakülte, program, servis veya haber ara...",
+  "loading": "Aranıyor...",
+  "noResults": "Sonuç bulunamadı",
+  "searchAria": "Ara",
+  "clearAria": "Aramayı temizle",
+  "groups": {
+    "news": "Üniversite Haberleri",
+    "faculty": "Fakülte Haberleri",
+    "college": "Fakülteler",
+    "program": "Programlar"
   }
+},
+"universityHistory": {
+  "heroTitle": "Menoufia Üniversitesi’nin Kuruluşu",
+  "imageAlt": "Menoufia Üniversitesi",
+  "intro": {
+    "title": "Kısa Bakış",
+    "paragraphs": [
+      "Menoufia Üniversitesi, yükseköğretim ihtiyacını karşılamak ve toplumsal gelişimi desteklemek için 1976’da Şibin el-Kom’da kuruldu.",
+      "Başlangıçta dört fakülteyle faaliyete geçti:"
+    ],
+    "tags": ["Ziraat", "Mühendislik", "Eğitim", "Elektronik Mühendisliği"]
+  },
+  "timeline": {
+    "title": "Gelişim Süreci",
+    "items": [
+      {
+        "side": "right",
+        "year": "1976",
+        "text": "Üniversite dört fakülte, 9.500 öğrenci, 214 öğretim üyesi ve 372 yardımcı personelle başladı."
+      },
+      {
+        "side": "left",
+        "year": "1975-1976",
+        "title": "Yeni Fakülteler",
+        "text": "Yeni fakülteler eklendi:",
+        "tags": ["Fen", "Ticaret", "Tıp"]
+      },
+      {
+        "side": "right",
+        "year": "1987-1990",
+        "title": "Genişleme",
+        "text": "Üniversite yeni fakültelerle genişledi:",
+        "tags": ["Hukuk", "Edebiyat", "Hemşirelik", "Ev Ekonomisi"],
+        "extraText": "Karaciğer Enstitüsü daha sonra Ulusal Karaciğer Enstitüsü oldu."
+      },
+      {
+        "side": "left",
+        "year": "1990’lar",
+        "text": "Üniversite Sadat şehrine genişledi:",
+        "tags": ["Beden Eğitimi", "Turizm", "Veterinerlik"],
+        "extraText": "Genetik mühendisliği ve çevre araştırmaları enstitüleri de eklendi."
+      },
+      {
+        "side": "right",
+        "year": "2003-2013",
+        "text": "Bilgisayar ve Bilgi Fakültesi kuruldu. 2013’te Sadat şubesi bağımsız üniversite oldu."
+      },
+      {
+        "side": "left",
+        "year": "2015-2019",
+        "title": "Yeni Fakülteler",
+        "list": [
+          "Beden eğitimi ve uygulamalı sağlık bilimleri kuruldu.",
+          "Veterinerlik 2015’te kuruldu.",
+          "Eczacılık 2016/2019’da kuruldu.",
+          "Okul öncesi eğitim fakülte oldu.",
+          "Medya 2018’de kuruldu.",
+          "Diş hekimliği 2017’de kuruldu."
+        ]
+      },
+      {
+        "side": "right",
+        "year": "Gelecek",
+        "text": "Üniversite, toplum ve iş piyasası ihtiyaçlarına göre yeni fakülteler kurmaya devam ediyor."
+      }
+    ]
+  }
+}
 }

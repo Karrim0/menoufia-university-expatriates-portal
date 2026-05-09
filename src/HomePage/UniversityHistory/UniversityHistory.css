@@ -1,0 +1,462 @@
+.uh-page {
+  width: 100%;
+  min-height: 100vh;
+  color: #303d5e;
+  font-family: Cairo, sans-serif;
+}
+
+/* ── Hero ── */
+.uh-hero {
+  position: relative;
+  width: 100%;
+  height: 270px;
+  background-image: url("../../assets/02.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.uh-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 8, 32, 0.45);
+  font-family: Cairo;
+font-weight: 700;
+font-style: Bold;
+font-size: 64px;
+leading-trim: NONE;
+line-height: 100%;
+letter-spacing: 0%;
+text-align: center;
+vertical-align: middle;
+
+}
+
+.uh-hero h1 {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  color: #fff;
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* ── Container ── */
+.uh-container {
+  width: min(100% - 48px, 1500px);
+  margin: 0 auto;
+  padding: 42px 0 70px;
+}
+
+/* ── Intro Card ── */
+.uh-intro-card {
+  width: 100%;
+  min-height: 384px;
+  padding: 40px 44px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 680px 1fr;
+  align-items: center;
+  gap: 70px;
+  border: 1px solid #303d5e;
+  border-radius: 14px;
+  background: transparent;
+  direction: ltr;
+}
+
+.uh-intro-image {
+
+  border-radius: 12px;
+  overflow: hidden;
+  width: 614px;
+height: 458px;
+angle: 0 deg;
+opacity: 1;
+border-radius: 20px;
+
+}
+
+.uh-intro-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.uh-intro-content {
+  color: #303D5ECC;
+  text-align: right;
+}
+
+.uh-intro-content h2 {
+  margin: 0 0 22px;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.25;
+  color: #303D5ECC;
+}
+
+.uh-intro-content p {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.9;
+  color: #303d5e;
+}
+
+/* ── Tags ── */
+.uh-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+  justify-content: flex-start;
+  border-radius: 10px;
+}
+
+.uh-tags span {
+  min-width: 112px;
+  min-height: 34px;
+  padding: 7px 16px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 1px solid #b8c1d0;
+  border-radius: 5px;
+  color: #303d5e;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+}
+
+/* ── Timeline Section ── */
+.uh-timeline-section {
+  padding-top: 58px;
+}
+
+.uh-section-title {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.uh-section-title h2 {
+  margin: 0;
+  color: #303d5e;
+  font-size: 42px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.uh-section-title span {
+  display: block;
+  width: 74px;
+  height: 2px;
+  margin: 16px auto 0;
+  background: #f66b15;
+}
+
+/* ── Timeline Grid ── */
+.uh-timeline {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 2px 1fr;
+  column-gap: 30px;
+  row-gap: 40px;
+  padding-bottom: 40px;
+  direction: rtl;
+  direction: rtl;
+  grid-template-columns: 1fr 2px 1fr;
+}
+
+/* ── Center line ── */
+.uh-timeline-line {
+  grid-column: 2;
+  grid-row: 1 / 99;
+  width: 2px;
+  background: rgba(48, 61, 94, 0.4);
+  justify-self: center;
+  align-self: stretch;
+}
+.uh-timeline::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  top: 40px;
+  bottom: 40px;
+  width: 2px;
+  background: rgba(48, 61, 94, 0.4);
+  z-index: 0;
+}
+/* ── Cards ── */
+.uh-timeline-card {
+  position: relative;
+  padding: 26px 34px;
+  box-sizing: border-box;
+  background: #eef3fc;
+  border-radius: 20px;
+  color: #303d5e;
+  text-align: right;
+  box-shadow: 0 2px 12px rgba(48, 61, 94, 0.08);
+  border: none; 
+}
+
+.uh-timeline-card.uh-left {
+  grid-column: 1;
+  width: 611px;
+  justify-self: end;
+}
+
+.uh-timeline-card.uh-right {
+  grid-column: 3;
+  width: 603px;
+  justify-self: start;
+}
+
+/* ── Grid rows ── */
+.uh-timeline-card:nth-of-type(1) {
+  grid-row: 1;
+}
+.uh-timeline-card:nth-of-type(2) {
+  grid-row: 2;
+}
+.uh-timeline-card:nth-of-type(3) {
+  grid-row: 3;
+}
+.uh-timeline-card:nth-of-type(4) {
+  grid-row: 4;
+}
+.uh-timeline-card:nth-of-type(5) {
+  grid-row: 5;
+}
+.uh-timeline-card:nth-of-type(6) {
+  grid-row: 6;
+}
+.uh-timeline-card:nth-of-type(7) {
+  grid-row: 7;
+}
+
+/* ── Card typography ── */
+.uh-timeline-card h3 {
+  margin: 0 0 14px;
+  font-family: Cairo, sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: right;
+  color: #303d5e;
+}
+
+.uh-timeline-card h4 {
+  margin: 0 0 10px;
+  font-family: Cairo, sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: right;
+  color: #303d5e;
+}
+
+.uh-timeline-card p {
+  margin: 0 0 8px;
+  font-family: Cairo, sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.7;
+  letter-spacing: 0;
+  text-align: right;
+  color: #303d5e;
+}
+
+.uh-timeline-card ul {
+  padding: 0;
+  margin: 10px 0 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.uh-timeline-card li {
+  font-family: Cairo, sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.6;
+  text-align: right;
+  color: #303d5e;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.uh-timeline-card li::before {
+  content: "•";
+  color: #303d5e;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ── Tags inside cards ── */
+.uh-timeline-card .uh-tags {
+  margin-top: 14px;
+  justify-content: flex-start;
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════ */
+
+@media (max-width: 1300px) {
+  .uh-intro-card {
+    grid-template-columns: 1fr 1fr;
+    gap: 42px;
+    padding: 34px;
+  }
+  .uh-intro-image {
+    width: 100%;
+    height: 300px;
+  }
+
+  .uh-timeline-card.uh-left,
+  .uh-timeline-card.uh-right {
+    width: 100%;
+    justify-self: stretch;
+  }
+}
+
+@media (max-width: 950px) {
+  .uh-hero {
+    height: 220px;
+  }
+  .uh-hero h1 {
+    font-size: 34px;
+  }
+
+  .uh-container {
+    width: calc(100% - 32px);
+    padding: 34px 0 56px;
+  }
+
+  .uh-intro-card {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .uh-intro-image {
+    height: 280px;
+  }
+
+  .uh-intro-content {
+    text-align: center;
+  }
+  .uh-intro-content .uh-tags {
+    justify-content: center;
+  }
+
+  .uh-timeline {
+    grid-template-columns: 1fr;
+    row-gap: 20px;
+    column-gap: 0;
+    padding-inline-end: 26px;
+    padding-inline-start: 0;
+  }
+
+    .uh-timeline::before {
+    inset-inline-start: auto;
+    inset-inline-end: 0;
+    transform: none;
+    top: 0;
+    bottom: 0;
+  }
+
+  .uh-timeline-card.uh-left,
+  .uh-timeline-card.uh-right {
+    grid-column: 1;
+    width: 100%;
+    justify-self: stretch;
+  }
+
+  .uh-timeline-card::after {
+    inset-inline-end: -37px;
+    inset-inline-start: auto;
+  }
+
+  .uh-section-title h2 {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 560px) {
+  .uh-hero {
+    height: 180px;
+  }
+  .uh-hero h1 {
+    font-size: 27px;
+  }
+
+  .uh-container {
+    width: calc(100% - 24px);
+    padding: 28px 0 44px;
+  }
+
+  .uh-intro-card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+  .uh-intro-image {
+    height: 210px;
+    border-radius: 10px;
+  }
+
+  .uh-intro-content h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  .uh-intro-content p {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .uh-tags span {
+    min-width: auto;
+    min-height: 30px;
+    padding: 6px 10px;
+    font-size: 12.5px;
+  }
+
+  .uh-timeline-section {
+    padding-top: 40px;
+  }
+  .uh-section-title {
+    margin-bottom: 32px;
+  }
+  .uh-section-title h2 {
+    font-size: 26px;
+  }
+
+  .uh-timeline-card {
+    padding: 20px;
+    border-radius: 14px;
+  }
+  .uh-timeline-card h3 {
+    font-size: 26px;
+    margin-bottom: 10px;
+  }
+  .uh-timeline-card h4 {
+    font-size: 17px;
+  }
+  .uh-timeline-card p,
+  .uh-timeline-card li {
+    font-size: 14px;
+  }
+}

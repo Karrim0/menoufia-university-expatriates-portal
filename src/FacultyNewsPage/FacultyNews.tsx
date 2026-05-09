@@ -158,6 +158,7 @@ const FacultyNews: React.FC = () => {
   const [langId, setLangId] = useState<number>(
     Number(location.state?.langId) || getSavedLangId()
   );
+const [collegeNameFallback, setCollegeNameFallback] = useState<string>("");
 
   const [collegeName, setCollegeName] = useState<string>("");
   const [news, setNews] = useState<NewsItem[]>([]);
@@ -168,38 +169,56 @@ const FacultyNews: React.FC = () => {
   const [moveNext, setMoveNext] = useState(false);
   const [movePrevious, setMovePrevious] = useState(false);
 
-  useEffect(() => {
-    const fetchCollegeName = async () => {
-      const currentLangId = getSavedLangId();
-      const facultyCode = Number(fac);
+useEffect(() => {
+  const fetchCollegeName = async () => {
+    const currentLangId = getSavedLangId();
+    const facultyCode = Number(fac);
 
-      setLangId(currentLangId);
-      setPageIndex(1);
-      setSearch("");
-      setSearchInput("");
+    setLangId(currentLangId);
+    setPageIndex(1);
+    setSearch("");
+    setSearchInput("");
 
-      try {
-        let response = await newsService.getColleges(currentLangId);
-        let colleges = normalizeApiResponse(response);
+    try {
+      let response = await newsService.getColleges(currentLangId);
+      let colleges = normalizeApiResponse(response);
 
-        if (colleges.length === 0 && currentLangId !== 2) {
-          response = await newsService.getColleges(2);
-          colleges = normalizeApiResponse(response);
-        }
+      const matchedCollege = colleges.find((college: any) =>
+        getFac(college.title) === facultyCode
+      );
 
-        const matchedCollege = colleges.find((college: any) => {
-          return getFac(college.title) === facultyCode;
-        });
-
-        setCollegeName(matchedCollege?.title || "");
-      } catch (error) {
-        console.error("Failed to fetch college name:", error);
-        setCollegeName("");
+      if (matchedCollege?.title) {
+        setCollegeName(matchedCollege.title);
+      } else {
+        setCollegeName(collegeNameFallback || "");
       }
-    };
 
-    fetchCollegeName();
-  }, [fac, i18n.language]);
+      if (currentLangId !== 2) {
+        const enResponse = await newsService.getColleges(2);
+        const enColleges = normalizeApiResponse(enResponse);
+        const enMatch = enColleges.find((college: any) =>
+          getFac(college.title) === facultyCode
+        );
+        if (enMatch?.title) {
+          setCollegeNameFallback(enMatch.title);
+          if (!matchedCollege?.title) {
+            setCollegeName(enMatch.title);
+          }
+        }
+      } else {
+        if (matchedCollege?.title) {
+          setCollegeNameFallback(matchedCollege.title);
+        }
+      }
+
+    } catch (error) {
+      console.error("Failed to fetch college name:", error);
+      setCollegeName(collegeNameFallback || "");
+    }
+  };
+
+  fetchCollegeName();
+}, [fac, i18n.language]);
 
   const fetchNews = useCallback(async () => {
     const facultyCode = Number(fac);
@@ -278,15 +297,14 @@ const handleClearSearch = () => {
         <div className="news-hero-overlay" />
 
         <div className="news-hero-content">
-          <p className="news-hero-subtitle">
-            {isArabic ? "أخبار الكلية" : "Faculty News"}
-          </p>
+<h1 className="news-hero-title">
+  {isArabic
+    ? `أخبار ${collegeName || collegeNameFallback || "..."}`
+    : `${collegeName || collegeNameFallback || "..."} News`}
+</h1>
+ 
 
-          <h1 className="news-hero-title">
-            {collegeName || (isArabic ? "أخبار الكلية" : "Faculty News")}
-          </h1>
-
-          <form className="news-search-bar" onSubmit={handleSearch}>
+  <form className="news-search-bar" onSubmit={handleSearch}>
             <button
               type="submit"
               className="news-search-icon-btn"

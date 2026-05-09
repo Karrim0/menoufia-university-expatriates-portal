@@ -1,33 +1,47 @@
 import React from "react";
-import logo from "../../assets/image2.png";
-import line from "../../assets/CurveLine.svg";
+import { useNavigate } from "react-router-dom";
+import universityImage from "../../assets/02.jpg";
 import "./About.css";
 import { useTranslation } from "react-i18next";
 
 function About() {
   const { i18n, t } = useTranslation();
+  const navigate = useNavigate();
+
   const isRTL = i18n.dir() === "rtl";
 
+  const handleReadMore = () => {
+    navigate("/university-history");
+  };
+
   return (
-    <div className={`about-container ${isRTL ? "about-rtl" : "about-ltr"}`}>
-      <div className="about-content">
-        <img src={logo} alt="MNF-logo" className="about-logo" />
-        <p className={`about-subtitle ${isRTL ? "font-ar" : "font-en"}`}>
-          {t("about.subtitle")}
-        </p>
+    <section className={`about-section ${isRTL ? "about-rtl" : "about-ltr"}`}>
+      <div className="about-card">
+        <div className="about-image-wrap">
+          <img
+            src={universityImage}
+            alt={t("aboutSection.imageAlt")}
+            className="about-image"
+          />
+        </div>
+
+        <div className="about-text">
+          <h2 className="about-title">{t("aboutSection.title")}</h2>
+
+          <p className="about-description">
+            {t("aboutSection.description")}
+          </p>
+
+          <button
+            type="button"
+            className="about-read-more"
+            onClick={handleReadMore}
+          >
+            {t("aboutSection.readMore")}
+          </button>
+        </div>
       </div>
-
-      <h1 className={`about-title ${isRTL ? "heading-ar" : "heading-en"}`}>
-        {t("about.title")}
-      </h1>
-
-      <img
-        src={line}
-        alt=""
-        aria-hidden="true"
-        className="about-curve"
-      />
-    </div>
+    </section>
   );
 }
 

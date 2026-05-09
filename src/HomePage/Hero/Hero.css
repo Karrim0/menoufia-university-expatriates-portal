@@ -1,21 +1,20 @@
 :root {
-  --hero-orange:       #f66b15;
+  --hero-orange: #f66b15;
   --hero-orange-hover: #e55d0f;
-  --hero-white:        #ffffff;
+  --hero-white: #ffffff;
 
-  /* Fluid scale — بتتغير مع breakpoints */
---hero-height: calc(100vh - var(--nav-height));
-  --hero-margin:       48px;
-  --hero-radius:       24px;
-  --hero-card-width:   750px;
-  --hero-card-bottom:  80px;
-  --hero-card-inset:   80px;
-  --hero-card-pad-v:   32px;
-  --hero-card-pad-h:   40px;
-  --hero-font-size:    32px;
-  --hero-arrow-size:   64px;
-  --hero-dot-size:     12px;
-  --hero-dot-active:   32px;
+  --hero-height: calc(100vh - var(--nav-height));
+  --hero-margin: 48px;
+  --hero-radius: 24px;
+  --hero-card-width: 750px;
+  --hero-card-bottom: 80px;
+  --hero-card-inset: 80px;
+  --hero-card-pad-v: 32px;
+  --hero-card-pad-h: 40px;
+  --hero-font-size: 32px;
+  --hero-arrow-size: 64px;
+  --hero-dot-size: 12px;
+  --hero-dot-active: 32px;
 }
 
 /* ─── Wrapper ─── */
@@ -25,6 +24,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #dcedf4;
 }
 
 /* ─── Main ─── */
@@ -32,12 +32,12 @@
   position: relative;
   width: 100%;
   max-width: 1792px;
-  height: var(--hero-height );
+  height: var(--hero-height);
   overflow: hidden;
   border-radius: var(--hero-radius);
   direction: ltr !important;
   margin: 0 32px;
-   height: calc(100dvh - var(--nav-height));
+  height: calc(100dvh - var(--nav-height));
   min-height: 620px;
 }
 
@@ -73,11 +73,12 @@
 .hero-carousel-overlay {
   position: absolute;
   inset: 0;
-background: linear-gradient(
-  180deg,
-  rgba(0,0,0,0.15) 0%,
-  rgba(0,0,0,0.65) 100%
-);  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.15) 0%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+  z-index: 1;
 }
 
 /* ─── Content Card ─── */
@@ -93,7 +94,7 @@ background: linear-gradient(
   background-color: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -121,7 +122,7 @@ background: linear-gradient(
   font-weight: 700;
   line-height: 1.4;
   margin: 0;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   display: -webkit-box;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
@@ -129,8 +130,12 @@ background: linear-gradient(
   text-overflow: ellipsis;
 }
 
-.hero-main-heading.font-ar { font-family: var(--MNF_Heading_AR), sans-serif; }
-.hero-main-heading.font-en { font-family: var(--MNF_Heading_EN), sans-serif; }
+.hero-main-heading.font-ar {
+  font-family: var(--MNF_Heading_AR), sans-serif;
+}
+.hero-main-heading.font-en {
+  font-family: var(--MNF_Heading_EN), sans-serif;
+}
 
 /* ─── Arrow ─── */
 .hero-arrow-wrapper {
@@ -152,7 +157,9 @@ background: linear-gradient(
   height: var(--hero-arrow-size);
   background-color: var(--hero-white);
   border-radius: 50%;
-  transition: background-color 0.3s, transform 0.3s;
+  transition:
+    background-color 0.3s,
+    transform 0.3s;
   text-decoration: none;
   flex-shrink: 0;
 }
@@ -160,7 +167,9 @@ background: linear-gradient(
 .hero-arrow-link svg {
   width: 24px;
   height: 24px;
-  transition: fill 0.3s, transform 0.3s;
+  transition:
+    fill 0.3s,
+    transform 0.3s;
 }
 
 .hero-arrow-link:hover {
@@ -179,7 +188,7 @@ background: linear-gradient(
   bottom: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(0,0,0,0.75);
+  background: rgba(0, 0, 0, 0.75);
   color: #fff;
   font-size: 12px;
   padding: 5px 10px;
@@ -196,7 +205,7 @@ background: linear-gradient(
   left: 50%;
   transform: translateX(-50%);
   border: 5px solid transparent;
-  border-top-color: rgba(0,0,0,0.75);
+  border-top-color: rgba(0, 0, 0, 0.75);
 }
 
 /* ─── Pagination ─── */
@@ -214,16 +223,19 @@ background: linear-gradient(
   width: var(--hero-dot-size);
   height: var(--hero-dot-size);
   border-radius: 50%;
-  background-color: rgba(255,255,255,0.5);
+  background-color: rgba(255, 255, 255, 0.5);
   border: none;
   padding: 0;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s, width 0.3s;
+  transition:
+    background-color 0.3s,
+    transform 0.3s,
+    width 0.3s;
   user-select: none;
 }
 
 .hero-pagination-dot:hover {
-  background-color: rgba(255,255,255,0.8);
+  background-color: rgba(255, 255, 255, 0.8);
   transform: scale(1.2);
 }
 

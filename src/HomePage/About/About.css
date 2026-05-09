@@ -1,141 +1,223 @@
-/* ─── About ─── */
-.about-container {
-  display: flex;
-  align-items: center;
-  margin: 60px 0;
-  padding: 16px 32px;
-  justify-content: flex-start;
-  gap: clamp(60px, 10vw, 205px);
-  position: relative;
-  overflow-x: clip;
+.about-section {
+  width: 100%;
+  padding: 40px 0;
+  background: #dcedf4;
+  box-sizing: border-box;
 }
 
-/* RTL/LTR text align */
-.about-ltr { direction: ltr; }
-.about-rtl { direction: rtl; }
+.about-section.about-rtl {
+  direction: ltr;
+}
 
-/* ─── Content block ─── */
-.about-content {
+.about-section.about-ltr {
+  direction: rtl;
+}
+
+.about-card {
+  width: min(1700px, calc(100% - 120px));
+  min-height: 412px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 661px 1fr;
+  align-items: center;
+  gap: 40px;
+
+  padding: 40px 40px;
+  box-sizing: border-box;
+
+  background: #dcedf4;
+  border: 1px solid rgba(48, 61, 94, 0.55);
+  border-radius: 20px;
+}
+
+.about-image-wrap {
+  width: 661px;
+  height: 335px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.about-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  width: 661px;
+height: 335px;
+angle: 0 deg;
+opacity: 1;
+border-radius: 20px;
+
+}
+
+.about-text {
+  max-width: 660px;
+  color: #303d5e;
+  font-family: Cairo, sans-serif;
+
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
 }
 
-.about-logo {
-  width: 64px;
-  height: 64px;
-  background-color: #f1f8fb;
-  border-radius: 50%;
-  margin-bottom: 24px;
+.about-section.about-rtl .about-text {
+  text-align: right;
+  align-items: flex-end;
 }
 
-.about-subtitle {
-  width: 310px;
-  font-weight: 500;
+.about-section.about-ltr .about-text {
+  text-align: left;
+  align-items: flex-start;
 }
 
-/* ─── Title ─── */
 .about-title {
-  width: 510px;
-  max-width: 100%;
-  font-size: var(--MNF_Heading_Size1);
-  color: #001351;
+  margin: 0 0 22px;
+  color: #303D5E;
+  font-family: Cairo, sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.25;
 }
 
-/* ─── Fonts ─── */
-.font-ar   { font-family: var(--MNF_Body_AR),    sans-serif; }
-.font-en   { font-family: var(--MNF_Body_EN),    sans-serif; }
-.heading-ar { font-family: var(--MNF_Heading_AR), sans-serif; }
-.heading-en { font-family: var(--MNF_Heading_EN), sans-serif; }
+.about-description {
+  margin: 0;
+  max-width: 690px;
 
-/* ─── Curve line ─── */
-.about-curve {
-  position: absolute;
-  top: -300px;
-  width: 500px;
-  z-index: -2;
-  pointer-events: none;
+  color: #303d5ecc;
+  font-family: Cairo, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.95;
+  letter-spacing: 0;
+
+  text-wrap: balance;
+  white-space: normal;
 }
 
-/* LTR: يمين */
-.about-ltr .about-curve {
-  right: -38px;
-  left: auto;
+
+
+.about-read-more {
+  margin-top: 28px;
+
+  width: 200px;
+  height: 56px;
+
+  border: 0;
+  border-radius: 10px;
+  background: #303d5e;
+  color: #ffffff;
+
+  font-family: Cairo, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: 0.25s ease;
+  font-family: Cairo;
+font-weight: 600;
+font-style: SemiBold;
+font-size: 16px;
+leading-trim: NONE;
+line-height: 100%;
+letter-spacing: 0%;
+vertical-align: middle;
+
 }
 
-/* RTL: شمال + مقلوبة */
-.about-rtl .about-curve {
-  left: -38px;
-  right: auto;
-  transform: rotateY(180deg);
+.about-section.about-rtl .about-read-more {
+  align-self: flex-start;
 }
 
-/* ─── Wide screens ─── */
-@media (min-width: 1900px) {
-  .about-container { justify-content: center; }
+.about-section.about-ltr .about-read-more {
+  align-self: flex-end;
 }
 
-/* ─── 1110px ─── */
-@media (max-width: 1110px) {
-  .about-curve        { width: 350px; top: -150px; }
-  .about-rtl .about-curve { left: -60px; }
-  .about-title        { font-size: 55px; }
+.about-read-more:hover {
+  background: #f8904f;
+  transform: translateY(-2px);
 }
 
-/* ─── 1024px ─── */
-@media (max-width: 1024px) {
-  .about-curve        { width: 320px; }
-  .about-title        { font-size: 45px; }
-  .about-subtitle     { width: 270px; }
-}
-
-/* ─── 930px ─── */
-@media (max-width: 930px) {
-  .about-container { margin: 0 36px; padding: 14px; }
-}
-
-/* ─── 850px ─── */
-@media (max-width: 850px) {
-  .about-curve    { width: 300px; }
-  .about-title    { font-size: 40px; }
-  .about-subtitle { width: 260px; font-size: 15px; }
-}
-
-/* ─── 768px — stack vertically ─── */
-@media (max-width: 768px) {
-  .about-container {
-    flex-direction: column-reverse;
-    gap: 40px;
-    text-align: center;
-    padding: 16px 20px;
+@media (max-width: 1200px) {
+  .about-card {
+    width: calc(100% - 48px);
+    grid-template-columns: 1fr 1fr;
+    gap: 34px;
+    padding: 32px;
   }
 
-  .about-content  { align-items: center; }
-  .about-logo     { width: 56px; height: 56px; }
-  .about-title    { font-size: 40px; width: 100%; }
-  .about-curve    { width: 280px; }
-  .about-rtl .about-curve { left: -60px; }
-
-  .about-subtitle {
+  .about-image-wrap {
     width: 100%;
-    font-size: 15px;
-    padding: 10px;
+    height: 300px;
+  }
+
+  .about-title {
+    font-size: 28px;
+  }
+
+  .about-description {
+    font-size: 18px;
+    line-height: 1.8;
   }
 }
 
-/* ─── 548px ─── */
-@media (max-width: 548px) {
-  .about-title    { font-size: 30px; }
-  .about-subtitle { font-size: 14px; }
-  .about-rtl .about-curve { left: -60px; }
+@media (max-width: 900px) {
+  .about-section {
+    margin: 36px 0;
+  }
+
+  .about-card {
+    width: calc(100% - 32px);
+    grid-template-columns: 1fr;
+    padding: 24px;
+    gap: 24px;
+  }
+
+  .about-image-wrap {
+    height: 280px;
+  }
+
+  .about-text,
+  .about-section.about-rtl .about-text,
+  .about-section.about-ltr .about-text {
+    max-width: 100%;
+    text-align: center;
+    align-items: center;
+  }
+
+  .about-section.about-rtl .about-read-more,
+  .about-section.about-ltr .about-read-more {
+    align-self: center;
+  }
 }
 
-/* ─── 450px ─── */
-@media (max-width: 450px) {
-  .about-curve { width: 220px; top: -110px; }
-}
+@media (max-width: 560px) {
+  .about-card {
+    width: calc(100% - 24px);
+    padding: 16px;
+    border-radius: 16px;
+  }
 
-/* ─── 370px ─── */
-@media (max-width: 370px) {
-  .about-curve { width: 210px; top: -110px; }
+  .about-image-wrap {
+    height: 210px;
+    border-radius: 14px;
+  }
+
+  .about-title {
+    font-size: 23px;
+    margin-bottom: 12px;
+  }
+
+  .about-description {
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .about-read-more {
+    width: 150px;
+    height: 44px;
+    margin-top: 18px;
+    font-size: 15px;
+    border-radius: 8px;
+  }
 }

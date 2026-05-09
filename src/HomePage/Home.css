@@ -10,6 +10,7 @@
   );
   background-size: 400% 100%;
   animation: homeSkeletonLoading 1.2s ease-in-out infinite;
+
 }
 
 .home-hero-skeleton {
