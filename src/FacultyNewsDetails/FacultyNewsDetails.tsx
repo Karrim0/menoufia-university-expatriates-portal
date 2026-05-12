@@ -24,41 +24,60 @@ interface NewsDetails {
   languages: Language[];
 }
 
-type SavedLang = { id?: number; code?: string; name?: string; flag?: string };
+type SavedLang = {
+  id?: number;
+  code?: string;
+  name?: string;
+  flag?: string;
+};
 
 const getSavedLang = (): SavedLang => {
-  try { return JSON.parse(localStorage.getItem("lang") || "{}"); }
-  catch { return {}; }
+  try {
+    return JSON.parse(localStorage.getItem("lang") || "{}");
+  } catch {
+    return {};
+  }
+};
+
+const getSavedLangId = () => {
+  return Number(getSavedLang()?.id) || 2;
 };
 
 const FacultyNewsDetails: React.FC = () => {
-  const { id }       = useParams<{ id: string }>();
-  const location     = useLocation();
-  const navigate     = useNavigate();
-  const { i18n }     = useTranslation();
+  const { id } = useParams<{ id: string }>();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { i18n } = useTranslation();
 
-  const savedLang    = getSavedLang();
-  const isArabic     = savedLang?.code === "ar" || i18n.language === "ar";
-  const isRTL        = isArabic;
+  const savedLang = getSavedLang();
+  const isArabic = savedLang?.code === "ar" || i18n.language === "ar";
+  const isRTL = isArabic;
 
-  const fac: number         = location.state?.fac || 0;
+  const fac: number = Number(location.state?.fac) || 0;
   const collegeName: string = location.state?.collegeName || "";
 
-  const currentSavedLangId = Number(getSavedLang()?.id) || 2;
+  const initialLangId = Number(location.state?.langId) || getSavedLangId();
 
-  const [langId, setLangId]     = useState<number>(currentSavedLangId);
-  const [news, setNews]         = useState<NewsDetails | null>(null);
-  const [loading, setLoading]   = useState(true);
-  const [noLang, setNoLang]     = useState(false); // الخبر مش موجود باللغة دي
+  const [langId, setLangId] = useState<number>(initialLangId);
+  const [news, setNews] = useState<NewsDetails | null>(
+    location.state?.news || null
+  );
+  const [loading, setLoading] = useState(true);
+  const [noLang, setNoLang] = useState(false);
 
   useEffect(() => {
-    const newLangId = Number(getSavedLang()?.id) || 2;
-    setLangId(newLangId);
-  }, [i18n.language]);
+    const stateLangId = Number(location.state?.langId);
+
+    if (stateLangId) {
+      setLangId(stateLangId);
+    } else {
+      setLangId(getSavedLangId());
+    }
+  }, [location.state?.langId]);
 
   useEffect(() => {
     const fetchDetails = async () => {
-      if (!id || !fac) {
+      if (!id || !fac || !langId) {
         setNoLang(true);
         setLoading(false);
         return;
@@ -76,11 +95,13 @@ const FacultyNewsDetails: React.FC = () => {
 
         if (data?.success && data?.result) {
           setNews(data.result);
+          setNoLang(false);
         } else {
           setNews(null);
           setNoLang(true);
         }
-      } catch {
+      } catch (error) {
+        console.error("Failed to fetch faculty news details:", error);
         setNews(null);
         setNoLang(true);
       } finally {
@@ -93,8 +114,11 @@ const FacultyNewsDetails: React.FC = () => {
 
   const formatDate = (dateStr: string) => {
     if (!dateStr) return "";
+
     return new Date(dateStr).toLocaleDateString(isArabic ? "ar-EG" : "en-US", {
-      year: "numeric", month: "long", day: "numeric",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
@@ -106,24 +130,30 @@ const FacultyNewsDetails: React.FC = () => {
     navigate(`/fac-news/${fac}`, {
       state: {
         collegeName,
-        langId, 
+        langId,
       },
     });
   };
 
   return (
     <div className="fnd-wrapper" dir={isRTL ? "rtl" : "ltr"}>
-
-      {/* ── Breadcrumb ── */}
       <div className="fnd-breadcrumb">
         <Link to="/" className="fnd-breadcrumb-link">
           {isArabic ? "الرئيسية" : "Home"}
         </Link>
+
         <span className="fnd-breadcrumb-sep">›</span>
-        <span className="fnd-breadcrumb-link" onClick={handleBack} style={{ cursor: "pointer" }}>
+
+        <span
+          className="fnd-breadcrumb-link"
+          onClick={handleBack}
+          style={{ cursor: "pointer" }}
+        >
           {collegeName || (isArabic ? "أخبار الكلية" : "Faculty News")}
         </span>
+
         <span className="fnd-breadcrumb-sep">›</span>
+
         <span className="fnd-breadcrumb-current">
           {isArabic ? "تفاصيل الخبر" : "News Details"}
         </span>
@@ -133,19 +163,20 @@ const FacultyNewsDetails: React.FC = () => {
         <div className="fnd-loading-wrap">
           <div className="fnd-spinner" />
         </div>
-
       ) : noLang ? (
         <div className="fnd-no-lang-wrap">
           <div className="fnd-no-lang-icon">🌐</div>
+
           <h2 className="fnd-no-lang-title">
             {isArabic
               ? "هذا الخبر غير متاح باللغة الحالية"
               : "This news is not available in the current language"}
           </h2>
+
           <p className="fnd-no-lang-sub">
             {isArabic
-              ? "يمكنك اختيار لغة أخرى أو الرجوع لأخبار الكلية"
-              : "You can choose another language or go back to faculty news"}
+              ? "يمكنك الرجوع لأخبار الكلية أو اختيار لغة أخرى إذا كانت متاحة"
+              : "You can go back to faculty news or choose another language if available"}
           </p>
 
           {news?.languages && news.languages.length > 0 && (
@@ -153,11 +184,18 @@ const FacultyNewsDetails: React.FC = () => {
               {news.languages.map((lang) => (
                 <button
                   key={lang.id}
-                  className={`fnd-lang-btn ${langId === lang.id ? "active" : ""}`}
+                  className={`fnd-lang-btn ${
+                    langId === lang.id ? "active" : ""
+                  }`}
                   onClick={() => handleLangSwitch(lang.id)}
+                  type="button"
                 >
                   {lang.flag && (
-                    <img src={lang.flag} alt={lang.code} className="fnd-lang-flag" />
+                    <img
+                      src={lang.flag}
+                      alt={lang.code}
+                      className="fnd-lang-flag"
+                    />
                   )}
                   {lang.name}
                 </button>
@@ -165,15 +203,16 @@ const FacultyNewsDetails: React.FC = () => {
             </div>
           )}
 
-          <button className="fnd-back-btn fnd-no-lang-back" onClick={handleBack}>
+          <button
+            className="fnd-back-btn fnd-no-lang-back"
+            onClick={handleBack}
+            type="button"
+          >
             {isArabic ? "→ رجوع لأخبار الكلية" : "← Back to Faculty News"}
           </button>
         </div>
-
       ) : news ? (
         <article className="fnd-article">
-
-          {/* ── Header ── */}
           <header className="fnd-header">
             <h1 className="fnd-title">{news.title}</h1>
 
@@ -184,6 +223,7 @@ const FacultyNewsDetails: React.FC = () => {
                   {news.source}
                 </span>
               )}
+
               {news.date && (
                 <span className="fnd-meta-item">
                   <i className="fa-regular fa-calendar" />
@@ -198,16 +238,24 @@ const FacultyNewsDetails: React.FC = () => {
                   <i className="fa-solid fa-globe" />
                   {isArabic ? "متاح بـ:" : "Available in:"}
                 </span>
+
                 <div className="fnd-lang-switcher">
                   {news.languages.map((lang) => (
                     <button
                       key={lang.id}
-                      className={`fnd-lang-btn ${langId === lang.id ? "active" : ""}`}
+                      className={`fnd-lang-btn ${
+                        langId === lang.id ? "active" : ""
+                      }`}
                       onClick={() => handleLangSwitch(lang.id)}
                       title={lang.name}
+                      type="button"
                     >
                       {lang.flag && (
-                        <img src={lang.flag} alt={lang.code} className="fnd-lang-flag" />
+                        <img
+                          src={lang.flag}
+                          alt={lang.code}
+                          className="fnd-lang-flag"
+                        />
                       )}
                       {lang.name}
                     </button>
@@ -217,17 +265,12 @@ const FacultyNewsDetails: React.FC = () => {
             )}
           </header>
 
-          {/* ── Hero Image ── */}
           {news.image && (
             <div className="fnd-img-wrap">
-              <SmartImage
-                src={news.image}
-                alt={news.imageAlt || news.title}
-              />
+              <SmartImage src={news.image} alt={news.imageAlt || news.title} />
             </div>
           )}
 
-          {/* ── Body ── */}
           {news.body && (
             <div
               className="fnd-body"
@@ -235,13 +278,11 @@ const FacultyNewsDetails: React.FC = () => {
             />
           )}
 
-          {/* ── Footer ── */}
           <div className="fnd-footer">
-            <button className="fnd-back-btn" onClick={handleBack}>
+            <button className="fnd-back-btn" onClick={handleBack} type="button">
               {isArabic ? "→ رجوع لأخبار الكلية" : "← Back to Faculty News"}
             </button>
           </div>
-
         </article>
       ) : null}
     </div>

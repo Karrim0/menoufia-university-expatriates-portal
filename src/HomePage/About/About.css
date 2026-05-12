@@ -162,9 +162,7 @@ vertical-align: middle;
 }
 
 @media (max-width: 900px) {
-  .about-section {
-    margin: 36px 0;
-  }
+  
 
   .about-card {
     width: calc(100% - 32px);

@@ -1,13 +1,594 @@
 @import "../NewsPage/News.css";
-.news-hero-title{
-    font-family: Cairo;
-font-weight: 700;
-font-style: Bold;
-font-size: 64px;
-leading-trim: NONE;
-line-height: 100%;
-letter-spacing: 0%;
-text-align: center;
-vertical-align: middle;
-margin-bottom: 20px;
+
+/* ═══════════════════════════════════════════════════════
+   PAGE WRAPPER
+═══════════════════════════════════════════════════════ */
+
+.faculty-page-wrapper {
+  background: #f4f9fc;
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TOP HEADER — background image + dark overlay
+═══════════════════════════════════════════════════════ */
+
+.faculty-top-header {
+  position: relative;
+  width: 100%;
+  height: 112px;
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+/* Dark gradient overlay */
+.faculty-top-header-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(28, 40, 70, 0.82) 0%,
+    rgba(28, 40, 70, 0.75) 50%,
+    rgba(28, 40, 70, 0.65) 100%
+  );
+  z-index: 1;
+}
+
+.faculty-top-header-inner {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  direction: ltr;
+}
+
+/* ── Brand (right side in RTL) ── */
+.faculty-top-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.faculty-top-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: right;
+}
+
+.faculty-top-college-name {
+  margin: 0;
+  font-family: Cairo, sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.faculty-top-university-name {
+  margin: 0;
+  font-family: Cairo, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.4;
+}
+
+/* Logo circle */
+.faculty-top-logo-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  padding: 6px;
+}
+
+.faculty-top-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ── Back button (left side in RTL) ── */
+.faculty-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 30px;
+  padding: 8px 18px 8px 14px;
+  color: #ffffff;
+  font-family: Cairo, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.25s,
+    border-color 0.25s;
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.faculty-back-btn i {
+  font-size: 12px;
+  transition: transform 0.25s;
+}
+
+.faculty-back-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.faculty-back-btn:hover i {
+  transform: translateX(3px);
+}
+
+/* ═══════════════════════════════════════════════════════
+   HERO / SLIDER SECTION
+═══════════════════════════════════════════════════════ */
+
+.faculty-news-hero {
+  width: 100%;
+  padding: 28px 16px 8px;
+  background: #f4f9fc;
+}
+
+.faculty-page-wrapper .news-hero-content {
+  width: min(100%, 1120px);
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════════
+   HIGHLIGHT SLIDER
+═══════════════════════════════════════════════════════ */
+
+.faculty-highlight-slider {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto 22px;
+  position: relative;
+  direction: ltr !important;
+}
+
+.faculty-highlight-image-wrap {
+  position: relative;
+  width: 100%;
+  height: 310px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #e7edf5;
+}
+
+.faculty-highlight-image,
+.faculty-highlight-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.faculty-highlight-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.18) 0%,
+    rgba(0, 0, 0, 0.68) 100%
+  );
+}
+
+.faculty-highlight-content {
+  position: absolute;
+  z-index: 2;
+  right: 54px;
+  bottom: 48px;
+  width: 520px;
+  min-height: 132px;
+  max-height: 210px;
+  padding: 24px 30px;
+  background-color: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 18px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  text-align: right;
+  direction: rtl;
+  overflow: hidden;
+}
+
+.faculty-highlight-content h2 {
+  margin: 0;
+  color: #ffffff;
+  font-family: var(--MNF_Heading_AR), Cairo, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.45;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.faculty-highlight-arrow {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  color: #24304a;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  align-self: flex-start;
+  transition:
+    background-color 0.3s,
+    transform 0.3s;
+}
+
+.faculty-highlight-arrow i {
+  font-size: 15px;
+  transform: rotate(45deg);
+  transition: transform 0.3s;
+}
+
+.faculty-highlight-arrow:hover {
+  background-color: #f66b15;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.faculty-highlight-arrow:hover i {
+  transform: rotate(45deg) translate(3px, -3px);
+}
+
+.faculty-highlight-nav {
+  display: none;
+}
+
+.faculty-highlight-dots {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 9px;
+  z-index: 3;
+}
+
+.faculty-highlight-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    transform 0.3s,
+    width 0.3s;
+}
+
+.faculty-highlight-dot:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+.faculty-highlight-dot.active {
+  width: 26px;
+  background-color: #fff;
+  border-radius: 6px;
+  transform: none;
+}
+
+/* Loading skeleton */
+.skeleton-highlight {
+  height: 310px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #eef3f8 25%, #f7f9fc 50%, #eef3f8 75%);
+  background-size: 200% 100%;
+  animation: faculty-skeleton-loading 1.4s infinite;
+}
+
+@keyframes faculty-skeleton-loading {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SEARCH
+═══════════════════════════════════════════════════════ */
+
+.faculty-page-wrapper .news-search-wrapper {
+  width: min(100%, 1080px);
+  margin: 0 auto;
+}
+
+.faculty-page-wrapper .news-search-bar {
+  height: 62px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(0, 8, 32, 0.06);
+  border: 1px solid rgba(0, 8, 32, 0.08);
+  padding: 0 14px;
+}
+
+.faculty-page-wrapper .news-search-bar input {
+  font-family: Cairo, sans-serif;
+  font-size: 16px;
+  color: #2c3858;
+}
+
+.faculty-page-wrapper .news-search-icon-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #263556;
+  color: #fff;
+}
+
+.faculty-page-wrapper .news-filter-toggle {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #eef3f8;
+  color: #263556;
+}
+
+/* ═══════════════════════════════════════════════════════
+   MAIN CONTENT
+═══════════════════════════════════════════════════════ */
+
+.faculty-page-wrapper .news-main-content {
+  background: #f4f9fc;
+  padding-top: 26px;
+}
+
+.faculty-page-wrapper .news-content-wrapper {
+  width: min(100%, 1120px);
+  margin: 0 auto;
+}
+
+/* ── Section heading ("اخبار كلية العلوم") ── */
+.faculty-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 20px;
+  padding: 0 4px;
+}
+
+.faculty-section-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #f66b15;
+  flex-shrink: 0;
+}
+
+.faculty-section-title {
+  margin: 0;
+  font-family: Cairo, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1c2846;
+  line-height: 1.3;
+}
+
+/* ── News cards grid ── */
+.news-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.faculty-page-wrapper .news-card {
+  background: #deedf5;
+  border-radius: 14px;
+  box-shadow: none;
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════ */
+
+@media (max-width: 992px) {
+  .faculty-top-header {
+    height: 96px;
+  }
+
+  .faculty-top-college-name {
+    font-size: 22px;
+  }
+
+  .faculty-top-logo-wrap {
+    width: 56px;
+    height: 56px;
+  }
+
+  .faculty-highlight-image-wrap {
+    height: 280px;
+  }
+
+  .faculty-highlight-content {
+    right: 38px;
+    bottom: 42px;
+    width: 460px;
+    min-height: 120px;
+    padding: 22px 26px;
+  }
+
+  .faculty-highlight-content h2 {
+    font-size: 21px;
+  }
+}
+
+@media (max-width: 768px) {
+  .faculty-top-header {
+    height: 80px;
+  }
+
+  .faculty-top-header-inner {
+    padding: 0 16px;
+  }
+
+  .faculty-top-college-name {
+    font-size: 18px;
+  }
+
+  .faculty-top-university-name {
+    font-size: 12px;
+  }
+
+  .faculty-top-logo-wrap {
+    width: 48px;
+    height: 48px;
+  }
+
+  .faculty-back-btn {
+    padding: 6px 14px 6px 10px;
+    font-size: 12px;
+  }
+
+  .faculty-news-hero {
+    padding: 22px 12px 8px;
+  }
+
+  .faculty-highlight-slider {
+    margin-bottom: 18px;
+  }
+
+  .faculty-highlight-image-wrap {
+    height: 250px;
+    border-radius: 10px;
+  }
+
+  .faculty-highlight-content {
+    right: 22px;
+    left: 22px;
+    bottom: 54px;
+    width: auto;
+    min-height: 120px;
+    max-height: 180px;
+    padding: 18px 20px;
+    border-radius: 16px;
+  }
+
+  .faculty-highlight-content h2 {
+    font-size: 17px;
+    -webkit-line-clamp: 3;
+  }
+
+  .faculty-highlight-arrow {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+  }
+
+  .faculty-highlight-dots {
+    bottom: 26px;
+  }
+
+  .faculty-highlight-dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .faculty-highlight-dot.active {
+    width: 24px;
+  }
+
+  .faculty-page-wrapper .news-search-bar {
+    height: 56px;
+    border-radius: 12px;
+  }
+
+  .faculty-section-title {
+    font-size: 19px;
+  }
+}
+
+@media (max-width: 640px) {
+  .faculty-page-wrapper .news-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 430px) {
+  .faculty-top-header {
+    height: 72px;
+  }
+
+  .faculty-top-college-name {
+    font-size: 16px;
+  }
+
+  .faculty-top-logo-wrap {
+    width: 42px;
+    height: 42px;
+  }
+
+  .faculty-back-btn span {
+    display: none; /* icon only on very small screens */
+  }
+
+  .faculty-back-btn {
+    padding: 8px 10px;
+    border-radius: 50%;
+  }
+
+  .faculty-highlight-image-wrap {
+    height: 230px;
+  }
+
+  .faculty-highlight-content {
+    right: 18px;
+    left: 18px;
+    bottom: 52px;
+    min-height: 112px;
+    padding: 16px 18px;
+  }
+
+  .faculty-highlight-content h2 {
+    font-size: 15.5px;
+  }
+
+  .faculty-highlight-arrow {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+  }
 }

@@ -16,7 +16,9 @@ function Details() {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+
   const newsType = location.state?.newsType || "university";
+  const initialLangId = Number(location.state?.lid) || Number(savedLang?.id) || 1;
 
   const { t } = useTranslation("News");
   const { t: tDetails } = useTranslation("NewsDetails");
@@ -24,7 +26,7 @@ function Details() {
 
   const [currentNews, setCurrentNews] = useState(location.state?.news || null);
   const [filteredNews, setFilteredNews] = useState([]);
-  const [langId, setLangId] = useState(Number(savedLang?.id) || 1);
+  const [langId, setLangId] = useState(initialLangId);
   const [isLoading, setIsLoading] = useState(true);
 
   const [deleteModal, setDeleteModal] = useState({
@@ -51,6 +53,7 @@ function Details() {
   };
 
   const isArabic = savedLang?.code === "ar";
+
   useEffect(() => {
     const stateNews = location.state?.news;
 
@@ -62,10 +65,22 @@ function Details() {
 
     setIsLoading(true);
   }, [id, location.state?.news]);
+
+  useEffect(() => {
+    const stateLangId = Number(location.state?.lid);
+
+    if (stateLangId) {
+      setLangId(stateLangId);
+    } else if (savedLang?.id) {
+      setLangId(Number(savedLang.id));
+    }
+  }, [location.state?.lid, savedLang?.id]);
+
   const formatDate = (rawDate) => {
     if (!rawDate) return "";
 
     const date = new Date(rawDate);
+
     return date.toLocaleDateString(isArabic ? "ar-EG" : "en-US", {
       year: "numeric",
       month: "short",
@@ -73,19 +88,15 @@ function Details() {
     });
   };
 
-  useEffect(() => {
-    if (savedLang?.id) {
-      setLangId(Number(savedLang.id));
-    }
-  }, [savedLang?.id]);
-
   const fetchNewsById = async (newsId, languageId, type) => {
     if (type === "sector") {
       return await newsService.getSectorNewsById(newsId, languageId);
     }
+
     if (type === "university") {
       return await newsService.getUniversityNewsById(newsId, languageId);
     }
+
     return await newsService.getNewsById(newsId, languageId);
   };
 
@@ -109,6 +120,7 @@ function Details() {
 
         if (!response?.result) {
           const fallbackType = newsType === "sector" ? "university" : "sector";
+
           try {
             response = await fetchNewsById(newsId, languageId, fallbackType);
           } catch {
@@ -127,12 +139,10 @@ function Details() {
         if (response?.result) {
           const apiData = response.result;
 
-          // Preserve the image from state if API didn't return one
           if (!apiData.newsImg && currentNews?.newsImg) {
             apiData.newsImg = currentNews.newsImg;
           }
 
-          // Preserve languages from state if API didn't return them
           if (
             (!apiData.languages || apiData.languages.length === 0) &&
             currentNews?.languages?.length > 0
@@ -146,6 +156,7 @@ function Details() {
         }
       } catch (error) {
         console.error("Error fetching news details:", error);
+
         if (!location.state?.news) {
           navigate("/news");
         }
@@ -168,7 +179,6 @@ function Details() {
           const abbreviation = location.state?.abbreviation;
 
           if (abbreviation) {
-            // Fetch related news from the same sector
             response = await newsService.searchByAbbreviation({
               abbreviation,
               lid: Number(langId),
@@ -195,37 +205,49 @@ function Details() {
 
         const newsList = response?.result || [];
         const related = newsList.filter(
-          (item) => String(item.id) !== String(id),
+          (item) => String(item.id) !== String(id)
         );
+
         setFilteredNews(related.slice(0, 9));
       } catch (error) {
         console.error("Error fetching related news:", error);
+        setFilteredNews([]);
       }
     };
 
     fetchRelatedNews();
-  }, [langId, id, newsType]);
+  }, [langId, id, newsType, location.state?.abbreviation]);
 
   const handleLanguageClick = async (selectedLangId) => {
+    const nextLangId = Number(selectedLangId);
+
+    if (!nextLangId) return;
+
+    setLangId(nextLangId);
+    setIsLoading(true);
+
     try {
       let response = null;
 
       try {
-        response = await fetchNewsById(
-          Number(id),
-          Number(selectedLangId),
-          newsType,
-        );
+        response = await fetchNewsById(Number(id), nextLangId, newsType);
       } catch {
         response = null;
       }
 
       if (!response?.result) {
+        const fallbackType = newsType === "sector" ? "university" : "sector";
+
         try {
-          response = await newsService.getNewsById(
-            Number(id),
-            Number(selectedLangId),
-          );
+          response = await fetchNewsById(Number(id), nextLangId, fallbackType);
+        } catch {
+          response = null;
+        }
+      }
+
+      if (!response?.result) {
+        try {
+          response = await newsService.getNewsById(Number(id), nextLangId);
         } catch {
           response = null;
         }
@@ -234,15 +256,23 @@ function Details() {
       if (response?.result) {
         const apiData = response.result;
 
-        // Preserve image if API didn't return one
         if (!apiData.newsImg && currentNews?.newsImg) {
           apiData.newsImg = currentNews.newsImg;
+        }
+
+        if (
+          (!apiData.languages || apiData.languages.length === 0) &&
+          currentNews?.languages?.length > 0
+        ) {
+          apiData.languages = currentNews.languages;
         }
 
         setCurrentNews(apiData);
       }
     } catch (error) {
       console.error("Error fetching translated news:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -257,11 +287,15 @@ function Details() {
 
   const handleEditClick = () => {
     if (!currentNews?.id) return;
+
     window.open(`/news/edit/${currentNews.id}`, "_blank");
   };
 
   const handleDeleteConfirm = async () => {
-    setDeleteModal((prev) => ({ ...prev, isLoading: true }));
+    setDeleteModal((prev) => ({
+      ...prev,
+      isLoading: true,
+    }));
 
     try {
       const token = localStorage.getItem("token");
@@ -289,7 +323,11 @@ function Details() {
       navigate(newsType === "sector" ? -1 : "/news");
     } catch (error) {
       console.error("Error deleting news:", error);
-      setDeleteModal((prev) => ({ ...prev, isLoading: false }));
+
+      setDeleteModal((prev) => ({
+        ...prev,
+        isLoading: false,
+      }));
 
       toast.error(t("delete.messages.error"), {
         position: "top-right",
@@ -308,8 +346,9 @@ function Details() {
   };
 
   const availableLanguages = (currentNews?.languages || []).filter(
-    (lang) => lang.flag && lang.flag.trim() !== "",
+    (lang) => lang.flag && lang.flag.trim() !== ""
   );
+
   const showLanguageSwitcher = availableLanguages.length >= 2;
 
   if (isLoading && !currentNews) {
@@ -411,6 +450,7 @@ function Details() {
                       >
                         <Edit size={20} />
                       </button>
+
                       <button
                         className="admin-btn delete-btn"
                         onClick={handleDeleteClick}
@@ -461,7 +501,7 @@ function Details() {
                 style={isArabic ? pArStyle : pEnStyle}
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(
-                    currentNews?.newsDetails?.body || "",
+                    currentNews?.newsDetails?.body || ""
                   ),
                 }}
               ></p>

@@ -10,33 +10,37 @@ const facultyApi = axios.create({
 
 const newsService = {
   getUniversityNews: async ({
-  languageId,
-  pageIndex  = 1,
-  pageSize   = 10,
-  search     = "",
-  fromDate,
-  toDate,
-  dateFilter,
-}) => {
-  const response = await api.get("/news/NewsUniv", {
-    params: {
-      LanguageId:  languageId,
-      PageIndex:   pageIndex,
-      PageSize:    pageSize,
-      Search:      search,
-      ...(dateFilter ? { DateFilter: dateFilter } : {}),
-      ...(fromDate   ? { FromDate: fromDate }      : {}),
-      ...(toDate     ? { ToDate:   toDate   }      : {}),
-    },
-  });
-  return response.data;
-},
+    languageId,
+    pageIndex = 1,
+    pageSize = 10,
+    search = "",
+    fromDate,
+    toDate,
+    dateFilter,
+  }) => {
+    const response = await api.get("/news/NewsUniv", {
+      params: {
+        LanguageId: languageId,
+        PageIndex: pageIndex,
+        PageSize: pageSize,
+        Search: search,
+        ...(dateFilter ? { DateFilter: dateFilter } : {}),
+        ...(fromDate ? { FromDate: fromDate } : {}),
+        ...(toDate ? { ToDate: toDate } : {}),
+      },
+    });
+
+    return response.data;
+  },
 
   getSectorsNews: async ({
     languageId,
     pageIndex = 1,
     pageSize = 10,
     search = "",
+    fromDate,
+    toDate,
+    dateFilter,
   }) => {
     const response = await api.get("/news/SectorsNews", {
       params: {
@@ -44,6 +48,9 @@ const newsService = {
         PageIndex: pageIndex,
         PageSize: pageSize,
         Search: search,
+        ...(dateFilter ? { DateFilter: dateFilter } : {}),
+        ...(fromDate ? { FromDate: fromDate } : {}),
+        ...(toDate ? { ToDate: toDate } : {}),
       },
     });
 
@@ -86,6 +93,9 @@ const newsService = {
     pageIndex = 1,
     pageSize = 10,
     search = "",
+    fromDate,
+    toDate,
+    dateFilter,
   }) => {
     const response = await api.get("/news/SearchAbbreviation", {
       params: {
@@ -94,52 +104,76 @@ const newsService = {
         PageIndex: pageIndex,
         PageSize: pageSize,
         Search: search,
+        ...(dateFilter ? { DateFilter: dateFilter } : {}),
+        ...(fromDate ? { FromDate: fromDate } : {}),
+        ...(toDate ? { ToDate: toDate } : {}),
       },
     });
 
     return response.data;
   },
+
+  getHighlights: async ({
+  fac,
+  langId,
+  pageIndex = 1,
+  pageSize = 10,
+  search = "",
+  fromDate,
+  toDate,
+}) => {
+  const response = await facultyApi.get("/highlights", {
+    params: {
+      fac,
+      langId,
+      PageIndex: pageIndex,
+      PageSize: pageSize,
+      Search: search,
+      ...(fromDate ? { FromDate: fromDate } : {}),
+      ...(toDate ? { ToDate: toDate } : {}),
+    },
+  });
+
+  return response.data;
+},
 
   getFacultyNews: async ({
-    fac,
-    langId,
-    pageIndex = 1,
-    pageSize = 10,
-    search = "",
-  }) => {
-    const response = await facultyApi.get("/faculty-news", {
-      params: {
-        fac,
-        langId,
-        PageIndex: pageIndex,
-        PageSize: pageSize,
-        Search: search,
-      },
-    });
+  fac,
+  langId,
+  pageIndex = 1,
+  pageSize = 10,
+  search = "",
+  fromDate,
+  toDate,
+  dateFilter,
+}) => {
+  const response = await facultyApi.get("/faculty-news", {
+    params: {
+      fac,
+      langId,
+      PageIndex: pageIndex,
+      PageSize: pageSize,
+      Search: search,
+      ...(dateFilter ? { DateFilter: dateFilter } : {}),
+      ...(fromDate ? { FromDate: fromDate } : {}),
+      ...(toDate ? { ToDate: toDate } : {}),
+    },
+  });
 
-    return response.data;
-  },
+  return response.data;
+},
 
-  getFacultyNewsDetails: async (id, langId) => {
+  getFacultyNewsDetails: async (id, fac, langId) => {
     const response = await facultyApi.get("/faculty-news/details", {
       params: {
         id,
+        fac,
         langId,
       },
     });
 
     return response.data;
   },
-  getFacultyNewsDetails: async (id, fac, langId) => {
-  const response = await facultyApi.get("/faculty-news/details", {
-    params: {
-      id,
-      fac,
-      langId,
-    },
-  });
-  return response.data;
-},
 };
 
 export default newsService;
