@@ -18,6 +18,7 @@ import FacultyNewsPage from "./FacultyNewsPage/FacultyNews";
 import UniversityHistory from "./HomePage/UniversityHistory/UniversityHistory";
 import FacultyNewsDetails from "./FacultyNewsDetails/FacultyNewsDetails";
 import { useTranslation } from "react-i18next";
+import ErrorPage from "./ErrorPage/ErrorPage";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -47,7 +48,8 @@ function App() {
         <Route path="/sectors/:sectorName" element={<SectorsNews />} />
         <Route path="/university-history" element={<UniversityHistory />} />
         <Route path="/fac/:fac" element={<FacultyNewsPage />} />
-        <Route path="/fac/details/:id" element={<FacultyNewsDetails />} />      
+        <Route path="/fac/details/:id" element={<FacultyNewsDetails />} />  
+        <Route path="*" element={<ErrorPage />} />    
       </Routes>
       <Footer />
       <ToastContainer

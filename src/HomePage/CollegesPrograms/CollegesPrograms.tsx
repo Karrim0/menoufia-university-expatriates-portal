@@ -23,7 +23,6 @@ const normalizeName = (value: string): string =>
     .toLowerCase();
 
 const FAC_MAP: Record<string, number> = {
-  // Arabic
   [normalizeName("كلية العلوم")]: 100,
   [normalizeName("كلية علوم")]: 100,
 
@@ -90,7 +89,6 @@ const FAC_MAP: Record<string, number> = {
   [normalizeName("كلية الإعلام")]: 2400,
   [normalizeName("كلية الاعلام")]: 2400,
 
-  // English fallback
   [normalizeName("Faculty of Science")]: 100,
   [normalizeName("Faculty of Medicine")]: 200,
   [normalizeName("Faculty of Agriculture")]: 300,
@@ -127,7 +125,7 @@ const normalizeApiResponse = (data: any): any[] => {
 };
 
 const CollegesPrograms: React.FC = () => {
-  const { i18n, t } = useTranslation();
+  const { i18n } = useTranslation();
   const navigate = useNavigate();
 
   const [colleges, setColleges] = useState<College[]>([]);
@@ -163,7 +161,6 @@ const CollegesPrograms: React.FC = () => {
   useEffect(() => {
     const fetchColleges = async () => {
       const requestId = ++requestIdRef.current;
-
       setLoading(true);
 
       try {
@@ -177,8 +174,7 @@ const CollegesPrograms: React.FC = () => {
 
         if (requestId !== requestIdRef.current) return;
 
-        const mapped = mapColleges(data);
-        setColleges(mapped);
+        setColleges(mapColleges(data));
       } catch (error) {
         if (requestId !== requestIdRef.current) return;
 
@@ -193,7 +189,6 @@ const CollegesPrograms: React.FC = () => {
           setColleges(mapColleges(fallbackData));
         } catch {
           if (requestId !== requestIdRef.current) return;
-
           setColleges([]);
         }
       } finally {
@@ -220,26 +215,6 @@ const CollegesPrograms: React.FC = () => {
     e.stopPropagation();
   };
 
-  if (loading) {
-    return (
-      <section
-        className={`cp-section ${isRTL ? "cp-rtl" : "cp-ltr"}`}
-        dir={isRTL ? "rtl" : "ltr"}
-      >
-        <div className="cp-container">
-          <div className="cp-titleWrap">
-            <h2 className="cp-title">{t("nav.programs")}</h2>
-            <span className="cp-underline" />
-          </div>
-
-          <div className="cp-loading">
-            {isArabic ? "جاري التحميل..." : "Loading..."}
-          </div>
-        </div>
-      </section>
-    );
-  }
-
   return (
     <section
       className={`cp-section ${isRTL ? "cp-rtl" : "cp-ltr"}`}
@@ -247,20 +222,22 @@ const CollegesPrograms: React.FC = () => {
     >
       <div className="cp-container">
         <div className="cp-titleWrap">
-          <h2 className="cp-title">
-            {isArabic ? "الكليات" : "Colleges"}
-          </h2>
+          <h2 className="cp-title">{isArabic ? "الكليات" : "Colleges"}</h2>
           <span className="cp-underline" />
         </div>
 
-        {colleges.length === 0 ? (
+        {loading ? (
+          <div className="cp-loading">
+            {isArabic ? "جاري التحميل..." : "Loading..."}
+          </div>
+        ) : colleges.length === 0 ? (
           <div className="cp-empty">
             {isArabic ? "لا توجد كليات" : "No colleges found"}
           </div>
         ) : (
           <div className="cp-grid">
             {colleges.map((college) => (
-              <div
+              <article
                 key={`${college.fac}-${college.id}-${selectedLangId}`}
                 className="cp-card"
                 onClick={() => handleCollegeClick(college)}
@@ -271,10 +248,9 @@ const CollegesPrograms: React.FC = () => {
                     handleCollegeClick(college);
                   }
                 }}
-                style={{ cursor: "pointer" }}
               >
-                <div className="cp-card-title">
-                  <span>{college.title}</span>
+                <div className="cp-card-title" title={college.title}>
+                  <span className="cp-title-text">{college.title}</span>
                   <span className="cp-dot" />
                 </div>
 
@@ -286,6 +262,10 @@ const CollegesPrograms: React.FC = () => {
                     className="cp-classic-link"
                     onClick={handleClassicClick}
                   >
+                    <span className="cp-classic-text">
+                      {isArabic ? "الموقع الكلاسيكي" : "Classic website"}
+                    </span>
+
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                       <path
                         d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
@@ -306,11 +286,9 @@ const CollegesPrograms: React.FC = () => {
                         strokeLinejoin="round"
                       />
                     </svg>
-
-                    {isArabic ? "الموقع الكلاسيكي" : "Classic website"}
                   </a>
                 )}
-              </div>
+              </article>
             ))}
           </div>
         )}
