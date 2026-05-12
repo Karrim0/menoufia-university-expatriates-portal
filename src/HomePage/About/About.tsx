@@ -15,7 +15,10 @@ function About() {
   };
 
   return (
-    <section className={`about-section ${isRTL ? "about-rtl" : "about-ltr"}`}>
+    <section
+      className={`about-section ${isRTL ? "about-rtl" : "about-ltr"}`}
+      dir={isRTL ? "rtl" : "ltr"}
+    >
       <div className="about-card">
         <div className="about-image-wrap">
           <img
@@ -28,9 +31,7 @@ function About() {
         <div className="about-text">
           <h2 className="about-title">{t("aboutSection.title")}</h2>
 
-          <p className="about-description">
-            {t("aboutSection.description")}
-          </p>
+          <p className="about-description">{t("aboutSection.description")}</p>
 
           <button
             type="button"

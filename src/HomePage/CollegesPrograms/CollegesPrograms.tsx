@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import "./CollegesPrograms.css";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import newsService from "../../Services/newsService";
+import { getLanguageId } from "../../utils/language";
 
 interface College {
   id: number;
@@ -11,13 +12,6 @@ interface College {
   order: number;
   fac: number;
 }
-
-type SavedLang = {
-  id?: number;
-  code?: string;
-  name?: string;
-  flag?: string;
-};
 
 const normalizeName = (value: string): string =>
   String(value || "")
@@ -122,14 +116,6 @@ const FAC_MAP: Record<string, number> = {
   [normalizeName("Faculty of Mass Communication")]: 2400,
 };
 
-const getSavedLang = (): SavedLang => {
-  try {
-    return JSON.parse(localStorage.getItem("lang") || "{}");
-  } catch {
-    return {};
-  }
-};
-
 const getFac = (title: string): number | null => {
   return FAC_MAP[normalizeName(title)] ?? null;
 };
@@ -143,14 +129,18 @@ const normalizeApiResponse = (data: any): any[] => {
 const CollegesPrograms: React.FC = () => {
   const { i18n, t } = useTranslation();
   const navigate = useNavigate();
-const currentLang = getSavedLang();
-const isArabic = Number(currentLang?.id) === 1 || currentLang?.code === "ar" || i18n.language === "ar";
-const isRTL = isArabic;
-  const [savedLang, setSavedLang] = useState<SavedLang>(getSavedLang);
+
   const [colleges, setColleges] = useState<College[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const selectedLangId = Number(savedLang?.id) || 1;
+  const requestIdRef = useRef(0);
+
+  const selectedLangId = useMemo(() => {
+    return getLanguageId(i18n.language);
+  }, [i18n.language]);
+
+  const isRTL = i18n.dir() === "rtl";
+  const isArabic = i18n.language === "ar";
 
   const mapColleges = (data: any[]): College[] =>
     data
@@ -171,11 +161,9 @@ const isRTL = isArabic;
       .sort((a: any, b: any) => Number(a.fac) - Number(b.fac)) as College[];
 
   useEffect(() => {
-    setSavedLang(getSavedLang());
-  }, [i18n.language]);
-
-  useEffect(() => {
     const fetchColleges = async () => {
+      const requestId = ++requestIdRef.current;
+
       setLoading(true);
 
       try {
@@ -187,20 +175,31 @@ const isRTL = isArabic;
           data = normalizeApiResponse(response);
         }
 
+        if (requestId !== requestIdRef.current) return;
+
         const mapped = mapColleges(data);
         setColleges(mapped);
       } catch (error) {
+        if (requestId !== requestIdRef.current) return;
+
         console.error("Error fetching colleges:", error);
 
         try {
           const fallbackResponse = await newsService.getColleges(2);
           const fallbackData = normalizeApiResponse(fallbackResponse);
+
+          if (requestId !== requestIdRef.current) return;
+
           setColleges(mapColleges(fallbackData));
         } catch {
+          if (requestId !== requestIdRef.current) return;
+
           setColleges([]);
         }
       } finally {
-        setLoading(false);
+        if (requestId === requestIdRef.current) {
+          setLoading(false);
+        }
       }
     };
 
@@ -208,7 +207,7 @@ const isRTL = isArabic;
   }, [selectedLangId]);
 
   const handleCollegeClick = (college: College) => {
-    navigate(`/faculty-news/${college.fac}`, {
+    navigate(`/fac/${college.fac}`, {
       state: {
         collegeName: college.title,
         fac: college.fac,
@@ -223,7 +222,10 @@ const isRTL = isArabic;
 
   if (loading) {
     return (
-      <section className={`cp-section ${isRTL ? "cp-rtl" : "cp-ltr"}`}>
+      <section
+        className={`cp-section ${isRTL ? "cp-rtl" : "cp-ltr"}`}
+        dir={isRTL ? "rtl" : "ltr"}
+      >
         <div className="cp-container">
           <div className="cp-titleWrap">
             <h2 className="cp-title">{t("nav.programs")}</h2>
@@ -231,30 +233,35 @@ const isRTL = isArabic;
           </div>
 
           <div className="cp-loading">
-{isArabic ? "جاري التحميل..." : "Loading..."}          </div>
+            {isArabic ? "جاري التحميل..." : "Loading..."}
+          </div>
         </div>
       </section>
     );
   }
 
   return (
-    <section className={`cp-section ${isRTL ? "cp-rtl" : "cp-ltr"}`}>
+    <section
+      className={`cp-section ${isRTL ? "cp-rtl" : "cp-ltr"}`}
+      dir={isRTL ? "rtl" : "ltr"}
+    >
       <div className="cp-container">
         <div className="cp-titleWrap">
           <h2 className="cp-title">
-              {isArabic ? "الكليات" : "Colleges"}         
-            </h2>
+            {isArabic ? "الكليات" : "Colleges"}
+          </h2>
           <span className="cp-underline" />
         </div>
 
         {colleges.length === 0 ? (
           <div className="cp-empty">
-{isArabic ? "لا توجد كليات" : "No colleges found"}          </div>
+            {isArabic ? "لا توجد كليات" : "No colleges found"}
+          </div>
         ) : (
           <div className="cp-grid">
             {colleges.map((college) => (
               <div
-                key={`${college.fac}-${college.id}`}
+                key={`${college.fac}-${college.id}-${selectedLangId}`}
                 className="cp-card"
                 onClick={() => handleCollegeClick(college)}
                 role="button"
@@ -267,7 +274,6 @@ const isRTL = isArabic;
                 style={{ cursor: "pointer" }}
               >
                 <div className="cp-card-title">
-                  
                   <span>{college.title}</span>
                   <span className="cp-dot" />
                 </div>

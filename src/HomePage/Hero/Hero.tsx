@@ -1,11 +1,15 @@
 import "./Hero.css";
-import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import defaultImg from "../../assets/raes.jpg";
 import { Link } from "react-router-dom";
 
 // ─── SmartImage with cleanup ───
-const SmartImage = ({ src, alt = "", className }: {
+const SmartImage = ({
+  src,
+  alt = "",
+  className,
+}: {
   src: string;
   alt?: string;
   className?: string;
@@ -13,12 +17,26 @@ const SmartImage = ({ src, alt = "", className }: {
   const [imageSrc, setImageSrc] = useState(defaultImg);
 
   useEffect(() => {
+    setImageSrc(defaultImg);
+
     if (!src) return;
+
     let cancelled = false;
     const img = new Image();
+
     img.src = src;
-    img.onload = () => { if (!cancelled) setImageSrc(src); };
-    return () => { cancelled = true; };
+
+    img.onload = () => {
+      if (!cancelled) setImageSrc(src);
+    };
+
+    img.onerror = () => {
+      if (!cancelled) setImageSrc(defaultImg);
+    };
+
+    return () => {
+      cancelled = true;
+    };
   }, [src]);
 
   return <img src={imageSrc} alt={alt} className={className} />;
@@ -26,56 +44,74 @@ const SmartImage = ({ src, alt = "", className }: {
 
 // ─── Tooltip ───
 const Tooltip = ({ text }: { text: string }) => (
-  <div className="hero-tooltip" role="tooltip">{text}</div>
+  <div className="hero-tooltip" role="tooltip">
+    {text}
+  </div>
 );
 
 function Hero({ News }: { News: any[] }) {
   const { t, i18n } = useTranslation();
+
   const isRTL = i18n.dir() === "rtl";
 
-  const isFeaturedimages = useMemo(() => {
-    const source = News.some((n) => n.isFeatured)
-      ? News.filter((n) => n.isFeatured)
-      : News;
+  const featuredImages = useMemo(() => {
+    const safeNews = Array.isArray(News) ? News : [];
 
-    return source.flatMap((news) =>
-      news.newsImg
-        ? [{ url: news.newsImg, head: news.newsDetails?.head || "", id: news.id }]
-        : []
-    );
-  }, [News , i18n.language]);
+    const source = safeNews.some((n) => n?.isFeatured)
+      ? safeNews.filter((n) => n?.isFeatured)
+      : safeNews;
+
+    return source
+      .filter((news) => news?.newsImg)
+      .map((news) => ({
+        url: news.newsImg,
+        head: news?.newsDetails?.head || "",
+        id: news.id,
+      }));
+  }, [News]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused]         = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [tooltipVisible, setTooltipVisible] = useState(false);
+
+  useEffect(() => {
+    setCurrentIndex(0);
+    setTooltipVisible(false);
+  }, [i18n.language, featuredImages.length]);
 
   const startAutoSlide = useCallback(() => {
     return setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % isFeaturedimages.length);
+      setCurrentIndex((prev) => {
+        if (featuredImages.length === 0) return 0;
+        return (prev + 1) % featuredImages.length;
+      });
     }, 3500);
-  }, [isFeaturedimages.length]);
+  }, [featuredImages.length]);
 
   useEffect(() => {
-    if (!isPaused && isFeaturedimages.length > 0) {
+    if (!isPaused && featuredImages.length > 1) {
       const interval = startAutoSlide();
+
       return () => clearInterval(interval);
     }
-  }, [isPaused, startAutoSlide, isFeaturedimages.length]);
+  }, [isPaused, startAutoSlide, featuredImages.length]);
 
-  if (!isFeaturedimages.length) return null;
+  if (!featuredImages.length) return null;
 
   return (
-    <div className="hero-carousel-wrapper">
+    <div className="hero-carousel-wrapper" dir={isRTL ? "rtl" : "ltr"}>
       <div className="hero-carousel-main">
         <div
           className="hero-carousel-track"
-          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+          style={{
+            transform: `translateX(-${currentIndex * 100}%)`,
+          }}
         >
-          {isFeaturedimages.map((item, index) => (
-            <div key={index} className="hero-carousel-slide">
+          {featuredImages.map((item, index) => (
+            <div key={`${item.id}-${i18n.language}`} className="hero-carousel-slide">
               <SmartImage
                 src={item.url}
-                alt={`University slide ${index + 1}`}
+                alt={item.head || `University slide ${index + 1}`}
                 className="hero-carousel-image"
               />
 
@@ -87,7 +123,7 @@ function Hero({ News }: { News: any[] }) {
                 onMouseLeave={() => setIsPaused(false)}
               >
                 <h1 className={`hero-main-heading ${isRTL ? "font-ar" : "font-en"}`}>
-                  {item.head?.slice(0, 150) ?? item.head}
+                  {item.head ? item.head.slice(0, 150) : ""}
                 </h1>
 
                 <div className="hero-arrow-wrapper">
@@ -112,6 +148,7 @@ function Hero({ News }: { News: any[] }) {
                         <path d="m242-246-42-42 412-412H234v-60h480v480h-60v-378L242-246Z" />
                       </svg>
                     </Link>
+
                     {tooltipVisible && <Tooltip text={t("tooltip.details")} />}
                   </div>
                 </div>
@@ -121,11 +158,13 @@ function Hero({ News }: { News: any[] }) {
         </div>
 
         <div className="hero-pagination-dots">
-          {isFeaturedimages.map((_, index) => (
+          {featuredImages.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`hero-pagination-dot ${currentIndex === index ? "hero-pagination-dot-active" : ""}`}
+              className={`hero-pagination-dot ${
+                currentIndex === index ? "hero-pagination-dot-active" : ""
+              }`}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}

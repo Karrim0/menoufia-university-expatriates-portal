@@ -368,7 +368,7 @@ const handleClearSearch = () => {
               {news.map((item) => (
                 <article key={item.id} className="news-card">
                   <Link
-                    to={`/faculty-news/details/${item.id}`}
+                    to={`/fac/details/${item.id}`}
                     state={{
                       news: item,
                       newsType: "faculty",

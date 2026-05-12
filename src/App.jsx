@@ -45,9 +45,9 @@ function App() {
         <Route path="/colleges-programs" element={<CollegeAndProgramsPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/sectors/:sectorName" element={<SectorsNews />} />
-        <Route path="/faculty-news/:fac" element={<FacultyNewsPage />} />
         <Route path="/university-history" element={<UniversityHistory />} />
-        <Route path="/faculty-news/details/:id" element={<FacultyNewsDetails />} />
+        <Route path="/fac/:fac" element={<FacultyNewsPage />} />
+        <Route path="/fac/details/:id" element={<FacultyNewsDetails />} />      
       </Routes>
       <Footer />
       <ToastContainer

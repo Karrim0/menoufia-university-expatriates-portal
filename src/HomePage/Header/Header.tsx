@@ -5,7 +5,7 @@ import logo from "../../assets/logo.jpg";
 import { useTranslation } from "react-i18next";
 import { Globe, ChevronDown, ChevronLeft } from "lucide-react";
 import newsService from "../../Services/newsService";
-
+import { saveLanguage } from "../../utils/language";
 const LANGUAGE_ORDER = [
   "ar",
   "en",
@@ -582,12 +582,12 @@ const Header = () => {
   const location = useLocation();
 
   const getSavedLang = () => {
-    try {
-      return JSON.parse(localStorage.getItem("lang") || '{"code":"ar","id":1}');
-    } catch {
-      return { code: "ar", id: 1 };
-    }
-  };
+  try {
+    return JSON.parse(localStorage.getItem("lang") || '{"code":"ar","id":1}');
+  } catch {
+    return { code: "ar", id: 1 };
+  }
+};
 
   const [menuActive, setMenuActive] = useState(false);
   const [langActive, setLangActive] = useState(false);
@@ -679,22 +679,17 @@ const Header = () => {
     };
   }, [menuActive]);
 
-  const changeLanguage = (lang: any) => {
-    localStorage.setItem(
-      "lang",
-      JSON.stringify({
-        id: lang.id,
-        name: lang.name,
-        code: lang.code,
-        flag: lang.flag,
-      })
-    );
+  const changeLanguage = async (lang: any) => {
+  saveLanguage(lang);
 
-    i18n.changeLanguage(lang.code);
-    document.documentElement.dir = lang.code === "ar" ? "rtl" : "ltr";
-    setCurrentLang(lang);
-    setLangActive(false);
-  };
+  await i18n.changeLanguage(lang.code);
+
+  document.documentElement.lang = lang.code;
+  document.documentElement.dir = lang.code === "ar" || lang.code === "fa" ? "rtl" : "ltr";
+
+  setCurrentLang(lang);
+  setLangActive(false);
+};
 
   return (
     <header className="nav-container">

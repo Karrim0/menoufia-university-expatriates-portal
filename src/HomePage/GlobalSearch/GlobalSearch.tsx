@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import newsService from "../../Services/newsService";
 import "./GlobalSearch.css";
+import { getLanguageId } from "../../utils/language";
 
 const DEBOUNCE = 400;
 const MAX_PER_GRP = 4;
@@ -70,25 +71,25 @@ function GlobalSearch() {
   const { i18n, t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
+
   const isRTL = i18n.dir() === "rtl";
 
-  const savedLang = (() => {
-    try {
-      return JSON.parse(localStorage.getItem("lang") || "{}");
-    } catch {
-      return {};
-    }
-  })();
+  const langId = useMemo(() => {
+    return getLanguageId(i18n.language);
+  }, [i18n.language]);
 
-  const langId = savedLang?.id || 1;
+  const langCode = useMemo(() => {
+    return String(i18n.language || "ar").toUpperCase();
+  }, [i18n.language]);
 
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState({
+  const [results, setResults] = useState<any>({
     news: [],
     faculty: [],
     college: [],
     program: [],
   });
+
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [cachedColleges, setCachedColleges] = useState<any[]>([]);
@@ -96,14 +97,34 @@ function GlobalSearch() {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const requestIdRef = useRef(0);
+
+  const emptyResults = () => {
+    setResults({
+      news: [],
+      faculty: [],
+      college: [],
+      program: [],
+    });
+  };
 
   useEffect(() => {
+    setCachedColleges([]);
+
     newsService
       .getColleges(langId)
       .then((data: any) => {
-        if (Array.isArray(data)) setCachedColleges(data);
+        const list = Array.isArray(data)
+          ? data
+          : Array.isArray(data?.result)
+          ? data.result
+          : [];
+
+        setCachedColleges(list);
       })
-      .catch(() => {});
+      .catch(() => {
+        setCachedColleges([]);
+      });
   }, [langId]);
 
   useEffect(() => {
@@ -121,13 +142,15 @@ function GlobalSearch() {
   useEffect(() => {
     setOpen(false);
     setQuery("");
-  }, [location.pathname]);
+    emptyResults();
+  }, [location.pathname, i18n.language]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setOpen(false);
         setQuery("");
+        emptyResults();
       }
     };
 
@@ -135,15 +158,6 @@ function GlobalSearch() {
 
     return () => document.removeEventListener("keydown", handler);
   }, []);
-
-  const emptyResults = () => {
-    setResults({
-      news: [],
-      faculty: [],
-      college: [],
-      program: [],
-    });
-  };
 
   const doSearch = useCallback(
     async (term: string) => {
@@ -154,6 +168,8 @@ function GlobalSearch() {
         setOpen(false);
         return;
       }
+
+      const requestId = ++requestIdRef.current;
 
       setLoading(true);
       setOpen(true);
@@ -179,6 +195,8 @@ function GlobalSearch() {
             .catch(() => null),
         ]);
 
+        if (requestId !== requestIdRef.current) return;
+
         const collegeResults = cachedColleges
           .filter((college: any) =>
             String(college?.title || "")
@@ -196,7 +214,6 @@ function GlobalSearch() {
         const programResults: any[] = [];
 
         try {
-          const langCode = String(savedLang?.code || "ar").toUpperCase();
           const json = await import(`../../Local/${langCode}/Programs.json`);
           const colleges = json?.colleges || json?.default?.colleges || [];
 
@@ -247,6 +264,7 @@ function GlobalSearch() {
             type: "faculty",
             state: {
               news,
+              lid: langId,
             },
           })),
 
@@ -254,12 +272,16 @@ function GlobalSearch() {
           program: programResults.slice(0, MAX_PER_GRP),
         });
       } catch {
-        emptyResults();
+        if (requestId === requestIdRef.current) {
+          emptyResults();
+        }
       } finally {
-        setLoading(false);
+        if (requestId === requestIdRef.current) {
+          setLoading(false);
+        }
       }
     },
-    [langId, cachedColleges, savedLang?.code]
+    [langId, langCode, cachedColleges]
   );
 
   useEffect(() => {

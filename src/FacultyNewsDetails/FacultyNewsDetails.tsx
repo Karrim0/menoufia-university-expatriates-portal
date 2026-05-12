@@ -103,7 +103,7 @@ const FacultyNewsDetails: React.FC = () => {
   };
 
   const handleBack = () => {
-    navigate(`/faculty-news/${fac}`, {
+    navigate(`/fac-news/${fac}`, {
       state: {
         collegeName,
         langId, 
