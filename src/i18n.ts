@@ -9,6 +9,7 @@ import enPrograms from "./Local/EN/Programs.json";
 import enNews from "./Local/EN/News.json";
 import enNewsDetails from "./Local/EN/NewsDetails.json";
 import enLogin from "./Local/EN/Login.json";
+import enErrorPage from "./Local/EN/ErrorPage.json";
 
 // ─── AR ───
 import arHome from "./Local/AR/Home.json";
@@ -18,6 +19,7 @@ import arPrograms from "./Local/AR/Programs.json";
 import arNews from "./Local/AR/News.json";
 import arNewsDetails from "./Local/AR/NewsDetails.json";
 import arLogin from "./Local/AR/Login.json";
+import arErrorPage from "./Local/AR/ErrorPage.json";
 
 // ─── FR ───
 import frHome from "./Local/FR/Home.json";
@@ -27,6 +29,7 @@ import frPrograms from "./Local/FR/Programs.json";
 import frNews from "./Local/FR/News.json";
 import frNewsDetails from "./Local/FR/NewsDetails.json";
 import frLogin from "./Local/FR/Login.json";
+import frErrorPage from "./Local/FR/ErrorPage.json";
 
 // ─── DE ───
 import deHome from "./Local/DE/Home.json";
@@ -36,6 +39,7 @@ import dePrograms from "./Local/DE/Programs.json";
 import deNews from "./Local/DE/News.json";
 import deNewsDetails from "./Local/DE/NewsDetails.json";
 import deLogin from "./Local/DE/Login.json";
+import deErrorPage from "./Local/DE/ErrorPage.json";
 
 // ─── CH ───
 import chHome from "./Local/CH/Home.json";
@@ -45,6 +49,7 @@ import chPrograms from "./Local/CH/Programs.json";
 import chNews from "./Local/CH/News.json";
 import chNewsDetails from "./Local/CH/NewsDetails.json";
 import chLogin from "./Local/CH/Login.json";
+import chErrorPage from "./Local/CH/ErrorPage.json";
 
 // ─── FA ───
 import faHome from "./Local/FA/Home.json";
@@ -54,6 +59,7 @@ import faPrograms from "./Local/FA/Programs.json";
 import faNews from "./Local/FA/News.json";
 import faNewsDetails from "./Local/FA/NewsDetails.json";
 import faLogin from "./Local/FA/Login.json";
+import faErrorPage from "./Local/FA/ErrorPage.json";
 
 // ─── IT ───
 import itHome from "./Local/IT/Home.json";
@@ -63,6 +69,7 @@ import itPrograms from "./Local/IT/Programs.json";
 import itNews from "./Local/IT/News.json";
 import itNewsDetails from "./Local/IT/NewsDetails.json";
 import itLogin from "./Local/IT/Login.json";
+import itErrorPage from "./Local/IT/ErrorPage.json";
 
 // ─── JA ───
 import jaHome from "./Local/JA/Home.json";
@@ -72,6 +79,7 @@ import jaPrograms from "./Local/JA/Programs.json";
 import jaNews from "./Local/JA/News.json";
 import jaNewsDetails from "./Local/JA/NewsDetails.json";
 import jaLogin from "./Local/JA/Login.json";
+import jaErrorPage from "./Local/JA/ErrorPage.json";
 
 // ─── RU ───
 import ruHome from "./Local/RU/Home.json";
@@ -81,6 +89,7 @@ import ruPrograms from "./Local/RU/Programs.json";
 import ruNews from "./Local/RU/News.json";
 import ruNewsDetails from "./Local/RU/NewsDetails.json";
 import ruLogin from "./Local/RU/Login.json";
+import ruErrorPage from "./Local/RU/ErrorPage.json";
 
 // ─── TR ───
 import trHome from "./Local/TR/Home.json";
@@ -90,6 +99,7 @@ import trPrograms from "./Local/TR/Programs.json";
 import trNews from "./Local/TR/News.json";
 import trNewsDetails from "./Local/TR/NewsDetails.json";
 import trLogin from "./Local/TR/Login.json";
+import trErrorPage from "./Local/TR/ErrorPage.json";
 
 const buildResources = (
   Home: any,
@@ -98,7 +108,8 @@ const buildResources = (
   Programs: any,
   News: any,
   NewsDetails: any,
-  Login: any
+  Login: any,
+    ErrorPage: any
 ) => ({
   translation: Home,
   College,
@@ -107,6 +118,7 @@ const buildResources = (
   News,
   NewsDetails,
   Login,
+  ErrorPage
 });
 
 const getInitialLanguage = () => {
@@ -144,7 +156,8 @@ i18n.use(initReactI18next).init({
       enPrograms,
       enNews,
       enNewsDetails,
-      enLogin
+      enLogin,
+      enErrorPage
     ),
     ar: buildResources(
       arHome,
@@ -153,7 +166,8 @@ i18n.use(initReactI18next).init({
       arPrograms,
       arNews,
       arNewsDetails,
-      arLogin
+      arLogin,
+      arErrorPage
     ),
     fr: buildResources(
       frHome,
@@ -162,7 +176,8 @@ i18n.use(initReactI18next).init({
       frPrograms,
       frNews,
       frNewsDetails,
-      frLogin
+      frLogin,
+      frErrorPage
     ),
     de: buildResources(
       deHome,
@@ -171,7 +186,8 @@ i18n.use(initReactI18next).init({
       dePrograms,
       deNews,
       deNewsDetails,
-      deLogin
+      deLogin,
+      deErrorPage
     ),
     ch: buildResources(
       chHome,
@@ -180,7 +196,8 @@ i18n.use(initReactI18next).init({
       chPrograms,
       chNews,
       chNewsDetails,
-      chLogin
+      chLogin,
+      chErrorPage
     ),
     fa: buildResources(
       faHome,
@@ -189,7 +206,8 @@ i18n.use(initReactI18next).init({
       faPrograms,
       faNews,
       faNewsDetails,
-      faLogin
+      faLogin,
+      faErrorPage
     ),
     it: buildResources(
       itHome,
@@ -198,7 +216,8 @@ i18n.use(initReactI18next).init({
       itPrograms,
       itNews,
       itNewsDetails,
-      itLogin
+      itLogin,
+      itErrorPage
     ),
     ja: buildResources(
       jaHome,
@@ -207,7 +226,8 @@ i18n.use(initReactI18next).init({
       jaPrograms,
       jaNews,
       jaNewsDetails,
-      jaLogin
+      jaLogin,
+      jaErrorPage
     ),
     ru: buildResources(
       ruHome,
@@ -216,7 +236,8 @@ i18n.use(initReactI18next).init({
       ruPrograms,
       ruNews,
       ruNewsDetails,
-      ruLogin
+      ruLogin,
+      ruErrorPage
     ),
     tr: buildResources(
       trHome,
@@ -225,7 +246,8 @@ i18n.use(initReactI18next).init({
       trPrograms,
       trNews,
       trNewsDetails,
-      trLogin
+      trLogin,
+      trErrorPage
     ),
   },
 

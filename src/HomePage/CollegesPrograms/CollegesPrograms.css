@@ -1,7 +1,10 @@
 .cp-section {
-  padding: 48px 0 28px;
-  background: #dcedf480;
-  margin-bottom: 50px;
+  width: 100%;
+  background: rgba(220, 237, 244, 0.5);
+  padding: 54px 0 76px;
+  margin-bottom: 0;
+  font-family: "Cairo", "Segoe UI", sans-serif;
+  overflow: hidden;
 }
 
 .cp-section.cp-rtl {
@@ -13,23 +16,21 @@
 }
 
 .cp-container {
-  width: 100%;
-  /* max-width: 1440px; */
-  padding: 0px 32px;
+  width: min(1258px, calc(100% - 64px));
   margin: 0 auto;
   box-sizing: border-box;
 }
 
-/* ─── Title ─── */
+/* Title */
 .cp-titleWrap {
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-bottom: 22px;
+  margin-bottom: 32px;
 }
 
 .cp-section.cp-rtl .cp-titleWrap {
-  align-items: flex-start;
+  align-items: flex-end;
   text-align: right;
 }
 
@@ -40,79 +41,62 @@
 
 .cp-title {
   margin: 0;
-  font-size: 31px;
-  font-weight: 800;
-  line-height: 1.2;
-  color: #26385d;
-  letter-spacing: -0.4px;
-  font-family: Cairo;
-  font-weight: 600;
-  font-style: SemiBold;
+  color: #303d5e;
+  font-family: "Cairo", "Segoe UI", sans-serif;
   font-size: 36px;
-  leading-trim: NONE;
-  line-height: 100%;
-  letter-spacing: 0%;
-  text-align: right;
-  vertical-align: middle;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
 }
 
 .cp-underline {
   display: block;
-  width: 39px;
+  width: 56px;
   height: 2px;
-  margin-top: 12px;
+  margin-top: 14px;
   background: #f8904f;
   border-radius: 999px;
-  angle: -180 deg;
-  opacity: 1;
-  border-width: 2px;
 }
 
-/* ─── Status ─── */
+/* Loading / Empty */
 .cp-loading,
 .cp-empty {
-  min-height: 90px;
+  min-height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #26385d;
-  font-size: 17px;
+  color: #303d5e;
+  font-size: 18px;
   font-weight: 700;
 }
 
-/* ─── Grid ─── */
+/* Grid */
 .cp-grid {
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px 10px;
+  gap: 17px 24px;
   align-items: stretch;
 }
 
-/* ─── Card ─── */
+/* Card */
 .cp-card {
-  padding: 17px 26px 14px;
+  min-height: 75px;
+  height: auto;
+  padding: 14px 10px;
   box-sizing: border-box;
-
-  width: 345;
-  height: 90;
   border-radius: 10px;
-  angle: 0 deg;
-  opacity: 1;
+  background: #ffffff;
+  border: 1px solid rgba(48, 61, 94, 0.04);
 
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 11px;
+  justify-content: space-between;
+  gap: 12px;
 
-  background: #ffffff;
-  border: 1px solid rgba(27, 45, 80, 0.04);
-  border-radius: 8px;
-
-  color: #26385d;
+  color: #303d5e;
   cursor: pointer;
   user-select: none;
-
   box-shadow: none;
 
   transition:
@@ -122,167 +106,196 @@
     background-color 0.22s ease;
 }
 
-.cp-card:hover .cp-classic-link {
-  color: #fff;
+.cp-section.cp-rtl .cp-card {
+  flex-direction: row-reverse;
 }
 
-.cp-card:hover .cp-card-title {
-  color: #fff;
+.cp-section.cp-ltr .cp-card {
+  flex-direction: row;
 }
-.cp-card:hover .cp-dot {
-  background-color: #f66b15;
-}
+
 .cp-card:hover {
   background-color: #303d5e;
+  border-color: rgba(48, 61, 94, 0.14);
   transform: translateY(-3px);
-  border-color: rgba(38, 56, 93, 0.12);
-  box-shadow: 0 10px 25px rgba(38, 56, 93, 0.11);
+  box-shadow: 0 14px 30px rgba(48, 61, 94, 0.13);
 }
 
 .cp-card:focus-visible {
-  outline: 2px solid #26385d;
-  outline-offset: 3px;
+  outline: 2px solid #303d5e;
+  outline-offset: 4px;
 }
 
-/* ─── College Name ─── */
+/* College title */
 .cp-card-title {
+  min-width: 0;
+  flex: 1;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 7px;
 
-  max-width: 100%;
   color: #303d5e;
-  font-size: 21px;
-  font-weight: 800;
-  line-height: 1.25;
-  text-align: center;
-  font-family: Cairo;
+  font-family: "Cairo", "Segoe UI", sans-serif;
+  font-size: 18px;
   font-weight: 700;
-  font-style: Bold;
-  font-size: 20px;
-  leading-trim: NONE;
-  line-height: 100%;
-  letter-spacing: 0%;
+  line-height: 1.35;
   text-align: center;
-  vertical-align: middle;
+
+  transition: color 0.2s ease;
 }
 
-.cp-card-title span:last-child {
+.cp-section.cp-rtl .cp-card-title {
+  flex-direction: row-reverse;
+}
+
+.cp-section.cp-ltr .cp-card-title {
+  flex-direction: row;
+}
+
+.cp-title-text {
+  min-width: 0;
   max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .cp-dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: #64748b80;
+  background-color: rgba(100, 116, 139, 0.5);
   flex-shrink: 0;
+  transition: background-color 0.2s ease;
 }
 
-/* ─── Classic Website Link ─── */
+.cp-card:hover .cp-card-title {
+  color: #ffffff;
+}
+
+.cp-card:hover .cp-dot {
+  background-color: #f8904f;
+}
+
+/* Classic website button */
 .cp-classic-link {
+  width: 126px;
+  min-width: 126px;
+  min-height: 32px;
+  border-radius: 5px;
+  padding: 7px 8px;
+  box-sizing: border-box;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 5px;
 
-  color: #303d5e;
+  background: #303d5e;
+  color: #ffffff;
   text-decoration: none;
-  font-size: 16px;
+
+  font-family: "Cairo", "Segoe UI", sans-serif;
+  font-size: 12px;
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.2;
+  text-align: center;
+
+  flex-shrink: 0;
 
   transition:
+    background 0.2s ease,
     color 0.2s ease,
     transform 0.2s ease;
-  font-family: Cairo;
-  font-weight: 500;
-  font-style: Medium;
-  font-size: 15px;
-  leading-trim: NONE;
-  line-height: 100%;
-  letter-spacing: 0%;
-  text-align: center;
-  vertical-align: middle;
 }
-.cp-classic-link:hover {
-  color: #f66b15 !important;
-  transform: translateY(-1px);
+
+.cp-section.cp-rtl .cp-classic-link {
+  flex-direction: row;
 }
+
+.cp-section.cp-ltr .cp-classic-link {
+  flex-direction: row-reverse;
+}
+
+.cp-classic-text {
+  white-space: normal;
+  line-height: 1.2;
+}
+
 .cp-classic-link svg {
-  width: 17px;
-  height: 17px;
+  width: 11.25px;
+  height: 11.25px;
+  min-width: 11.25px;
   stroke-width: 2.4;
+  color: currentColor;
   flex-shrink: 0;
 }
 
 .cp-classic-link:hover {
-  color: #f36b1d;
+  background: #f8904f;
+  color: #ffffff !important;
   transform: translateY(-1px);
 }
 
-/* العربي: النقطة بعد الاسم زي الصورة */
-.cp-section.cp-rtl .cp-card-title {
-  flex-direction: row-reverse;
+.cp-card:hover .cp-classic-link {
+  background: #ffffff;
+  color: #303d5e;
 }
 
-/* الإنجليزي: النقطة قبل الاسم */
-.cp-section.cp-ltr .cp-card-title {
-  flex-direction: row;
+.cp-card:hover .cp-classic-link:hover {
+  background: #f8904f;
+  color: #ffffff !important;
 }
 
-/* ─── Responsive  ─── */
-
-@media (max-width: 1400px) {
+/* Responsive */
+@media (max-width: 1300px) {
   .cp-container {
-    padding: 0 28px;
+    width: min(100%, calc(100% - 48px));
   }
 
   .cp-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 18px 12px;
-  }
-
-  .cp-card {
-    min-height: 90px;
-    padding: 16px 18px;
+    gap: 16px;
   }
 
   .cp-card-title {
-    font-size: 18px;
+    font-size: 17px;
   }
 
   .cp-classic-link {
-    font-size: 14px;
+    width: 118px;
+    min-width: 118px;
   }
 }
 
-@media (max-width: 1200px) {
-  .cp-section {
-    padding: 42px 0 26px;
-  }
-
+@media (max-width: 1100px) {
   .cp-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px 12px;
-  }
-
-  .cp-title {
-    font-size: 32px;
   }
 
   .cp-card {
-    min-height: 88px;
+    min-height: 82px;
   }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 820px) {
+  .cp-section {
+    padding: 42px 0 56px;
+  }
+
   .cp-container {
-    padding: 0 22px;
+    width: min(100%, calc(100% - 32px));
+  }
+
+  .cp-title {
+    font-size: 30px;
+  }
+
+  .cp-titleWrap {
+    margin-bottom: 24px;
   }
 
   .cp-grid {
@@ -290,57 +303,61 @@
     gap: 14px;
   }
 
-  .cp-title {
-    font-size: 29px;
-  }
-
   .cp-card {
-    min-height: 86px;
-    padding: 15px 16px;
-    border-radius: 9px;
+    min-height: 92px;
+    padding: 14px 12px;
+    flex-direction: column !important;
+    justify-content: center;
+    gap: 10px;
   }
 
   .cp-card-title {
-    font-size: 17px;
-    gap: 8px;
-  }
-
-  .cp-dot {
-    width: 8px;
-    height: 8px;
+    width: 100%;
+    font-size: 16px;
   }
 
   .cp-classic-link {
-    font-size: 13.5px;
-  }
-
-  .cp-classic-link svg {
-    width: 15px;
-    height: 15px;
+    width: 100%;
+    min-width: 0;
+    max-width: 160px;
   }
 }
-@media (max-width: 768px) {
+
+@media (max-width: 520px) {
+  .cp-section {
+    padding: 36px 0 48px;
+  }
+
+  .cp-container {
+    width: min(100%, calc(100% - 24px));
+  }
+
   .cp-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
     gap: 12px;
   }
 
+  .cp-title {
+    font-size: 26px;
+  }
+
+  .cp-underline {
+    width: 46px;
+    margin-top: 10px;
+  }
+
   .cp-card {
-    min-height: 50px;
-    padding: 8px 5px;
+    min-height: 84px;
+    padding: 14px 12px;
   }
 
   .cp-card-title {
-    font-size: 14.5px;
+    font-size: 16px;
   }
 
   .cp-classic-link {
+    min-height: 34px;
+    max-width: 180px;
     font-size: 12.5px;
-  }
-}
-
-@media (max-width: 390px) {
-  .cp-grid {
-    grid-template-columns: 1fr;
   }
 }
