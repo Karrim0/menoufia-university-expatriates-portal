@@ -1,0 +1,221 @@
+.intro-video-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999998;
+
+  width: 100%;
+  height: 100vh;
+
+  background: rgba(22, 40, 54, 0.62);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.intro-video-modal {
+  position: relative;
+
+  width: min(760px, 92vw);
+  max-height: 92vh;
+
+  background: #f4f9fc;
+  border-radius: 14px;
+
+  padding: 58px 24px 24px;
+  box-sizing: border-box;
+
+  text-align: center;
+
+  overflow: hidden;
+
+  animation: introVideoShow 0.35s ease forwards;
+}
+
+.intro-video-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #303d5e;
+  color: #ffffff;
+
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.intro-video-title {
+  margin: 0;
+
+  font-family: "Cairo", sans-serif;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.25;
+
+  color: #303d5e;
+}
+
+.intro-video-subtitle {
+  margin: 12px 0 28px;
+
+  font-family: "Cairo", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.3;
+
+  color: rgba(48, 61, 94, 0.68);
+}
+
+.intro-video-frame {
+  width: 100%;
+  height: 320px;
+
+  border-radius: 12px;
+  overflow: hidden;
+
+  background: #9ea9b9;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-video-player {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Buttons */
+.intro-video-actions {
+  margin-top: 24px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+
+  direction: ltr;
+}
+
+.intro-video-actions button {
+  height: 58px;
+
+  border-radius: 6px;
+
+  font-family: "Cairo", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+.intro-video-actions button:hover {
+    color: #ffffff !important;
+    border: none !important;
+}
+.intro-video-watch {
+  background: #303d5e;
+  color: #ffffff;
+  border: 1px solid #303d5e;
+}
+
+.intro-video-skip {
+  background: transparent;
+  color: #303d5e;
+  border: 1px solid #303d5e;
+}
+
+@keyframes introVideoShow {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .intro-video-modal {
+    width: 92vw;
+    padding: 50px 16px 16px;
+    border-radius: 10px;
+  }
+
+  .intro-video-close {
+    width: 30px;
+    height: 30px;
+    font-size: 22px;
+  }
+
+  .intro-video-title {
+    font-size: 24px;
+  }
+
+  .intro-video-subtitle {
+    font-size: 15px;
+    margin-bottom: 18px;
+  }
+
+  .intro-video-frame {
+    height: 190px;
+  }
+
+  .intro-video-actions {
+    margin-top: 16px;
+    gap: 8px;
+  }
+
+  .intro-video-actions button {
+    height: 46px;
+    font-size: 15px;
+  }
+}
+/* لما المستخدم يدوس شاهد الفيديو */
+.intro-video-modal.watching-video {
+  width: min(1100px, 94vw);
+  padding: 24px;
+}
+
+.intro-video-modal.watching-video .intro-video-frame {
+  width: 100%;
+  height: min(620px, 78vh);
+  border-radius: 12px;
+}
+
+.intro-video-modal.watching-video .intro-video-player {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+@media (max-width: 768px) {
+  .intro-video-modal.watching-video {
+    width: 94vw;
+    padding: 16px;
+  }
+
+  .intro-video-modal.watching-video .intro-video-frame {
+    height: 58vh;
+  }
+}

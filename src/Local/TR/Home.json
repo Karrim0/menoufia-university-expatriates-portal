@@ -24,17 +24,43 @@
     "students": "Öğrenciler",
 
     "studentsList": {
-      "admission": "Kabul ve Kayıt",
-      "scholarships": "Burslar",
-      "fees": "Ücretler",
-      "ethics": "Etik Kurallar",
-      "platforms": "Platformlar",
-      "services": "Öğrenci Hizmetleri",
-      "housing": "Yurt",
-      "transport": "Ulaşım",
-      "sports": "Spor",
-      "cultural": "Kültür"
-    },
+  "universityCitiesApplication": "Yurt Başvurusu",
+
+  "undergraduateStage": "Lisans",
+  "studySystem": "Eğitim Sistemi",
+  "openEducation": "Açık Öğretim",
+  "electronicServices": "E-servisler",
+
+  "postgraduateStage": "Lisansüstü",
+  "registrationConditions": "Kayıt Şartları",
+
+  "graduates": "Mezunlar",
+  "graduatesCareAssociation": "Mezun Destek Derneği",
+  "graduatesDatabase": "Mezun Veritabanı",
+  "graduateSearch": "Mezun Ara",
+
+  "internationalStudents": "Uluslararası Öğrenciler",
+
+  "studentServices": "Öğrenci Hizmetleri",
+  "electronicApplication": "Online Başvuru",
+  "medicalServices": "Sağlık Hizmetleri",
+  "universityProfessor": "Üniversite Hocası",
+  "studentTakaful": "Öğrenci Takaful",
+  "studentGuide": "Öğrenci Rehberi",
+  "universityCitiesEvaluation": "Yurt Değerlendirme",
+  "militaryEducation": "Askeri Eğitim",
+  "summerTraining": "Yaz Stajı",
+  "informationClub": "IT Kulübü",
+  "tuitionFees": "Öğrenim Ücreti",
+  "universityCities": "Yurtlar",
+
+  "studentActivities": "Öğrenci Etkinlikleri",
+  "postgraduateResults": "Lisansüstü Sonuçları",
+  "youthCare": "Gençlik Desteği",
+  "examResults": "Sınav Sonuçları",
+  "getEmail": "E-posta Al",
+  "foreignStudentsRegistration": "Yabancı Öğrenci Kaydı"
+},
 
     "sectorsList": {
       "univpres": "Üniversite Başkanlığı",

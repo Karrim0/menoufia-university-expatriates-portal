@@ -8,6 +8,55 @@ import { getLanguageId } from "../../utils/language";
 const DEBOUNCE = 400;
 const MAX_PER_GRP = 4;
 
+const LANGUAGE_IDS = {
+  ar: 1,
+  en: 2,
+  fr: 3,
+  ja: 23,
+  de: 24,
+  tr: 25,
+  fa: 26,
+  ru: 27,
+  ch: 28,
+  it: 29,
+};
+
+const LANGUAGE_CODES_BY_ID: Record<number, string> = {
+  1: "AR",
+  2: "EN",
+  3: "FR",
+  23: "JA",
+  24: "DE",
+  25: "TR",
+  26: "FA",
+  27: "RU",
+  28: "CH",
+  29: "IT",
+};
+
+const FACULTY_CODES = [
+  100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200,
+  1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300, 2400,
+];
+
+const detectSearchLanguageId = (text: string, fallbackLangId: number) => {
+  const value = text.trim();
+
+  if (!value) return fallbackLangId;
+
+  if (/[پچژگک‌ی]/.test(value)) return LANGUAGE_IDS.fa;
+  if (/[\u0600-\u06FF]/.test(value)) return LANGUAGE_IDS.ar;
+  if (/[\u0400-\u04FF]/.test(value)) return LANGUAGE_IDS.ru;
+  if (/[\u3040-\u30FF\u31F0-\u31FF]/.test(value)) return LANGUAGE_IDS.ja;
+  if (/[\u4E00-\u9FFF]/.test(value)) return LANGUAGE_IDS.ch;
+  if (/[çğıöşüÇĞİÖŞÜ]/.test(value)) return LANGUAGE_IDS.tr;
+  if (/[äöüßÄÖÜ]/.test(value)) return LANGUAGE_IDS.de;
+  if (/[âæçêëîïôœûüÿÂÆÇÊËÎÏÔŒÛÜŸ]/.test(value)) return LANGUAGE_IDS.fr;
+  if (/[àèéìíîòóùúÀÈÉÌÍÎÒÓÙÚ]/.test(value)) return LANGUAGE_IDS.it;
+
+  return LANGUAGE_IDS.en;
+};
+
 const SEARCH_ICON = (
   <svg
     width="20"
@@ -74,15 +123,12 @@ function GlobalSearch() {
 
   const isRTL = i18n.dir() === "rtl";
 
-  const langId = useMemo(() => {
+  const fallbackLangId = useMemo(() => {
     return getLanguageId(i18n.language);
   }, [i18n.language]);
 
-  const langCode = useMemo(() => {
-    return String(i18n.language || "ar").toUpperCase();
-  }, [i18n.language]);
-
   const [query, setQuery] = useState("");
+
   const [results, setResults] = useState<any>({
     news: [],
     faculty: [],
@@ -112,7 +158,7 @@ function GlobalSearch() {
     setCachedColleges([]);
 
     newsService
-      .getColleges(langId)
+      .getColleges(fallbackLangId)
       .then((data: any) => {
         const list = Array.isArray(data)
           ? data
@@ -125,7 +171,7 @@ function GlobalSearch() {
       .catch(() => {
         setCachedColleges([]);
       });
-  }, [langId]);
+  }, [fallbackLangId]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -159,6 +205,70 @@ function GlobalSearch() {
     return () => document.removeEventListener("keydown", handler);
   }, []);
 
+  const fetchFacultySearch = async (q: string, activeLangId: number) => {
+    const facultyRequests = FACULTY_CODES.map((facCode) =>
+      newsService
+        .getFacultyNews({
+          fac: facCode,
+          langId: activeLangId,
+          pageIndex: 1,
+          pageSize: 2,
+          search: q,
+        })
+        .then((res: any) => {
+          const list = Array.isArray(res?.result) ? res.result : [];
+
+          return list.map((item: any) => ({
+            ...item,
+            facultyCode: facCode,
+          }));
+        })
+        .catch(() => [])
+    );
+
+    const facultyGroups = await Promise.all(facultyRequests);
+
+    return facultyGroups
+      .flat()
+      .slice(0, MAX_PER_GRP);
+  };
+
+  const getProgramResults = async (q: string, activeLangId: number) => {
+    const activeLangCode = LANGUAGE_CODES_BY_ID[activeLangId] || "EN";
+    const programResults: any[] = [];
+
+    try {
+      const json = await import(`../../Local/${activeLangCode}/Programs.json`);
+      const colleges = json?.colleges || json?.default?.colleges || [];
+
+      if (Array.isArray(colleges)) {
+        colleges.forEach((college: any) => {
+          const programs = Array.isArray(college?.programs)
+            ? college.programs
+            : [];
+
+          programs.forEach((program: string, index: number) => {
+            if (
+              String(program || "")
+                .toLowerCase()
+                .includes(q.toLowerCase())
+            ) {
+              programResults.push({
+                id: `${college.name}-${index}`,
+                title: program,
+                subtitle: college.name,
+                link: "/colleges-programs",
+                type: "program",
+              });
+            }
+          });
+        });
+      }
+    } catch {}
+
+    return programResults.slice(0, MAX_PER_GRP);
+  };
+
   const doSearch = useCallback(
     async (term: string) => {
       const q = term.trim();
@@ -169,35 +279,42 @@ function GlobalSearch() {
         return;
       }
 
+      const activeLangId = detectSearchLanguageId(q, fallbackLangId);
       const requestId = ++requestIdRef.current;
 
       setLoading(true);
       setOpen(true);
 
       try {
-        const [newsRes, facultyRes] = await Promise.all([
-          newsService
-            .getUniversityNews({
-              languageId: langId,
-              pageIndex: 1,
-              pageSize: MAX_PER_GRP,
-              search: q,
-            })
-            .catch(() => null),
+        const [newsRes, facultyList, collegesRes, programResults] =
+          await Promise.all([
+            newsService
+              .getUniversityNews({
+                languageId: activeLangId,
+                pageIndex: 1,
+                pageSize: MAX_PER_GRP,
+                search: q,
+              })
+              .catch(() => null),
 
-          newsService
-            .getFacultyNews({
-              langId,
-              pageIndex: 1,
-              pageSize: MAX_PER_GRP,
-              search: q,
-            })
-            .catch(() => null),
-        ]);
+            fetchFacultySearch(q, activeLangId),
+
+            newsService
+              .getColleges(activeLangId)
+              .catch(() => null),
+
+            getProgramResults(q, activeLangId),
+          ]);
 
         if (requestId !== requestIdRef.current) return;
 
-        const collegeResults = cachedColleges
+        const collegesList = Array.isArray(collegesRes)
+          ? collegesRes
+          : Array.isArray(collegesRes?.result)
+          ? collegesRes.result
+          : cachedColleges;
+
+        const collegeResults = collegesList
           .filter((college: any) =>
             String(college?.title || "")
               .toLowerCase()
@@ -211,65 +328,38 @@ function GlobalSearch() {
             type: "college",
           }));
 
-        const programResults: any[] = [];
-
-        try {
-          const json = await import(`../../Local/${langCode}/Programs.json`);
-          const colleges = json?.colleges || json?.default?.colleges || [];
-
-          if (Array.isArray(colleges)) {
-            colleges.forEach((college: any) => {
-              const programs = Array.isArray(college?.programs)
-                ? college.programs
-                : [];
-
-              programs.forEach((program: string, index: number) => {
-                if (
-                  String(program || "")
-                    .toLowerCase()
-                    .includes(q.toLowerCase())
-                ) {
-                  programResults.push({
-                    id: `${college.name}-${index}`,
-                    title: program,
-                    subtitle: college.name,
-                    link: "/colleges-programs",
-                    type: "program",
-                  });
-                }
-              });
-            });
-          }
-        } catch {}
-
         setResults({
-          news: (newsRes?.result || []).slice(0, MAX_PER_GRP).map((news: any) => ({
-            id: news.id,
-            title: news?.newsDetails?.head || "",
-            subtitle: news?.newsDetails?.abbr?.slice(0, 55) || "",
-            link: `/details/${news.id}`,
-            type: "news",
-            state: {
-              news,
-              newsType: "university",
-              lid: langId,
-            },
-          })),
+          news: (newsRes?.result || [])
+            .slice(0, MAX_PER_GRP)
+            .map((news: any) => ({
+              id: news.id,
+              title: news?.newsDetails?.head || "",
+              subtitle: news?.newsDetails?.abbr?.slice(0, 55) || "",
+              link: `/details/${news.id}`,
+              type: "news",
+              state: {
+                news,
+                newsType: "university",
+                lid: activeLangId,
+              },
+            })),
 
-          faculty: (facultyRes?.result || []).slice(0, MAX_PER_GRP).map((news: any) => ({
-            id: news.id,
-            title: news.title || "",
-            subtitle: news.source || "",
-            link: `/faculty-news/${news.id}`,
-            type: "faculty",
-            state: {
-              news,
-              lid: langId,
-            },
-          })),
+          faculty: facultyList.slice(0, MAX_PER_GRP).map((news: any) => ({
+  id: news.id,
+  title: news.title || "",
+  subtitle: news.source || "",
+  link: `/fac/${news.facultyCode}/details/${news.id}`,
+  type: "faculty",
+  state: {
+    news,
+    newsType: "faculty",
+    fac: Number(news.facultyCode),
+    langId: activeLangId,
+  },
+})),
 
           college: collegeResults,
-          program: programResults.slice(0, MAX_PER_GRP),
+          program: programResults,
         });
       } catch {
         if (requestId === requestIdRef.current) {
@@ -281,7 +371,7 @@ function GlobalSearch() {
         }
       }
     },
-    [langId, langCode, cachedColleges]
+    [fallbackLangId, cachedColleges]
   );
 
   useEffect(() => {
@@ -306,7 +396,7 @@ function GlobalSearch() {
 
     if (result.link?.startsWith("http")) {
       window.open(result.link, "_blank", "noopener");
-    } else {
+    } else if (result.link && result.link !== "#") {
       navigate(result.link, { state: result.state });
       window.scrollTo(0, 0);
     }

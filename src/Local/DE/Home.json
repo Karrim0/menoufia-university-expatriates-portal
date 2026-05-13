@@ -24,17 +24,43 @@
     "students": "Studierende",
 
     "studentsList": {
-      "admission": "Zulassung",
-      "scholarships": "Stipendien",
-      "fees": "Gebühren",
-      "ethics": "Kodex",
-      "platforms": "Plattformen",
-      "services": "Services",
-      "housing": "Wohnheim",
-      "transport": "Transport",
-      "sports": "Sport",
-      "cultural": "Kultur"
-    },
+  "universityCitiesApplication": "Wohnheimantrag",
+
+  "undergraduateStage": "Bachelor",
+  "studySystem": "Studiensystem",
+  "openEducation": "Offenes Lernen",
+  "electronicServices": "E-Services",
+
+  "postgraduateStage": "Postgrad.",
+  "registrationConditions": "Zulassungsregeln",
+
+  "graduates": "Absolventen",
+  "graduatesCareAssociation": "Alumni-Betreuung",
+  "graduatesDatabase": "Alumni-Datenbank",
+  "graduateSearch": "Alumni-Suche",
+
+  "internationalStudents": "Internationale",
+
+  "studentServices": "Stud. Services",
+  "electronicApplication": "Online-Antrag",
+  "medicalServices": "Medizinische Dienste",
+  "universityProfessor": "Uni-Professor",
+  "studentTakaful": "Stud. Takaful",
+  "studentGuide": "Studienguide",
+  "universityCitiesEvaluation": "Wohnheim-Bewertung",
+  "militaryEducation": "Militärausbildung",
+  "summerTraining": "Sommertraining",
+  "informationClub": "IT-Club",
+  "tuitionFees": "Studiengebühren",
+  "universityCities": "Wohnheime",
+
+  "studentActivities": "Aktivitäten",
+  "postgraduateResults": "PG-Ergebnisse",
+  "youthCare": "Jugendbetreuung",
+  "examResults": "Prüfungsergebnisse",
+  "getEmail": "E-Mail erhalten",
+  "foreignStudentsRegistration": "Ausländer-Registrierung"
+},
 
     "sectorsList": {
       "univpres": "Präsidium",

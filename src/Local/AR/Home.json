@@ -32,17 +32,43 @@
     "students.services.transport": "النقل والمواصلات",
 
     "studentsList": {
-      "admission": "القبول والتسجيل",
-      "scholarships": "المنح الدراسية",
-      "fees": "الرسوم الدراسية",
-      "ethics": "مواثيق الشرف",
-      "platforms": "المنصات الطلابية",
-      "services": "الخدمات الطلابية",
-      "housing": "السكن الجامعي",
-      "transport": "المواصلات",
-      "sports": "الأنشطة الرياضية",
-      "cultural": "الأنشطة الثقافية"
-    },
+  "universityCitiesApplication": "التقديم المدن الجامعية",
+
+  "undergraduateStage": "مرحلة البكالوريوس والليسانس",
+  "studySystem": "نظام الدراسة",
+  "openEducation": "التعليم المفتوح",
+  "electronicServices": "خدمات إلكترونية",
+
+  "postgraduateStage": "مرحلة الدراسات العليا",
+  "registrationConditions": "شروط القيد",
+
+  "graduates": "الخريجين",
+  "graduatesCareAssociation": "جمعية رعاية الخريجين",
+  "graduatesDatabase": "قاعدة بيانات الخريجين",
+  "graduateSearch": "بحث عن خريج",
+
+  "internationalStudents": "الطلاب الوافدين",
+
+  "studentServices": "الخدمات الطلابية",
+  "electronicApplication": "التقديم الإلكتروني",
+  "medicalServices": "الخدمات الطبية",
+  "universityProfessor": "أستاذ الجامعة",
+  "studentTakaful": "التكافل الطلابي",
+  "studentGuide": "دليل الطالب",
+  "universityCitiesEvaluation": "التقييم المدن الجامعية",
+  "militaryEducation": "التربية العسكرية",
+  "summerTraining": "التدريب الصيفي",
+  "informationClub": "نادي تك المعلومات",
+  "tuitionFees": "المصروفات الدراسية",
+  "universityCities": "المدن الجامعية",
+
+  "studentActivities": "أنشطة طلابية",
+  "postgraduateResults": "نتائج الدراسات العليا",
+  "youthCare": "رعاية الشباب",
+  "examResults": "نتائج الامتحانات",
+  "getEmail": "الحصول على البريد الإلكتروني",
+  "foreignStudentsRegistration": "تسجيل الطلاب الأجانب"
+},
 
     "sectorsList": {
       "univpres": "قطاع رئيس الجامعة",

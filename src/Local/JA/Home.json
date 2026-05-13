@@ -24,17 +24,43 @@
     "students": "学生",
 
     "studentsList": {
-      "admission": "入学・登録",
-      "scholarships": "奨学金",
-      "fees": "学費",
-      "ethics": "倫理規定",
-      "platforms": "学生ポータル",
-      "services": "学生サービス",
-      "housing": "学生寮",
-      "transport": "交通",
-      "sports": "スポーツ",
-      "cultural": "文化活動"
-    },
+  "universityCitiesApplication": "寮申請",
+
+  "undergraduateStage": "学部課程",
+  "studySystem": "学習制度",
+  "openEducation": "公開教育",
+  "electronicServices": "電子サービス",
+
+  "postgraduateStage": "大学院課程",
+  "registrationConditions": "登録条件",
+
+  "graduates": "卒業生",
+  "graduatesCareAssociation": "卒業生支援会",
+  "graduatesDatabase": "卒業生DB",
+  "graduateSearch": "卒業生検索",
+
+  "internationalStudents": "留学生",
+
+  "studentServices": "学生サービス",
+  "electronicApplication": "オンライン申請",
+  "medicalServices": "医療サービス",
+  "universityProfessor": "大学教授",
+  "studentTakaful": "学生支援",
+  "studentGuide": "学生ガイド",
+  "universityCitiesEvaluation": "寮評価",
+  "militaryEducation": "軍事教育",
+  "summerTraining": "夏季研修",
+  "informationClub": "ITクラブ",
+  "tuitionFees": "授業料",
+  "universityCities": "学生寮",
+
+  "studentActivities": "学生活動",
+  "postgraduateResults": "大学院結果",
+  "youthCare": "学生支援",
+  "examResults": "試験結果",
+  "getEmail": "メール取得",
+  "foreignStudentsRegistration": "外国人登録"
+},
 
     "sectorsList": {
       "univpres": "学長部門",

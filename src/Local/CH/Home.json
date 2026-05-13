@@ -24,17 +24,43 @@
     "students": "Estudiante siha",
 
     "studentsList": {
-      "admission": "Admission yan Registration",
-      "scholarships": "Scholarship siha",
-      "fees": "Tuition Fees",
-      "ethics": "Honor Codes",
-      "platforms": "Student Platform siha",
-      "services": "Student Services",
-      "housing": "University Housing",
-      "transport": "Transportation",
-      "sports": "Sports Activities",
-      "cultural": "Cultural Activities"
-    },
+  "universityCitiesApplication": "Dorms Application",
+
+  "undergraduateStage": "Bachelor Stage",
+  "studySystem": "Study System",
+  "openEducation": "Open Education",
+  "electronicServices": "E-Services",
+
+  "postgraduateStage": "Postgraduate Stage",
+  "registrationConditions": "Registration Rules",
+
+  "graduates": "Graduates",
+  "graduatesCareAssociation": "Graduate Care Association",
+  "graduatesDatabase": "Graduate Database",
+  "graduateSearch": "Find Graduate",
+
+  "internationalStudents": "International Students",
+
+  "studentServices": "Student Services",
+  "electronicApplication": "Online Application",
+  "medicalServices": "Medical Services",
+  "universityProfessor": "University Professor",
+  "studentTakaful": "Student Takaful",
+  "studentGuide": "Student Guide",
+  "universityCitiesEvaluation": "Dorms Evaluation",
+  "militaryEducation": "Military Education",
+  "summerTraining": "Summer Training",
+  "informationClub": "IT Club",
+  "tuitionFees": "Tuition Fees",
+  "universityCities": "University Dorms",
+
+  "studentActivities": "Student Activities",
+  "postgraduateResults": "Postgraduate Results",
+  "youthCare": "Youth Care",
+  "examResults": "Exam Results",
+  "getEmail": "Get Email",
+  "foreignStudentsRegistration": "Foreign Student Registration"
+},
 
     "sectorsList": {
       "univpres": "University President Sector",

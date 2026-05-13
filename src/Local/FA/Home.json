@@ -24,17 +24,43 @@
     "students": "دانشجویان",
 
     "studentsList": {
-      "admission": "پذیرش و ثبت‌نام",
-      "scholarships": "بورسیه‌ها",
-      "fees": "شهریه",
-      "ethics": "آیین‌نامه اخلاقی",
-      "platforms": "پلتفرم‌ها",
-      "services": "خدمات دانشجویی",
-      "housing": "خوابگاه",
-      "transport": "حمل‌ونقل",
-      "sports": "فعالیت ورزشی",
-      "cultural": "فعالیت فرهنگی"
-    },
+  "universityCitiesApplication": "درخواست خوابگاه",
+
+  "undergraduateStage": "کارشناسی",
+  "studySystem": "نظام آموزشی",
+  "openEducation": "آموزش آزاد",
+  "electronicServices": "خدمات الکترونیکی",
+
+  "postgraduateStage": "تحصیلات تکمیلی",
+  "registrationConditions": "شرایط ثبت‌نام",
+
+  "graduates": "فارغ‌التحصیلان",
+  "graduatesCareAssociation": "انجمن فارغ‌التحصیلان",
+  "graduatesDatabase": "پایگاه فارغ‌التحصیلان",
+  "graduateSearch": "جستجوی فارغ‌التحصیل",
+
+  "internationalStudents": "دانشجویان بین‌المللی",
+
+  "studentServices": "خدمات دانشجویی",
+  "electronicApplication": "درخواست آنلاین",
+  "medicalServices": "خدمات پزشکی",
+  "universityProfessor": "استاد دانشگاه",
+  "studentTakaful": "تکافل دانشجویی",
+  "studentGuide": "راهنمای دانشجو",
+  "universityCitiesEvaluation": "ارزیابی خوابگاه",
+  "militaryEducation": "آموزش نظامی",
+  "summerTraining": "آموزش تابستانی",
+  "informationClub": "باشگاه IT",
+  "tuitionFees": "شهریه",
+  "universityCities": "خوابگاه‌ها",
+
+  "studentActivities": "فعالیت دانشجویی",
+  "postgraduateResults": "نتایج تکمیلی",
+  "youthCare": "حمایت جوانان",
+  "examResults": "نتایج امتحانات",
+  "getEmail": "دریافت ایمیل",
+  "foreignStudentsRegistration": "ثبت‌نام خارجی‌ها"
+},
 
     "sectorsList": {
       "univpres": "ریاست دانشگاه",

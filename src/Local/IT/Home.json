@@ -24,17 +24,43 @@
     "students": "Studenti",
 
     "studentsList": {
-      "admission": "Ammissione",
-      "scholarships": "Borse",
-      "fees": "Tasse",
-      "ethics": "Codice etico",
-      "platforms": "Piattaforme",
-      "services": "Servizi studenti",
-      "housing": "Alloggio",
-      "transport": "Trasporti",
-      "sports": "Sport",
-      "cultural": "Cultura"
-    },
+  "universityCitiesApplication": "Domanda alloggio",
+
+  "undergraduateStage": "Laurea",
+  "studySystem": "Sistema di studio",
+  "openEducation": "Formazione aperta",
+  "electronicServices": "E-service",
+
+  "postgraduateStage": "Post-laurea",
+  "registrationConditions": "Regole iscrizione",
+
+  "graduates": "Laureati",
+  "graduatesCareAssociation": "Associazione laureati",
+  "graduatesDatabase": "Database laureati",
+  "graduateSearch": "Cerca laureato",
+
+  "internationalStudents": "Internazionali",
+
+  "studentServices": "Servizi studenti",
+  "electronicApplication": "Domanda online",
+  "medicalServices": "Servizi medici",
+  "universityProfessor": "Professore Univ.",
+  "studentTakaful": "Takaful studenti",
+  "studentGuide": "Guida studente",
+  "universityCitiesEvaluation": "Valutazione alloggi",
+  "militaryEducation": "Formazione militare",
+  "summerTraining": "Stage estivo",
+  "informationClub": "Club IT",
+  "tuitionFees": "Tasse",
+  "universityCities": "Alloggi Univ.",
+
+  "studentActivities": "Attività studenti",
+  "postgraduateResults": "Risultati PG",
+  "youthCare": "Assistenza giovani",
+  "examResults": "Risultati esami",
+  "getEmail": "Ottieni email",
+  "foreignStudentsRegistration": "Registrazione stranieri"
+},
 
     "sectorsList": {
       "univpres": "Presidenza universitaria",

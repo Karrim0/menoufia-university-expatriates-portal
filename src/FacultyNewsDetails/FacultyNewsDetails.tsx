@@ -44,17 +44,17 @@ const getSavedLangId = () => {
 };
 
 const FacultyNewsDetails: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { i18n } = useTranslation();
+const { id, fac } = useParams<{ id: string; fac: string }>();
+const location = useLocation();
+const navigate = useNavigate();
+const { i18n } = useTranslation();
 
-  const savedLang = getSavedLang();
-  const isArabic = savedLang?.code === "ar" || i18n.language === "ar";
-  const isRTL = isArabic;
+const savedLang = getSavedLang();
+const isArabic = savedLang?.code === "ar" || i18n.language === "ar";
+const isRTL = isArabic;
 
-  const fac: number = Number(location.state?.fac) || 0;
-  const collegeName: string = location.state?.collegeName || "";
+const facId = Number(fac) || 0;
+const collegeName: string = location.state?.collegeName || "";
 
   const initialLangId = Number(location.state?.langId) || getSavedLangId();
 
@@ -77,7 +77,7 @@ const FacultyNewsDetails: React.FC = () => {
 
   useEffect(() => {
     const fetchDetails = async () => {
-      if (!id || !fac || !langId) {
+      if (!id || !facId || !langId) {
         setNoLang(true);
         setLoading(false);
         return;
@@ -88,10 +88,10 @@ const FacultyNewsDetails: React.FC = () => {
 
       try {
         const data = await newsService.getFacultyNewsDetails(
-          Number(id),
-          fac,
-          langId
-        );
+  Number(id),
+  facId,
+  langId
+);
 
         if (data?.success && data?.result) {
           setNews(data.result);
@@ -110,7 +110,7 @@ const FacultyNewsDetails: React.FC = () => {
     };
 
     fetchDetails();
-  }, [id, fac, langId]);
+  }, [id, facId, langId]);
 
   const formatDate = (dateStr: string) => {
     if (!dateStr) return "";
@@ -127,13 +127,13 @@ const FacultyNewsDetails: React.FC = () => {
   };
 
   const handleBack = () => {
-    navigate(`/fac-news/${fac}`, {
-      state: {
-        collegeName,
-        langId,
-      },
-    });
-  };
+  navigate(`/fac/${facId}`, {
+    state: {
+      collegeName,
+      langId,
+    },
+  });
+};
 
   return (
     <div className="fnd-wrapper" dir={isRTL ? "rtl" : "ltr"}>

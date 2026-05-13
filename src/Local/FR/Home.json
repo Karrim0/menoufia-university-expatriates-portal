@@ -24,17 +24,43 @@
     "students": "Étudiants",
 
     "studentsList": {
-      "admission": "Admission",
-      "scholarships": "Bourses",
-      "fees": "Frais",
-      "ethics": "Charte éthique",
-      "platforms": "Plateformes",
-      "services": "Services étudiants",
-      "housing": "Logement",
-      "transport": "Transport",
-      "sports": "Sport",
-      "cultural": "Culture"
-    },
+  "universityCitiesApplication": "Demande logement",
+
+  "undergraduateStage": "Licence",
+  "studySystem": "Système d’étude",
+  "openEducation": "Éducation ouverte",
+  "electronicServices": "E-services",
+
+  "postgraduateStage": "Postgraduate",
+  "registrationConditions": "Conditions d’inscription",
+
+  "graduates": "Diplômés",
+  "graduatesCareAssociation": "Association des diplômés",
+  "graduatesDatabase": "Base diplômés",
+  "graduateSearch": "Chercher diplômé",
+
+  "internationalStudents": "Internationaux",
+
+  "studentServices": "Services étudiants",
+  "electronicApplication": "Candidature en ligne",
+  "medicalServices": "Services médicaux",
+  "universityProfessor": "Professeur Univ.",
+  "studentTakaful": "Takaful étudiant",
+  "studentGuide": "Guide étudiant",
+  "universityCitiesEvaluation": "Évaluation logement",
+  "militaryEducation": "Éducation militaire",
+  "summerTraining": "Stage d’été",
+  "informationClub": "Club IT",
+  "tuitionFees": "Frais d’étude",
+  "universityCities": "Logements Univ.",
+
+  "studentActivities": "Activités étudiantes",
+  "postgraduateResults": "Résultats PG",
+  "youthCare": "Vie étudiante",
+  "examResults": "Résultats examens",
+  "getEmail": "Obtenir e-mail",
+  "foreignStudentsRegistration": "Inscription étrangers"
+},
 
     "sectorsList": {
       "univpres": "Présidence de l’université",

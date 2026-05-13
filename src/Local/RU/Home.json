@@ -24,17 +24,43 @@
     "students": "Студенты",
 
     "studentsList": {
-      "admission": "Приём и регистрация",
-      "scholarships": "Стипендии",
-      "fees": "Оплата",
-      "ethics": "Кодекс чести",
-      "platforms": "Платформы",
-      "services": "Студ. услуги",
-      "housing": "Общежитие",
-      "transport": "Транспорт",
-      "sports": "Спорт",
-      "cultural": "Культура"
-    },
+  "universityCitiesApplication": "Заявка в общежитие",
+
+  "undergraduateStage": "Бакалавриат",
+  "studySystem": "Система обучения",
+  "openEducation": "Открытое обучение",
+  "electronicServices": "E-сервисы",
+
+  "postgraduateStage": "Аспирантура",
+  "registrationConditions": "Условия регистрации",
+
+  "graduates": "Выпускники",
+  "graduatesCareAssociation": "Ассоциация выпускников",
+  "graduatesDatabase": "База выпускников",
+  "graduateSearch": "Поиск выпускника",
+
+  "internationalStudents": "Иностранные студенты",
+
+  "studentServices": "Студ. услуги",
+  "electronicApplication": "Онлайн-заявка",
+  "medicalServices": "Медицинские услуги",
+  "universityProfessor": "Профессор вуза",
+  "studentTakaful": "Студ. поддержка",
+  "studentGuide": "Гид студента",
+  "universityCitiesEvaluation": "Оценка общежитий",
+  "militaryEducation": "Военная подготовка",
+  "summerTraining": "Летняя практика",
+  "informationClub": "IT-клуб",
+  "tuitionFees": "Оплата обучения",
+  "universityCities": "Общежития",
+
+  "studentActivities": "Студ. активности",
+  "postgraduateResults": "Результаты PG",
+  "youthCare": "Молодежная поддержка",
+  "examResults": "Результаты экзаменов",
+  "getEmail": "Получить e-mail",
+  "foreignStudentsRegistration": "Регистрация иностранцев"
+},
 
     "sectorsList": {
       "univpres": "Сектор президента",
