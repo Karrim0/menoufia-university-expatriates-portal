@@ -1,7 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Calendar, ChevronLeft, ChevronRight, X } from "lucide-react";
+import {
+  Calendar,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  X,
+} from "lucide-react";
 import newsService from "../Services/newsService";
 import { SmartImage } from "../utils/imageHelper";
 import "../NewsPage/News.css";
@@ -37,6 +43,16 @@ interface HighlightItem {
   endDate: string;
   image: string;
   translationData: string;
+}
+
+interface FacultyMenuItem {
+  menuId: number;
+  parentId: number | null;
+  sortOrder: number;
+  title: string;
+  articleId: number | null;
+  url: string;
+  children: FacultyMenuItem[];
 }
 
 const LANGUAGE_IDS = {
@@ -150,7 +166,8 @@ const FAC_MAP: Record<string, number> = {
   [normalizeName("Faculty of Mass Communication")]: 2400,
 };
 
-const getFac = (title: string): number | null => FAC_MAP[normalizeName(title)] ?? null;
+const getFac = (title: string): number | null =>
+  FAC_MAP[normalizeName(title)] ?? null;
 
 const getSavedLang = (): SavedLang => {
   try {
@@ -168,6 +185,113 @@ const normalizeApiResponse = (data: any): any[] => {
   return [];
 };
 
+const cleanMenuTitle = (title?: string) =>
+  String(title || "").replace(/\s+/g, " ").trim();
+
+const isExternalMenuUrl = (url?: string) =>
+  typeof url === "string" && /^https?:\/\//i.test(url);
+
+const hasMenuChildren = (item: FacultyMenuItem) =>
+  Array.isArray(item.children) &&
+  item.children.some((child) => child && typeof child === "object");
+
+const getFacultyMenuLink = (item: FacultyMenuItem, fac?: string) => {
+  if (isExternalMenuUrl(item.url)) return item.url;
+
+  if (item.articleId !== null && item.articleId !== undefined) {
+    return `/fac/${fac}?articleId=${item.articleId}`;
+  }
+
+  return `/fac/${fac}`;
+};
+
+const FacultyMenuItemView: React.FC<{
+  item: FacultyMenuItem;
+  fac?: string;
+  level?: number;
+}> = ({ item, fac, level = 0 }) => {
+  const [open, setOpen] = useState(false);
+
+  const children = hasMenuChildren(item)
+    ? item.children.filter((child) => child && typeof child === "object")
+    : [];
+
+  const hasChildren = children.length > 0;
+  const link = getFacultyMenuLink(item, fac);
+  const isExternal = isExternalMenuUrl(link);
+
+  const handleToggle = (e: React.MouseEvent) => {
+    if (!hasChildren) return;
+    e.preventDefault();
+    e.stopPropagation();
+    setOpen((prev) => !prev);
+  };
+
+  const content = (
+    <>
+      <span>{cleanMenuTitle(item.title)}</span>
+      {hasChildren &&
+        (level === 0 ? (
+          <ChevronDown
+            size={12}
+            className={`faculty-menu-arrow ${open ? "open" : ""}`}
+          />
+        ) : (
+          <ChevronLeft
+            size={12}
+            className={`faculty-menu-arrow ${open ? "open" : ""}`}
+          />
+        ))}
+    </>
+  );
+
+  return (
+    <div
+      className={`faculty-menu-item level-${level} ${
+        hasChildren ? "has-children" : ""
+      } ${open ? "open" : ""}`}
+      onMouseEnter={() => hasChildren && setOpen(true)}
+      onMouseLeave={() => hasChildren && setOpen(false)}
+    >
+      {hasChildren ? (
+        <button
+          type="button"
+          className="faculty-menu-link"
+          onClick={handleToggle}
+        >
+          {content}
+        </button>
+      ) : isExternal ? (
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="faculty-menu-link"
+        >
+          {content}
+        </a>
+      ) : (
+        <Link to={link} className="faculty-menu-link">
+          {content}
+        </Link>
+      )}
+
+      {hasChildren && open && (
+        <div className="faculty-sub-menu">
+          {children.map((child) => (
+            <FacultyMenuItemView
+              key={child.menuId}
+              item={child}
+              fac={fac}
+              level={level + 1}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const FacultyNews: React.FC = () => {
   const { fac } = useParams<{ fac: string }>();
   const location = useLocation();
@@ -180,7 +304,9 @@ const FacultyNews: React.FC = () => {
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isFirstSearchRender = useRef(true);
 
-  const [langId, setLangId] = useState<number>(Number(location.state?.langId) || getSavedLangId());
+  const [langId, setLangId] = useState<number>(
+    Number(location.state?.langId) || getSavedLangId()
+  );
   const [collegeNameFallback, setCollegeNameFallback] = useState<string>("");
   const [collegeName, setCollegeName] = useState<string>("");
   const [news, setNews] = useState<NewsItem[]>([]);
@@ -198,6 +324,9 @@ const FacultyNews: React.FC = () => {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [activeFiltersCount, setActiveFiltersCount] = useState(0);
+
+  const [facultyMenu, setFacultyMenu] = useState<FacultyMenuItem[]>([]);
+  const [facultyMenuLoading, setFacultyMenuLoading] = useState(false);
 
   useEffect(() => {
     let count = 0;
@@ -224,7 +353,9 @@ const FacultyNews: React.FC = () => {
       try {
         const response = await newsService.getColleges(currentLangId);
         const colleges = normalizeApiResponse(response);
-        const matchedCollege = colleges.find((college: any) => getFac(college.title) === facultyCode);
+        const matchedCollege = colleges.find(
+          (college: any) => getFac(college.title) === facultyCode
+        );
 
         if (matchedCollege?.title) {
           setCollegeName(matchedCollege.title);
@@ -235,7 +366,9 @@ const FacultyNews: React.FC = () => {
         if (currentLangId !== 2) {
           const enResponse = await newsService.getColleges(2);
           const enColleges = normalizeApiResponse(enResponse);
-          const enMatch = enColleges.find((college: any) => getFac(college.title) === facultyCode);
+          const enMatch = enColleges.find(
+            (college: any) => getFac(college.title) === facultyCode
+          );
 
           if (enMatch?.title) {
             setCollegeNameFallback(enMatch.title);
@@ -253,13 +386,62 @@ const FacultyNews: React.FC = () => {
     fetchCollegeName();
   }, [fac, i18n.language]);
 
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchFacultyMenu = async () => {
+      const facultyCode = Number(fac);
+
+      if (!facultyCode || !langId) {
+        setFacultyMenu([]);
+        return;
+      }
+
+      setFacultyMenuLoading(true);
+
+      try {
+        const response = await newsService.getSectorMenu({
+          keyword: String(facultyCode),
+          lang: Number(langId) || 1,
+        });
+
+        if (!isMounted) return;
+
+        setFacultyMenu(
+          Array.isArray(response?.result) ? response.result : []
+        );
+      } catch (error) {
+        console.error("Failed to fetch faculty menu:", error);
+
+        if (isMounted) {
+          setFacultyMenu([]);
+        }
+      } finally {
+        if (isMounted) {
+          setFacultyMenuLoading(false);
+        }
+      }
+    };
+
+    fetchFacultyMenu();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [fac, langId]);
+
   const getSearchLangId = useCallback(
-    (term: string) => (term.trim() ? detectSearchLanguageId(term, Number(langId)) : Number(langId)),
+    (term: string) =>
+      term.trim()
+        ? detectSearchLanguageId(term, Number(langId))
+        : Number(langId),
     [langId]
   );
 
   const getActiveSearchLangId = () =>
-    search.trim() ? detectSearchLanguageId(search, Number(langId)) : Number(langId);
+    search.trim()
+      ? detectSearchLanguageId(search, Number(langId))
+      : Number(langId);
 
   const fetchHighlights = useCallback(async () => {
     const facultyCode = Number(fac);
@@ -282,7 +464,9 @@ const FacultyNews: React.FC = () => {
         ...(toDate ? { toDate } : {}),
       });
 
-      const result: HighlightItem[] = Array.isArray(data?.result) ? data.result : [];
+      const result: HighlightItem[] = Array.isArray(data?.result)
+        ? data.result
+        : [];
       setHighlights(result);
       setActiveHighlightIndex(0);
     } catch (error) {
@@ -305,6 +489,7 @@ const FacultyNews: React.FC = () => {
       const data = await newsService.getFacultyNews({
         fac: facultyCode,
         langId: activeLangId,
+        departmentCode: "",
         pageIndex,
         pageSize: ITEMS_PER_PAGE,
         search,
@@ -313,7 +498,9 @@ const FacultyNews: React.FC = () => {
         ...(toDate ? { toDate } : {}),
       });
 
-      const result: NewsItem[] = Array.isArray(data?.result) ? data.result : [];
+      const result: NewsItem[] = Array.isArray(data?.result)
+        ? data.result
+        : [];
       setNews(result);
       setMoveNext(Boolean(data?.moveNext));
       setMovePrevious(Boolean(data?.movePrevious));
@@ -325,7 +512,16 @@ const FacultyNews: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [fac, langId, pageIndex, search, dateFilter, fromDate, toDate, getSearchLangId]);
+  }, [
+    fac,
+    langId,
+    pageIndex,
+    search,
+    dateFilter,
+    fromDate,
+    toDate,
+    getSearchLangId,
+  ]);
 
   useEffect(() => {
     fetchNews();
@@ -357,7 +553,9 @@ const FacultyNews: React.FC = () => {
     if (highlights.length <= 1) return;
 
     const timer = setInterval(() => {
-      setActiveHighlightIndex((prev) => (prev === highlights.length - 1 ? 0 : prev + 1));
+      setActiveHighlightIndex((prev) =>
+        prev === highlights.length - 1 ? 0 : prev + 1
+      );
     }, 5000);
 
     return () => clearInterval(timer);
@@ -406,12 +604,16 @@ const FacultyNews: React.FC = () => {
 
   const handleNextHighlight = () => {
     if (highlights.length <= 1) return;
-    setActiveHighlightIndex((prev) => (prev === highlights.length - 1 ? 0 : prev + 1));
+    setActiveHighlightIndex((prev) =>
+      prev === highlights.length - 1 ? 0 : prev + 1
+    );
   };
 
   const handlePrevHighlight = () => {
     if (highlights.length <= 1) return;
-    setActiveHighlightIndex((prev) => (prev === 0 ? highlights.length - 1 : prev - 1));
+    setActiveHighlightIndex((prev) =>
+      prev === 0 ? highlights.length - 1 : prev - 1
+    );
   };
 
   const formatDate = (dateStr: string) => {
@@ -444,7 +646,11 @@ const FacultyNews: React.FC = () => {
 
   return (
     <div className="news-page-wrapper faculty-page-wrapper">
-      <header className="faculty-top-header" style={{ backgroundImage: `url(${headerBg})` }} dir="rtl">
+      <header
+        className="faculty-top-header"
+        style={{ backgroundImage: `url(${headerBg})` }}
+        dir="rtl"
+      >
         <div className="faculty-top-header-overlay" />
 
         <div className="faculty-top-header-inner">
@@ -455,20 +661,49 @@ const FacultyNews: React.FC = () => {
             aria-label="back"
           >
             <i className="fa-solid fa-chevron-right"></i>
-            <span>{isArabic ? "الرجوع الى موقع الجامعة" : "Back to University"}</span>
+            <span>
+              {isArabic ? "الرجوع الى موقع الجامعة" : "Back to University"}
+            </span>
           </button>
 
           <div className="faculty-top-brand">
             <div className="faculty-top-brand-text">
               <h2 className="faculty-top-college-name">{displayName}</h2>
-              <p className="faculty-top-university-name">{isArabic ? "جامعة المنوفية" : "Menoufia University"}</p>
+              <p className="faculty-top-university-name">
+                {isArabic ? "جامعة المنوفية" : "Menoufia University"}
+              </p>
             </div>
+
             <div className="faculty-top-logo-wrap">
-              <img src={logo} alt="university logo" className="faculty-top-logo" />
+              <img
+                src={logo}
+                alt="university logo"
+                className="faculty-top-logo"
+              />
             </div>
           </div>
         </div>
       </header>
+
+      <section className="faculty-menu-section" dir={isRTL ? "rtl" : "ltr"}>
+        <div className="faculty-menu-wrapper">
+          {facultyMenuLoading ? (
+            <div className="faculty-menu-loading">
+              {isArabic ? "جاري تحميل القائمة..." : "Loading menu..."}
+            </div>
+          ) : facultyMenu.length > 0 ? (
+            <div className="faculty-menu-bar">
+              {facultyMenu.map((item) => (
+                <FacultyMenuItemView
+                  key={item.menuId}
+                  item={item}
+                  fac={fac}
+                />
+              ))}
+            </div>
+          ) : null}
+        </div>
+      </section>
 
       <section className="faculty-news-hero">
         <div className="news-hero-content">
@@ -487,11 +722,19 @@ const FacultyNews: React.FC = () => {
                     collegeName: displayName,
                   }}
                   className="faculty-highlight-link"
-                  aria-label={activeHighlight.translationData || displayName || "Highlight details"}
+                  aria-label={
+                    activeHighlight.translationData ||
+                    displayName ||
+                    "Highlight details"
+                  }
                 >
                   <SmartImage
                     src={activeHighlight.image}
-                    alt={activeHighlight.translationData || displayName || "Highlight"}
+                    alt={
+                      activeHighlight.translationData ||
+                      displayName ||
+                      "Highlight"
+                    }
                     className="faculty-highlight-image"
                   />
 
@@ -499,7 +742,10 @@ const FacultyNews: React.FC = () => {
 
                   <div className="faculty-highlight-content">
                     <h2>{activeHighlight.translationData}</h2>
-                    <span className="faculty-highlight-arrow" aria-hidden="true">
+                    <span
+                      className="faculty-highlight-arrow"
+                      aria-hidden="true"
+                    >
                       <i className="fa-solid fa-arrow-up"></i>
                     </span>
                   </div>
@@ -533,7 +779,9 @@ const FacultyNews: React.FC = () => {
                       <button
                         key={item.id || index}
                         type="button"
-                        className={`faculty-highlight-dot ${index === activeHighlightIndex ? "active" : ""}`}
+                        className={`faculty-highlight-dot ${
+                          index === activeHighlightIndex ? "active" : ""
+                        }`}
                         onClick={() => setActiveHighlightIndex(index)}
                         aria-label={`go to highlight ${index + 1}`}
                       />
@@ -546,7 +794,12 @@ const FacultyNews: React.FC = () => {
 
           <div className="news-search-wrapper">
             <div className="news-search-bar">
-              <button type="button" className="news-search-icon-btn" onClick={handleManualSearch} aria-label="search">
+              <button
+                type="button"
+                className="news-search-icon-btn"
+                onClick={handleManualSearch}
+                aria-label="search"
+              >
                 <i className="fa-solid fa-magnifying-glass"></i>
               </button>
 
@@ -555,30 +808,49 @@ const FacultyNews: React.FC = () => {
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleManualSearch()}
-                placeholder={isArabic ? "ابحث في أخبار الكلية..." : "Search faculty news..."}
+                placeholder={
+                  isArabic
+                    ? "ابحث في أخبار الكلية..."
+                    : "Search faculty news..."
+                }
               />
 
               {searchInput && (
-                <button type="button" className="news-clear-btn" onClick={handleClearSearch} aria-label="clear search">
+                <button
+                  type="button"
+                  className="news-clear-btn"
+                  onClick={handleClearSearch}
+                  aria-label="clear search"
+                >
                   <X size={18} />
                 </button>
               )}
 
               <button
                 type="button"
-                className={`news-filter-toggle ${showFilters ? "active" : ""} ${activeFiltersCount > 0 ? "has-filters" : ""}`}
+                className={`news-filter-toggle ${
+                  showFilters ? "active" : ""
+                } ${activeFiltersCount > 0 ? "has-filters" : ""}`}
                 onClick={() => setShowFilters((prev) => !prev)}
                 aria-label="toggle filters"
               >
                 <i className="fa-solid fa-sliders"></i>
-                {activeFiltersCount > 0 && <span className="filter-badge">{activeFiltersCount}</span>}
+                {activeFiltersCount > 0 && (
+                  <span className="filter-badge">{activeFiltersCount}</span>
+                )}
               </button>
             </div>
 
             <div className={`news-filterr-panel ${showFilters ? "open" : ""}`}>
-              <div className="filter-panel-inner" dir={isArabic ? "rtl" : "ltr"}>
+              <div
+                className="filter-panel-inner"
+                dir={isArabic ? "rtl" : "ltr"}
+              >
                 <div className="filter-panell-body">
-                  <div className="filter-section filterr-dates" style={{ width: "100%" }}>
+                  <div
+                    className="filter-section filterr-dates"
+                    style={{ width: "100%" }}
+                  >
                     <span className="filterr-labell">
                       <Calendar size={13} />
                       {isArabic ? "نطاق مخصص" : "Custom Range"}
@@ -587,14 +859,24 @@ const FacultyNews: React.FC = () => {
                     <div className="filter-date-inputs">
                       <div className="date-input-wrap">
                         <label>{isArabic ? "من" : "From"}</label>
-                        <input type="date" value={fromDate} onChange={(e) => handleFromDate(e.target.value)} max={toDate || undefined} />
+                        <input
+                          type="date"
+                          value={fromDate}
+                          onChange={(e) => handleFromDate(e.target.value)}
+                          max={toDate || undefined}
+                        />
                       </div>
 
                       <span className="date-separator">—</span>
 
                       <div className="date-input-wrap">
                         <label>{isArabic ? "إلى" : "To"}</label>
-                        <input type="date" value={toDate} onChange={(e) => handleToDate(e.target.value)} min={fromDate || undefined} />
+                        <input
+                          type="date"
+                          value={toDate}
+                          onChange={(e) => handleToDate(e.target.value)}
+                          min={fromDate || undefined}
+                        />
                       </div>
                     </div>
                   </div>
@@ -611,8 +893,12 @@ const FacultyNews: React.FC = () => {
                           key={filter.value}
                           type="button"
                           className={`filter-chip ${
-                            (filter.value === 0 && dateFilter === 0 && !fromDate && !toDate) ||
-                            (filter.value !== 0 && dateFilter === filter.value)
+                            (filter.value === 0 &&
+                              dateFilter === 0 &&
+                              !fromDate &&
+                              !toDate) ||
+                            (filter.value !== 0 &&
+                              dateFilter === filter.value)
                               ? "chip-active"
                               : ""
                           }`}
@@ -627,7 +913,11 @@ const FacultyNews: React.FC = () => {
 
                 {activeFiltersCount > 0 && (
                   <div className="filter-panel-footer">
-                    <button type="button" className="filter-clear-all" onClick={handleClearAllFilters}>
+                    <button
+                      type="button"
+                      className="filter-clear-all"
+                      onClick={handleClearAllFilters}
+                    >
                       <X size={12} />
                       {isArabic ? "مسح الفلاتر" : "Clear Filters"}
                     </button>
@@ -642,8 +932,12 @@ const FacultyNews: React.FC = () => {
               {dateFilter !== 0 && (
                 <span className="active-tag">
                   {isArabic
-                    ? DATE_FILTERS.find((filter) => filter.value === dateFilter)?.labelAr
-                    : DATE_FILTERS.find((filter) => filter.value === dateFilter)?.labelEn}
+                    ? DATE_FILTERS.find(
+                        (filter) => filter.value === dateFilter
+                      )?.labelAr
+                    : DATE_FILTERS.find(
+                        (filter) => filter.value === dateFilter
+                      )?.labelEn}
                   <button onClick={() => setDateFilter(0)}>
                     <X size={11} />
                   </button>
@@ -685,7 +979,9 @@ const FacultyNews: React.FC = () => {
         <div className="news-content-wrapper">
           <div className="faculty-section-heading" dir={isRTL ? "rtl" : "ltr"}>
             <span className="faculty-section-dot" />
-            <h2 className="faculty-section-title">{isArabic ? "أخبار وفعاليات" : "News & Events"}</h2>
+            <h2 className="faculty-section-title">
+              {isArabic ? "أخبار وفعاليات" : "News & Events"}
+            </h2>
           </div>
 
           {loading ? (
@@ -724,13 +1020,22 @@ const FacultyNews: React.FC = () => {
                     className="news-card-link"
                   >
                     <div className="news-card-text">
-                      <h3 className="news-card-title">{highlightText(item.title?.slice(0, 95), search)}</h3>
-                      <p className="news-card-description">{highlightText(item.source?.slice(0, 120) || "", search)}</p>
-                      <span className="news-card-date">{formatDate(item.currentDate || item.date)}</span>
+                      <h3 className="news-card-title">
+                        {highlightText(item.title?.slice(0, 95), search)}
+                      </h3>
+                      <p className="news-card-description">
+                        {highlightText(item.source?.slice(0, 120) || "", search)}
+                      </p>
+                      <span className="news-card-date">
+                        {formatDate(item.currentDate || item.date)}
+                      </span>
                     </div>
 
                     <div className="news-card-image">
-                      <SmartImage src={item.image} alt={item.imageAlt || item.title || "Faculty news"} />
+                      <SmartImage
+                        src={item.image}
+                        alt={item.imageAlt || item.title || "Faculty news"}
+                      />
                     </div>
 
                     <div className="news-card-arrow">
