@@ -2,6 +2,12 @@
   "nav": {
     "home": "Start",
     "about": "Uni",
+    "aboutDigitalIdentity": "Digitale Identität",
+    "aboutSectors": "Sektoren",
+    "aboutUnits": "Fakultäten",
+    "aboutDepartments": "Abteilungen",
+    "aboutSitemap": "Seitenübersicht",
+    "aboutHistory": "Geschichte der Universität",
     "programs": "Fakultäten",
     "universityManagement": "Leitung",
     "universitySystems": "Services",

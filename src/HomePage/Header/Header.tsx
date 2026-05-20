@@ -128,51 +128,51 @@ const getNavItems = (t: any) => [
     children: [
       {
         key: "digital-identity",
-        label: t("nav.about.digitalIdentity"),
+        label:t("nav.aboutDigitalIdentity"),
         link: "/",
       },
       {
         key: "sectors",
-        label: t("nav.about.sectors"),
+        label: t("nav.aboutSectors"),
         link: "/",
       },
       {
         key: "units",
-        label: t("nav.about.units"),
+        label: t("nav.aboutUnits"),
         link: "/",
       },
       {
         key: "departments",
-        label: t("nav.about.departments"),
+        label: t("nav.aboutDepartments"),
         link: "/",
       },
       {
         key: "sitemap",
-        label: t("nav.about.sitemap"),
+        label: t("nav.aboutSitemap"),
         link: "/",
       },
       {
         key: "history",
-        label: t("nav.about.history"),
+        label: t("nav.aboutHistory"),
         children: [
           {
             key: "vision",
-            label: t("nav.about.history.vision"),
+            label: t("nav.aboutHistoryVision"),
             link: "/",
           },
           {
             key: "mission",
-            label: t("nav.about.history.mission"),
+            label: t("nav.aboutHistoryMission"),
             link: "/",
           },
           {
             key: "goals",
-            label: t("nav.about.history.goals"),
+            label: t("nav.aboutHistoryGoals"),
             link: "/",
           },
           {
             key: "ranking",
-            label: t("nav.about.history.ranking"),
+            label: t("nav.aboutHistoryRanking"),
             link: "/",
           },
         ],
