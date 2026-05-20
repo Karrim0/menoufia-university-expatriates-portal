@@ -12,7 +12,7 @@ import { SmartImage, getImageUrl } from "../utils/imageHelper";
 import "./News.css";
 import "./News.filter.css";
 
-const ITEMS_PER_PAGE = 10;
+const DEFAULT_ITEMS_PER_PAGE = 10;
 const DEBOUNCE_DELAY = 500;
 
 interface NewsItem {
@@ -58,52 +58,18 @@ const detectSearchLanguageId = (text: string, fallbackLangId: number) => {
 
   if (!value) return fallbackLangId;
 
-  // Persian specific letters
-  if (/[پچژگک‌ی]/.test(value)) {
-    return LANGUAGE_IDS.fa;
-  }
-
-  // Arabic
-  if (/[\u0600-\u06FF]/.test(value)) {
-    return LANGUAGE_IDS.ar;
-  }
-
-  // Russian / Cyrillic
-  if (/[\u0400-\u04FF]/.test(value)) {
-    return LANGUAGE_IDS.ru;
-  }
-
-  // Japanese
-  if (/[\u3040-\u30FF\u31F0-\u31FF]/.test(value)) {
-    return LANGUAGE_IDS.ja;
-  }
-
-  // Chinese-like CJK characters
-  if (/[\u4E00-\u9FFF]/.test(value)) {
-    return LANGUAGE_IDS.ch;
-  }
-
-  // Turkish
-  if (/[çğıöşüÇĞİÖŞÜ]/.test(value)) {
-    return LANGUAGE_IDS.tr;
-  }
-
-  // German
-  if (/[äöüßÄÖÜ]/.test(value)) {
-    return LANGUAGE_IDS.de;
-  }
-
-  // French
-  if (/[âæçêëîïôœûüÿÂÆÇÊËÎÏÔŒÛÜŸ]/.test(value)) {
+  if (/[پچژگک‌ی]/.test(value)) return LANGUAGE_IDS.fa;
+  if (/[\u0600-\u06FF]/.test(value)) return LANGUAGE_IDS.ar;
+  if (/[\u0400-\u04FF]/.test(value)) return LANGUAGE_IDS.ru;
+  if (/[\u3040-\u30FF\u31F0-\u31FF]/.test(value)) return LANGUAGE_IDS.ja;
+  if (/[\u4E00-\u9FFF]/.test(value)) return LANGUAGE_IDS.ch;
+  if (/[çğıöşüÇĞİÖŞÜ]/.test(value)) return LANGUAGE_IDS.tr;
+  if (/[äöüßÄÖÜ]/.test(value)) return LANGUAGE_IDS.de;
+  if (/[âæçêëîïôœûüÿÂÆÇÊËÎÏÔŒÛÜŸ]/.test(value))
     return LANGUAGE_IDS.fr;
-  }
-
-  // Italian
-  if (/[àèéìíîòóùúÀÈÉÌÍÎÒÓÙÚ]/.test(value)) {
+  if (/[àèéìíîòóùúÀÈÉÌÍÎÒÓÙÚ]/.test(value))
     return LANGUAGE_IDS.it;
-  }
 
-  // Default latin text
   return LANGUAGE_IDS.en;
 };
 
@@ -113,6 +79,9 @@ function News() {
   const { isLoggedIn } = useAuth();
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(DEFAULT_ITEMS_PER_PAGE);
+  const [totalPages, setTotalPages] = useState(1);
+
   const [filteredNews, setFilteredNews] = useState<NewsItem[]>([]);
   const [langId, setLangId] = useState(Number(savedLang?.id) || 2);
   const [moveNext, setMoveNext] = useState(false);
@@ -173,13 +142,40 @@ function News() {
       : Number(langId);
   };
 
+  const getTotalPagesFromResponse = (response: any, page: number) => {
+    const apiTotalPages = Number(
+      response?.totalPages ??
+        response?.totalPage ??
+        response?.pageCount ??
+        response?.pagesCount ??
+        response?.pagination?.totalPages
+    );
+
+    if (apiTotalPages && apiTotalPages > 0) {
+      return apiTotalPages;
+    }
+
+    const totalCount = Number(
+      response?.totalCount ??
+        response?.count ??
+        response?.totalRecords ??
+        response?.pagination?.totalCount
+    );
+
+    if (totalCount && totalCount > 0) {
+      return Math.ceil(totalCount / pageSize);
+    }
+
+    return response?.moveNext ? page + 1 : page;
+  };
+
   const buildParams = (page: number, term: string) => {
     const searchLanguageId = getSearchLanguageId(term);
 
     return {
       languageId: searchLanguageId,
       pageIndex: page,
-      pageSize: ITEMS_PER_PAGE,
+      pageSize,
       search: term,
       ...(dateFilter !== 0 ? { dateFilter } : {}),
       ...(fromDate ? { fromDate } : {}),
@@ -191,15 +187,19 @@ function News() {
     setIsLoading(true);
 
     try {
-      const response = await newsService.getUniversityNews(buildParams(page, term));
+      const response = await newsService.getUniversityNews(
+        buildParams(page, term)
+      );
 
       setFilteredNews(response?.result || []);
       setMoveNext(response?.moveNext || false);
       setMovePrevious(response?.movePrevious || false);
+      setTotalPages(getTotalPagesFromResponse(response, page));
     } catch {
       setFilteredNews([]);
       setMoveNext(false);
       setMovePrevious(false);
+      setTotalPages(1);
     } finally {
       setIsLoading(false);
     }
@@ -223,7 +223,7 @@ function News() {
       const res = await newsService.getUniversityNews({
         languageId: detectedLangId,
         pageIndex: page,
-        pageSize: ITEMS_PER_PAGE,
+        pageSize,
         search: trimmed,
         ...(dateFilter !== 0 ? { dateFilter } : {}),
         ...(fromDate ? { fromDate } : {}),
@@ -236,6 +236,7 @@ function News() {
         setFilteredNews(results);
         setMoveNext(res?.moveNext || false);
         setMovePrevious(res?.movePrevious || false);
+        setTotalPages(getTotalPagesFromResponse(res, page));
         setAppliedSearchTerm(trimmed);
         return;
       }
@@ -244,17 +245,19 @@ function News() {
         abbreviation: trimmed,
         lid: detectedLangId,
         pageIndex: page,
-        pageSize: ITEMS_PER_PAGE,
+        pageSize,
       });
 
       setFilteredNews(abbrRes?.result || []);
       setMoveNext(abbrRes?.moveNext || false);
       setMovePrevious(abbrRes?.movePrevious || false);
+      setTotalPages(getTotalPagesFromResponse(abbrRes, page));
       setAppliedSearchTerm(trimmed);
     } catch {
       setFilteredNews([]);
       setMoveNext(false);
       setMovePrevious(false);
+      setTotalPages(1);
     } finally {
       setIsLoading(false);
     }
@@ -266,7 +269,7 @@ function News() {
     } else {
       fetchNews(currentPage, "");
     }
-  }, [langId, currentPage, dateFilter, fromDate, toDate]);
+  }, [langId, currentPage, pageSize, dateFilter, fromDate, toDate]);
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -346,6 +349,41 @@ function News() {
     }
 
     setCurrentPage(1);
+  };
+
+  const getPaginationPages = () => {
+    const pages: Array<number | string> = [];
+
+    if (totalPages <= 1) return [1];
+
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+
+      return pages;
+    }
+
+    pages.push(1);
+
+    if (currentPage > 4) {
+      pages.push("...");
+    }
+
+    const startPage = Math.max(2, currentPage - 1);
+    const endPage = Math.min(totalPages - 1, currentPage + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    if (currentPage < totalPages - 3) {
+      pages.push("...");
+    }
+
+    pages.push(totalPages);
+
+    return pages;
   };
 
   const handleDeleteClick = (e: React.MouseEvent, news: NewsItem) => {
@@ -446,7 +484,6 @@ function News() {
 
   return (
     <div className="news-page-wrapper">
-      {/* ════════ HERO ════════ */}
       <section className="news-hero">
         <div className="news-hero-overlay" />
 
@@ -459,9 +496,7 @@ function News() {
               : "Menoufia University News Portal"}
           </h1>
 
-          {/* ══ wrapper يحتوي search bar + filter panel معاً ══ */}
           <div className="news-search-wrapper">
-            {/* ── Search bar ── */}
             <div className="news-search-bar">
               <button
                 type="button"
@@ -549,7 +584,6 @@ function News() {
                     </div>
                   </div>
 
-                  {/* ── Quick chips تحت ── */}
                   <div className="filter-section" style={{ width: "100%" }}>
                     <span className="filter-labell">
                       <Calendar size={13} />
@@ -645,7 +679,6 @@ function News() {
         </div>
       </section>
 
-      {/* ════════ CONTENT ════════ */}
       <section className="news-main-content" dir={isArabic ? "rtl" : "ltr"}>
         <div className="news-content-wrapper">
           {isLoading ? (
@@ -748,23 +781,55 @@ function News() {
 
           {filteredNews.length > 0 && (
             <div className="news-pagination">
-              <button
-                className="news-pagination-arrow"
-                onClick={() => setCurrentPage((prev) => prev - 1)}
-                disabled={!movePrevious || isLoading}
-              >
-                <i className="fa-solid fa-chevron-left" />
-              </button>
+              <div className="news-pagination-pages">
+                <button
+                  type="button"
+                  className="news-pagination-arrow"
+                  onClick={() => setCurrentPage((prev) => prev - 1)}
+                  disabled={!movePrevious || isLoading}
+                >
+                  <i className="fa-solid fa-chevron-left" />
+                </button>
 
-              <div className="news-pagination-number active">{currentPage}</div>
+                {getPaginationPages().map((page, index) =>
+                  page === "..." ? (
+                    <span
+                      key={`dots-${index}`}
+                      className="news-pagination-dots"
+                    >
+                      ...
+                    </span>
+                  ) : (
+                    <button
+                      type="button"
+                      key={page}
+                      className={`news-pagination-number ${
+                        currentPage === page ? "active" : ""
+                      }`}
+                      onClick={() => setCurrentPage(Number(page))}
+                      disabled={isLoading}
+                    >
+                      {page}
+                    </button>
+                  )
+                )}
 
-              <button
-                className="news-pagination-arrow"
-                onClick={() => setCurrentPage((prev) => prev + 1)}
-                disabled={!moveNext || isLoading}
-              >
-                <i className="fa-solid fa-chevron-right" />
-              </button>
+                <button
+                  type="button"
+                  className="news-pagination-arrow"
+                  onClick={() => setCurrentPage((prev) => prev + 1)}
+                  disabled={!moveNext || isLoading}
+                >
+                  <i className="fa-solid fa-chevron-right" />
+                </button>
+              </div>
+
+              <div className="news-page-info">
+                <span>{isArabic ? "الصفحة" : "Page"}</span>
+                <strong>{currentPage}</strong>
+                <span>{isArabic ? "من" : "of"}</span>
+                <strong>{totalPages}</strong>
+              </div>
             </div>
           )}
         </div>

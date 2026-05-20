@@ -21,6 +21,10 @@ const Footer: React.FC = () => {
   const isRTL = i18n.dir() === "rtl";
   const currentYear = new Date().getFullYear();
 
+  const moreLabel = t("footerModern.more", {
+    defaultValue: isRTL ? "المزيد" : "More",
+  });
+
   const sections: FooterSection[] = [
     {
       title: t("footerModern.sections.community.title"),
@@ -90,11 +94,15 @@ const Footer: React.FC = () => {
       color: "#cfa000",
       links: [
         {
-          label: t("footerModern.sections.researchDevelopment.links.measurementCenter"),
+          label: t(
+            "footerModern.sections.researchDevelopment.links.measurementCenter"
+          ),
           href: "https://mu.menofia.edu.eg/CenEv/SectorsHome/ar",
         },
         {
-          label: t("footerModern.sections.researchDevelopment.links.excellenceCenters"),
+          label: t(
+            "footerModern.sections.researchDevelopment.links.excellenceCenters"
+          ),
           href: "https://www.menofia.edu.eg/View/63344/ar",
         },
         {
@@ -102,7 +110,9 @@ const Footer: React.FC = () => {
           href: "https://www.menofia.edu.eg/View/126087/ar",
         },
         {
-          label: t("footerModern.sections.researchDevelopment.links.researchEthics"),
+          label: t(
+            "footerModern.sections.researchDevelopment.links.researchEthics"
+          ),
           href: "https://mu.menofia.edu.eg/sci/IACUC/Home/ar",
         },
         {
@@ -117,23 +127,33 @@ const Footer: React.FC = () => {
       color: "#d48df5",
       links: [
         {
-          label: t("footerModern.sections.digitalTransformation.links.digitalSystems"),
+          label: t(
+            "footerModern.sections.digitalTransformation.links.digitalSystems"
+          ),
           href: "https://services.menofia.education/dtfc/Account/Login",
         },
         {
-          label: t("footerModern.sections.digitalTransformation.links.eLearningCenter"),
+          label: t(
+            "footerModern.sections.digitalTransformation.links.eLearningCenter"
+          ),
           href: "https://melc.menofia.edu.eg/",
         },
         {
-          label: t("footerModern.sections.digitalTransformation.links.digitalLibrary"),
+          label: t(
+            "footerModern.sections.digitalTransformation.links.digitalLibrary"
+          ),
           href: "https://mu.menofia.edu.eg/library/LibraryHome/ar",
         },
         {
-          label: t("footerModern.sections.digitalTransformation.links.engineeringLibrary"),
+          label: t(
+            "footerModern.sections.digitalTransformation.links.engineeringLibrary"
+          ),
           href: "https://www.menofia.edu.eg/View/129655/ar",
         },
         {
-          label: t("footerModern.sections.digitalTransformation.links.governmentComplaints"),
+          label: t(
+            "footerModern.sections.digitalTransformation.links.governmentComplaints"
+          ),
           href: "https://www.shakwa.eg/GCP/Default.aspx",
         },
       ],
@@ -148,7 +168,9 @@ const Footer: React.FC = () => {
           href: "https://www.menofia.edu.eg/View/12737/ar",
         },
         {
-          label: t("footerModern.sections.programsEducation.links.openLegalEducation"),
+          label: t(
+            "footerModern.sections.programsEducation.links.openLegalEducation"
+          ),
           href: "https://www.menofia.edu.eg/View/12738/ar",
         },
         {
@@ -156,11 +178,15 @@ const Footer: React.FC = () => {
           href: "https://www.menofia.edu.eg/View/12739/ar",
         },
         {
-          label: t("footerModern.sections.programsEducation.links.integratedMedicine"),
+          label: t(
+            "footerModern.sections.programsEducation.links.integratedMedicine"
+          ),
           href: "https://www.menofia.edu.eg/View/69836/ar",
         },
         {
-          label: t("footerModern.sections.programsEducation.links.electricalComputers"),
+          label: t(
+            "footerModern.sections.programsEducation.links.electricalComputers"
+          ),
           href: "https://www.menofia.edu.eg/View/12740/ar",
         },
       ],
@@ -179,15 +205,21 @@ const Footer: React.FC = () => {
           href: "https://mu.menofia.edu.eg/MUIS/Home/ar",
         },
         {
-          label: t("footerModern.sections.academicServices.links.undergraduateServices"),
+          label: t(
+            "footerModern.sections.academicServices.links.undergraduateServices"
+          ),
           href: "https://www.menofia.edu.eg/View/64477/ar",
         },
         {
-          label: t("footerModern.sections.academicServices.links.postgraduateServices"),
+          label: t(
+            "footerModern.sections.academicServices.links.postgraduateServices"
+          ),
           href: "https://www.menofia.edu.eg/View/64484/ar",
         },
         {
-          label: t("footerModern.sections.academicServices.links.postgraduateRegistration"),
+          label: t(
+            "footerModern.sections.academicServices.links.postgraduateRegistration"
+          ),
           href: "http://193.227.24.15/umisbuilt_new/Registration/PG_admin.aspx",
         },
         {
@@ -238,6 +270,10 @@ const Footer: React.FC = () => {
                 </li>
               ))}
             </ul>
+
+            <button type="button" className="ft-more-btn">
+              {moreLabel}
+            </button>
           </div>
         ))}
       </div>

@@ -386,3 +386,46 @@
   color: #324677;
   font-size: 13px;
 }
+/* FORCE SHOW SLIDER SIDE ARROWS */
+.faculty-highlight-nav {
+  position: absolute !important;
+  top: 50% !important;
+  z-index: 9999 !important;
+
+  width: 52px !important;
+  height: 52px !important;
+  border-radius: 50% !important;
+  border: none !important;
+
+  background: #ffffff !important;
+  color: #303d5e !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  cursor: pointer !important;
+  transform: translateY(-50%) !important;
+
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22) !important;
+  transition: 0.25s ease !important;
+}
+
+.faculty-highlight-nav:hover {
+  background: #F66B15 !important;
+  color: #ffffff !important;
+}
+
+.faculty-highlight-prev {
+  left: 28px !important;
+}
+
+.faculty-highlight-next {
+  right: 28px !important;
+}
+
+.faculty-highlight-nav svg {
+  width: 26px !important;
+  height: 26px !important;
+  stroke-width: 2.6 !important;
+}

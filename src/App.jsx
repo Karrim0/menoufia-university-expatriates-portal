@@ -39,17 +39,79 @@ const ScrollToTop = () => {
   return null;
 };
 
-function App() {
-  const { i18n } = useTranslation();
+const isPositiveNumber = (value) => {
+  return /^[1-9]\d*$/.test(value);
+};
 
-  const [showSplash, setShowSplash] = useState(true);
+const isValidRouteShape = (pathname) => {
+  const cleanPath = pathname.replace(/\/+$/, "") || "/";
+
+  const staticPaths = [
+    "/",
+    "/news",
+    "/news/add",
+    "/contactUs",
+    "/collage",
+    "/colleges-programs",
+    "/login",
+    "/university-history",
+  ];
+
+  if (staticPaths.includes(cleanPath)) {
+    return true;
+  }
+
+  const parts = cleanPath.split("/").filter(Boolean);
+
+  if (parts[0] === "news" && parts[1] === "edit" && parts.length === 3) {
+    return isPositiveNumber(parts[2]);
+  }
+
+  if (parts[0] === "details" && parts.length === 2) {
+    return isPositiveNumber(parts[1]);
+  }
+
+  if (parts[0] === "sectors" && parts.length === 2) {
+    return Boolean(parts[1]);
+  }
+
+  if (parts[0] === "fac" && parts.length === 2) {
+    return Boolean(parts[1]);
+  }
+
+  if (parts[0] === "fac" && parts[2] === "details" && parts.length === 4) {
+    return Boolean(parts[1]) && isPositiveNumber(parts[3]);
+  }
+
+  return false;
+};
+
+const AppContent = () => {
+  const { i18n } = useTranslation();
+  const location = useLocation();
+
+  const [showSplash, setShowSplash] = useState(() => {
+    return sessionStorage.getItem("hasSeenSplash") !== "true";
+  });
+
   const [showIntroVideo, setShowIntroVideo] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSplash(false);
+    const hasSeenSplash = sessionStorage.getItem("hasSeenSplash") === "true";
+    const hasSeenVideo =
+      sessionStorage.getItem("hasSeenIntroVideo") === "true";
 
-      const hasSeenVideo = sessionStorage.getItem("hasSeenIntroVideo") === "true";
+    if (hasSeenSplash) {
+      if (!hasSeenVideo) {
+        setShowIntroVideo(true);
+      }
+
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      sessionStorage.setItem("hasSeenSplash", "true");
+      setShowSplash(false);
 
       if (!hasSeenVideo) {
         setShowIntroVideo(true);
@@ -64,8 +126,10 @@ function App() {
     setShowIntroVideo(false);
   };
 
+  const isErrorPage = !isValidRouteShape(location.pathname);
+
   return (
-    <Router>
+    <>
       {showSplash && <SplashScreen />}
 
       {!showSplash && showIntroVideo && (
@@ -76,22 +140,29 @@ function App() {
 
       <Header index={2} />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/news" element={<News />} />
-        <Route path="/news/add" element={<AddNews />} />
-        <Route path="/news/edit/:id" element={<EditNews />} />
-        <Route path="/details/:id" element={<Details />} />
-        <Route path="/contactUs" element={<ContactUs />} />
-        <Route path="/collage" element={<Collage />} />
-        <Route path="/colleges-programs" element={<CollegeAndProgramsPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/sectors/:sectorName" element={<SectorsNews />} />
-        <Route path="/university-history" element={<UniversityHistory />} />
-        <Route path="/fac/:fac" element={<FacultyNewsPage />} />
-        <Route path="/fac/:fac/details/:id" element={<FacultyNewsDetails />} />
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
+      {isErrorPage ? (
+        <ErrorPage />
+      ) : (
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/news/add" element={<AddNews />} />
+          <Route path="/news/edit/:id" element={<EditNews />} />
+          <Route path="/details/:id" element={<Details />} />
+          <Route path="/contactUs" element={<ContactUs />} />
+          <Route path="/collage" element={<Collage />} />
+          <Route
+            path="/colleges-programs"
+            element={<CollegeAndProgramsPage />}
+          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/sectors/:sectorName" element={<SectorsNews />} />
+          <Route path="/university-history" element={<UniversityHistory />} />
+          <Route path="/fac/:fac" element={<FacultyNewsPage />} />
+          <Route path="/fac/:fac/details/:id"element={<FacultyNewsDetails />}/>
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
+      )}
 
       <Footer />
 
@@ -107,6 +178,14 @@ function App() {
         pauseOnHover
         theme="light"
       />
+    </>
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }
