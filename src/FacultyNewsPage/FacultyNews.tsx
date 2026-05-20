@@ -1073,5 +1073,37 @@ const FacultyNews: React.FC = () => {
     </div>
   );
 };
+const FIGMA_MENU_TITLES = [
+  "عن الكلية",
+  "إدارة الكلية",
+  "قطاعات الكلية",
+  "أقسام الكلية",
+  "الطلاب",
+  "أعضاء هيئة التدريس",
+  "البحث والدراسات العليا",
+  "الطلاب والخريجين",
+  "وحدات ومراكز",
+];
 
+const normalizeMenuTitle = (title: string) =>
+  String(title || "")
+    .trim()
+    .replace(/[أإآ]/g, "ا")
+    .replace(/ة/g, "ه")
+    .replace(/ى/g, "ي")
+    .replace(/\s+/g, " ")
+    .toLowerCase();
+
+const filterFacultyMenuForFigma = (items: any[]) => {
+  const allowedTitles = FIGMA_MENU_TITLES.map(normalizeMenuTitle);
+
+  return items
+    .filter((item) => allowedTitles.includes(normalizeMenuTitle(item.title)))
+    .sort((a, b) => {
+      return (
+        allowedTitles.indexOf(normalizeMenuTitle(a.title)) -
+        allowedTitles.indexOf(normalizeMenuTitle(b.title))
+      );
+    });
+};
 export default FacultyNews;
