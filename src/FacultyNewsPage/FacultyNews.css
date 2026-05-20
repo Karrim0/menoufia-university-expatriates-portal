@@ -3349,3 +3349,139 @@ vertical-align: middle;
     right: 10px !important;
   }
 }
+/* kareem */
+.faculty-menu-section {
+  background: #EAF6FA;
+  padding: 12px 18px 0;
+  position: relative;
+  z-index: 40;
+}
+
+.faculty-menu-wrapper {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.faculty-menu-bar {
+  width: 100%;
+  min-height: 42px;
+  background: #1f2d4d;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0;
+  padding: 0 10px;
+  overflow: visible;
+}
+
+.faculty-menu-item {
+  position: relative;
+}
+
+.faculty-menu-link {
+  height: 42px;
+  padding: 0 10px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.2s ease;
+}
+
+.faculty-menu-link:hover,
+.faculty-menu-item.open > .faculty-menu-link {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.faculty-menu-arrow {
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.faculty-menu-arrow.open {
+  transform: rotate(180deg);
+}
+
+.faculty-sub-menu {
+  position: absolute;
+  top: 100%;
+  inset-inline-start: 0;
+  min-width: 210px;
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+  border-radius: 4px;
+  padding: 7px 0;
+  z-index: 100;
+}
+
+.faculty-sub-menu .faculty-menu-link {
+  width: 100%;
+  min-width: 210px;
+  height: auto;
+  min-height: 38px;
+  padding: 9px 14px;
+  color: #22304f;
+  justify-content: space-between;
+  text-align: start;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.faculty-sub-menu .faculty-menu-link:hover,
+.faculty-sub-menu .faculty-menu-item.open > .faculty-menu-link {
+  background: #f4f6fb;
+  color: #14213d;
+}
+
+.faculty-sub-menu .faculty-sub-menu {
+  top: 0;
+  inset-inline-start: 100%;
+}
+
+[dir="rtl"] .faculty-sub-menu .faculty-sub-menu {
+  inset-inline-start: auto;
+  inset-inline-end: 100%;
+}
+
+.faculty-menu-loading {
+  min-height: 42px;
+  background: #1f2d4d;
+  color: #ffffff;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+@media (max-width: 992px) {
+  .faculty-menu-bar {
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: visible;
+  }
+
+  .faculty-menu-link {
+    font-size: 12px;
+    padding: 0 9px;
+  }
+
+  .faculty-sub-menu {
+    min-width: 190px;
+  }
+
+  .faculty-sub-menu .faculty-menu-link {
+    min-width: 190px;
+  }
+}

@@ -136,6 +136,21 @@ const newsService = {
     return response.data;
   },
 
+  getDepartmentMenu: async ({ facultyCode, departmentCode, lang = 1 }) => {
+    const response = await facultyApi.get(
+      `/DepartmentMenu/${encodeURIComponent(
+        facultyCode
+      )}/${encodeURIComponent(departmentCode)}`,
+      {
+        params: {
+          lang,
+        },
+      }
+    );
+
+    return response.data;
+  },
+
   getHighlights: async ({
     fac,
     langId,
@@ -163,6 +178,7 @@ const newsService = {
   getFacultyNews: async ({
     fac,
     langId,
+    departmentCode = "",
     pageIndex = 1,
     pageSize = 10,
     search = "",
@@ -174,6 +190,7 @@ const newsService = {
       params: {
         fac,
         langId,
+        departmentCode,
         PageIndex: pageIndex,
         PageSize: pageSize,
         Search: search,
@@ -186,12 +203,18 @@ const newsService = {
     return response.data;
   },
 
-  getFacultyNewsDetails: async (id, fac, langId) => {
+  getFacultyNewsDetails: async ({
+    id,
+    fac,
+    langId,
+    departmentCode = "",
+  }) => {
     const response = await facultyApi.get("/faculty-news/details", {
       params: {
         id,
         fac,
         langId,
+        departmentCode,
       },
     });
 
