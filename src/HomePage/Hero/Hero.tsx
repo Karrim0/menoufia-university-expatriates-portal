@@ -2,7 +2,7 @@ import "./Hero.css";
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import defaultImg from "../../assets/raes.jpg";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // ─── SmartImage with cleanup ───
 const SmartImage = ({
@@ -51,6 +51,7 @@ const Tooltip = ({ text }: { text: string }) => (
 
 function Hero({ News }: { News: any[] }) {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
 
   const isRTL = i18n.dir() === "rtl";
 
@@ -67,6 +68,7 @@ function Hero({ News }: { News: any[] }) {
         url: news.newsImg,
         head: news?.newsDetails?.head || "",
         id: news.id,
+        news,
       }));
   }, [News]);
 
@@ -79,14 +81,43 @@ function Hero({ News }: { News: any[] }) {
     setTooltipVisible(false);
   }, [i18n.language, featuredImages.length]);
 
+  const goToDetails = useCallback(
+    (item: any) => {
+      if (!item?.id) return;
+
+      window.scrollTo(0, 0);
+
+      navigate(`/details/${item.id}`, {
+        state: {
+          news: item.news,
+          newsType: "university",
+        },
+      });
+    },
+    [navigate]
+  );
+
+  const goToNextSlide = useCallback(() => {
+    if (featuredImages.length <= 1) return;
+
+    setCurrentIndex((prev) =>
+      prev === featuredImages.length - 1 ? 0 : prev + 1
+    );
+  }, [featuredImages.length]);
+
+  const goToPrevSlide = useCallback(() => {
+    if (featuredImages.length <= 1) return;
+
+    setCurrentIndex((prev) =>
+      prev === 0 ? featuredImages.length - 1 : prev - 1
+    );
+  }, [featuredImages.length]);
+
   const startAutoSlide = useCallback(() => {
     return setInterval(() => {
-      setCurrentIndex((prev) => {
-        if (featuredImages.length === 0) return 0;
-        return (prev + 1) % featuredImages.length;
-      });
+      goToNextSlide();
     }, 3500);
-  }, [featuredImages.length]);
+  }, [goToNextSlide]);
 
   useEffect(() => {
     if (!isPaused && featuredImages.length > 1) {
@@ -100,7 +131,11 @@ function Hero({ News }: { News: any[] }) {
 
   return (
     <div className="hero-carousel-wrapper" dir={isRTL ? "rtl" : "ltr"}>
-      <div className="hero-carousel-main">
+      <div
+        className="hero-carousel-main"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
         <div
           className="hero-carousel-track"
           style={{
@@ -108,7 +143,18 @@ function Hero({ News }: { News: any[] }) {
           }}
         >
           {featuredImages.map((item, index) => (
-            <div key={`${item.id}-${i18n.language}`} className="hero-carousel-slide">
+            <div
+              key={`${item.id}-${i18n.language}`}
+              className="hero-carousel-slide"
+              role="link"
+              tabIndex={0}
+              onClick={() => goToDetails(item)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  goToDetails(item);
+                }
+              }}
+            >
               <SmartImage
                 src={item.url}
                 alt={item.head || `University slide ${index + 1}`}
@@ -118,11 +164,15 @@ function Hero({ News }: { News: any[] }) {
               <div className="hero-carousel-overlay" />
 
               <section
-                className={`hero-content-card ${isRTL ? "card-rtl" : "card-ltr"}`}
-                onMouseEnter={() => setIsPaused(true)}
-                onMouseLeave={() => setIsPaused(false)}
+                className={`hero-content-card ${
+                  isRTL ? "card-rtl" : "card-ltr"
+                }`}
               >
-                <h1 className={`hero-main-heading ${isRTL ? "font-ar" : "font-en"}`}>
+                <h1
+                  className={`hero-main-heading ${
+                    isRTL ? "font-ar" : "font-en"
+                  }`}
+                >
                   {item.head ? item.head.slice(0, 150) : ""}
                 </h1>
 
@@ -132,11 +182,14 @@ function Hero({ News }: { News: any[] }) {
                     onMouseEnter={() => setTooltipVisible(true)}
                     onMouseLeave={() => setTooltipVisible(false)}
                   >
-                    <Link
-                      to={`/details/${item.id}`}
+                    <button
+                      type="button"
                       className="hero-arrow-link"
                       aria-label={t("tooltip.details")}
-                      onClick={() => window.scrollTo(0, 0)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        goToDetails(item);
+                      }}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -147,7 +200,7 @@ function Hero({ News }: { News: any[] }) {
                       >
                         <path d="m242-246-42-42 412-412H234v-60h480v480h-60v-378L242-246Z" />
                       </svg>
-                    </Link>
+                    </button>
 
                     {tooltipVisible && <Tooltip text={t("tooltip.details")} />}
                   </div>
@@ -157,11 +210,43 @@ function Hero({ News }: { News: any[] }) {
           ))}
         </div>
 
+        {featuredImages.length > 1 && (
+          <>
+            <button
+              type="button"
+              className="hero-side-arrow hero-side-arrow-prev"
+              onClick={(e) => {
+                e.stopPropagation();
+                goToPrevSlide();
+              }}
+              aria-label="Previous slide"
+            >
+              <i className="fa-solid fa-chevron-left" />
+            </button>
+
+            <button
+              type="button"
+              className="hero-side-arrow hero-side-arrow-next"
+              onClick={(e) => {
+                e.stopPropagation();
+                goToNextSlide();
+              }}
+              aria-label="Next slide"
+            >
+              <i className="fa-solid fa-chevron-right" />
+            </button>
+          </>
+        )}
+
         <div className="hero-pagination-dots">
           {featuredImages.map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentIndex(index)}
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentIndex(index);
+              }}
               className={`hero-pagination-dot ${
                 currentIndex === index ? "hero-pagination-dot-active" : ""
               }`}
