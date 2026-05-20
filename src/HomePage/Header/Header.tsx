@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { Globe, ChevronDown, ChevronLeft } from "lucide-react";
 import newsService from "../../Services/newsService";
 import { saveLanguage } from "../../utils/language";
+
 const LANGUAGE_ORDER = [
   "ar",
   "en",
@@ -39,8 +40,58 @@ const FIXED_LANGUAGES = [
   { code: "it", name: "Italian", id: 29, flag: "https://flagcdn.com/w40/it.png" },
 ];
 
+const SECTOR_NAV_ITEMS = [
+  {
+    key: "univpres",
+    labelKey: "nav.sectorsList.univpres",
+  },
+  {
+    key: "educ",
+    labelKey: "nav.sectorsList.educ",
+  },
+  {
+    key: "env",
+    labelKey: "nav.sectorsList.env",
+  },
+  {
+    key: "postgrad",
+    labelKey: "nav.sectorsList.postgrad",
+  },
+  {
+    key: "secr",
+    labelKey: "nav.sectorsList.secr",
+  },
+];
+
 const isExternalLink = (link?: string) => {
   return typeof link === "string" && /^https?:\/\//i.test(link);
+};
+
+const cleanMenuTitle = (title?: string) => {
+  return String(title || "").replace(/\s+/g, " ").trim();
+};
+
+const mapSectorMenuItem = (item: any, sectorKey: string): any => {
+  const children = Array.isArray(item.children)
+    ? item.children
+        .filter((child: any) => child && typeof child === "object")
+        .map((child: any) => mapSectorMenuItem(child, sectorKey))
+    : [];
+
+  const hasArticleId = item.articleId !== null && item.articleId !== undefined;
+  const external = isExternalLink(item.url);
+
+  return {
+    key: `${sectorKey}-${item.menuId}`,
+    label: cleanMenuTitle(item.title),
+    link: external
+      ? item.url
+      : hasArticleId
+      ? `/sectors/${sectorKey}?articleId=${item.articleId}`
+      : `/sectors/${sectorKey}`,
+    articleId: item.articleId,
+    ...(children.length > 0 ? { children } : {}),
+  };
 };
 
 const MenuLink = ({ item, className }: any) => {
@@ -204,171 +255,172 @@ const getNavItems = (t: any) => [
     ],
   },
 
-{
-  key: "students",
-  label: t("nav.students"),
-  children: [
-    {
-      key: "university-cities-application",
-      label: t("nav.studentsList.universityCitiesApplication"),
-      link: "https://al-zahraa.mans.edu.eg/studentApplications",
-    },
-    {
-      key: "undergraduate-stage",
-      label: t("nav.studentsList.undergraduateStage"),
-      children: [
-        {
-          key: "study-system",
-          label: t("nav.studentsList.studySystem"),
-          link: "https://www.menofia.edu.eg/View/39378/ar",
-        },
-        {
-          key: "open-education",
-          label: t("nav.studentsList.openEducation"),
-          link: "https://mu.menofia.edu.eg/open_edu/home.asp",
-        },
-        {
-          key: "undergraduate-electronic-services",
-          label: t("nav.studentsList.electronicServices"),
-          link: "https://www.menofia.edu.eg/View/69337/ar",
-        },
-      ],
-    },
-    {
-      key: "postgraduate-stage",
-      label: t("nav.studentsList.postgraduateStage"),
-      children: [
-        {
-          key: "registration-conditions",
-          label: t("nav.studentsList.registrationConditions"),
-          link: "https://www.menofia.edu.eg/View/39380/ar",
-        },
-        {
-          key: "postgraduate-electronic-services",
-          label: t("nav.studentsList.electronicServices"),
-          link: "https://www.menofia.edu.eg/View/39381/ar",
-        },
-      ],
-    },
-    {
-      key: "graduates",
-      label: t("nav.studentsList.graduates"),
-      children: [
-        {
-          key: "graduates-care-association",
-          label: t("nav.studentsList.graduatesCareAssociation"),
-          link: "https://mu.menofia.edu.eg/caamu/CaamuHome/ar",
-        },
-        {
-          key: "graduates-database",
-          label: t("nav.studentsList.graduatesDatabase"),
-          link: "https://www.menofia.edu.eg/Home/ar",
-        },
-        {
-          key: "graduate-search",
-          label: t("nav.studentsList.graduateSearch"),
-          link: "https://mu.menofia.edu.eg/educ/SearchGrade/ar",
-        },
-      ],
-    },
-    {
-      key: "international-students",
-      label: t("nav.studentsList.internationalStudents"),
-      link: "https://mu.menofia.edu.eg/postgrad/View/70399/ar",
-    },
-    {
-      key: "student-services",
-      label: t("nav.studentsList.studentServices"),
-      children: [
-        {
-          key: "electronic-application",
-          label: t("nav.studentsList.electronicApplication"),
-          link: "http://eush.edu.eg/eu/ApplicationForm.py",
-        },
-        {
-          key: "medical-services",
-          label: t("nav.studentsList.medicalServices"),
-          link: "https://www.menofia.edu.eg/View/39389/ar",
-        },
-        {
-          key: "university-professor",
-          label: t("nav.studentsList.universityProfessor"),
-          link: "https://www.menofia.edu.eg/View/39391/ar",
-        },
-        {
-          key: "student-takaful",
-          label: t("nav.studentsList.studentTakaful"),
-          link: "https://www.menofia.edu.eg/View/39392/ar",
-        },
-        {
-          key: "student-guide",
-          label: t("nav.studentsList.studentGuide"),
-          link: "https://www.menofia.edu.eg/View/39393/ar",
-        },
-        {
-          key: "university-cities-evaluation",
-          label: t("nav.studentsList.universityCitiesEvaluation"),
-          link: "https://al-zahraa.mans.edu.eg/studentApplications",
-        },
-        {
-          key: "military-education",
-          label: t("nav.studentsList.militaryEducation"),
-          link: "https://www.menofia.edu.eg/View/39397/ar",
-        },
-        {
-          key: "summer-training",
-          label: t("nav.studentsList.summerTraining"),
-          link: "https://www.menofia.edu.eg/View/39394/ar",
-        },
-        {
-          key: "information-club",
-          label: t("nav.studentsList.informationClub"),
-          link: "https://www.menofia.edu.eg/View/39395/ar",
-        },
-        {
-          key: "tuition-fees",
-          label: t("nav.studentsList.tuitionFees"),
-          link: "https://www.menofia.edu.eg/View/39395/ar",
-        },
-        {
-          key: "university-cities",
-          label: t("nav.studentsList.universityCities"),
-          link: "https://mu.menofia.edu.eg/housing/home.asp",
-        },
-      ],
-    },
-    {
-      key: "student-activities",
-      label: t("nav.studentsList.studentActivities"),
-      link: "https://www.menofia.edu.eg/View/39384/ar",
-    },
-    {
-      key: "postgraduate-results",
-      label: t("nav.studentsList.postgraduateResults"),
-      link: "http://193.227.24.15/Epg/natigapg/",
-    },
-    {
-      key: "youth-care",
-      label: t("nav.studentsList.youthCare"),
-      link: "https://www.menofia.edu.eg/View/39385/ar",
-    },
-    {
-      key: "exam-results",
-      label: t("nav.studentsList.examResults"),
-      link: "http://mu.menofia.edu.eg/AllFacResults/ar",
-    },
-    {
-      key: "get-email",
-      label: t("nav.studentsList.getEmail"),
-      link: "http://193.227.24.15/email/",
-    },
-    {
-      key: "foreign-students-registration",
-      label: t("nav.studentsList.foreignStudentsRegistration"),
-      link: "https://mu.menofia.edu.eg/foreigner/ar",
-    },
-  ],
-},
+  {
+    key: "students",
+    label: t("nav.students"),
+    children: [
+      {
+        key: "university-cities-application",
+        label: t("nav.studentsList.universityCitiesApplication"),
+        link: "https://al-zahraa.mans.edu.eg/studentApplications",
+      },
+      {
+        key: "undergraduate-stage",
+        label: t("nav.studentsList.undergraduateStage"),
+        children: [
+          {
+            key: "study-system",
+            label: t("nav.studentsList.studySystem"),
+            link: "https://www.menofia.edu.eg/View/39378/ar",
+          },
+          {
+            key: "open-education",
+            label: t("nav.studentsList.openEducation"),
+            link: "https://mu.menofia.edu.eg/open_edu/home.asp",
+          },
+          {
+            key: "undergraduate-electronic-services",
+            label: t("nav.studentsList.electronicServices"),
+            link: "https://www.menofia.edu.eg/View/69337/ar",
+          },
+        ],
+      },
+      {
+        key: "postgraduate-stage",
+        label: t("nav.studentsList.postgraduateStage"),
+        children: [
+          {
+            key: "registration-conditions",
+            label: t("nav.studentsList.registrationConditions"),
+            link: "https://www.menofia.edu.eg/View/39380/ar",
+          },
+          {
+            key: "postgraduate-electronic-services",
+            label: t("nav.studentsList.electronicServices"),
+            link: "https://www.menofia.edu.eg/View/39381/ar",
+          },
+        ],
+      },
+      {
+        key: "graduates",
+        label: t("nav.studentsList.graduates"),
+        children: [
+          {
+            key: "graduates-care-association",
+            label: t("nav.studentsList.graduatesCareAssociation"),
+            link: "https://mu.menofia.edu.eg/caamu/CaamuHome/ar",
+          },
+          {
+            key: "graduates-database",
+            label: t("nav.studentsList.graduatesDatabase"),
+            link: "https://www.menofia.edu.eg/Home/ar",
+          },
+          {
+            key: "graduate-search",
+            label: t("nav.studentsList.graduateSearch"),
+            link: "https://mu.menofia.edu.eg/educ/SearchGrade/ar",
+          },
+        ],
+      },
+      {
+        key: "international-students",
+        label: t("nav.studentsList.internationalStudents"),
+        link: "https://mu.menofia.edu.eg/postgrad/View/70399/ar",
+      },
+      {
+        key: "student-services",
+        label: t("nav.studentsList.studentServices"),
+        children: [
+          {
+            key: "electronic-application",
+            label: t("nav.studentsList.electronicApplication"),
+            link: "http://eush.edu.eg/eu/ApplicationForm.py",
+          },
+          {
+            key: "medical-services",
+            label: t("nav.studentsList.medicalServices"),
+            link: "https://www.menofia.edu.eg/View/39389/ar",
+          },
+          {
+            key: "university-professor",
+            label: t("nav.studentsList.universityProfessor"),
+            link: "https://www.menofia.edu.eg/View/39391/ar",
+          },
+          {
+            key: "student-takaful",
+            label: t("nav.studentsList.studentTakaful"),
+            link: "https://www.menofia.edu.eg/View/39392/ar",
+          },
+          {
+            key: "student-guide",
+            label: t("nav.studentsList.studentGuide"),
+            link: "https://www.menofia.edu.eg/View/39393/ar",
+          },
+          {
+            key: "university-cities-evaluation",
+            label: t("nav.studentsList.universityCitiesEvaluation"),
+            link: "https://al-zahraa.mans.edu.eg/studentApplications",
+          },
+          {
+            key: "military-education",
+            label: t("nav.studentsList.militaryEducation"),
+            link: "https://www.menofia.edu.eg/View/39397/ar",
+          },
+          {
+            key: "summer-training",
+            label: t("nav.studentsList.summerTraining"),
+            link: "https://www.menofia.edu.eg/View/39394/ar",
+          },
+          {
+            key: "information-club",
+            label: t("nav.studentsList.informationClub"),
+            link: "https://www.menofia.edu.eg/View/39395/ar",
+          },
+          {
+            key: "tuition-fees",
+            label: t("nav.studentsList.tuitionFees"),
+            link: "https://www.menofia.edu.eg/View/39395/ar",
+          },
+          {
+            key: "university-cities",
+            label: t("nav.studentsList.universityCities"),
+            link: "https://mu.menofia.edu.eg/housing/home.asp",
+          },
+        ],
+      },
+      {
+        key: "student-activities",
+        label: t("nav.studentsList.studentActivities"),
+        link: "https://www.menofia.edu.eg/View/39384/ar",
+      },
+      {
+        key: "postgraduate-results",
+        label: t("nav.studentsList.postgraduateResults"),
+        link: "http://193.227.24.15/Epg/natigapg/",
+      },
+      {
+        key: "youth-care",
+        label: t("nav.studentsList.youthCare"),
+        link: "https://www.menofia.edu.eg/View/39385/ar",
+      },
+      {
+        key: "exam-results",
+        label: t("nav.studentsList.examResults"),
+        link: "http://mu.menofia.edu.eg/AllFacResults/ar",
+      },
+      {
+        key: "get-email",
+        label: t("nav.studentsList.getEmail"),
+        link: "http://193.227.24.15/email/",
+      },
+      {
+        key: "foreign-students-registration",
+        label: t("nav.studentsList.foreignStudentsRegistration"),
+        link: "https://mu.menofia.edu.eg/foreigner/ar",
+      },
+    ],
+  },
+
   {
     key: "staff",
     label: t("nav.staff"),
@@ -586,11 +638,7 @@ const SubDropdownItem = ({ item }: any) => {
           onMouseLeave={onLeave}
         >
           {item.children.map((child: any) => (
-            <MenuLink
-              key={child.key}
-              item={child}
-              className="dropdown-item-label solo"
-            />
+            <SubDropdownItem key={child.key} item={child} />
           ))}
         </div>
       )}
@@ -689,18 +737,19 @@ const Header = () => {
   const location = useLocation();
 
   const getSavedLang = () => {
-  try {
-    return JSON.parse(localStorage.getItem("lang") || '{"code":"ar","id":1}');
-  } catch {
-    return { code: "ar", id: 1 };
-  }
-};
+    try {
+      return JSON.parse(localStorage.getItem("lang") || '{"code":"ar","id":1}');
+    } catch {
+      return { code: "ar", id: 1 };
+    }
+  };
 
   const [menuActive, setMenuActive] = useState(false);
   const [langActive, setLangActive] = useState(false);
   const [currentLang, setCurrentLang] = useState(getSavedLang);
   const [languages, setLanguages] = useState(FIXED_LANGUAGES);
   const [aboutChildren, setAboutChildren] = useState<any[]>([]);
+  const [sectorsChildren, setSectorsChildren] = useState<any[]>([]);
 
   useEffect(() => {
     newsService
@@ -730,6 +779,64 @@ const Header = () => {
       .catch(() => setAboutChildren([]));
   }, [currentLang?.id]);
 
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchSectorsMenus = async () => {
+      try {
+        const results = await Promise.allSettled(
+          SECTOR_NAV_ITEMS.map((sector) =>
+            newsService.getSectorMenu({
+              keyword: sector.key,
+              lang: currentLang?.id || 1,
+            })
+          )
+        );
+
+        if (!isMounted) return;
+
+        const mappedSectors = SECTOR_NAV_ITEMS.map((sector, index) => {
+          const response = results[index];
+
+          const menuItems =
+            response.status === "fulfilled" &&
+            Array.isArray(response.value?.result)
+              ? response.value.result
+              : [];
+
+          const sectorNewsItem = {
+            key: `${sector.key}-news`,
+            label: i18n.language === "ar" ? "أخبار القطاع" : "Sector News",
+            link: `/sectors/${sector.key}`,
+          };
+
+          return {
+            key: sector.key,
+            label: t(sector.labelKey),
+            link: `/sectors/${sector.key}`,
+            children: [
+              sectorNewsItem,
+              ...menuItems.map((item: any) =>
+                mapSectorMenuItem(item, sector.key)
+              ),
+            ],
+          };
+        });
+
+        setSectorsChildren(mappedSectors);
+      } catch (error) {
+        console.error("Error fetching sectors menus:", error);
+        setSectorsChildren([]);
+      }
+    };
+
+    fetchSectorsMenus();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [currentLang?.id, i18n.language, t]);
+
   const NAV_ITEMS = useMemo(() => {
     const items = getNavItems(t);
 
@@ -740,22 +847,31 @@ const Header = () => {
     };
 
     return items.map((item) => {
-      if (item.key !== "about") return item;
+      if (item.key === "about") {
+        const children = aboutChildren.length ? aboutChildren : item.children || [];
 
-      const children = aboutChildren.length ? aboutChildren : item.children || [];
+        const hasNewsStatistics = children.some(
+          (child: any) => child.key === "news-statistics"
+        );
 
-      const hasNewsStatistics = children.some(
-        (child: any) => child.key === "news-statistics"
-      );
+        return {
+          ...item,
+          children: hasNewsStatistics
+            ? children
+            : [...children, newsStatisticsItem],
+        };
+      }
 
-      return {
-        ...item,
-        children: hasNewsStatistics
-          ? children
-          : [...children, newsStatisticsItem],
-      };
+      if (item.key === "sectors") {
+        return {
+          ...item,
+          children: sectorsChildren.length ? sectorsChildren : item.children || [],
+        };
+      }
+
+      return item;
     });
-  }, [t, aboutChildren]);
+  }, [t, aboutChildren, sectorsChildren]);
 
   useEffect(() => {
     i18n.changeLanguage(currentLang.code);
@@ -787,16 +903,17 @@ const Header = () => {
   }, [menuActive]);
 
   const changeLanguage = async (lang: any) => {
-  saveLanguage(lang);
+    saveLanguage(lang);
 
-  await i18n.changeLanguage(lang.code);
+    await i18n.changeLanguage(lang.code);
 
-  document.documentElement.lang = lang.code;
-  document.documentElement.dir = lang.code === "ar" || lang.code === "fa" ? "rtl" : "ltr";
+    document.documentElement.lang = lang.code;
+    document.documentElement.dir =
+      lang.code === "ar" || lang.code === "fa" ? "rtl" : "ltr";
 
-  setCurrentLang(lang);
-  setLangActive(false);
-};
+    setCurrentLang(lang);
+    setLangActive(false);
+  };
 
   return (
     <header className="nav-container">
@@ -825,7 +942,10 @@ const Header = () => {
       </nav>
 
       <div className="nav-icons">
-        <div className="lang-wrapper" onClick={() => setLangActive((prev) => !prev)}>
+        <div
+          className="lang-wrapper"
+          onClick={() => setLangActive((prev) => !prev)}
+        >
           <Globe size={20} />
           <span className="lang-code">{currentLang.code?.toUpperCase()}</span>
           <ChevronDown

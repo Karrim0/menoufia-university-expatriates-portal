@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Edit, Trash2, X, Calendar } from "lucide-react";
+import {
+  Edit,
+  Trash2,
+  X,
+  Calendar,
+  ChevronDown,
+  ChevronLeft,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import ReactTooltip from "react-tooltip";
@@ -33,41 +40,15 @@ const detectSearchLanguageId = (text, fallbackLangId) => {
 
   if (!value) return fallbackLangId;
 
-  if (/[پچژگک‌ی]/.test(value)) {
-    return LANGUAGE_IDS.fa;
-  }
-
-  if (/[\u0600-\u06FF]/.test(value)) {
-    return LANGUAGE_IDS.ar;
-  }
-
-  if (/[\u0400-\u04FF]/.test(value)) {
-    return LANGUAGE_IDS.ru;
-  }
-
-  if (/[\u3040-\u30FF\u31F0-\u31FF]/.test(value)) {
-    return LANGUAGE_IDS.ja;
-  }
-
-  if (/[\u4E00-\u9FFF]/.test(value)) {
-    return LANGUAGE_IDS.ch;
-  }
-
-  if (/[çğıöşüÇĞİÖŞÜ]/.test(value)) {
-    return LANGUAGE_IDS.tr;
-  }
-
-  if (/[äöüßÄÖÜ]/.test(value)) {
-    return LANGUAGE_IDS.de;
-  }
-
-  if (/[âæçêëîïôœûüÿÂÆÇÊËÎÏÔŒÛÜŸ]/.test(value)) {
-    return LANGUAGE_IDS.fr;
-  }
-
-  if (/[àèéìíîòóùúÀÈÉÌÍÎÒÓÙÚ]/.test(value)) {
-    return LANGUAGE_IDS.it;
-  }
+  if (/[پچژگک‌ی]/.test(value)) return LANGUAGE_IDS.fa;
+  if (/[\u0600-\u06FF]/.test(value)) return LANGUAGE_IDS.ar;
+  if (/[\u0400-\u04FF]/.test(value)) return LANGUAGE_IDS.ru;
+  if (/[\u3040-\u30FF\u31F0-\u31FF]/.test(value)) return LANGUAGE_IDS.ja;
+  if (/[\u4E00-\u9FFF]/.test(value)) return LANGUAGE_IDS.ch;
+  if (/[çğıöşüÇĞİÖŞÜ]/.test(value)) return LANGUAGE_IDS.tr;
+  if (/[äöüßÄÖÜ]/.test(value)) return LANGUAGE_IDS.de;
+  if (/[âæçêëîïôœûüÿÂÆÇÊËÎÏÔŒÛÜŸ]/.test(value)) return LANGUAGE_IDS.fr;
+  if (/[àèéìíîòóùúÀÈÉÌÍÎÒÓÙÚ]/.test(value)) return LANGUAGE_IDS.it;
 
   return LANGUAGE_IDS.en;
 };
@@ -99,6 +80,135 @@ const sectorConfig = {
   univpres: { ar: "رئاسة الجامعة", en: "University Presidency" },
 };
 
+const cleanMenuTitle = (title) => {
+  return String(title || "").replace(/\s+/g, " ").trim();
+};
+
+const hasMenuChildren = (item) => {
+  return (
+    Array.isArray(item.children) &&
+    item.children.length > 0 &&
+    item.children.some((child) => child && typeof child === "object")
+  );
+};
+
+const isExternalMenuUrl = (url) => {
+  return typeof url === "string" && /^https?:\/\//i.test(url);
+};
+
+const getSectorMenuLink = (item, sectorName) => {
+  if (isExternalMenuUrl(item.url)) {
+    return item.url;
+  }
+
+  if (item.articleId !== null && item.articleId !== undefined) {
+    return `/sectors/${sectorName}?articleId=${item.articleId}`;
+  }
+
+  return `/sectors/${sectorName}`;
+};
+
+const getVisibleSectorMenu = (menu, sectorName) => {
+  if (!Array.isArray(menu)) return [];
+
+  if (sectorName !== "univpres") {
+    return menu;
+  }
+
+  const allowedTitles = [
+    "الادارة العليا",
+    "الإدارة العليا",
+    "الادارات التابعة",
+    "الإدارات التابعة",
+    "رئيس الجامعة",
+  ];
+
+  return menu.filter((item) =>
+    allowedTitles.includes(cleanMenuTitle(item.title))
+  );
+};
+
+const SectorMenuItem = ({ item, sectorName, level = 0 }) => {
+  const [open, setOpen] = useState(false);
+
+  const children = hasMenuChildren(item)
+    ? item.children.filter((child) => child && typeof child === "object")
+    : [];
+
+  const hasChildren = children.length > 0;
+  const link = getSectorMenuLink(item, sectorName);
+  const isExternal = isExternalMenuUrl(link);
+
+  const handleToggle = (e) => {
+    if (!hasChildren) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+    setOpen((prev) => !prev);
+  };
+
+  const content = (
+    <>
+      <span>{cleanMenuTitle(item.title)}</span>
+
+      {hasChildren &&
+        (level === 0 ? (
+          <ChevronDown
+            size={14}
+            className={`sector-menu-arrow ${open ? "open" : ""}`}
+          />
+        ) : (
+          <ChevronLeft
+            size={13}
+            className={`sector-menu-arrow ${open ? "open" : ""}`}
+          />
+        ))}
+    </>
+  );
+
+  return (
+    <div
+      className={`sector-menu-item level-${level} ${
+        hasChildren ? "has-children" : ""
+      } ${open ? "open" : ""}`}
+      onMouseEnter={() => hasChildren && setOpen(true)}
+      onMouseLeave={() => hasChildren && setOpen(false)}
+    >
+      {hasChildren ? (
+        <button type="button" className="sector-menu-link" onClick={handleToggle}>
+          {content}
+        </button>
+      ) : isExternal ? (
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="sector-menu-link"
+        >
+          {content}
+        </a>
+      ) : (
+        <Link to={link} className="sector-menu-link">
+          {content}
+        </Link>
+      )}
+
+      {hasChildren && open && (
+        <div className="sector-sub-menu">
+          {children.map((child) => (
+            <SectorMenuItem
+              key={child.menuId}
+              item={child}
+              sectorName={sectorName}
+              level={level + 1}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 function SectorsNews() {
   const savedLang = JSON.parse(localStorage.getItem("lang") || "{}");
   const { t, i18n } = useTranslation("News");
@@ -116,6 +226,9 @@ function SectorsNews() {
   const [searchTerm, setSearchTerm] = useState("");
   const [appliedSearchTerm, setAppliedSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const [sectorMenu, setSectorMenu] = useState([]);
+  const [isMenuLoading, setIsMenuLoading] = useState(false);
 
   const [showFilters, setShowFilters] = useState(false);
   const [dateFilter, setDateFilter] = useState(0);
@@ -135,6 +248,7 @@ function SectorsNews() {
   });
 
   const isArabic = i18n.language === "ar";
+  const visibleSectorMenu = getVisibleSectorMenu(sectorMenu, sectorName);
 
   useEffect(() => {
     let count = 0;
@@ -173,6 +287,43 @@ function SectorsNews() {
     allNewsRef.current = [];
     lastFetchKeyRef.current = "";
   }, [sectorName]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchSectorMenu = async () => {
+      setIsMenuLoading(true);
+
+      try {
+        const response = await newsService.getSectorMenu({
+          keyword: sectorName,
+          lang: Number(langId) || 1,
+        });
+
+        if (!isMounted) return;
+
+        setSectorMenu(Array.isArray(response?.result) ? response.result : []);
+      } catch (error) {
+        console.error("Error fetching sector menu:", error);
+
+        if (isMounted) {
+          setSectorMenu([]);
+        }
+      } finally {
+        if (isMounted) {
+          setIsMenuLoading(false);
+        }
+      }
+    };
+
+    if (sectorName) {
+      fetchSectorMenu();
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [sectorName, langId]);
 
   const formatDate = (rawDate) => {
     if (!rawDate) return "";
@@ -704,6 +855,26 @@ function SectorsNews() {
                 : `Search results for: ${appliedSearchTerm}`}
             </div>
           )}
+        </div>
+      </section>
+
+      <section className="sector-menu-section" dir={isArabic ? "rtl" : "ltr"}>
+        <div className="sector-menu-wrapper">
+          {isMenuLoading ? (
+            <div className="sector-menu-loading">
+              {isArabic ? "جاري تحميل القائمة..." : "Loading menu..."}
+            </div>
+          ) : visibleSectorMenu.length > 0 ? (
+            <div className="sector-menu-bar">
+              {visibleSectorMenu.map((item) => (
+                <SectorMenuItem
+                  key={item.menuId}
+                  item={item}
+                  sectorName={sectorName}
+                />
+              ))}
+            </div>
+          ) : null}
         </div>
       </section>
 
