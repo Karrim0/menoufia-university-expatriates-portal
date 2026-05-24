@@ -32,42 +32,15 @@ const detectSearchLanguageId = (text, fallbackLangId) => {
   const value = text.trim();
 
   if (!value) return fallbackLangId;
-
-  if (/[پچژگک‌ی]/.test(value)) {
-    return LANGUAGE_IDS.fa;
-  }
-
-  if (/[\u0600-\u06FF]/.test(value)) {
-    return LANGUAGE_IDS.ar;
-  }
-
-  if (/[\u0400-\u04FF]/.test(value)) {
-    return LANGUAGE_IDS.ru;
-  }
-
-  if (/[\u3040-\u30FF\u31F0-\u31FF]/.test(value)) {
-    return LANGUAGE_IDS.ja;
-  }
-
-  if (/[\u4E00-\u9FFF]/.test(value)) {
-    return LANGUAGE_IDS.ch;
-  }
-
-  if (/[çğıöşüÇĞİÖŞÜ]/.test(value)) {
-    return LANGUAGE_IDS.tr;
-  }
-
-  if (/[äöüßÄÖÜ]/.test(value)) {
-    return LANGUAGE_IDS.de;
-  }
-
-  if (/[âæçêëîïôœûüÿÂÆÇÊËÎÏÔŒÛÜŸ]/.test(value)) {
-    return LANGUAGE_IDS.fr;
-  }
-
-  if (/[àèéìíîòóùúÀÈÉÌÍÎÒÓÙÚ]/.test(value)) {
-    return LANGUAGE_IDS.it;
-  }
+  if (/[پچژگک‌ی]/.test(value)) return LANGUAGE_IDS.fa;
+  if (/[\u0600-\u06FF]/.test(value)) return LANGUAGE_IDS.ar;
+  if (/[\u0400-\u04FF]/.test(value)) return LANGUAGE_IDS.ru;
+  if (/[\u3040-\u30FF\u31F0-\u31FF]/.test(value)) return LANGUAGE_IDS.ja;
+  if (/[\u4E00-\u9FFF]/.test(value)) return LANGUAGE_IDS.ch;
+  if (/[çğıöşüÇĞİÖŞÜ]/.test(value)) return LANGUAGE_IDS.tr;
+  if (/[äöüßÄÖÜ]/.test(value)) return LANGUAGE_IDS.de;
+  if (/[âæçêëîïôœûüÿÂÆÇÊËÎÏÔŒÛÜŸ]/.test(value)) return LANGUAGE_IDS.fr;
+  if (/[àèéìíîòóùúÀÈÉÌÍÎÒÓÙÚ]/.test(value)) return LANGUAGE_IDS.it;
 
   return LANGUAGE_IDS.en;
 };
@@ -99,13 +72,15 @@ const sectorConfig = {
   univpres: { ar: "رئاسة الجامعة", en: "University Presidency" },
 };
 
-function SectorsNews() {
+function SectorsNews({ sectorKeyword, beforeCards }) {
   const savedLang = JSON.parse(localStorage.getItem("lang") || "{}");
   const { t, i18n } = useTranslation("News");
   const { isLoggedIn } = useAuth();
   const { sectorName } = useParams();
 
-  const sector = sectorConfig[sectorName] || sectorConfig.univpres;
+  const activeSectorName = sectorKeyword || sectorName || "univpres";
+
+  const sector = sectorConfig[activeSectorName] || sectorConfig.univpres;
   const sectorTitle = i18n.language === "ar" ? sector.ar : sector.en;
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -172,7 +147,7 @@ function SectorsNews() {
     setToDate("");
     allNewsRef.current = [];
     lastFetchKeyRef.current = "";
-  }, [sectorName]);
+  }, [activeSectorName]);
 
   const formatDate = (rawDate) => {
     if (!rawDate) return "";
@@ -205,6 +180,7 @@ function SectorsNews() {
     const allResults = allNewsRef.current;
     const totalPages = Math.ceil(allResults.length / ITEMS_PER_PAGE);
     const startIndex = (page - 1) * ITEMS_PER_PAGE;
+
     const paginatedResults = allResults.slice(
       startIndex,
       startIndex + ITEMS_PER_PAGE
@@ -219,9 +195,12 @@ function SectorsNews() {
     async (page = 1, term = "") => {
       const activeLangId = getSearchLanguageId(term);
 
-      const fetchKey = `${sectorName}_${activeLangId}_${term}_${dateFilter}_${fromDate}_${toDate}`;
+      const fetchKey = `${activeSectorName}_${activeLangId}_${term}_${dateFilter}_${fromDate}_${toDate}`;
 
-      if (fetchKey === lastFetchKeyRef.current && allNewsRef.current.length > 0) {
+      if (
+        fetchKey === lastFetchKeyRef.current &&
+        allNewsRef.current.length > 0
+      ) {
         applyPagination(page);
         return;
       }
@@ -230,7 +209,7 @@ function SectorsNews() {
 
       try {
         const response = await newsService.searchByAbbreviation({
-          abbreviation: sectorName,
+          abbreviation: activeSectorName,
           lid: activeLangId,
           pageIndex: 1,
           pageSize: 99999,
@@ -257,7 +236,7 @@ function SectorsNews() {
       }
     },
     [
-      sectorName,
+      activeSectorName,
       dateFilter,
       fromDate,
       toDate,
@@ -285,7 +264,7 @@ function SectorsNews() {
     fetchNews(currentPage, appliedSearchTerm);
   }, [
     langId,
-    sectorName,
+    activeSectorName,
     currentPage,
     dateFilter,
     fromDate,
@@ -515,7 +494,7 @@ function SectorsNews() {
         <div className="news-hero-overlay"></div>
 
         <div className="news-hero-content">
-          <p className="news-hero-subtitle">UNIVERSITY ADMINISTRATION</p>
+          <p className="news-hero-subtitle">MENOUFIA UNIVERSITY NEWS</p>
 
           <h1 className="news-hero-title">{sectorTitle}</h1>
 
@@ -707,6 +686,8 @@ function SectorsNews() {
         </div>
       </section>
 
+      {beforeCards}
+
       <section className="news-main-content" dir={isArabic ? "rtl" : "ltr"}>
         <div className="news-content-wrapper">
           {isLoading ? (
@@ -748,7 +729,7 @@ function SectorsNews() {
                       news,
                       newsType: "sector",
                       lid: getActiveSearchLangId(),
-                      abbreviation: sectorName,
+                      abbreviation: activeSectorName,
                     }}
                     className="news-card-link"
                   >

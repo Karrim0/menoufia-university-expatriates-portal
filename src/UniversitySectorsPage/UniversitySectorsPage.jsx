@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { ChevronDown, ChevronLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import newsService from "../Services/newsService";
+import SectorsNews from "../SectorsNewsPage/SectorsNews";
 import logo from "../assets/logo.jpg";
 import "./UniversitySectorsPage.css";
 
@@ -10,6 +11,10 @@ const SECTOR_CONFIG = {
   univpres: {
     ar: "قطاع رئيس الجامعة",
     en: "University President Sector",
+  },
+  cenev: {
+    ar: "مركز القياس والتقويم",
+    en: "CENEVA Center",
   },
   educ: {
     ar: "قطاع نائب شؤون التعليم والطلاب",
@@ -34,25 +39,13 @@ const FIXED_TABS = [
     key: "high-admin",
     ar: "الإدارة العليا",
     en: "Top Administration",
-    titles: [
-      "الإدارة العليا",
-      "الادارة العليا",
-      "Top Administration",
-      "Higher Administration",
-      "Senior Administration",
-    ],
+    titles: ["الإدارة العليا", "الادارة العليا", "Top Administration"],
   },
   {
     key: "related-admins",
     ar: "الإدارات التابعة",
     en: "Related Administrations",
-    titles: [
-      "الإدارات التابعة",
-      "الادارات التابعة",
-      "Related Administrations",
-      "Affiliated Administrations",
-      "Sub Administrations",
-    ],
+    titles: ["الإدارات التابعة", "الادارات التابعة", "Related Administrations"],
   },
   {
     key: "president",
@@ -65,32 +58,25 @@ const FIXED_TABS = [
 const cleanText = (value = "") => {
   const textarea = document.createElement("textarea");
   textarea.innerHTML = String(value || "");
-
   return textarea.value.replace(/\s+/g, " ").trim();
 };
 
 const cleanMenuTitle = (title = "") => cleanText(title);
 
-const normalizeTitle = (title = "") => {
-  return cleanMenuTitle(title)
+const normalizeTitle = (title = "") =>
+  cleanMenuTitle(title)
     .replace(/[أإآ]/g, "ا")
     .replace(/ة/g, "ه")
     .replace(/[ىي]/g, "ي")
     .replace(/\s+/g, "")
     .toLowerCase();
-};
 
-const isExternalUrl = (url = "") => {
-  return /^https?:\/\//i.test(String(url || ""));
-};
+const isExternalUrl = (url = "") => /^https?:\/\//i.test(String(url || ""));
 
-const hasArticleId = (item) => {
-  return (
-    item?.articleId !== null &&
-    item?.articleId !== undefined &&
-    Number(item.articleId) > 0
-  );
-};
+const hasArticleId = (item) =>
+  item?.articleId !== null &&
+  item?.articleId !== undefined &&
+  Number(item.articleId) > 0;
 
 const cleanMenuTree = (items = []) => {
   if (!Array.isArray(items)) return [];
@@ -106,14 +92,13 @@ const cleanMenuTree = (items = []) => {
     .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
 };
 
-const getChildren = (item) => {
-  return Array.isArray(item?.children)
+const getChildren = (item) =>
+  Array.isArray(item?.children)
     ? item.children
         .filter((child) => child && typeof child === "object")
         .filter((child) => cleanMenuTitle(child.title).length > 0)
         .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0))
     : [];
-};
 
 const getMenuLink = (item, keyword) => {
   if (hasArticleId(item)) {
@@ -140,8 +125,6 @@ const buildFixedMenu = (menu, isArabic) => {
     if (!matched) {
       return {
         menuId: tab.key,
-        parentId: null,
-        sortOrder: 0,
         title: isArabic ? tab.ar : tab.en,
         articleId: null,
         url: "#",
@@ -157,90 +140,11 @@ const buildFixedMenu = (menu, isArabic) => {
   });
 };
 
-const findFirstArticleItem = (items = []) => {
-  for (const item of items) {
-    if (hasArticleId(item)) {
-      return item;
-    }
-
-    const foundChild = findFirstArticleItem(getChildren(item));
-
-    if (foundChild) {
-      return foundChild;
-    }
-  }
-
-  return null;
-};
-const flattenMenuItems = (items = []) => {
-  const result = [];
-
-  const walk = (list = []) => {
-    list.forEach((item) => {
-      if (!item || !cleanMenuTitle(item.title)) return;
-
-      result.push({
-        ...item,
-        children: [],
-      });
-
-      const children = getChildren(item);
-
-      if (children.length > 0) {
-        walk(children);
-      }
-    });
-  };
-
-  walk(items);
-
-  return result.filter(
-    (item, index, array) =>
-      array.findIndex((current) => current.menuId === item.menuId) === index
-  );
-};
-const stripHtml = (html = "") => {
-  const wrapper = document.createElement("div");
-  wrapper.innerHTML = html;
-
-  return wrapper.textContent?.replace(/\s+/g, " ").trim() || "";
-};
-
-const extractFirstUrl = (html = "") => {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
-
-  const link = doc.querySelector("a[href]");
-  const img = doc.querySelector("img[src]");
-  const video = doc.querySelector("video[src], video source[src]");
-
-  return (
-    link?.getAttribute("href") ||
-    img?.getAttribute("src") ||
-    video?.getAttribute("src") ||
-    ""
-  );
-};
-
-const getExtension = (url = "") => {
-  const cleanUrl = String(url).split("?")[0].toLowerCase();
-  const match = cleanUrl.match(/\.([a-z0-9]+)$/);
-
-  return match?.[1] || "";
-};
-
-const getGoogleViewerUrl = (url) => {
-  return `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(
-    url
-  )}`;
-};
-
 const SectorMenuItem = ({ item, keyword, level = 0 }) => {
   const [open, setOpen] = useState(false);
 
   const children = getChildren(item);
   const hasChildren = children.length > 0;
-  const itemHasArticle = hasArticleId(item);
   const link = getMenuLink(item, keyword);
   const external = isExternalUrl(link);
 
@@ -248,9 +152,9 @@ const SectorMenuItem = ({ item, keyword, level = 0 }) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (!hasChildren) return;
-
-    setOpen((prev) => !prev);
+    if (hasChildren) {
+      setOpen((prev) => !prev);
+    }
   };
 
   const label = <span>{cleanMenuTitle(item.title)}</span>;
@@ -259,7 +163,7 @@ const SectorMenuItem = ({ item, keyword, level = 0 }) => {
     hasChildren &&
     (level === 0 ? (
       <ChevronDown
-        size={22}
+        size={20}
         className={`usp-menu-arrow ${open ? "open" : ""}`}
       />
     ) : (
@@ -270,7 +174,7 @@ const SectorMenuItem = ({ item, keyword, level = 0 }) => {
     ));
 
   const renderLabel = () => {
-    if (itemHasArticle) {
+    if (hasArticleId(item)) {
       return external ? (
         <a
           href={link}
@@ -327,7 +231,6 @@ const SectorMenuItem = ({ item, keyword, level = 0 }) => {
             type="button"
             className="usp-menu-arrow-btn"
             onClick={toggleDropdown}
-            aria-label="toggle menu"
           >
             {arrow}
           </button>
@@ -353,119 +256,6 @@ const SectorMenuItem = ({ item, keyword, level = 0 }) => {
 const ArticleRenderer = ({ article, isArabic }) => {
   if (!article) return null;
 
-  const content = article.content || "";
-  const plainText = stripHtml(content);
-  const firstUrl = extractFirstUrl(content);
-  const extension = getExtension(firstUrl);
-
-  const hasImage = /<img/i.test(content);
-  const isImageOnly = hasImage && plainText.length < 100;
-  const isFile = ["pdf", "doc", "docx", "xls", "xlsx"].includes(extension);
-  const isVideo = ["mp4", "webm", "ogg"].includes(extension);
-
-  if (isFile && firstUrl) {
-    const viewerUrl =
-      extension === "pdf" ? firstUrl : getGoogleViewerUrl(firstUrl);
-
-    return (
-      <section className="usp-article-section" dir={isArabic ? "rtl" : "ltr"}>
-        <div className="usp-section-heading">
-          <span className="usp-orange-dot" />
-          <h2>{article.title}</h2>
-        </div>
-
-        <div className="usp-file-card">
-          <div className="usp-file-preview">
-            <div className="usp-file-circle">
-              <i className="fa-regular fa-file-pdf" />
-            </div>
-          </div>
-
-          <div className="usp-file-info">
-            <div className="usp-card-title">
-              <div className="usp-card-icon">
-                <i className="fa-regular fa-file-lines" />
-              </div>
-
-              <h3>{article.title}</h3>
-            </div>
-
-            <p className="usp-file-type">
-              {isArabic ? "نوع الملف : " : "File type: "}
-              <strong>{extension.toUpperCase()}</strong>
-              <i className="fa-regular fa-file-pdf" />
-            </p>
-
-            <div className="usp-file-actions">
-              <a
-                href={viewerUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="usp-view-file"
-              >
-                <i className="fa-regular fa-eye" />
-                {isArabic ? "عرض الملف" : "View file"}
-              </a>
-
-              <a href={firstUrl} download className="usp-download-file">
-                <i className="fa-solid fa-download" />
-                {isArabic ? "تحميل الملف" : "Download"}
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div className="usp-file-note">
-          <i className="fa-solid fa-circle-info" />
-          <span>
-            {isArabic
-              ? "لعرض محتوى الملف يرجى الضغط على زر عرض الملف."
-              : "To view the file content, please click View file."}
-          </span>
-        </div>
-      </section>
-    );
-  }
-
-  if (isVideo && firstUrl) {
-    return (
-      <section className="usp-article-section" dir={isArabic ? "rtl" : "ltr"}>
-        <div className="usp-section-heading">
-          <span className="usp-orange-dot" />
-          <h2>{article.title}</h2>
-        </div>
-
-        <div className="usp-article-card">
-          <div className="usp-card-title">
-            <div className="usp-card-icon">
-              <i className="fa-regular fa-file-video" />
-            </div>
-
-            <h3>{article.title}</h3>
-          </div>
-
-          <video className="usp-video" src={firstUrl} controls />
-        </div>
-      </section>
-    );
-  }
-
-  if (isImageOnly) {
-    return (
-      <section className="usp-article-section" dir={isArabic ? "rtl" : "ltr"}>
-        <div className="usp-section-heading">
-          <span className="usp-orange-dot" />
-          <h2>{article.title}</h2>
-        </div>
-
-        <div
-          className="usp-article-card usp-image-only"
-          dangerouslySetInnerHTML={{ __html: content }}
-        />
-      </section>
-    );
-  }
-
   return (
     <section className="usp-article-section" dir={isArabic ? "rtl" : "ltr"}>
       <div className="usp-section-heading">
@@ -473,20 +263,10 @@ const ArticleRenderer = ({ article, isArabic }) => {
         <h2>{article.title}</h2>
       </div>
 
-      <div className="usp-article-card">
-        <div className="usp-card-title">
-          <div className="usp-card-icon">
-            <i className="fa-regular fa-file-lines" />
-          </div>
-
-          <h3>{article.title}</h3>
-        </div>
-
-        <div
-          className="usp-html-content"
-          dangerouslySetInnerHTML={{ __html: content }}
-        />
-      </div>
+      <div
+        className="usp-article-card"
+        dangerouslySetInnerHTML={{ __html: article.content || "" }}
+      />
     </section>
   );
 };
@@ -494,10 +274,10 @@ const ArticleRenderer = ({ article, isArabic }) => {
 const UniversitySectorsPage = () => {
   const { keyword = "univpres" } = useParams();
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
   const { i18n } = useTranslation();
 
   const isArabic = i18n.language === "ar";
+  const articleId = searchParams.get("articleId");
 
   const savedLang = useMemo(() => {
     try {
@@ -508,7 +288,6 @@ const UniversitySectorsPage = () => {
   }, [i18n.language]);
 
   const lang = Number(savedLang?.id) || (isArabic ? 1 : 2);
-  const articleId = searchParams.get("articleId");
 
   const sector = SECTOR_CONFIG[keyword] || SECTOR_CONFIG.univpres;
   const sectorTitle = isArabic ? sector.ar : sector.en;
@@ -525,9 +304,7 @@ const UniversitySectorsPage = () => {
 
     return cleanMenuTree(menu);
   }, [menu, isArabic, keyword]);
-const flatVisibleMenu = useMemo(() => {
-  return flattenMenuItems(visibleMenu);
-}, [visibleMenu]);
+
   useEffect(() => {
     let mounted = true;
 
@@ -542,7 +319,9 @@ const flatVisibleMenu = useMemo(() => {
 
         if (!mounted) return;
 
-        setMenu(cleanMenuTree(Array.isArray(response?.result) ? response.result : []));
+        setMenu(
+          cleanMenuTree(Array.isArray(response?.result) ? response.result : [])
+        );
       } catch (error) {
         console.error("Failed to fetch university sector menu:", error);
 
@@ -564,19 +343,6 @@ const flatVisibleMenu = useMemo(() => {
   }, [keyword, lang]);
 
   useEffect(() => {
-    if (menuLoading || articleId || visibleMenu.length === 0) return;
-
-    const firstArticleItem = findFirstArticleItem(visibleMenu);
-
-    if (!firstArticleItem) return;
-
-    navigate(
-      `/university-sectors/${keyword}?articleId=${firstArticleItem.articleId}`,
-      { replace: true }
-    );
-  }, [menuLoading, articleId, visibleMenu, keyword, navigate]);
-
-  useEffect(() => {
     let mounted = true;
 
     const fetchArticle = async () => {
@@ -585,18 +351,11 @@ const flatVisibleMenu = useMemo(() => {
         return;
       }
 
-      const numericArticleId = Number(articleId);
-
-      if (!numericArticleId) {
-        setArticle(null);
-        return;
-      }
-
       setArticleLoading(true);
 
       try {
         const response = await newsService.getSectorPage({
-          articleId: numericArticleId,
+          articleId: Number(articleId),
           lang,
         });
 
@@ -623,49 +382,52 @@ const flatVisibleMenu = useMemo(() => {
     };
   }, [articleId, lang]);
 
-  return (
-    <main className="usp-page" dir={isArabic ? "rtl" : "ltr"}>
-      <section className="usp-header">
-        <div className="usp-header-inner">
-          <div className="usp-brand">
-            <img src={logo} alt="Menoufia University" />
+  const headerSection = (
+    <section className="usp-header">
+      <div className="usp-header-inner">
+        <div className="usp-brand">
+          <img src={logo} alt="Menoufia University" />
 
-            <div className="usp-brand-text">
-              <p>{isArabic ? "جامعة المنوفية" : "Menoufia University"}</p>
-              <h1>{sectorTitle}</h1>
-            </div>
+          <div className="usp-brand-text">
+            <p>{isArabic ? "جامعة المنوفية" : "Menoufia University"}</p>
+            <h1>{sectorTitle}</h1>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
+  );
 
-      <section className="usp-menu-section">
-        <div className="usp-menu-wrapper">
-          {menuLoading ? (
-            <div className="usp-menu-loading">
-              {isArabic ? "جاري تحميل القائمة..." : "Loading menu..."}
-            </div>
-          ) : (
-            <div
-              className={`usp-menu-bar ${
-                keyword === "univpres"
-                  ? "usp-menu-bar-fixed"
-                  : "usp-menu-bar-dynamic"
-              }`}
-            >
-              {visibleMenu.map((item) => (
-                <SectorMenuItem
-                  key={item.menuId}
-                  item={item}
-                  keyword={keyword}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+  const menuSection = (
+    <section className="usp-menu-section">
+      <div className="usp-menu-wrapper">
+        {menuLoading ? (
+          <div className="usp-menu-loading">
+            {isArabic ? "جاري تحميل القائمة..." : "Loading menu..."}
+          </div>
+        ) : (
+          <div
+            className={`usp-menu-bar ${
+              keyword === "univpres"
+                ? "usp-menu-bar-fixed"
+                : "usp-menu-bar-dynamic"
+            }`}
+          >
+            {visibleMenu.map((item) => (
+              <SectorMenuItem key={item.menuId} item={item} keyword={keyword} />
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
 
-      {articleId ? (
-        articleLoading ? (
+  if (articleId) {
+    return (
+      <main className="usp-page" dir={isArabic ? "rtl" : "ltr"}>
+        {headerSection}
+        {menuSection}
+
+        {articleLoading ? (
           <div className="usp-state-message">
             {isArabic ? "جاري تحميل الصفحة..." : "Loading page..."}
           </div>
@@ -675,14 +437,12 @@ const flatVisibleMenu = useMemo(() => {
           <div className="usp-state-message">
             {isArabic ? "لم يتم العثور على الصفحة" : "Page not found"}
           </div>
-        )
-      ) : (
-        <div className="usp-state-message">
-          {isArabic ? "جاري تحميل أول صفحة..." : "Loading first page..."}
-        </div>
-      )}
-    </main>
-  );
+        )}
+      </main>
+    );
+  }
+
+  return <SectorsNews sectorKeyword={keyword} beforeCards={menuSection} />;
 };
 
 export default UniversitySectorsPage;
