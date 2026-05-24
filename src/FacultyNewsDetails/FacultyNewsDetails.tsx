@@ -3,6 +3,7 @@ import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import newsService from "../Services/newsService";
 import { SmartImage } from "../utils/imageHelper";
+import ErrorPage from "../ErrorPage/ErrorPage";
 import "./FacultyNewsDetails.css";
 
 interface Language {
@@ -44,17 +45,17 @@ const getSavedLangId = () => {
 };
 
 const FacultyNewsDetails: React.FC = () => {
-const { id, fac } = useParams<{ id: string; fac: string }>();
-const location = useLocation();
-const navigate = useNavigate();
-const { i18n } = useTranslation();
+  const { id, fac } = useParams<{ id: string; fac: string }>();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { i18n } = useTranslation();
 
-const savedLang = getSavedLang();
-const isArabic = savedLang?.code === "ar" || i18n.language === "ar";
-const isRTL = isArabic;
+  const savedLang = getSavedLang();
+  const isArabic = savedLang?.code === "ar" || i18n.language === "ar";
+  const isRTL = isArabic;
 
-const facId = Number(fac) || 0;
-const collegeName: string = location.state?.collegeName || "";
+  const facId = Number(fac) || 0;
+  const collegeName: string = location.state?.collegeName || "";
 
   const initialLangId = Number(location.state?.langId) || getSavedLangId();
 
@@ -64,6 +65,7 @@ const collegeName: string = location.state?.collegeName || "";
   );
   const [loading, setLoading] = useState(true);
   const [noLang, setNoLang] = useState(false);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     const stateLangId = Number(location.state?.langId);
@@ -77,33 +79,57 @@ const collegeName: string = location.state?.collegeName || "";
 
   useEffect(() => {
     const fetchDetails = async () => {
-      if (!id || !facId || !langId) {
-        setNoLang(true);
+      const newsId = Number(id);
+
+      if (!newsId || !facId || !langId) {
+        setNews(null);
+        setNoLang(false);
+        setNotFound(true);
         setLoading(false);
         return;
       }
 
       setLoading(true);
       setNoLang(false);
+      setNotFound(false);
 
       try {
-        const data = await newsService.getFacultyNewsDetails(
-  Number(id),
-  facId,
-  langId
-);
+        const data = await newsService.getFacultyNewsDetails({
+  id: newsId,
+  fac: facId,
+  langId,
+});
 
         if (data?.success && data?.result) {
           setNews(data.result);
           setNoLang(false);
-        } else {
-          setNews(null);
-          setNoLang(true);
+          setNotFound(false);
+          return;
         }
-      } catch (error) {
-        console.error("Failed to fetch faculty news details:", error);
+
+        if (data?.status === 404 || data?.statusCode === 404) {
+          setNews(null);
+          setNoLang(false);
+          setNotFound(true);
+          return;
+        }
+
         setNews(null);
         setNoLang(true);
+        setNotFound(false);
+      } catch (error: any) {
+        console.error("Failed to fetch faculty news details:", error);
+
+        if (error?.response?.status === 404) {
+          setNews(null);
+          setNoLang(false);
+          setNotFound(true);
+          return;
+        }
+
+        setNews(null);
+        setNoLang(true);
+        setNotFound(false);
       } finally {
         setLoading(false);
       }
@@ -127,13 +153,17 @@ const collegeName: string = location.state?.collegeName || "";
   };
 
   const handleBack = () => {
-  navigate(`/fac/${facId}`, {
-    state: {
-      collegeName,
-      langId,
-    },
-  });
-};
+    navigate(`/fac/${facId}`, {
+      state: {
+        collegeName,
+        langId,
+      },
+    });
+  };
+
+  if (notFound) {
+    return <ErrorPage />;
+  }
 
   return (
     <div className="fnd-wrapper" dir={isRTL ? "rtl" : "ltr"}>

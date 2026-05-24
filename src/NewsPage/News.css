@@ -1646,3 +1646,224 @@ background-color: #303d5e;
     height: 42px;
   }
 }
+/* =========================
+   Pagination
+========================= */
+.news-pagination {
+  width: 950px;
+  max-width: calc(100% - 32px);
+  min-height: 92px;
+  margin: 30px auto 24px;
+  padding: 16px;
+  border-radius: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+
+  direction: ltr;
+  box-sizing: border-box;
+}
+
+.news-pagination-pages {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  direction: ltr;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+}
+
+.news-pagination-arrow,
+.news-pagination-number {
+  width: 60px;
+  min-width: 60px;
+  height: 60px;
+  border-radius: 20px;
+  border: 1px solid #303d5e;
+  background: #f5f7fa;
+  color: #303d5e;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: "Cairo", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+.news-pagination-arrow{
+  border:none
+}
+.news-pagination-number.active {
+  background: #303d5e;
+  color: #ffffff;
+  border-color: #303d5e;
+}
+
+/* السهم المعطل */
+.news-pagination-arrow:disabled {
+  border: 1px solid #e6e6e6;
+  background: #f7f7f7;
+  color: #c9c9c9;
+  cursor: not-allowed;
+}
+
+/* Hover */
+.news-pagination-arrow:hover:not(:disabled),
+.news-pagination-number:hover:not(:disabled):not(.active) {
+  background: #ffffff;
+}
+
+/* النقاط ... */
+.news-pagination-dots {
+  width: 60px;
+  min-width: 60px;
+  height: 60px;
+  border-radius: 20px;
+  border: none;
+  background: transparent;
+  color: #303d5e;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: "Cairo", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  box-sizing: border-box;
+}
+
+.news-page-info {
+  width: 200px;
+  min-width: 200px;
+  height: 58px;
+  padding: 0 16px;
+  background: #F8FAFB;
+  border-radius: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #303d5e;
+  font-family: "Cairo", sans-serif;
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  box-sizing: border-box;
+  border: none !important;
+  gap: 6px;
+}
+
+.news-page-info strong {
+  color: #4a66b3;
+  font-weight: 700;
+}
+
+/* لو عندك page-size ومش عايزاه يظهر */
+.news-page-size {
+  display: none;
+}
+
+/* أيقونة السهم */
+.news-pagination-arrow i {
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* =========================
+   Responsive
+========================= */
+@media (max-width: 1100px) {
+  .news-pagination {
+    width: 100%;
+    gap: 24px;
+    padding: 14px;
+  }
+
+  .news-pagination-arrow,
+  .news-pagination-number,
+  .news-pagination-dots {
+    width: 52px;
+    min-width: 52px;
+    height: 52px;
+    font-size: 18px;
+    border-radius: 18px;
+  }
+
+  .news-page-info {
+    width: 180px;
+    min-width: 180px;
+    height: 52px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .news-pagination {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    border-radius: 24px;
+  }
+
+  .news-pagination-pages {
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .news-pagination-arrow,
+  .news-pagination-number,
+  .news-pagination-dots {
+    width: 46px;
+    min-width: 46px;
+    height: 46px;
+    font-size: 16px;
+    border-radius: 16px;
+  }
+
+  .news-page-info {
+    width: auto;
+    min-width: 170px;
+    height: 46px;
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 480px) {
+  .news-pagination {
+    padding: 12px;
+    gap: 14px;
+    border-radius: 20px;
+  }
+
+  .news-pagination-pages {
+    gap: 8px;
+  }
+
+  .news-pagination-arrow,
+  .news-pagination-number,
+  .news-pagination-dots {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    font-size: 14px;
+    border-radius: 14px;
+  }
+
+  .news-page-info {
+    min-width: 150px;
+    height: 40px;
+    font-size: 15px;
+  }
+}
