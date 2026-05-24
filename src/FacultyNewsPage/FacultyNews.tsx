@@ -1945,7 +1945,7 @@ const FacultyNews: React.FC = () => {
                   {news.map((item) => (
                     <article key={item.id} className="news-card">
                       <Link
-                        to={`/fac/${fac}/details/${item.id}`}
+                        to={`/fac/${fac}/details/${item.id}?lang=${getActiveSearchLangId()}`}
                         state={{
                           news: item,
                           newsType: "faculty",

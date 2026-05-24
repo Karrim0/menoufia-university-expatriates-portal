@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
+import {
+  useParams,
+  useLocation,
+  useNavigate,
+  Link,
+  useSearchParams,
+} from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import newsService from "../Services/newsService";
 import { SmartImage } from "../utils/imageHelper";
@@ -47,6 +53,7 @@ const getSavedLangId = () => {
 const FacultyNewsDetails: React.FC = () => {
   const { id, fac } = useParams<{ id: string; fac: string }>();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { i18n } = useTranslation();
 
@@ -58,6 +65,7 @@ const FacultyNewsDetails: React.FC = () => {
   const collegeName: string = location.state?.collegeName || "";
 
 const initialLangId =
+  Number(searchParams.get("lang")) ||
   Number(location.state?.lid) ||
   Number(location.state?.langId) ||
   Number(savedLang?.id) ||
@@ -72,7 +80,10 @@ const initialLangId =
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
-    const stateLangId = Number(location.state?.langId);
+const stateLangId =
+  Number(searchParams.get("lang")) ||
+  Number(location.state?.lid) ||
+  Number(location.state?.langId);
 
     if (stateLangId) {
       setLangId(stateLangId);
