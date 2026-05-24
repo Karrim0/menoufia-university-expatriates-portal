@@ -26,7 +26,8 @@ import FacultyNewsDetails from "./FacultyNewsDetails/FacultyNewsDetails";
 import ErrorPage from "./ErrorPage/ErrorPage";
 import SplashScreen from "./SplashScreen/SplashScreen";
 import IntroVideo from "./IntroVideo/IntroVideo";
-
+import DepartmentPage from "./DepartmentPage/DepartmentPage";
+import UniversitySectorsPage from "./UniversitySectorsPage/UniversitySectorsPage";
 import { useTranslation } from "react-i18next";
 
 const ScrollToTop = () => {
@@ -37,6 +38,16 @@ const ScrollToTop = () => {
   }, [pathname]);
 
   return null;
+};
+
+const LayoutFooter = () => {
+  const { pathname } = useLocation();
+
+  if (pathname.startsWith("/fac/")) {
+    return null;
+  }
+
+  return <Footer />;
 };
 
 const isPositiveNumber = (value) => {
@@ -74,11 +85,19 @@ const isValidRouteShape = (pathname) => {
   if (parts[0] === "sectors" && parts.length === 2) {
     return Boolean(parts[1]);
   }
-
+  if (parts[0] === "university-sectors" && parts.length === 2) {
+  return Boolean(parts[1]);
+}
   if (parts[0] === "fac" && parts.length === 2) {
     return Boolean(parts[1]);
   }
-
+  if (
+  parts[0] === "fac" &&
+  parts[2] === "department" &&
+  parts.length === 4
+) {
+  return Boolean(parts[1]) && Boolean(parts[3]);
+}
   if (parts[0] === "fac" && parts[2] === "details" && parts.length === 4) {
     return Boolean(parts[1]) && isPositiveNumber(parts[3]);
   }
@@ -159,12 +178,19 @@ const AppContent = () => {
           <Route path="/sectors/:sectorName" element={<SectorsNews />} />
           <Route path="/university-history" element={<UniversityHistory />} />
           <Route path="/fac/:fac" element={<FacultyNewsPage />} />
-          <Route path="/fac/:fac/details/:id"element={<FacultyNewsDetails />}/>
+          
+          <Route path="/fac/:fac/details/:id" element={<FacultyNewsDetails />}/>
+          <Route
+  path="/university-sectors/:keyword"
+  element={<UniversitySectorsPage />}
+/>
+          <Route path="/fac/:fac/department/:departmentCode" element={<DepartmentPage />}
+/>
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       )}
 
-      <Footer />
+      <LayoutFooter />
 
       <ToastContainer
         position="top-center"

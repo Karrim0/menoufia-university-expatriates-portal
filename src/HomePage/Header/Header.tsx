@@ -67,33 +67,6 @@ const isExternalLink = (link?: string) => {
   return typeof link === "string" && /^https?:\/\//i.test(link);
 };
 
-const cleanMenuTitle = (title?: string) => {
-  return String(title || "").replace(/\s+/g, " ").trim();
-};
-
-const mapSectorMenuItem = (item: any, sectorKey: string): any => {
-  const children = Array.isArray(item.children)
-    ? item.children
-        .filter((child: any) => child && typeof child === "object")
-        .map((child: any) => mapSectorMenuItem(child, sectorKey))
-    : [];
-
-  const hasArticleId = item.articleId !== null && item.articleId !== undefined;
-  const external = isExternalLink(item.url);
-
-  return {
-    key: `${sectorKey}-${item.menuId}`,
-    label: cleanMenuTitle(item.title),
-    link: external
-      ? item.url
-      : hasArticleId
-      ? `/sectors/${sectorKey}?articleId=${item.articleId}`
-      : `/sectors/${sectorKey}`,
-    articleId: item.articleId,
-    ...(children.length > 0 ? { children } : {}),
-  };
-};
-
 const MenuLink = ({ item, className }: any) => {
   if (isExternalLink(item.link)) {
     return (
@@ -749,7 +722,6 @@ const Header = () => {
   const [currentLang, setCurrentLang] = useState(getSavedLang);
   const [languages, setLanguages] = useState(FIXED_LANGUAGES);
   const [aboutChildren, setAboutChildren] = useState<any[]>([]);
-  const [sectorsChildren, setSectorsChildren] = useState<any[]>([]);
 
   useEffect(() => {
     newsService
@@ -779,64 +751,6 @@ const Header = () => {
       .catch(() => setAboutChildren([]));
   }, [currentLang?.id]);
 
-  useEffect(() => {
-    let isMounted = true;
-
-    const fetchSectorsMenus = async () => {
-      try {
-        const results = await Promise.allSettled(
-          SECTOR_NAV_ITEMS.map((sector) =>
-            newsService.getSectorMenu({
-              keyword: sector.key,
-              lang: currentLang?.id || 1,
-            })
-          )
-        );
-
-        if (!isMounted) return;
-
-        const mappedSectors = SECTOR_NAV_ITEMS.map((sector, index) => {
-          const response = results[index];
-
-          const menuItems =
-            response.status === "fulfilled" &&
-            Array.isArray(response.value?.result)
-              ? response.value.result
-              : [];
-
-          const sectorNewsItem = {
-            key: `${sector.key}-news`,
-            label: i18n.language === "ar" ? "أخبار القطاع" : "Sector News",
-            link: `/sectors/${sector.key}`,
-          };
-
-          return {
-            key: sector.key,
-            label: t(sector.labelKey),
-            link: `/sectors/${sector.key}`,
-            children: [
-              sectorNewsItem,
-              ...menuItems.map((item: any) =>
-                mapSectorMenuItem(item, sector.key)
-              ),
-            ],
-          };
-        });
-
-        setSectorsChildren(mappedSectors);
-      } catch (error) {
-        console.error("Error fetching sectors menus:", error);
-        setSectorsChildren([]);
-      }
-    };
-
-    fetchSectorsMenus();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [currentLang?.id, i18n.language, t]);
-
   const NAV_ITEMS = useMemo(() => {
     const items = getNavItems(t);
 
@@ -863,15 +777,19 @@ const Header = () => {
       }
 
       if (item.key === "sectors") {
-        return {
-          ...item,
-          children: sectorsChildren.length ? sectorsChildren : item.children || [],
-        };
-      }
+  return {
+    ...item,
+    children: SECTOR_NAV_ITEMS.map((sector) => ({
+      key: sector.key,
+      label: t(sector.labelKey),
+      link: `/university-sectors/${sector.key}`,
+    })),
+  };
+}
 
       return item;
     });
-  }, [t, aboutChildren, sectorsChildren]);
+  }, [t, aboutChildren]);
 
   useEffect(() => {
     i18n.changeLanguage(currentLang.code);
