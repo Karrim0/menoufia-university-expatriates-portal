@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./Footer.css";
 import logo1 from "../../assets/MNF_logo.png";
@@ -15,14 +15,22 @@ type FooterSection = {
   links: FooterLink[];
 };
 
+const VISIBLE_LINKS_COUNT = 4;
+
 const Footer: React.FC = () => {
   const { i18n, t } = useTranslation();
 
   const isRTL = i18n.dir() === "rtl";
   const currentYear = new Date().getFullYear();
 
+  const [openColumns, setOpenColumns] = useState<Record<number, boolean>>({});
+
   const moreLabel = t("footerModern.more", {
-    defaultValue: isRTL ? "المزيد" : "More",
+    defaultValue: isRTL ? "عرض المزيد" : "Show more",
+  });
+
+  const lessLabel = t("footerModern.less", {
+    defaultValue: isRTL ? "عرض أقل" : "Show less",
   });
 
   const sections: FooterSection[] = [
@@ -164,7 +172,9 @@ const Footer: React.FC = () => {
       color: "#46b9dd",
       links: [
         {
-          label: t("footerModern.sections.programsEducation.links.commercePrograms"),
+          label: t(
+            "footerModern.sections.programsEducation.links.commercePrograms"
+          ),
           href: "https://www.menofia.edu.eg/View/12737/ar",
         },
         {
@@ -223,69 +233,177 @@ const Footer: React.FC = () => {
           href: "http://193.227.24.15/umisbuilt_new/Registration/PG_admin.aspx",
         },
         {
-          label: t("footerModern.sections.academicServices.links.candidateCollege"),
+          label: t(
+            "footerModern.sections.academicServices.links.candidateCollege"
+          ),
           href: "https://www.menofia.edu.eg/Students/ar",
         },
       ],
     },
   ];
 
+  const toggleColumn = (index: number) => {
+    setOpenColumns((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
+
   return (
     <footer className="ft-root" dir={isRTL ? "rtl" : "ltr"}>
       <div className="ft-grid">
-        {sections.map((sec, si) => (
-          <div
-            className="ft-col"
-            key={si}
-            style={{ "--ac": sec.color } as React.CSSProperties}
-          >
-            <div className="ft-icon-wrap">
-              <span className="ft-icon-ring" />
-              <i className={`${sec.icon} ft-icon-glyph`} />
+        {sections.map((sec, si) => {
+          const isOpen = Boolean(openColumns[si]);
+          const hasMoreLinks = sec.links.length > VISIBLE_LINKS_COUNT;
+          const visibleLinks = isOpen
+            ? sec.links
+            : sec.links.slice(0, VISIBLE_LINKS_COUNT);
+
+          return (
+            <div
+              className={`ft-col ${isOpen ? "is-open" : ""}`}
+              key={si}
+              style={{ "--ac": sec.color } as React.CSSProperties}
+            >
+              <div className="ft-icon-wrap">
+                <span className="ft-icon-ring" />
+                <i className={`${sec.icon} ft-icon-glyph`} />
+              </div>
+
+              <h3 className="ft-col-title">
+                {sec.title.split("\n").map((line, li) => (
+                  <React.Fragment key={li}>
+                    {line}
+                    {li < sec.title.split("\n").length - 1 && <br />}
+                  </React.Fragment>
+                ))}
+              </h3>
+
+              <span className="ft-rule" />
+
+              <div className={`ft-links-box ${isOpen ? "scrollable" : ""}`}>
+                <ul className="ft-links">
+                  {visibleLinks.map((lk, li) => (
+                    <li key={li}>
+                      <a
+                        href={lk.href}
+                        className="ft-link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span className="ft-link-text">{lk.label}</span>
+                        <span className="ft-link-dot" />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {hasMoreLinks && (
+                <button
+                  type="button"
+                  className="ft-more-btn"
+                  onClick={() => toggleColumn(si)}
+                  aria-expanded={isOpen}
+                >
+                  {isOpen ? lessLabel : moreLabel}
+                </button>
+              )}
             </div>
-
-            <h3 className="ft-col-title">
-              {sec.title.split("\n").map((line, li) => (
-                <React.Fragment key={li}>
-                  {line}
-                  {li < sec.title.split("\n").length - 1 && <br />}
-                </React.Fragment>
-              ))}
-            </h3>
-
-            <span className="ft-rule" />
-
-            <ul className="ft-links">
-              {sec.links.map((lk, li) => (
-                <li key={li}>
-                  <a
-                    href={lk.href}
-                    className="ft-link"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <span className="ft-link-text">{lk.label}</span>
-                    <span className="ft-link-dot" />
-                  </a>
-                </li>
-              ))}
-            </ul>
-
-            <button type="button" className="ft-more-btn">
-              {moreLabel}
-            </button>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <div className="ft-divider" />
 
-      <div className="ft-bottom">
-        <img src={logo1} alt="Menofia University" className="ft-logo" />
-        <p className="ft-copy">
-          ©️ {currentYear} {t("footerModern.copyrights")}
-        </p>
+      <div className="ft-modern-bottom">
+  <div className="ft-contact-row">
+    <div className="ft-contact-card ft-contact-location">
+      <div className="ft-contact-text">
+        <h4>{isRTL ? "موقعنا" : "Our Location"}</h4>
+        <p> محافظة المنوفية - شبين الكوم</p>
+        <p>Menofia Governorate, Egypt</p>
       </div>
+
+      <div className="ft-contact-icon">
+        <i className="fa-solid fa-location-dot" />
+      </div>
+    </div>
+
+    <div className="ft-contact-card ft-contact-phone">
+      <div className="ft-contact-text">
+        <h4>{isRTL ? "تواصل معنا" : "Contact Us"}</h4>
+        <p>0482222170</p>
+        <span>
+          <i className="fa-regular fa-clock" />
+          {isRTL ? " ساعات العمل : من 8 صباحا - 4 مساء" : "Working hours: 8 AM - 4 PM"}
+        </span>
+      </div>
+
+      <div className="ft-contact-icon">
+        <i className="fa-solid fa-phone" />
+      </div>
+    </div>
+
+    <div className="ft-main-logo-wrap">
+      <img src={logo1} alt="Menoufia University" className="ft-main-logo" />
+    </div>
+
+    <div className="ft-contact-card ft-contact-email">
+      <div className="ft-contact-text">
+        <h4>{isRTL ? "البريد الالكترونى" : "Email"}</h4>
+        <p>info@menofia.edu.eg</p>
+      </div>
+
+      <div className="ft-contact-icon">
+        <i className="fa-regular fa-envelope" />
+      </div>
+    </div>
+  </div>
+
+  <div className="ft-social-row">
+    <span className="ft-social-line" />
+
+    <div className="ft-social-center">
+            <strong>{isRTL ? "تابعنا على" : "Follow us"}</strong>
+
+      <div className="ft-social-icons">
+        <a href="https://www.facebook.com/MenoufiaUniversity" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <i className="fa-brands fa-facebook-f" />
+        </a>
+
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+          <i className="fa-brands fa-youtube" />
+        </a>
+
+        <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X">
+          <i className="fa-brands fa-x-twitter" />
+        </a>
+
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <i className="fa-brands fa-instagram" />
+        </a>
+      </div>
+
+    </div>
+
+    <span className="ft-social-line" />
+  </div>
+
+  <div className="ft-bottom-links-row">
+    <p className="ft-copy">
+      {isRTL
+        ? `جامعة المنوفية - جميع الحقوق محفوظة ${currentYear}`
+        : `Menoufia University - All rights reserved ${currentYear}`}
+    </p>
+
+    <div className="ft-policy-links">
+      <a href="/privacy-policy">{isRTL ? "سياسة الخصوصية" : "Privacy Policy"}</a>
+      <a href="/terms">{isRTL ? "شروط الاستخدام" : "Terms of Use"}</a>
+      <a href="/site-map">{isRTL ? "خريطة الموقع" : "Site Map"}</a>
+    </div>
+  </div>
+</div>
     </footer>
   );
 };

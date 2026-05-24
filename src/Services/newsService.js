@@ -113,62 +113,108 @@ const newsService = {
     return response.data;
   },
 
-  getHighlights: async ({
-  fac,
-  langId,
-  pageIndex = 1,
-  pageSize = 10,
-  search = "",
-  fromDate,
-  toDate,
-}) => {
-  const response = await facultyApi.get("/highlights", {
-    params: {
-      fac,
-      langId,
-      PageIndex: pageIndex,
-      PageSize: pageSize,
-      Search: search,
-      ...(fromDate ? { FromDate: fromDate } : {}),
-      ...(toDate ? { ToDate: toDate } : {}),
-    },
-  });
+  getSectorMenu: async ({ keyword, lang = 1 }) => {
+    const response = await facultyApi.get(
+      `/UnivPresMenu/${encodeURIComponent(keyword)}`,
+      {
+        params: {
+          lang,
+        },
+      }
+    );
 
-  return response.data;
-},
+    return response.data;
+  },
+
+  getSectorPage: async ({ articleId, lang = 1 }) => {
+    const response = await facultyApi.get(`/UnivPresPage/${articleId}`, {
+      params: {
+        lang,
+      },
+    });
+
+    return response.data;
+  },
+
+  getDepartmentMenu: async ({ facultyCode, departmentCode, lang = 1 }) => {
+    const response = await facultyApi.get(
+      `/DepartmentMenu/${encodeURIComponent(
+        facultyCode
+      )}/${encodeURIComponent(departmentCode)}`,
+      {
+        params: {
+          lang,
+        },
+      }
+    );
+
+    return response.data;
+  },
+
+  getHighlights: async ({
+    fac,
+    langId,
+    pageIndex = 1,
+    pageSize = 10,
+    search = "",
+    fromDate,
+    toDate,
+  }) => {
+    const response = await facultyApi.get("/highlights", {
+      params: {
+        fac,
+        langId,
+        PageIndex: pageIndex,
+        PageSize: pageSize,
+        Search: search,
+        ...(fromDate ? { FromDate: fromDate } : {}),
+        ...(toDate ? { ToDate: toDate } : {}),
+      },
+    });
+
+    return response.data;
+  },
 
   getFacultyNews: async ({
-  fac,
-  langId,
-  pageIndex = 1,
-  pageSize = 10,
-  search = "",
-  fromDate,
-  toDate,
-  dateFilter,
-}) => {
-  const response = await facultyApi.get("/faculty-news", {
-    params: {
-      fac,
-      langId,
-      PageIndex: pageIndex,
-      PageSize: pageSize,
-      Search: search,
-      ...(dateFilter ? { DateFilter: dateFilter } : {}),
-      ...(fromDate ? { FromDate: fromDate } : {}),
-      ...(toDate ? { ToDate: toDate } : {}),
-    },
-  });
+    fac,
+    langId,
+    departmentCode = "",
+    pageIndex = 1,
+    pageSize = 10,
+    search = "",
+    fromDate,
+    toDate,
+    dateFilter,
+  }) => {
+    const response = await facultyApi.get("/faculty-news", {
+      params: {
+        fac,
+        langId,
+        departmentCode,
+        PageIndex: pageIndex,
+        PageSize: pageSize,
+        Search: search,
+        ...(dateFilter ? { DateFilter: dateFilter } : {}),
+        ...(fromDate ? { FromDate: fromDate } : {}),
+        ...(toDate ? { ToDate: toDate } : {}),
+      },
+    });
 
-  return response.data;
-},
+    return response.data;
+  },
 
-  getFacultyNewsDetails: async (id, fac, langId) => {
+  getFacultyNewsDetails: async ({
+    id,
+    fac,
+    langId,
+    departmentCode = "",
+  }) => {
     const response = await facultyApi.get("/faculty-news/details", {
       params: {
         id,
         fac,
         langId,
+        departmentCode,
       },
     });
 
