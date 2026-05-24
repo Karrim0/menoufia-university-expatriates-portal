@@ -57,7 +57,11 @@ const FacultyNewsDetails: React.FC = () => {
   const facId = Number(fac) || 0;
   const collegeName: string = location.state?.collegeName || "";
 
-  const initialLangId = Number(location.state?.langId) || getSavedLangId();
+const initialLangId =
+  Number(location.state?.lid) ||
+  Number(location.state?.langId) ||
+  Number(savedLang?.id) ||
+  1;
 
   const [langId, setLangId] = useState<number>(initialLangId);
   const [news, setNews] = useState<NewsDetails | null>(
