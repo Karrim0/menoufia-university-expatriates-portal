@@ -7,7 +7,7 @@ import CollegesPrograms from "./CollegesPrograms/CollegesPrograms";
 import newsService from "../Services/newsService";
 import GlobalSearch from "./GlobalSearch/GlobalSearch";
 import { getLanguageId } from "../utils/language";
-
+import SpecialUnitsSection from "./SpecialUnitsSection/SpecialUnitsSection";
 import "./Home.css";
 
 function Home() {
@@ -88,6 +88,7 @@ function Home() {
       )}
 
       <CollegesPrograms />
+      <SpecialUnitsSection articleId={66343} lang={1} defaultOpen={false} />
     </div>
   );
 }

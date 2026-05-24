@@ -10,6 +10,7 @@ import DeleteConfirmModal from "../components/DeleteConfirmModal";
 import api from "../Services/api";
 import newsService from "../Services/newsService";
 import { SmartImage, getImageUrl } from "../utils/imageHelper";
+import ErrorPage from "../ErrorPage/ErrorPage";
 
 function Details() {
   const savedLang = JSON.parse(localStorage.getItem("lang") || "{}");
@@ -28,6 +29,7 @@ function Details() {
   const [filteredNews, setFilteredNews] = useState([]);
   const [langId, setLangId] = useState(initialLangId);
   const [isLoading, setIsLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
   const [deleteModal, setDeleteModal] = useState({
     isOpen: false,
@@ -56,6 +58,8 @@ function Details() {
 
   useEffect(() => {
     const stateNews = location.state?.news;
+
+    setNotFound(false);
 
     if (stateNews && String(stateNews.id) === String(id)) {
       setCurrentNews(stateNews);
@@ -105,9 +109,14 @@ function Details() {
       const newsId = Number(id);
       const languageId = Number(langId);
 
-      if (!newsId || !languageId) return;
+      if (!newsId || !languageId) {
+        setNotFound(true);
+        setIsLoading(false);
+        return;
+      }
 
       setIsLoading(true);
+      setNotFound(false);
 
       try {
         let response = null;
@@ -151,26 +160,26 @@ function Details() {
           }
 
           setCurrentNews(apiData);
-        } else if (!location.state?.news) {
-          navigate("/news");
+          setNotFound(false);
+        } else {
+          setCurrentNews(null);
+          setNotFound(true);
         }
       } catch (error) {
         console.error("Error fetching news details:", error);
-
-        if (!location.state?.news) {
-          navigate("/news");
-        }
+        setCurrentNews(null);
+        setNotFound(true);
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchCurrentNews();
-  }, [id, langId, navigate, newsType]);
+  }, [id, langId, newsType]);
 
   useEffect(() => {
     const fetchRelatedNews = async () => {
-      if (!langId) return;
+      if (!langId || notFound) return;
 
       try {
         let response;
@@ -216,7 +225,7 @@ function Details() {
     };
 
     fetchRelatedNews();
-  }, [langId, id, newsType, location.state?.abbreviation]);
+  }, [langId, id, newsType, location.state?.abbreviation, notFound]);
 
   const handleLanguageClick = async (selectedLangId) => {
     const nextLangId = Number(selectedLangId);
@@ -225,6 +234,7 @@ function Details() {
 
     setLangId(nextLangId);
     setIsLoading(true);
+    setNotFound(false);
 
     try {
       let response = null;
@@ -268,9 +278,15 @@ function Details() {
         }
 
         setCurrentNews(apiData);
+        setNotFound(false);
+      } else {
+        setCurrentNews(null);
+        setNotFound(true);
       }
     } catch (error) {
       console.error("Error fetching translated news:", error);
+      setCurrentNews(null);
+      setNotFound(true);
     } finally {
       setIsLoading(false);
     }
@@ -350,6 +366,10 @@ function Details() {
   );
 
   const showLanguageSwitcher = availableLanguages.length >= 2;
+
+  if (notFound) {
+    return <ErrorPage />;
+  }
 
   if (isLoading && !currentNews) {
     return (
