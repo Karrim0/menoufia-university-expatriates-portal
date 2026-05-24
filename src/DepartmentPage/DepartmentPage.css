@@ -871,7 +871,7 @@
 .department-page-wrapper .news-card-title {
   width: 100%;
   margin: 0 0 16px;
-  color: var(--department-primary) !important;
+  color: #1a1a1a !important;
   font-family: "Cairo", sans-serif;
   font-size: clamp(17px, 1.25vw, 20px);
   font-weight: 700;
@@ -886,7 +886,7 @@
 .department-page-wrapper .news-card-description {
   width: 100%;
   margin: 0 0 14px;
-  color: rgba(var(--department-primary-rgb), 0.62) !important;
+  color: #526d82 !important;
   font-family: "Cairo", sans-serif;
   font-size: clamp(13px, 1vw, 15px);
   font-weight: 500;
@@ -901,7 +901,7 @@
 .department-page-wrapper .news-card-date {
   width: 100%;
   margin-top: auto;
-  color: rgba(var(--department-primary-rgb), 0.6) !important;
+  color: #526d82 !important;
   font-family: "Cairo", sans-serif;
   font-size: 13px;
   font-weight: 500;
@@ -2198,4 +2198,43 @@
 .department-page-wrapper .department-footer-brand,
 .department-page-wrapper .department-footer-address {
   background: transparent !important;
+}
+.department-page-wrapper .news-card-title {
+  width: 100%;
+  margin: 0 0 16px;
+  color: #1a1a1a !important;
+  font-family: "Cairo", sans-serif;
+  font-size: clamp(17px, 1.25vw, 20px);
+  font-weight: 700;
+  line-height: 1.5;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.department-page-wrapper .news-card-description {
+  width: 100%;
+  margin: 0 0 14px;
+  color: #526d82 !important;
+  font-family: "Cairo", sans-serif;
+  font-size: clamp(13px, 1vw, 15px);
+  font-weight: 500;
+  line-height: 1.65;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.department-page-wrapper .news-card-date {
+  width: 100%;
+  margin-top: auto;
+  color: #526d82 !important;
+  font-family: "Cairo", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
 }
