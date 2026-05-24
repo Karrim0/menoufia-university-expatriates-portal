@@ -1,5 +1,16 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link, useLocation, useParams, useSearchParams } from "react-router-dom";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import {
+  Link,
+  useLocation,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import ErrorPage from "../ErrorPage/ErrorPage";
 import {
@@ -51,38 +62,98 @@ const THEME_PRESETS = [
   {
     primary: "#840D0D",
     primaryRgb: "132, 13, 13",
-    dark: "#5f0909",
-    darkRgb: "95, 9, 9",
-    soft: "#fff4f4",
-    card: "#f8dddd",
-    muted: "#f1c7c7",
-    footer: "#3f0707",
-    footerRgb: "63, 7, 7",
-    footerBottom: "#5f0909",
+    dark: "#262626",
+    darkRgb: "38, 38, 38",
+    secondary: "#EAEAEA",
+    soft: "#F8F0E5",
+    card: "#FFFFFF",
+    muted: "#EAEAEA",
+    button: "#840D0D",
+    buttonHover: "#262626",
+    headerOverlay: "#262626D9",
+    footer: "#262626",
+    footerRgb: "38, 38, 38",
+    footerBottom: "#262626F2",
+    iconBackground: "#840D0D",
+    iconColor: "#FFFFFF",
+    iconBackgroundHover: "#262626",
+    iconHover: "#FFFFFF",
+    primaryText: "#262626",
+    secondaryText: "#6B6B6B",
+    paginationBg: "#EAEAEA",
+    paginationText: "#262626",
+    paginationBorder: "#262626",
+    paginationActiveBg: "#840D0D",
+    paginationActiveText: "#FFFFFF",
+    paginationArrowBg: "#262626",
+    paginationArrowColor: "#FFFFFF",
+    paginationDisabledBg: "#FFFFFF",
+    paginationDisabledColor: "#C3C3C3",
+    paginationInfoStrong: "#840D0D",
   },
   {
-    primary: "#526D82",
-    primaryRgb: "82, 109, 130",
-    dark: "#3f5668",
-    darkRgb: "63, 86, 104",
-    soft: "#f3f8fb",
-    card: "#dceaf1",
-    muted: "#c7d8e2",
-    footer: "#263b4b",
-    footerRgb: "38, 59, 75",
-    footerBottom: "#3f5668",
+    primary: "#27374D",
+    primaryRgb: "39, 55, 77",
+    dark: "#27374D",
+    darkRgb: "39, 55, 77",
+    secondary: "#526D82",
+    soft: "#DDE6ED",
+    card: "#FFFFFF",
+    muted: "#9DB2BF",
+    button: "#27374D",
+    buttonHover: "#9DB2BF",
+    headerOverlay: "#27374DE5",
+    footer: "#27374D",
+    footerRgb: "39, 55, 77",
+    footerBottom: "#27374DF2",
+    iconBackground: "#27374D",
+    iconColor: "#526D82",
+    iconBackgroundHover: "#526D82",
+    iconHover: "#526D82",
+    primaryText: "#1A1A1A",
+    secondaryText: "#526D82",
+    paginationBg: "#F8FAFC",
+    paginationText: "#27374D",
+    paginationBorder: "#27374D",
+    paginationActiveBg: "#27374D",
+    paginationActiveText: "#FFFFFF",
+    paginationArrowBg: "#FFFFFF",
+    paginationArrowColor: "#27374D",
+    paginationDisabledBg: "#FFFFFF",
+    paginationDisabledColor: "#C3C3C3",
+    paginationInfoStrong: "#27374D",
   },
   {
     primary: "#102C57",
     primaryRgb: "16, 44, 87",
-    dark: "#071d36",
-    darkRgb: "7, 29, 54",
-    soft: "#f4f9fc",
-    card: "#dcedf4",
-    muted: "#cbddea",
-    footer: "#061f3a",
-    footerRgb: "6, 31, 58",
-    footerBottom: "#102C57",
+    dark: "#102C57",
+    darkRgb: "16, 44, 87",
+    secondary: "#DAC0A3",
+    soft: "#F8F9FA",
+    card: "#FFFFFF",
+    muted: "#DAC0A3",
+    button: "#102C57",
+    buttonHover: "#DAC0A3",
+    headerOverlay: "#102C57E5",
+    footer: "#102C57",
+    footerRgb: "16, 44, 87",
+    footerBottom: "#102C57F2",
+    iconBackground: "#102C57",
+    iconColor: "#FFFFFF",
+    iconBackgroundHover: "#DAC0A3",
+    iconHover: "#FFFFFF",
+    primaryText: "#1A1A1A",
+    secondaryText: "#6B7280",
+    paginationBg: "#102C57",
+    paginationText: "#FFFFFF",
+    paginationBorder: "#DAC0A3",
+    paginationActiveBg: "#DAC0A3",
+    paginationActiveText: "#FFFFFF",
+    paginationArrowBg: "#FFFFFF",
+    paginationArrowColor: "#102C57",
+    paginationDisabledBg: "#FFFFFF",
+    paginationDisabledColor: "#C3C3C3",
+    paginationInfoStrong: "#DAC0A3",
   },
 ];
 
@@ -187,10 +258,8 @@ const detectSearchLanguageId = (text: string, fallbackLangId: number) => {
   if (/[\u4E00-\u9FFF]/.test(value)) return LANGUAGE_IDS.ch;
   if (/[çğıöşüÇĞİÖŞÜ]/.test(value)) return LANGUAGE_IDS.tr;
   if (/[äöüßÄÖÜ]/.test(value)) return LANGUAGE_IDS.de;
-  if (/[âæçêëîïôœûüÿÂÆÇÊËÎÏÔŒÛÜŸ]/.test(value))
-    return LANGUAGE_IDS.fr;
-  if (/[àèéìíîòóùúÀÈÉÌÍÎÒÓÙÚ]/.test(value))
-    return LANGUAGE_IDS.it;
+  if (/[âæçêëîïôœûüÿÂÆÇÊËÎÏÔŒÛÜŸ]/.test(value)) return LANGUAGE_IDS.fr;
+  if (/[àèéìíîòóùúÀÈÉÌÍÎÒÓÙÚ]/.test(value)) return LANGUAGE_IDS.it;
 
   return LANGUAGE_IDS.en;
 };
@@ -301,7 +370,9 @@ const normalizeApiResponse = (data: any): any[] => {
 };
 
 const cleanMenuTitle = (title?: string) =>
-  String(title || "").replace(/\s+/g, " ").trim();
+  String(title || "")
+    .replace(/\s+/g, " ")
+    .trim();
 
 const isExternalMenuUrl = (url?: string) =>
   typeof url === "string" && /^https?:\/\//i.test(url);
@@ -350,12 +421,15 @@ const filterMenuByTitles = (items: FacultyMenuItem[], titles: string[]) => {
     .sort(
       (a, b) =>
         allowedTitles.indexOf(normalizeMenuTitle(a.title)) -
-        allowedTitles.indexOf(normalizeMenuTitle(b.title))
+        allowedTitles.indexOf(normalizeMenuTitle(b.title)),
     );
 };
 
 const chunkItems = (items: FacultyMenuItem[], chunksCount: number) => {
-  const chunks: FacultyMenuItem[][] = Array.from({ length: chunksCount }, () => []);
+  const chunks: FacultyMenuItem[][] = Array.from(
+    { length: chunksCount },
+    () => [],
+  );
 
   items.forEach((item, index) => {
     chunks[index % chunksCount].push(item);
@@ -366,7 +440,7 @@ const chunkItems = (items: FacultyMenuItem[], chunksCount: number) => {
 
 const buildFooterMenuGroups = (
   items: FacultyMenuItem[],
-  isArabic: boolean
+  isArabic: boolean,
 ): FooterMenuGroup[] => {
   const cleanItems = sanitizeFacultyMenuItems(items);
 
@@ -386,7 +460,7 @@ const buildFooterMenuGroups = (
   if (apiGroups.length > 0) return apiGroups;
 
   const remainingItems = cleanItems.filter(
-    (item) => !topTitles.includes(normalizeMenuTitle(item.title))
+    (item) => !topTitles.includes(normalizeMenuTitle(item.title)),
   );
 
   const fallbackTitles = isArabic
@@ -397,7 +471,9 @@ const buildFooterMenuGroups = (
     .map((children, index) => ({
       menuId: `footer-group-${index}`,
       title: fallbackTitles[index],
-      children: children.filter((item) => cleanMenuTitle(item.title).length > 0),
+      children: children.filter(
+        (item) => cleanMenuTitle(item.title).length > 0,
+      ),
     }))
     .filter((group) => group.children.length > 0);
 };
@@ -450,7 +526,11 @@ const FacultyMenuItemView: React.FC<{
       onMouseLeave={() => hasChildren && setOpen(false)}
     >
       {hasChildren ? (
-        <button type="button" className="faculty-menu-link" onClick={handleToggle}>
+        <button
+          type="button"
+          className="faculty-menu-link"
+          onClick={handleToggle}
+        >
           {content}
         </button>
       ) : isExternal ? (
@@ -537,7 +617,7 @@ const getUrlExtension = (url = "") => {
 
 const isFileExtension = (extension: string) => {
   return ["pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx"].includes(
-    extension.toLowerCase()
+    extension.toLowerCase(),
   );
 };
 
@@ -571,7 +651,9 @@ const stripHtmlToText = (html = "") => {
 };
 
 const removeImagesFromHtml = (html = "") => {
-  return String(html || "").replace(/<img[^>]*>/gi, "").trim();
+  return String(html || "")
+    .replace(/<img[^>]*>/gi, "")
+    .trim();
 };
 
 const parseArticleContent = (html = "") => {
@@ -647,7 +729,7 @@ const parseArticleContent = (html = "") => {
 
 const getArticleType = (
   article: FacultyArticlePageData,
-  parsed: ReturnType<typeof parseArticleContent>
+  parsed: ReturnType<typeof parseArticleContent>,
 ) => {
   const normalizedTitle = normalizeMenuTitle(article.title);
 
@@ -681,7 +763,7 @@ const FacultyArticleRenderer: React.FC<{
 }> = ({ article, isArabic }) => {
   const parsed = useMemo(
     () => parseArticleContent(article.content || ""),
-    [article.content]
+    [article.content],
   );
 
   const articleType = getArticleType(article, parsed);
@@ -753,7 +835,11 @@ const FacultyArticleRenderer: React.FC<{
             {isArabic ? "عرض الملف" : "View file"}
           </a>
 
-          <a href={file.href} download className="faculty-article-secondary-action">
+          <a
+            href={file.href}
+            download
+            className="faculty-article-secondary-action"
+          >
             {isArabic ? "تحميل" : "Download"}
           </a>
         </div>
@@ -864,7 +950,9 @@ const FacultyArticlePage: React.FC<{
           </div>
         ) : error ? (
           <div className="faculty-article-card faculty-article-error-card">
-            <h2>{isArabic ? "تعذر تحميل المحتوى" : "Could not load content"}</h2>
+            <h2>
+              {isArabic ? "تعذر تحميل المحتوى" : "Could not load content"}
+            </h2>
             <p>{error}</p>
           </div>
         ) : article ? (
@@ -887,7 +975,7 @@ const FacultyFooterColumn: React.FC<{
   const [showAll, setShowAll] = useState(false);
 
   const cleanChildren = group.children.filter(
-    (item) => cleanMenuTitle(item.title).length > 0
+    (item) => cleanMenuTitle(item.title).length > 0,
   );
 
   const previewItems = cleanChildren.slice(0, 3);
@@ -922,8 +1010,8 @@ const FacultyFooterColumn: React.FC<{
                 ? "عرض أقل"
                 : "Show less"
               : isArabic
-              ? "عرض المزيد"
-              : "Show more"}
+                ? "عرض المزيد"
+                : "Show more"}
           </span>
         </button>
       )}
@@ -942,7 +1030,9 @@ const FacultyNews: React.FC = () => {
   const isRTL = isArabic;
 
   const articleIdParam = searchParams.get("articleId");
-  const invalidArticleId = Boolean(articleIdParam && !/^\d+$/.test(articleIdParam));
+  const invalidArticleId = Boolean(
+    articleIdParam && !/^\d+$/.test(articleIdParam),
+  );
   const articleId =
     articleIdParam && /^\d+$/.test(articleIdParam)
       ? Number(articleIdParam)
@@ -955,7 +1045,7 @@ const FacultyNews: React.FC = () => {
   const isFirstSearchRender = useRef(true);
 
   const [langId, setLangId] = useState<number>(
-    Number(location.state?.langId) || getSavedLangId()
+    Number(location.state?.langId) || getSavedLangId(),
   );
   const [collegeNameFallback, setCollegeNameFallback] = useState<string>("");
   const [collegeName, setCollegeName] = useState<string>("");
@@ -985,8 +1075,9 @@ const FacultyNews: React.FC = () => {
 
   const [selectedThemeColor, setSelectedThemeColor] = useState("#102C57");
 
-  const [articlePage, setArticlePage] =
-    useState<FacultyArticlePageData | null>(null);
+  const [articlePage, setArticlePage] = useState<FacultyArticlePageData | null>(
+    null,
+  );
   const [articleLoading, setArticleLoading] = useState(false);
   const [articleError, setArticleError] = useState("");
 
@@ -1007,7 +1098,7 @@ const FacultyNews: React.FC = () => {
 
   const footerMenuGroups = useMemo(
     () => buildFooterMenuGroups(facultyMenu, isArabic),
-    [facultyMenu, isArabic]
+    [facultyMenu, isArabic],
   );
 
   useEffect(() => {
@@ -1053,7 +1144,7 @@ const FacultyNews: React.FC = () => {
         const colleges = normalizeApiResponse(response);
 
         const matchedCollege = colleges.find(
-          (college: any) => getFac(college.title) === facultyCode
+          (college: any) => getFac(college.title) === facultyCode,
         );
 
         if (!isMounted) return;
@@ -1075,7 +1166,7 @@ const FacultyNews: React.FC = () => {
           const enResponse = await newsService.getColleges(2);
           const enColleges = normalizeApiResponse(enResponse);
           const enMatch = enColleges.find(
-            (college: any) => getFac(college.title) === facultyCode
+            (college: any) => getFac(college.title) === facultyCode,
           );
 
           if (!isMounted) return;
@@ -1132,7 +1223,7 @@ const FacultyNews: React.FC = () => {
         if (!isMounted) return;
 
         const cleanMenu = sanitizeFacultyMenuItems(
-          Array.isArray(response?.result) ? response.result : []
+          Array.isArray(response?.result) ? response.result : [],
         );
 
         setFacultyMenu(cleanMenu);
@@ -1228,12 +1319,16 @@ const FacultyNews: React.FC = () => {
 
   const getSearchLangId = useCallback(
     (term: string) =>
-      term.trim() ? detectSearchLanguageId(term, Number(langId)) : Number(langId),
-    [langId]
+      term.trim()
+        ? detectSearchLanguageId(term, Number(langId))
+        : Number(langId),
+    [langId],
   );
 
   const getActiveSearchLangId = () =>
-    search.trim() ? detectSearchLanguageId(search, Number(langId)) : Number(langId);
+    search.trim()
+      ? detectSearchLanguageId(search, Number(langId))
+      : Number(langId);
 
   const fetchHighlights = useCallback(async () => {
     const facultyCode = Number(fac);
@@ -1270,7 +1365,9 @@ const FacultyNews: React.FC = () => {
         ...(toDate ? { toDate } : {}),
       });
 
-      const result: HighlightItem[] = Array.isArray(data?.result) ? data.result : [];
+      const result: HighlightItem[] = Array.isArray(data?.result)
+        ? data.result
+        : [];
 
       setHighlights(result);
       setActiveHighlightIndex(0);
@@ -1348,7 +1445,9 @@ const FacultyNews: React.FC = () => {
           ? Math.ceil(Number(data.totalCount) / ITEMS_PER_PAGE)
           : 0);
 
-      setTotalPages(totalFromApi || (data?.moveNext ? pageIndex + 1 : pageIndex));
+      setTotalPages(
+        totalFromApi || (data?.moveNext ? pageIndex + 1 : pageIndex),
+      );
     } catch (error) {
       console.error("Failed to fetch faculty news:", error);
 
@@ -1403,7 +1502,7 @@ const FacultyNews: React.FC = () => {
 
     const timer = setInterval(() => {
       setActiveHighlightIndex((prev) =>
-        prev === highlights.length - 1 ? 0 : prev + 1
+        prev === highlights.length - 1 ? 0 : prev + 1,
       );
     }, 5000);
 
@@ -1463,7 +1562,7 @@ const FacultyNews: React.FC = () => {
     if (highlights.length <= 1) return;
 
     setActiveHighlightIndex((prev) =>
-      prev === highlights.length - 1 ? 0 : prev + 1
+      prev === highlights.length - 1 ? 0 : prev + 1,
     );
   };
 
@@ -1471,7 +1570,7 @@ const FacultyNews: React.FC = () => {
     if (highlights.length <= 1) return;
 
     setActiveHighlightIndex((prev) =>
-      prev === 0 ? highlights.length - 1 : prev - 1
+      prev === 0 ? highlights.length - 1 : prev - 1,
     );
   };
 
@@ -1498,7 +1597,7 @@ const FacultyNews: React.FC = () => {
         </span>
       ) : (
         part
-      )
+      ),
     );
   };
 
@@ -1509,18 +1608,42 @@ const FacultyNews: React.FC = () => {
     THEME_PRESETS.find((theme) => theme.primary === selectedThemeColor) ||
     THEME_PRESETS[2];
 
-  const pageThemeStyle = {
-    "--faculty-primary": activeTheme.primary,
-    "--faculty-primary-rgb": activeTheme.primaryRgb,
-    "--faculty-dark": activeTheme.dark,
-    "--faculty-dark-rgb": activeTheme.darkRgb,
-    "--faculty-soft-bg": activeTheme.soft,
-    "--faculty-card-bg": activeTheme.card,
-    "--faculty-muted-bg": activeTheme.muted,
-    "--faculty-footer": activeTheme.footer,
-    "--faculty-footer-rgb": activeTheme.footerRgb,
-    "--faculty-footer-bottom": activeTheme.footerBottom,
-  } as React.CSSProperties;
+ const pageThemeStyle = {
+  "--faculty-primary": activeTheme.primary,
+  "--faculty-primary-rgb": activeTheme.primaryRgb,
+  "--faculty-dark": activeTheme.dark,
+  "--faculty-dark-rgb": activeTheme.darkRgb,
+  "--faculty-secondary": activeTheme.secondary,
+  "--faculty-soft-bg": activeTheme.soft,
+  "--faculty-card-bg": activeTheme.card,
+  "--faculty-muted-bg": activeTheme.muted,
+  "--faculty-button": activeTheme.button,
+  "--faculty-button-hover": activeTheme.buttonHover,
+  "--faculty-search-bg": activeTheme.secondary,
+  "--faculty-header-overlay": activeTheme.headerOverlay,
+
+  "--faculty-footer": activeTheme.footer,
+"--faculty-footer-top": activeTheme.footer,
+"--faculty-footer-rgb": activeTheme.footerRgb,
+"--faculty-footer-bottom": activeTheme.footerBottom,
+
+  "--faculty-icon-bg": activeTheme.iconBackground,
+  "--faculty-icon-color": activeTheme.iconColor,
+  "--faculty-icon-bg-hover": activeTheme.iconBackgroundHover,
+  "--faculty-icon-hover": activeTheme.iconHover,
+  "--faculty-primary-text": activeTheme.primaryText,
+  "--faculty-secondary-text": activeTheme.secondaryText,
+  "--faculty-pagination-bg": activeTheme.paginationBg,
+  "--faculty-pagination-text": activeTheme.paginationText,
+  "--faculty-pagination-border": activeTheme.paginationBorder,
+  "--faculty-pagination-active-bg": activeTheme.paginationActiveBg,
+  "--faculty-pagination-active-text": activeTheme.paginationActiveText,
+  "--faculty-pagination-arrow-bg": activeTheme.paginationArrowBg,
+  "--faculty-pagination-arrow-color": activeTheme.paginationArrowColor,
+  "--faculty-pagination-disabled-bg": activeTheme.paginationDisabledBg,
+  "--faculty-pagination-disabled-color": activeTheme.paginationDisabledColor,
+  "--faculty-pagination-info-strong": activeTheme.paginationInfoStrong,
+} as React.CSSProperties;
 
   const paginationNumbers = useMemo<(number | "...")[]>(() => {
     if (totalPages <= 6) {
@@ -1543,7 +1666,15 @@ const FacultyNews: React.FC = () => {
       ];
     }
 
-    return [1, "...", pageIndex - 1, pageIndex, pageIndex + 1, "...", totalPages];
+    return [
+      1,
+      "...",
+      pageIndex - 1,
+      pageIndex,
+      pageIndex + 1,
+      "...",
+      totalPages,
+    ];
   }, [pageIndex, totalPages]);
 
   if (!isFacShapeValid || notFound || articleNotFound || invalidArticleId) {
@@ -1551,7 +1682,10 @@ const FacultyNews: React.FC = () => {
   }
 
   return (
-    <div className="news-page-wrapper faculty-page-wrapper" style={pageThemeStyle}>
+    <div
+      className="news-page-wrapper faculty-page-wrapper"
+      style={pageThemeStyle}
+    >
       <header
         className="faculty-top-header"
         style={{ backgroundImage: `url(${headerBg})` }}
@@ -1581,7 +1715,11 @@ const FacultyNews: React.FC = () => {
             </div>
 
             <div className="faculty-top-logo-wrap">
-              <img src={logo} alt="university logo" className="faculty-top-logo" />
+              <img
+                src={logo}
+                alt="university logo"
+                className="faculty-top-logo"
+              />
             </div>
           </div>
         </div>
@@ -1781,8 +1919,13 @@ const FacultyNews: React.FC = () => {
                   </button>
                 </div>
 
-                <div className={`news-filterr-panel ${showFilters ? "open" : ""}`}>
-                  <div className="filter-panel-inner" dir={isArabic ? "rtl" : "ltr"}>
+                <div
+                  className={`news-filterr-panel ${showFilters ? "open" : ""}`}
+                >
+                  <div
+                    className="filter-panel-inner"
+                    dir={isArabic ? "rtl" : "ltr"}
+                  >
                     <div className="filter-panell-body">
                       <div
                         className="filter-section filterr-dates"
@@ -1839,7 +1982,9 @@ const FacultyNews: React.FC = () => {
                                   ? "chip-active"
                                   : ""
                               }`}
-                              onClick={() => handleApplyDateFilter(filter.value)}
+                              onClick={() =>
+                                handleApplyDateFilter(filter.value)
+                              }
                             >
                               {isArabic ? filter.labelAr : filter.labelEn}
                             </button>
@@ -1869,10 +2014,12 @@ const FacultyNews: React.FC = () => {
                   {dateFilter !== 0 && (
                     <span className="active-tag">
                       {isArabic
-                        ? DATE_FILTERS.find((filter) => filter.value === dateFilter)
-                            ?.labelAr
-                        : DATE_FILTERS.find((filter) => filter.value === dateFilter)
-                            ?.labelEn}
+                        ? DATE_FILTERS.find(
+                            (filter) => filter.value === dateFilter,
+                          )?.labelAr
+                        : DATE_FILTERS.find(
+                            (filter) => filter.value === dateFilter,
+                          )?.labelEn}
 
                       <button onClick={() => setDateFilter(0)}>
                         <X size={11} />
@@ -1913,7 +2060,10 @@ const FacultyNews: React.FC = () => {
 
           <section className="news-main-content" dir={isRTL ? "rtl" : "ltr"}>
             <div className="news-content-wrapper">
-              <div className="faculty-section-heading" dir={isRTL ? "rtl" : "ltr"}>
+              <div
+                className="faculty-section-heading"
+                dir={isRTL ? "rtl" : "ltr"}
+              >
                 <span className="faculty-section-dot" />
                 <h2 className="faculty-section-title">
                   {isArabic ? "أخبار وفعاليات" : "News & Events"}
@@ -1961,7 +2111,10 @@ const FacultyNews: React.FC = () => {
                           </h3>
 
                           <p className="news-card-description">
-                            {highlightText(item.source?.slice(0, 120) || "", search)}
+                            {highlightText(
+                              item.source?.slice(0, 120) || "",
+                              search,
+                            )}
                           </p>
 
                           <span className="news-card-date">
@@ -1991,7 +2144,9 @@ const FacultyNews: React.FC = () => {
                     <button
                       type="button"
                       className="news-pagination-arrow"
-                      onClick={() => setPageIndex((prev) => Math.max(1, prev - 1))}
+                      onClick={() =>
+                        setPageIndex((prev) => Math.max(1, prev - 1))
+                      }
                       disabled={!movePrevious || loading}
                       aria-label="Previous page"
                     >
@@ -2022,7 +2177,7 @@ const FacultyNews: React.FC = () => {
                         >
                           {page}
                         </button>
-                      )
+                      ),
                     )}
 
                     <button

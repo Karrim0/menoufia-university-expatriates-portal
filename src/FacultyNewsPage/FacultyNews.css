@@ -1,10 +1,6 @@
 @import "../NewsPage/News.css";
 @import "../NewsPage/News.filter.css";
 
-/* ======================================================
-   FACULTY PAGE - FULL THEME
-====================================================== */
-
 .faculty-page-wrapper {
   --faculty-primary: #102c57;
   --faculty-primary-rgb: 16, 44, 87;
@@ -35,10 +31,6 @@
   box-sizing: border-box;
 }
 
-/* ======================================================
-   TOP HEADER
-====================================================== */
-
 .faculty-top-header {
   position: relative;
   width: 100%;
@@ -54,7 +46,7 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: rgba(var(--faculty-primary-rgb), 0.88) !important;
+  background: var(--faculty-header-overlay) !important;
   transition: background 0.25s ease;
 }
 
@@ -205,10 +197,6 @@
   object-fit: contain;
   display: block;
 }
-
-/* ======================================================
-   SECOND NAVBAR + COLOR SWITCHER
-====================================================== */
 
 .faculty-menu-section {
   width: 100% !important;
@@ -453,8 +441,6 @@
   z-index: 10000;
 }
 
-
-/* Keep all dropdown layers visible */
 .faculty-menu-section,
 .faculty-menu-wrapper,
 .faculty-menu-bar,
@@ -462,10 +448,6 @@
 .faculty-sub-menu {
   overflow: visible !important;
 }
-
-/* ======================================================
-   HERO / SLIDER
-====================================================== */
 
 .faculty-news-hero {
   width: 100%;
@@ -666,16 +648,12 @@
   }
 }
 
-/* ======================================================
-   SEARCH + FILTERS
-====================================================== */
-
 .faculty-page-wrapper .news-search-wrapper {
   width: min(1369px, 100%);
   min-height: 129px;
   margin: 30px auto;
   padding: 24px 16px;
-  background: #ffffff !important;
+  background: var(--faculty-search-bg) !important;
   border: 1px solid rgba(var(--faculty-primary-rgb), 0.14) !important;
   border-radius: 16px;
   box-shadow: 0 3px 1px rgba(var(--faculty-primary-rgb), 0.1) !important;
@@ -800,10 +778,6 @@
   color: var(--faculty-primary) !important;
 }
 
-/* ======================================================
-   MAIN CONTENT + CARDS
-====================================================== */
-
 .faculty-page-wrapper .news-main-content {
   background: var(--faculty-soft-bg) !important;
   padding: 26px 0 72px;
@@ -827,7 +801,7 @@
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background-color: var(--faculty-orange) !important;
+  background-color: var(--faculty-primary) !important;
   flex-shrink: 0;
 }
 
@@ -1034,19 +1008,15 @@
   border: 1px dashed rgba(var(--faculty-primary-rgb), 0.2);
 }
 
-/* ======================================================
-   FACULTY FOOTER
-====================================================== */
-
 .faculty-links-footer {
   width: 100%;
-  background: #071d36;
+  background: var(--faculty-footer);
   color: #ffffff;
   font-family: "Cairo", sans-serif;
   overflow: hidden;
 
-  --footer-bg-top: #071d36;
-  --footer-bg-bottom: #102c57;
+  --footer-bg-top: var(--faculty-footer);
+  --footer-bg-bottom: var(--faculty-footer-bottom);
   --footer-line: rgba(255, 255, 255, 0.18);
   --footer-text: rgba(255, 255, 255, 0.9);
   --footer-muted: rgba(255, 255, 255, 0.72);
@@ -1055,15 +1025,11 @@
   --footer-blue: #60a5fa;
 }
 
-/* ===============================
-   TOP DYNAMIC LINKS AREA
-================================ */
-
 .faculty-links-footer-top {
   width: 100%;
   min-height: 210px;
   padding: 18px 64px 14px;
-  background: #071d36;
+  background: var(--faculty-footer);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0;
@@ -1176,11 +1142,13 @@
   scrollbar-color: var(--col-accent) transparent;
 }
 
-.faculty-footer-column.expanded .faculty-footer-links-scroll::-webkit-scrollbar {
+.faculty-footer-column.expanded
+  .faculty-footer-links-scroll::-webkit-scrollbar {
   width: 4px;
 }
 
-.faculty-footer-column.expanded .faculty-footer-links-scroll::-webkit-scrollbar-thumb {
+.faculty-footer-column.expanded
+  .faculty-footer-links-scroll::-webkit-scrollbar-thumb {
   background: var(--col-accent);
   border-radius: 999px;
 }
@@ -1270,15 +1238,11 @@
   transform: rotate(180deg);
 }
 
-/* ===============================
-   BOTTOM STATIC AREA
-================================ */
-
 .faculty-links-footer-bottom {
   width: 100%;
   min-height: 145px;
   padding: 20px 52px 16px;
-  background: #102c57;
+  background: var(--faculty-footer-bottom);
   color: #ffffff;
 
   display: grid;
@@ -1403,7 +1367,7 @@
 .faculty-footer-social a:hover {
   transform: translateY(-2px);
   background: #ffffff;
-  color: #102c57;
+  color: var(--faculty-footer-bottom);
 }
 
 .faculty-footer-logo-area img {
@@ -1425,10 +1389,6 @@
   direction: rtl;
   text-align: right;
 }
-
-/* ===============================
-   RESPONSIVE FOOTER
-================================ */
 
 @media (max-width: 992px) {
   .faculty-links-footer-top {
@@ -1528,7 +1488,7 @@
     font-size: 13px;
   }
 }
-/* Responsive */
+
 @media (max-width: 992px) {
   .faculty-links-footer-bottom {
     grid-template-columns: 1fr;
@@ -1678,14 +1638,10 @@
   }
 }
 
-/* ─────────────────────────────
-   Faculty Footer Bottom - New Component
-───────────────────────────── */
-
 .faculty-links-footer-bottom.faculty-new-bottom {
   min-height: auto;
   padding: 42px 56px 28px;
-  background: #0f2340;
+  background: var(--faculty-footer-bottom);
   color: #ffffff;
   display: block;
   direction: rtl;
@@ -1809,14 +1765,17 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
 }
 
 .faculty-new-bottom .ft-social-center a:hover,
 .faculty-new-bottom .ft-social-link:hover {
   transform: translateY(-2px);
   background: #ffffff;
-  color: #0f2340;
+  color: var(--faculty-footer-bottom);
 }
 
 .faculty-new-bottom .ft-social-center i,
@@ -1856,10 +1815,6 @@
 .faculty-new-bottom .ft-policy-links a:hover {
   color: #ffffff;
 }
-
-/* ======================================================
-   FACULTY ARTICLE PAGE RENDERER
-====================================================== */
 
 .faculty-article-section {
   width: 100%;
@@ -2178,10 +2133,6 @@
   color: rgba(var(--faculty-primary-rgb), 0.7);
 }
 
-/* ======================================================
-   RESPONSIVE
-====================================================== */
-
 @media (max-width: 1200px) {
   .faculty-top-header-inner {
     padding: 0 24px;
@@ -2303,7 +2254,6 @@
     margin-inline: auto;
   }
 
-  /* Footer top → stack */
   .faculty-links-footer-top {
     grid-template-columns: 1fr;
     padding: 32px 24px;
@@ -2321,7 +2271,6 @@
     align-self: center;
   }
 
-  /* Footer bottom → stack */
   .faculty-links-footer-bottom {
     grid-template-columns: 1fr;
     padding: 1.5rem;
@@ -2745,17 +2694,18 @@
   transition: all 0.2s ease;
   box-sizing: border-box;
 }
-.faculty-page-wrapper .news-pagination-arrow{
-  border:none !important;
+.faculty-page-wrapper .news-pagination-arrow {
+  border: none !important;
 }
 .faculty-page-wrapper .news-pagination-number.active {
-  background: #303D5E !important;
+  background: #303d5e !important;
   color: #ffffff !important;
   border-color: var(--faculty-primary) !important;
 }
 
 .faculty-page-wrapper .news-pagination-arrow:hover:not(:disabled),
-.faculty-page-wrapper .news-pagination-number:hover:not(:disabled):not(.active) {
+.faculty-page-wrapper
+  .news-pagination-number:hover:not(:disabled):not(.active) {
   background: #ffffff !important;
 }
 
@@ -2897,11 +2847,7 @@
     width: 300px;
   }
 }
-/* ======================================================
-   FOOTER FINAL TUNING - MATCH DESIGN
-====================================================== */
 
-/* TOP */
 .faculty-links-footer-top {
   min-height: 210px;
   padding: 22px 72px 18px;
@@ -2959,11 +2905,10 @@
   border-radius: 8px;
 }
 
-/* BOTTOM */
 .faculty-links-footer-bottom {
   min-height: 190px;
   padding: 26px 60px 18px;
-  background: #0F2340;
+  background: #0f2340;
 
   grid-template-columns: 1fr 1.05fr 1fr;
   align-items: start;
@@ -3034,4 +2979,117 @@
 
 .faculty-links-footer {
   max-width: 100%;
+}
+
+.faculty-page-wrapper .faculty-section-title {
+  color: #1a1a1a !important;
+}
+
+.faculty-page-wrapper .faculty-section-dot {
+  background-color: var(--faculty-primary) !important;
+}
+
+.faculty-page-wrapper .news-card-title {
+  color: #1a1a1a !important;
+}
+
+.faculty-page-wrapper .news-card-description,
+.faculty-page-wrapper .news-card-date {
+  color: #6b7280 !important;
+}
+
+.faculty-page-wrapper .news-pagination {
+  background: var(--faculty-primary) !important;
+  border-radius: 30px;
+  box-shadow: 0 14px 34px rgba(var(--faculty-primary-rgb), 0.18) !important;
+}
+
+.faculty-page-wrapper .news-pagination-arrow,
+.faculty-page-wrapper .news-pagination-number {
+  border: 1px solid var(--faculty-secondary) !important;
+  background: transparent !important;
+  color: #ffffff !important;
+}
+
+.faculty-page-wrapper .news-pagination-arrow {
+  border: 0 !important;
+  background: #ffffff !important;
+  color: var(--faculty-primary) !important;
+}
+
+.faculty-page-wrapper .news-pagination-number.active {
+  background: var(--faculty-secondary) !important;
+  color: #ffffff !important;
+  border-color: var(--faculty-secondary) !important;
+}
+
+.faculty-page-wrapper
+  .news-pagination-number:hover:not(:disabled):not(.active) {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+
+.faculty-page-wrapper .news-pagination-arrow:hover:not(:disabled) {
+  background: var(--faculty-secondary) !important;
+  color: #ffffff !important;
+}
+
+.faculty-page-wrapper .news-pagination-dots {
+  color: #ffffff !important;
+}
+
+.faculty-page-wrapper .news-page-info {
+  background: transparent !important;
+  color: #ffffff !important;
+}
+
+.faculty-page-wrapper .news-page-info strong {
+  color: var(--faculty-secondary) !important;
+}
+
+.faculty-links-footer,
+.faculty-links-footer-top {
+  background: var(--faculty-footer) !important;
+}
+
+.faculty-links-footer-bottom,
+.faculty-links-footer-bottom.faculty-new-bottom {
+  background: var(--faculty-footer-bottom) !important;
+}
+
+.faculty-footer-social a:hover,
+.faculty-new-bottom .ft-social-center a:hover,
+.faculty-new-bottom .ft-social-link:hover {
+  color: var(--faculty-footer-bottom) !important;
+}
+/*  */
+.faculty-page-wrapper .news-pagination {
+  background: var(--faculty-pagination-bg) !important;
+}
+
+.faculty-page-wrapper .news-pagination-number,
+.faculty-page-wrapper .news-pagination-dots,
+.faculty-page-wrapper .news-page-info {
+  color: var(--faculty-pagination-text) !important;
+}
+
+.faculty-page-wrapper .news-pagination-arrow {
+  color: var(--faculty-pagination-icon) !important;
+}
+
+.faculty-page-wrapper .news-pagination-number.active {
+  background: var(--faculty-pagination-text) !important;
+  color: var(--faculty-pagination-bg) !important;
+}
+.faculty-links-footer {
+  background: var(--faculty-footer-top) !important;
+}
+
+.faculty-links-footer-top {
+  background: var(--faculty-footer-top) !important;
+}
+
+.faculty-links-footer-bottom,
+.faculty-links-footer-bottom.faculty-new-bottom {
+  background: var(--faculty-footer-bottom) !important;
 }

@@ -1,5 +1,16 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link, useLocation, useParams, useSearchParams } from "react-router-dom";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import {
+  Link,
+  useLocation,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { Calendar, ChevronDown, ChevronLeft, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -58,38 +69,98 @@ const THEME_PRESETS = [
   {
     primary: "#840D0D",
     primaryRgb: "132, 13, 13",
-    dark: "#5f0909",
-    darkRgb: "95, 9, 9",
-    soft: "#fff4f4",
-    card: "#f8dddd",
-    muted: "#f1c7c7",
-    footer: "#3f0707",
-    footerRgb: "63, 7, 7",
-    footerBottom: "#5f0909",
+    dark: "#262626",
+    darkRgb: "38, 38, 38",
+    secondary: "#EAEAEA",
+    soft: "#F8F0E5",
+    card: "#FFFFFF",
+    muted: "#EAEAEA",
+    button: "#840D0D",
+    buttonHover: "#262626",
+    headerOverlay: "#262626D9",
+    footer: "#262626",
+    footerRgb: "38, 38, 38",
+    footerBottom: "#262626F2",
+    iconBackground: "#840D0D",
+    iconColor: "#FFFFFF",
+    iconBackgroundHover: "#262626",
+    iconHover: "#FFFFFF",
+    primaryText: "#262626",
+    secondaryText: "#6B6B6B",
+    paginationBg: "#EAEAEA",
+    paginationText: "#262626",
+    paginationBorder: "#262626",
+    paginationActiveBg: "#840D0D",
+    paginationActiveText: "#FFFFFF",
+    paginationArrowBg: "#262626",
+    paginationArrowColor: "#FFFFFF",
+    paginationDisabledBg: "#FFFFFF",
+    paginationDisabledColor: "#C3C3C3",
+    paginationInfoStrong: "#840D0D",
   },
   {
-    primary: "#526D82",
-    primaryRgb: "82, 109, 130",
-    dark: "#3f5668",
-    darkRgb: "63, 86, 104",
-    soft: "#f3f8fb",
-    card: "#dceaf1",
-    muted: "#c7d8e2",
-    footer: "#263b4b",
-    footerRgb: "38, 59, 75",
-    footerBottom: "#3f5668",
+    primary: "#27374D",
+    primaryRgb: "39, 55, 77",
+    dark: "#27374D",
+    darkRgb: "39, 55, 77",
+    secondary: "#526D82",
+    soft: "#DDE6ED",
+    card: "#FFFFFF",
+    muted: "#9DB2BF",
+    button: "#27374D",
+    buttonHover: "#9DB2BF",
+    headerOverlay: "#27374DE5",
+    footer: "#27374D",
+    footerRgb: "39, 55, 77",
+    footerBottom: "#27374DF2",
+    iconBackground: "#27374D",
+    iconColor: "#526D82",
+    iconBackgroundHover: "#526D82",
+    iconHover: "#526D82",
+    primaryText: "#1A1A1A",
+    secondaryText: "#526D82",
+    paginationBg: "#F8FAFC",
+    paginationText: "#27374D",
+    paginationBorder: "#27374D",
+    paginationActiveBg: "#27374D",
+    paginationActiveText: "#FFFFFF",
+    paginationArrowBg: "#FFFFFF",
+    paginationArrowColor: "#27374D",
+    paginationDisabledBg: "#FFFFFF",
+    paginationDisabledColor: "#C3C3C3",
+    paginationInfoStrong: "#27374D",
   },
   {
     primary: "#102C57",
     primaryRgb: "16, 44, 87",
-    dark: "#071d36",
-    darkRgb: "7, 29, 54",
-    soft: "#f4f9fc",
-    card: "#dcedf4",
-    muted: "#cbddea",
-    footer: "#061f3a",
-    footerRgb: "6, 31, 58",
-    footerBottom: "#102C57",
+    dark: "#102C57",
+    darkRgb: "16, 44, 87",
+    secondary: "#DAC0A3",
+    soft: "#F8F9FA",
+    card: "#FFFFFF",
+    muted: "#DAC0A3",
+    button: "#102C57",
+    buttonHover: "#DAC0A3",
+    headerOverlay: "#102C57E5",
+    footer: "#102C57",
+    footerRgb: "16, 44, 87",
+    footerBottom: "#102C57F2",
+    iconBackground: "#102C57",
+    iconColor: "#FFFFFF",
+    iconBackgroundHover: "#DAC0A3",
+    iconHover: "#FFFFFF",
+    primaryText: "#1A1A1A",
+    secondaryText: "#6B7280",
+    paginationBg: "#102C57",
+    paginationText: "#FFFFFF",
+    paginationBorder: "#DAC0A3",
+    paginationActiveBg: "#DAC0A3",
+    paginationActiveText: "#FFFFFF",
+    paginationArrowBg: "#FFFFFF",
+    paginationArrowColor: "#102C57",
+    paginationDisabledBg: "#FFFFFF",
+    paginationDisabledColor: "#C3C3C3",
+    paginationInfoStrong: "#DAC0A3",
   },
 ];
 
@@ -113,7 +184,9 @@ const getSavedLang = () => {
 const getSavedLangId = () => Number(getSavedLang()?.id) || 1;
 
 const cleanTitle = (value?: string) =>
-  String(value || "").replace(/\s+/g, " ").trim();
+  String(value || "")
+    .replace(/\s+/g, " ")
+    .trim();
 
 const isExternalUrl = (url?: string) =>
   typeof url === "string" && /^https?:\/\//i.test(url);
@@ -309,10 +382,10 @@ const ArticleTitle: React.FC<{ title: string }> = ({ title }) => {
   );
 };
 
-const ArticleRenderer: React.FC<{ article: ArticlePage; isArabic: boolean }> = ({
-  article,
-  isArabic,
-}) => {
+const ArticleRenderer: React.FC<{
+  article: ArticlePage;
+  isArabic: boolean;
+}> = ({ article, isArabic }) => {
   const content = article.content || "";
   const firstUrl = extractFirstUrl(content);
   const fileExtension = getFileExtension(firstUrl);
@@ -527,12 +600,38 @@ const DepartmentPage: React.FC = () => {
     "--department-primary-rgb": activeTheme.primaryRgb,
     "--department-dark": activeTheme.dark,
     "--department-dark-rgb": activeTheme.darkRgb,
+    "--department-secondary": activeTheme.secondary,
     "--department-soft-bg": activeTheme.soft,
     "--department-card-bg": activeTheme.card,
     "--department-muted-bg": activeTheme.muted,
+    "--department-button": activeTheme.button,
+    "--department-button-hover": activeTheme.buttonHover,
+    "--department-search-bg": activeTheme.secondary,
+    "--department-header-overlay": activeTheme.headerOverlay,
+
     "--department-footer": activeTheme.footer,
+    "--department-footer-top": activeTheme.footer,
     "--department-footer-rgb": activeTheme.footerRgb,
     "--department-footer-bottom": activeTheme.footerBottom,
+
+    "--department-icon-bg": activeTheme.iconBackground,
+    "--department-icon-color": activeTheme.iconColor,
+    "--department-icon-bg-hover": activeTheme.iconBackgroundHover,
+    "--department-icon-hover": activeTheme.iconHover,
+    "--department-primary-text": activeTheme.primaryText,
+    "--department-secondary-text": activeTheme.secondaryText,
+
+    "--department-pagination-bg": activeTheme.paginationBg,
+    "--department-pagination-text": activeTheme.paginationText,
+    "--department-pagination-border": activeTheme.paginationBorder,
+    "--department-pagination-active-bg": activeTheme.paginationActiveBg,
+    "--department-pagination-active-text": activeTheme.paginationActiveText,
+    "--department-pagination-arrow-bg": activeTheme.paginationArrowBg,
+    "--department-pagination-arrow-color": activeTheme.paginationArrowColor,
+    "--department-pagination-disabled-bg": activeTheme.paginationDisabledBg,
+    "--department-pagination-disabled-color":
+      activeTheme.paginationDisabledColor,
+    "--department-pagination-info-strong": activeTheme.paginationInfoStrong,
   } as React.CSSProperties;
 
   const departmentTopMenu = useMemo(() => {
@@ -542,14 +641,15 @@ const DepartmentPage: React.FC = () => {
   const departmentFooterItems = useMemo(() => {
     const restTopItems = visibleDepartmentMenu.slice(DEPARTMENT_NAV_LIMIT);
     const childrenFromTopItems = visibleDepartmentMenu.flatMap((item) =>
-      getChildren(item)
+      getChildren(item),
     );
 
     const allFooterItems = [...restTopItems, ...childrenFromTopItems]
       .filter((item) => cleanTitle(item.title).length > 0)
       .filter(
         (item, index, array) =>
-          array.findIndex((current) => current.menuId === item.menuId) === index
+          array.findIndex((current) => current.menuId === item.menuId) ===
+          index,
       );
 
     return chunkItems(allFooterItems, 3);
@@ -764,7 +864,7 @@ const DepartmentPage: React.FC = () => {
 
     const timer = setInterval(() => {
       setActiveHighlightIndex((prev) =>
-        prev === highlights.length - 1 ? 0 : prev + 1
+        prev === highlights.length - 1 ? 0 : prev + 1,
       );
     }, 5000);
 
@@ -1034,14 +1134,14 @@ const DepartmentPage: React.FC = () => {
                     <i className="fa-solid fa-sliders" />
 
                     {activeFiltersCount > 0 && (
-                      <span className="filter-badge">
-                        {activeFiltersCount}
-                      </span>
+                      <span className="filter-badge">{activeFiltersCount}</span>
                     )}
                   </button>
                 </div>
 
-                <div className={`news-filterr-panel ${showFilters ? "open" : ""}`}>
+                <div
+                  className={`news-filterr-panel ${showFilters ? "open" : ""}`}
+                >
                   <div
                     className="filter-panel-inner"
                     dir={isArabic ? "rtl" : "ltr"}
@@ -1104,7 +1204,9 @@ const DepartmentPage: React.FC = () => {
                                   ? "chip-active"
                                   : ""
                               }`}
-                              onClick={() => handleApplyDateFilter(filter.value)}
+                              onClick={() =>
+                                handleApplyDateFilter(filter.value)
+                              }
                             >
                               {isArabic ? filter.labelAr : filter.labelEn}
                             </button>
@@ -1199,9 +1301,7 @@ const DepartmentPage: React.FC = () => {
                           <SmartImage
                             src={item.image}
                             alt={
-                              item.imageAlt ||
-                              item.title ||
-                              "Department news"
+                              item.imageAlt || item.title || "Department news"
                             }
                           />
                         </div>
@@ -1244,125 +1344,128 @@ const DepartmentPage: React.FC = () => {
       )}
 
       {departmentFooterItems.some((group) => group.length > 0) && (
-  <footer className="department-links-footer" dir={isRTL ? "rtl" : "ltr"}>
-    <div className="department-links-footer-inner">
-      {departmentFooterItems.map((group, index) => {
-        if (group.length === 0) return null;
+        <footer className="department-links-footer" dir={isRTL ? "rtl" : "ltr"}>
+          <div className="department-links-footer-inner">
+            {departmentFooterItems.map((group, index) => {
+              if (group.length === 0) return null;
 
-        const titles = isArabic
-          ? ["روابط القسم", "خدمات القسم", "محتوى إضافي"]
-          : ["Department Links", "Department Services", "More Content"];
+              const titles = isArabic
+                ? ["روابط القسم", "خدمات القسم", "محتوى إضافي"]
+                : ["Department Links", "Department Services", "More Content"];
 
-        return (
-          <div
-            className="department-footer-column"
-            key={`department-footer-${index}`}
-          >
-            <h3>
-              <span>{titles[index]}</span>
-            </h3>
+              return (
+                <div
+                  className="department-footer-column"
+                  key={`department-footer-${index}`}
+                >
+                  <h3>
+                    <span>{titles[index]}</span>
+                  </h3>
 
-            <div className="department-footer-links">
-              {group.slice(0, 5).map((item) => {
-                const link = getDepartmentMenuLink({
-                  item,
-                  fac,
-                  departmentCode,
-                });
+                  <div className="department-footer-links">
+                    {group.slice(0, 5).map((item) => {
+                      const link = getDepartmentMenuLink({
+                        item,
+                        fac,
+                        departmentCode,
+                      });
 
-                const external = isExternalUrl(link);
+                      const external = isExternalUrl(link);
 
-                const content = (
-                  <>
-                    <span>{cleanTitle(item.title)}</span>
-                    <i className="fa-solid fa-arrow-up" aria-hidden="true" />
-                  </>
-                );
+                      const content = (
+                        <>
+                          <span>{cleanTitle(item.title)}</span>
+                          <i
+                            className="fa-solid fa-arrow-up"
+                            aria-hidden="true"
+                          />
+                        </>
+                      );
 
-                return external ? (
-                  <a
-                    key={item.menuId}
-                    href={link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="department-footer-link"
-                  >
-                    {content}
-                  </a>
-                ) : (
-                  <Link
-                    key={item.menuId}
-                    to={link}
-                    state={{
-                      facultyTitle: facultyName,
-                      departmentTitle: departmentName,
-                      themeColor: selectedThemeColor,
-                    }}
-                    className="department-footer-link"
-                  >
-                    {content}
-                  </Link>
-                );
-              })}
+                      return external ? (
+                        <a
+                          key={item.menuId}
+                          href={link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="department-footer-link"
+                        >
+                          {content}
+                        </a>
+                      ) : (
+                        <Link
+                          key={item.menuId}
+                          to={link}
+                          state={{
+                            facultyTitle: facultyName,
+                            departmentTitle: departmentName,
+                            themeColor: selectedThemeColor,
+                          }}
+                          className="department-footer-link"
+                        >
+                          {content}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="department-footer-bottom">
+            <div className="department-footer-contact">
+              <div className="department-footer-bottom-title">
+                <span>{isArabic ? "تواصل معنا :" : "Contact us:"}</span>
+
+                <span className="department-footer-bottom-icon">
+                  <i className="fa-solid fa-phone"></i>
+                </span>
+              </div>
+
+              <div className="department-footer-phones">
+                <span>048-2235690</span>
+                <span className="department-phone-separator">/</span>
+                <span>048-2222753</span>
+              </div>
+
+              <div className="department-footer-social">
+                <a href="#" aria-label="facebook">
+                  <i className="fa-brands fa-facebook-f"></i>
+                </a>
+
+                <a href="#" aria-label="youtube">
+                  <i className="fa-brands fa-youtube"></i>
+                </a>
+
+                <a href="#" aria-label="twitter">
+                  <i className="fa-brands fa-twitter"></i>
+                </a>
+              </div>
+            </div>
+
+            <div className="department-footer-brand">
+              <img src={logo2} alt="Menoufia University" />
+            </div>
+
+            <div className="department-footer-address">
+              <div className="department-footer-bottom-title">
+                <span>{isArabic ? "عنوان الكلية :" : "Faculty address:"}</span>
+
+                <span className="department-footer-bottom-icon">
+                  <i className="fa-solid fa-location-dot"></i>
+                </span>
+              </div>
+
+              <p>
+                {isArabic
+                  ? "شبين الكوم _ المنوفية _ مصر"
+                  : "Shebin El-Kom _ Menoufia _ Egypt"}
+              </p>
             </div>
           </div>
-        );
-      })}
-    </div>
-
-    <div className="department-footer-bottom">
-      <div className="department-footer-contact">
-        <div className="department-footer-bottom-title">
-          <span>{isArabic ? "تواصل معنا :" : "Contact us:"}</span>
-
-          <span className="department-footer-bottom-icon">
-            <i className="fa-solid fa-phone"></i>
-          </span>
-        </div>
-
-        <div className="department-footer-phones">
-          <span>048-2235690</span>
-          <span className="department-phone-separator">/</span>
-          <span>048-2222753</span>
-        </div>
-
-        <div className="department-footer-social">
-          <a href="#" aria-label="facebook">
-            <i className="fa-brands fa-facebook-f"></i>
-          </a>
-
-          <a href="#" aria-label="youtube">
-            <i className="fa-brands fa-youtube"></i>
-          </a>
-
-          <a href="#" aria-label="twitter">
-            <i className="fa-brands fa-twitter"></i>
-          </a>
-        </div>
-      </div>
-
-      <div className="department-footer-brand">
-        <img src={logo2} alt="Menoufia University" />
-      </div>
-
-      <div className="department-footer-address">
-        <div className="department-footer-bottom-title">
-          <span>{isArabic ? "عنوان الكلية :" : "Faculty address:"}</span>
-
-          <span className="department-footer-bottom-icon">
-            <i className="fa-solid fa-location-dot"></i>
-          </span>
-        </div>
-
-        <p>
-          {isArabic
-            ? "شبين الكوم _ المنوفية _ مصر"
-            : "Shebin El-Kom _ Menoufia _ Egypt"}
-        </p>
-      </div>
-    </div>
-  </footer>
-)}
+        </footer>
+      )}
     </div>
   );
 };
