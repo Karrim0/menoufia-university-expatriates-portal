@@ -2046,3 +2046,71 @@
   top: 0;
   right: 100%;
 }
+.department-highlight-image-wrap {
+  position: relative;
+}
+.department-slider-control {
+  position: absolute;
+  top: 50%;
+  z-index: 8;
+
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+
+  background: #ffffff;
+  color: #303d5e;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transform: translateY(-50%);
+
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.department-slider-control:hover {
+  background: #F66D19;
+  color: #ffffff;
+  transform: translateY(-50%) scale(1.05);
+}
+
+.department-slider-control i {
+  font-size: 17px;
+  line-height: 1;
+}
+
+.department-slider-control-prev {
+  left: 28px;
+}
+
+.department-slider-control-next {
+  right: 28px;
+}
+
+@media (max-width: 767px) {
+  .department-slider-control {
+    width: 42px;
+    height: 42px;
+  }
+
+  .department-slider-control-prev {
+    left: 14px;
+  }
+
+  .department-slider-control-next {
+    right: 14px;
+  }
+
+  .department-slider-control i {
+    font-size: 14px;
+  }
+}
