@@ -1,16 +1,5 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import {
-  Link,
-  useLocation,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Link, useLocation, useParams, useSearchParams } from "react-router-dom";
 import { Calendar, ChevronDown, ChevronLeft, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -1069,9 +1058,11 @@ const DepartmentPage: React.FC = () => {
                       <div className="department-highlight-content">
                         <h2>{activeHighlight.translationData}</h2>
                         <span className="department-highlight-arrow">
-                          <i className="fa-solid fa-arrow-up" />
+                        <span className="department-highlight-arrow-icon">
+                        ↗
                         </span>
-                      </div>
+                        </span>
+                      </div>  
                     </Link>
 
                     {highlights.length > 1 && (
@@ -1088,6 +1079,76 @@ const DepartmentPage: React.FC = () => {
                         ))}
                       </div>
                     )}
+{highlights.length > 1 && (
+  <>
+    <button
+      type="button"
+      className="department-slider-control department-slider-control-next"
+      onClick={(e) => {
+        e.preventDefault();
+        handleNextHighlight();
+      }}
+      aria-label="next highlight"
+    >
+      <ChevronRight size={26} strokeWidth={2.6} />
+    </button>
+
+    <button
+      type="button"
+      className="department-slider-control department-slider-control-prev"
+      onClick={(e) => {
+        e.preventDefault();
+        handlePrevHighlight();
+      }}
+      aria-label="previous highlight"
+    >
+      <ChevronLeft size={26} strokeWidth={2.6} />
+    </button>
+  </>
+)}
+<Link
+  to={`/fac/${fac}/details/${activeHighlight.id}`}
+  state={{
+    news: activeHighlight,
+    newsType: "faculty",
+    fac: Number(fac),
+    departmentCode,
+    langId,
+  }}
+  className="department-highlight-link"
+>
+  <SmartImage
+    src={activeHighlight.image}
+    alt={activeHighlight.translationData || departmentName}
+    className="department-highlight-image"
+  />
+
+  <div className="department-highlight-overlay" />
+
+  <div className="department-highlight-content">
+    <h2>{activeHighlight.translationData}</h2>
+    <span className="department-highlight-arrow">
+      <i className="fa-solid fa-arrow-up" />
+    </span>
+  </div>
+</Link>
+
+{highlights.length > 1 && (
+  <button
+    type="button"
+    className="department-slider-control department-slider-control-next"
+    onClick={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setActiveHighlightIndex((prev) =>
+        prev === highlights.length - 1 ? 0 : prev + 1
+      );
+    }}
+    aria-label={isArabic ? "الخبر التالي" : "Next news"}
+  >
+    <span className="department-slider-icon">‹</span>
+  </button>
+)}
                   </div>
                 </div>
               ) : null}
