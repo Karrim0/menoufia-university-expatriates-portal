@@ -1318,17 +1318,11 @@ const FacultyNews: React.FC = () => {
   }, [articleId, langId, invalidArticleId, notFound]);
 
   const getSearchLangId = useCallback(
-    (term: string) =>
-      term.trim()
-        ? detectSearchLanguageId(term, Number(langId))
-        : Number(langId),
+    (term: string) => (term.trim() ? 1 : Number(langId)),
     [langId],
   );
 
-  const getActiveSearchLangId = () =>
-    search.trim()
-      ? detectSearchLanguageId(search, Number(langId))
-      : Number(langId);
+  const getActiveSearchLangId = () => (search.trim() ? 1 : Number(langId));
 
   const fetchHighlights = useCallback(async () => {
     const facultyCode = Number(fac);
@@ -1608,42 +1602,42 @@ const FacultyNews: React.FC = () => {
     THEME_PRESETS.find((theme) => theme.primary === selectedThemeColor) ||
     THEME_PRESETS[2];
 
- const pageThemeStyle = {
-  "--faculty-primary": activeTheme.primary,
-  "--faculty-primary-rgb": activeTheme.primaryRgb,
-  "--faculty-dark": activeTheme.dark,
-  "--faculty-dark-rgb": activeTheme.darkRgb,
-  "--faculty-secondary": activeTheme.secondary,
-  "--faculty-soft-bg": activeTheme.soft,
-  "--faculty-card-bg": activeTheme.card,
-  "--faculty-muted-bg": activeTheme.muted,
-  "--faculty-button": activeTheme.button,
-  "--faculty-button-hover": activeTheme.buttonHover,
-  "--faculty-search-bg": activeTheme.secondary,
-  "--faculty-header-overlay": activeTheme.headerOverlay,
+  const pageThemeStyle = {
+    "--faculty-primary": activeTheme.primary,
+    "--faculty-primary-rgb": activeTheme.primaryRgb,
+    "--faculty-dark": activeTheme.dark,
+    "--faculty-dark-rgb": activeTheme.darkRgb,
+    "--faculty-secondary": activeTheme.secondary,
+    "--faculty-soft-bg": activeTheme.soft,
+    "--faculty-card-bg": activeTheme.card,
+    "--faculty-muted-bg": activeTheme.muted,
+    "--faculty-button": activeTheme.button,
+    "--faculty-button-hover": activeTheme.buttonHover,
+    "--faculty-search-bg": activeTheme.secondary,
+    "--faculty-header-overlay": activeTheme.headerOverlay,
 
-  "--faculty-footer": activeTheme.footer,
-"--faculty-footer-top": activeTheme.footer,
-"--faculty-footer-rgb": activeTheme.footerRgb,
-"--faculty-footer-bottom": activeTheme.footerBottom,
+    "--faculty-footer": activeTheme.footer,
+    "--faculty-footer-top": activeTheme.footer,
+    "--faculty-footer-rgb": activeTheme.footerRgb,
+    "--faculty-footer-bottom": activeTheme.footerBottom,
 
-  "--faculty-icon-bg": activeTheme.iconBackground,
-  "--faculty-icon-color": activeTheme.iconColor,
-  "--faculty-icon-bg-hover": activeTheme.iconBackgroundHover,
-  "--faculty-icon-hover": activeTheme.iconHover,
-  "--faculty-primary-text": activeTheme.primaryText,
-  "--faculty-secondary-text": activeTheme.secondaryText,
-  "--faculty-pagination-bg": activeTheme.paginationBg,
-  "--faculty-pagination-text": activeTheme.paginationText,
-  "--faculty-pagination-border": activeTheme.paginationBorder,
-  "--faculty-pagination-active-bg": activeTheme.paginationActiveBg,
-  "--faculty-pagination-active-text": activeTheme.paginationActiveText,
-  "--faculty-pagination-arrow-bg": activeTheme.paginationArrowBg,
-  "--faculty-pagination-arrow-color": activeTheme.paginationArrowColor,
-  "--faculty-pagination-disabled-bg": activeTheme.paginationDisabledBg,
-  "--faculty-pagination-disabled-color": activeTheme.paginationDisabledColor,
-  "--faculty-pagination-info-strong": activeTheme.paginationInfoStrong,
-} as React.CSSProperties;
+    "--faculty-icon-bg": activeTheme.iconBackground,
+    "--faculty-icon-color": activeTheme.iconColor,
+    "--faculty-icon-bg-hover": activeTheme.iconBackgroundHover,
+    "--faculty-icon-hover": activeTheme.iconHover,
+    "--faculty-primary-text": activeTheme.primaryText,
+    "--faculty-secondary-text": activeTheme.secondaryText,
+    "--faculty-pagination-bg": activeTheme.paginationBg,
+    "--faculty-pagination-text": activeTheme.paginationText,
+    "--faculty-pagination-border": activeTheme.paginationBorder,
+    "--faculty-pagination-active-bg": activeTheme.paginationActiveBg,
+    "--faculty-pagination-active-text": activeTheme.paginationActiveText,
+    "--faculty-pagination-arrow-bg": activeTheme.paginationArrowBg,
+    "--faculty-pagination-arrow-color": activeTheme.paginationArrowColor,
+    "--faculty-pagination-disabled-bg": activeTheme.paginationDisabledBg,
+    "--faculty-pagination-disabled-color": activeTheme.paginationDisabledColor,
+    "--faculty-pagination-info-strong": activeTheme.paginationInfoStrong,
+  } as React.CSSProperties;
 
   const paginationNumbers = useMemo<(number | "...")[]>(() => {
     if (totalPages <= 6) {
