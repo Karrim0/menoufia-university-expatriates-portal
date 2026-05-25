@@ -86,9 +86,8 @@ function Home() {
       ) : (
         <Carousel News={filteredNews} />
       )}
-
-      <CollegesPrograms />
       <SpecialUnitsSection articleId={66343} lang={1} defaultOpen={false} />
+      <CollegesPrograms />
     </div>
   );
 }
