@@ -2,7 +2,7 @@ import api from "./api";
 import axios from "axios";
 
 const facultyApi = axios.create({
-  baseURL: "http://193.227.24.31:5050/api",
+  baseURL: "https://stage.menofia.edu.eg/api",
   headers: {
     "Content-Type": "application/json",
   },
