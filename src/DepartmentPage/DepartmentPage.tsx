@@ -1,7 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useParams, useSearchParams } from "react-router-dom";
-import { Calendar, ChevronDown, ChevronLeft, X } from "lucide-react";
-import { useTranslation } from "react-i18next";
+import {
+  Calendar,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  X,
+} from "lucide-react";import { useTranslation } from "react-i18next";
 
 import newsService from "../Services/newsService";
 import { SmartImage } from "../utils/imageHelper";
