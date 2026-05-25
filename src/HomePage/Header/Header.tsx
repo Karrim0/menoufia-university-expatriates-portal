@@ -516,17 +516,36 @@ const getNavItems = (t: any) => [
 
 const isDesktop = () => window.innerWidth > 1100;
 
+const normalizeInternalLink = (url?: string) => {
+  const value = String(url || "").trim();
+
+  if (!value || value === "#") return "/";
+  if (isExternalLink(value)) return value;
+  if (value.startsWith("/")) return value;
+
+  return `/${value}`;
+};
+
 const mapMenuItem = (item: any): any => {
-  const hasSubMenus =
-    Array.isArray(item.subMenus) &&
-    item.subMenus.length > 0 &&
-    item.subMenus.some((s: any) => s !== null && typeof s === "object");
+  const childrenSource = Array.isArray(item?.subMenus)
+    ? item.subMenus
+    : Array.isArray(item?.children)
+    ? item.children
+    : [];
+
+  const validChildren = childrenSource.filter(
+    (child: any) => child !== null && typeof child === "object"
+  );
+
+  const rawUrl = item?.url || item?.link || "/";
 
   return {
-    key: String(item.id),
-    label: item.title,
-    link: item.url || "/",
-    ...(hasSubMenus ? { children: item.subMenus.map(mapMenuItem) } : {}),
+    key: String(item?.id ?? item?.menuId ?? item?.key ?? item?.title),
+    label: item?.title ?? item?.label ?? "",
+    link: normalizeInternalLink(rawUrl),
+    ...(validChildren.length > 0
+      ? { children: validChildren.map(mapMenuItem) }
+      : {}),
   };
 };
 
@@ -741,15 +760,29 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    newsService
-      .getFullMenu(currentLang?.id || 1)
-      .then((data: any) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setAboutChildren(data.map(mapMenuItem));
-        }
-      })
-      .catch(() => setAboutChildren([]));
-  }, [currentLang?.id]);
+  let mounted = true;
+
+  newsService
+    .getFullMenu(currentLang?.id || 1)
+    .then((data: any) => {
+      if (!mounted) return;
+
+      const result = Array.isArray(data)
+        ? data
+        : Array.isArray(data?.result)
+        ? data.result
+        : [];
+
+      setAboutChildren(result.map(mapMenuItem));
+    })
+    .catch(() => {
+      if (mounted) setAboutChildren([]);
+    });
+
+  return () => {
+    mounted = false;
+  };
+}, [currentLang?.id]);
 
   const NAV_ITEMS = useMemo(() => {
     const items = getNavItems(t);

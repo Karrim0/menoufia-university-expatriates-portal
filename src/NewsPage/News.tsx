@@ -40,39 +40,6 @@ const DATE_FILTERS = [
   { value: 4, labelAr: "آخر شهر", labelEn: "Last Month" },
 ];
 
-const LANGUAGE_IDS = {
-  ar: 1,
-  en: 2,
-  fr: 3,
-  ja: 23,
-  de: 24,
-  tr: 25,
-  fa: 26,
-  ru: 27,
-  ch: 28,
-  it: 29,
-};
-
-const detectSearchLanguageId = (text: string, fallbackLangId: number) => {
-  const value = text.trim();
-
-  if (!value) return fallbackLangId;
-
-  if (/[پچژگک‌ی]/.test(value)) return LANGUAGE_IDS.fa;
-  if (/[\u0600-\u06FF]/.test(value)) return LANGUAGE_IDS.ar;
-  if (/[\u0400-\u04FF]/.test(value)) return LANGUAGE_IDS.ru;
-  if (/[\u3040-\u30FF\u31F0-\u31FF]/.test(value)) return LANGUAGE_IDS.ja;
-  if (/[\u4E00-\u9FFF]/.test(value)) return LANGUAGE_IDS.ch;
-  if (/[çğıöşüÇĞİÖŞÜ]/.test(value)) return LANGUAGE_IDS.tr;
-  if (/[äöüßÄÖÜ]/.test(value)) return LANGUAGE_IDS.de;
-  if (/[âæçêëîïôœûüÿÂÆÇÊËÎÏÔŒÛÜŸ]/.test(value))
-    return LANGUAGE_IDS.fr;
-  if (/[àèéìíîòóùúÀÈÉÌÍÎÒÓÙÚ]/.test(value))
-    return LANGUAGE_IDS.it;
-
-  return LANGUAGE_IDS.en;
-};
-
 function News() {
   const savedLang = JSON.parse(localStorage.getItem("lang") || "{}");
   const { t } = useTranslation("News");
@@ -86,8 +53,10 @@ function News() {
   const [langId, setLangId] = useState(Number(savedLang?.id) || 2);
   const [moveNext, setMoveNext] = useState(false);
   const [movePrevious, setMovePrevious] = useState(false);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [appliedSearchTerm, setAppliedSearchTerm] = useState("");
+
   const [isLoading, setIsLoading] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
 
@@ -110,15 +79,21 @@ function News() {
 
   useEffect(() => {
     let count = 0;
+
     if (dateFilter !== 0) count++;
     if (fromDate) count++;
     if (toDate) count++;
+
     setActiveFiltersCount(count);
   }, [dateFilter, fromDate, toDate]);
 
   useEffect(() => {
-    if (savedLang?.id) setLangId(Number(savedLang.id));
+    if (savedLang?.id) {
+      setLangId(Number(savedLang.id));
+    }
   }, [savedLang?.id]);
+
+  const getCurrentLanguageId = () => Number(langId) || 2;
 
   const formatDate = (rawDate: string) => {
     if (!rawDate) return "";
@@ -128,18 +103,6 @@ function News() {
       month: "short",
       day: "numeric",
     });
-  };
-
-  const getSearchLanguageId = (term: string) => {
-    return term.trim()
-      ? detectSearchLanguageId(term, Number(langId))
-      : Number(langId);
-  };
-
-  const getActiveSearchLangId = () => {
-    return appliedSearchTerm
-      ? detectSearchLanguageId(appliedSearchTerm, Number(langId))
-      : Number(langId);
   };
 
   const getTotalPagesFromResponse = (response: any, page: number) => {
@@ -170,10 +133,8 @@ function News() {
   };
 
   const buildParams = (page: number, term: string) => {
-    const searchLanguageId = getSearchLanguageId(term);
-
     return {
-      languageId: searchLanguageId,
+      languageId: getCurrentLanguageId(),
       pageIndex: page,
       pageSize,
       search: term,
@@ -215,13 +176,13 @@ function News() {
       return;
     }
 
-    const detectedLangId = detectSearchLanguageId(trimmed, Number(langId));
+    const activeLangId = getCurrentLanguageId();
 
     setIsLoading(true);
 
     try {
       const res = await newsService.getUniversityNews({
-        languageId: detectedLangId,
+        languageId: activeLangId,
         pageIndex: page,
         pageSize,
         search: trimmed,
@@ -243,7 +204,7 @@ function News() {
 
       const abbrRes = await newsService.searchByAbbreviation({
         abbreviation: trimmed,
-        lid: detectedLangId,
+        lid: activeLangId,
         pageIndex: page,
         pageSize,
       });
@@ -711,7 +672,7 @@ function News() {
                     state={{
                       news,
                       newsType: "university",
-                      lid: getActiveSearchLangId(),
+                      lid: getCurrentLanguageId(),
                     }}
                     className="news-card-link"
                   >
