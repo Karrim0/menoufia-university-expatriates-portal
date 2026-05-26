@@ -3227,3 +3227,776 @@
 .faculty-page-wrapper .news-card:hover .news-card-image img {
   transform: scale(1.015) !important;
 }
+
+/* ===== Faculty mobile pagination and footer polish ===== */
+@media (max-width: 768px) {
+  .faculty-page-wrapper .news-pagination {
+    width: calc(100% - 24px) !important;
+    max-width: 420px !important;
+    min-height: 0 !important;
+    margin: 28px auto 18px !important;
+    padding: 12px !important;
+    gap: 10px !important;
+    border-radius: 18px !important;
+    flex-direction: column-reverse !important;
+    align-items: stretch !important;
+    overflow: hidden !important;
+  }
+
+  .faculty-page-wrapper .news-page-info {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 34px !important;
+    padding: 0 8px !important;
+    justify-content: center !important;
+    font-size: 12.5px !important;
+    line-height: 1.4 !important;
+  }
+
+  .faculty-page-wrapper .news-page-info strong {
+    font-size: 14px !important;
+  }
+
+  .faculty-page-wrapper .news-pagination-pages {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 2px 4px !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .faculty-page-wrapper .news-pagination-pages::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .faculty-page-wrapper .news-pagination-arrow,
+  .faculty-page-wrapper .news-pagination-number,
+  .faculty-page-wrapper .news-pagination-dots {
+    width: 36px !important;
+    min-width: 36px !important;
+    height: 36px !important;
+    border-radius: 11px !important;
+    font-size: 13px !important;
+  }
+
+  .faculty-page-wrapper .news-pagination-arrow {
+    border-radius: 50% !important;
+  }
+
+  .faculty-page-wrapper .news-pagination-dots {
+    width: 24px !important;
+    min-width: 24px !important;
+  }
+
+  .faculty-links-footer-top {
+    min-height: 0 !important;
+    padding: 18px 18px 8px !important;
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+
+  .faculty-footer-column {
+    min-height: 0 !important;
+    padding: 18px 8px 20px !important;
+    border-left: none !important;
+    border-bottom: 1px solid var(--footer-line) !important;
+  }
+
+  .faculty-footer-column:last-child {
+    border-bottom: none !important;
+  }
+
+  .faculty-footer-column h3 {
+    margin-bottom: 14px !important;
+    padding-top: 48px !important;
+    padding-bottom: 8px !important;
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+  }
+
+  .faculty-footer-column h3::before {
+    width: 42px !important;
+    height: 42px !important;
+  }
+
+  .faculty-footer-column h3::after {
+    top: 10px !important;
+    font-size: 20px !important;
+  }
+
+  .faculty-footer-links-scroll {
+    max-height: 108px !important;
+  }
+
+  .faculty-footer-column.expanded .faculty-footer-links-scroll {
+    max-height: 170px !important;
+  }
+
+  .faculty-footer-links-list {
+    align-items: flex-end !important;
+    gap: 6px !important;
+  }
+
+  .faculty-footer-link {
+    width: auto !important;
+    max-width: 230px !important;
+    margin-inline-start: auto !important;
+    margin-inline-end: 0 !important;
+    justify-content: flex-start !important;
+    text-align: right !important;
+    font-size: 12px !important;
+    line-height: 1.55 !important;
+  }
+
+  .faculty-links-footer[dir="rtl"] .faculty-footer-link {
+    position: relative !important;
+    display: block !important;
+    padding-inline-start: 18px !important;
+    direction: rtl !important;
+    text-align: right !important;
+  }
+
+  .faculty-links-footer[dir="rtl"] .faculty-footer-link::after {
+    position: absolute !important;
+    inset-inline-start: 0 !important;
+    top: 0.72em !important;
+    transform: translateY(-50%) !important;
+    margin-inline-start: 0 !important;
+    margin-inline-end: 0 !important;
+  }
+
+  .faculty-links-footer[dir="ltr"] .faculty-footer-links-list {
+    align-items: flex-start !important;
+  }
+
+  .faculty-links-footer[dir="ltr"] .faculty-footer-link {
+    margin-inline-start: 0 !important;
+    margin-inline-end: auto !important;
+    text-align: left !important;
+    direction: ltr !important;
+  }
+
+  .faculty-links-footer[dir="ltr"] .faculty-footer-link::after {
+    order: -1 !important;
+  }
+
+  .faculty-footer-more-btn {
+    width: auto !important;
+    min-width: 86px !important;
+    height: 34px !important;
+    margin-top: 12px !important;
+    padding: 0 12px !important;
+    font-size: 11px !important;
+  }
+
+  .faculty-links-footer-bottom {
+    min-height: 0 !important;
+    padding: 24px 18px 28px !important;
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+
+  .faculty-footer-contact,
+  .faculty-footer-logo-area,
+  .faculty-footer-address {
+    min-height: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  .faculty-footer-logo-area {
+    order: -1 !important;
+  }
+
+  .faculty-footer-logo-area img {
+    width: 170px !important;
+  }
+
+  .faculty-footer-bottom-title {
+    justify-content: center !important;
+    margin-bottom: 14px !important;
+    font-size: 14px !important;
+  }
+
+  .faculty-footer-phones {
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    gap: 8px 14px !important;
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+  }
+
+  .faculty-footer-social {
+    margin-top: 16px !important;
+    justify-content: center !important;
+  }
+
+  .faculty-footer-address p {
+    text-align: center !important;
+    font-size: 13px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .faculty-page-wrapper .news-pagination {
+    width: calc(100% - 20px) !important;
+    max-width: 360px !important;
+    padding: 10px !important;
+    border-radius: 16px !important;
+  }
+
+  .faculty-page-wrapper .news-pagination-arrow,
+  .faculty-page-wrapper .news-pagination-number,
+  .faculty-page-wrapper .news-pagination-dots {
+    width: 32px !important;
+    min-width: 32px !important;
+    height: 32px !important;
+    border-radius: 10px !important;
+    font-size: 12px !important;
+  }
+
+  .faculty-page-wrapper .news-pagination-arrow {
+    border-radius: 50% !important;
+  }
+
+  .faculty-page-wrapper .news-page-info {
+    min-height: 30px !important;
+    font-size: 11.5px !important;
+  }
+
+  .faculty-links-footer-top {
+    padding-inline: 14px !important;
+  }
+
+  .faculty-footer-link {
+    max-width: 200px !important;
+    font-size: 11.5px !important;
+  }
+}
+
+/* ===== Faculty mobile header, nav and slider final pass ===== */
+@media (max-width: 768px) {
+  .faculty-top-header {
+    min-height: 86px !important;
+    padding: 10px 0 !important;
+  }
+
+  .faculty-top-header-inner {
+    width: calc(100% - 20px) !important;
+    min-height: 66px !important;
+    padding: 0 !important;
+    grid-template-columns: 34px minmax(0, 1fr) !important;
+    column-gap: 8px !important;
+  }
+
+  .faculty-back-btn {
+    width: 34px !important;
+    height: 34px !important;
+    margin-top: 0 !important;
+    align-self: center !important;
+  }
+
+  .faculty-back-btn i {
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    font-size: 10px !important;
+  }
+
+  .faculty-top-brand {
+    width: 100% !important;
+    height: auto !important;
+    grid-template-columns: minmax(0, 1fr) 1px 52px !important;
+    column-gap: 8px !important;
+    justify-self: stretch !important;
+  }
+
+  .faculty-top-brand-text {
+    width: 100% !important;
+    height: auto !important;
+    min-width: 0 !important;
+  }
+
+  .faculty-top-college-name {
+    width: 100% !important;
+    max-width: none !important;
+    margin-bottom: 4px !important;
+    font-size: 17px !important;
+    line-height: 1.25 !important;
+    white-space: normal !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 1 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  .faculty-top-university-name {
+    width: 100% !important;
+    max-width: none !important;
+    font-size: 10px !important;
+    line-height: 1.35 !important;
+    white-space: normal !important;
+  }
+
+  .faculty-top-brand::after {
+    height: 46px !important;
+  }
+
+  .faculty-top-logo-wrap {
+    width: 52px !important;
+    height: 52px !important;
+    min-width: 52px !important;
+    border-radius: 12px !important;
+    padding: 5px !important;
+  }
+
+  .faculty-menu-section {
+    padding-top: 8px !important;
+  }
+
+  .faculty-menu-wrapper {
+    padding: 0 10px !important;
+  }
+
+  .faculty-menu-bar {
+    min-height: 44px !important;
+    padding: 6px !important;
+    justify-content: flex-start !important;
+    gap: 6px !important;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    flex-wrap: nowrap !important;
+    border-radius: 10px !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .faculty-menu-bar::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .faculty-menu-item.level-0 {
+    flex: 0 0 auto !important;
+    min-height: 34px !important;
+    min-width: auto !important;
+  }
+
+  .faculty-menu-item.level-0:not(:last-child)::after {
+    display: none !important;
+  }
+
+  .faculty-menu-link {
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 0 12px !important;
+    border-radius: 8px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+  }
+
+  .faculty-color-switcher {
+    flex: 0 0 36px !important;
+    min-height: 34px !important;
+  }
+
+  .faculty-color-palette-btn {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 8px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    font-size: 17px !important;
+  }
+
+  .faculty-sub-menu {
+    min-width: min(260px, calc(100vw - 32px)) !important;
+    max-width: calc(100vw - 32px) !important;
+  }
+
+  .faculty-news-hero {
+    padding-top: 14px !important;
+  }
+
+  .faculty-page-wrapper .faculty-news-hero .news-hero-content {
+    width: calc(100% - 20px) !important;
+  }
+
+  .faculty-highlight-slider {
+    margin-bottom: 18px !important;
+  }
+
+  .faculty-highlight-image-wrap {
+    aspect-ratio: auto !important;
+    min-height: 0 !important;
+    height: clamp(250px, 72vw, 330px) !important;
+    border-radius: 14px !important;
+  }
+
+  .faculty-highlight-image,
+  .faculty-highlight-image-wrap img {
+    object-position: center top !important;
+  }
+
+  .faculty-highlight-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.08) 0%,
+      rgba(0, 0, 0, 0.54) 60%,
+      rgba(0, 0, 0, 0.78) 100%
+    ) !important;
+  }
+
+  .faculty-highlight-content {
+    right: 50% !important;
+    left: auto !important;
+    bottom: 42px !important;
+    width: calc(100% - 74px) !important;
+    min-height: 68px !important;
+    max-height: 96px !important;
+    padding: 11px 14px !important;
+    transform: translateX(50%) !important;
+    border-radius: 14px !important;
+    background: rgba(var(--faculty-primary-rgb), 0.78) !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  .faculty-highlight-content h2 {
+    font-size: 13.5px !important;
+    line-height: 1.45 !important;
+    text-align: center !important;
+    -webkit-line-clamp: 2 !important;
+  }
+
+  .faculty-highlight-arrow {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    left: 12px !important;
+    bottom: 54px !important;
+    z-index: 5 !important;
+  }
+
+  .faculty-highlight-arrow i {
+    font-size: 12px !important;
+  }
+
+  .faculty-highlight-dots {
+    left: 50% !important;
+    bottom: 16px !important;
+    transform: translateX(-50%) !important;
+    gap: 6px !important;
+    max-width: calc(100% - 72px) !important;
+    overflow: hidden !important;
+  }
+
+  .faculty-highlight-dot {
+    width: 6px !important;
+    height: 6px !important;
+    min-width: 6px !important;
+  }
+
+  .faculty-slider-control,
+  .faculty-highlight-nav button,
+  .faculty-highlight-control,
+  .faculty-slider-control-right,
+  .faculty-slider-control-left {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .faculty-top-header-inner {
+    width: calc(100% - 16px) !important;
+    grid-template-columns: 32px minmax(0, 1fr) !important;
+  }
+
+  .faculty-top-brand {
+    grid-template-columns: minmax(0, 1fr) 1px 48px !important;
+  }
+
+  .faculty-top-college-name {
+    font-size: 16px !important;
+  }
+
+  .faculty-top-logo-wrap {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+  }
+
+  .faculty-menu-wrapper {
+    padding-inline: 8px !important;
+  }
+
+  .faculty-menu-link {
+    height: 32px !important;
+    min-height: 32px !important;
+    padding-inline: 10px !important;
+    font-size: 10px !important;
+  }
+
+  .faculty-highlight-image-wrap {
+    height: clamp(230px, 70vw, 300px) !important;
+  }
+
+  .faculty-highlight-content {
+    width: calc(100% - 64px) !important;
+    bottom: 40px !important;
+    min-height: 64px !important;
+    max-height: 88px !important;
+    padding: 10px 12px !important;
+  }
+
+  .faculty-highlight-content h2 {
+    font-size: 12.5px !important;
+  }
+
+  .faculty-highlight-arrow {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    bottom: 52px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .faculty-highlight-arrow {
+    display: none !important;
+  }
+
+  .faculty-highlight-nav {
+    position: absolute !important;
+    top: 50% !important;
+    z-index: 6 !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    color: var(--faculty-primary) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transform: translateY(-50%) !important;
+    box-shadow: 0 8px 20px rgba(var(--faculty-primary-rgb), 0.22) !important;
+  }
+
+  .faculty-highlight-prev {
+    left: 12px !important;
+    right: auto !important;
+  }
+
+  .faculty-highlight-next {
+    right: 12px !important;
+    left: auto !important;
+  }
+
+  .faculty-highlight-nav svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .faculty-page-wrapper .news-pagination-pages {
+    justify-content: center !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .faculty-highlight-nav {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+  }
+
+  .faculty-highlight-prev {
+    left: 10px !important;
+  }
+
+  .faculty-highlight-next {
+    right: 10px !important;
+  }
+}
+
+/* ===== Faculty tiny mobile dropdown and pagination hardening ===== */
+@media (max-width: 768px) {
+  .faculty-page-wrapper .news-pagination {
+    width: calc(100% - 16px) !important;
+    max-width: 340px !important;
+    padding: 8px !important;
+  }
+
+  .faculty-page-wrapper .news-pagination-pages {
+    gap: 5px !important;
+    justify-content: flex-start !important;
+    padding-bottom: 2px !important;
+  }
+
+  .faculty-page-wrapper .news-pagination-arrow,
+  .faculty-page-wrapper .news-pagination-number,
+  .faculty-page-wrapper .news-pagination-dots {
+    width: 28px !important;
+    min-width: 28px !important;
+    height: 28px !important;
+    border-radius: 8px !important;
+    font-size: 10.5px !important;
+  }
+
+  .faculty-page-wrapper .news-pagination-arrow {
+    border-radius: 50% !important;
+  }
+
+  .faculty-page-wrapper .news-pagination-dots {
+    width: 16px !important;
+    min-width: 16px !important;
+    letter-spacing: 0 !important;
+  }
+
+  .faculty-page-wrapper .news-page-info {
+    min-height: 28px !important;
+    font-size: 10.5px !important;
+  }
+
+  .faculty-page-wrapper .news-page-info strong {
+    font-size: 12px !important;
+  }
+
+  .faculty-menu-section,
+  .faculty-menu-wrapper {
+    overflow: visible !important;
+  }
+
+  .faculty-menu-bar {
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    position: relative !important;
+  }
+
+  .faculty-menu-item.level-0 > .faculty-sub-menu {
+    position: fixed !important;
+    top: 136px !important;
+    right: 10px !important;
+    left: 10px !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    max-height: min(58vh, 420px) !important;
+    padding: 8px !important;
+    overflow-y: auto !important;
+    border-radius: 12px !important;
+    z-index: 99999 !important;
+  }
+
+  .faculty-sub-menu .faculty-menu-item {
+    min-width: 0 !important;
+  }
+
+  .faculty-sub-menu .faculty-menu-link {
+    width: 100% !important;
+    min-height: 38px !important;
+    height: auto !important;
+    padding: 9px 12px !important;
+    justify-content: space-between !important;
+    border-radius: 8px !important;
+    font-size: 12px !important;
+    white-space: normal !important;
+    text-align: right !important;
+    line-height: 1.45 !important;
+  }
+
+  .faculty-sub-menu .faculty-sub-menu {
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    margin: 6px 0 0 !important;
+    padding: 6px !important;
+    box-shadow: none !important;
+    border-radius: 8px !important;
+    border-inline-start: 3px solid var(--faculty-primary) !important;
+  }
+
+  .faculty-color-options {
+    position: fixed !important;
+    top: 136px !important;
+    left: 10px !important;
+    right: 10px !important;
+    justify-content: center !important;
+    z-index: 100000 !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .faculty-page-wrapper .news-pagination {
+    max-width: 320px !important;
+  }
+
+  .faculty-page-wrapper .news-pagination-arrow,
+  .faculty-page-wrapper .news-pagination-number,
+  .faculty-page-wrapper .news-pagination-dots {
+    width: 26px !important;
+    min-width: 26px !important;
+    height: 26px !important;
+    font-size: 10px !important;
+  }
+
+  .faculty-page-wrapper .news-pagination-dots {
+    width: 14px !important;
+    min-width: 14px !important;
+  }
+
+  .faculty-menu-item.level-0 > .faculty-sub-menu,
+  .faculty-color-options {
+    top: 128px !important;
+    right: 8px !important;
+    left: 8px !important;
+  }
+}
+
+/* ===== Faculty footer mobile list alignment like reference ===== */
+@media (max-width: 768px) {
+  .faculty-links-footer[dir="rtl"] .faculty-footer-links-list {
+    width: min(190px, 100%) !important;
+    margin-right: 0 !important;
+    margin-left: auto !important;
+    align-items: stretch !important;
+  }
+
+  .faculty-links-footer[dir="rtl"] .faculty-footer-link {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding-right: 18px !important;
+    padding-left: 0 !important;
+    text-align: right !important;
+    line-height: 1.7 !important;
+  }
+
+  .faculty-links-footer[dir="rtl"] .faculty-footer-link::after {
+    right: 0 !important;
+    left: auto !important;
+    top: 0.82em !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .faculty-links-footer[dir="rtl"] .faculty-footer-links-list {
+    width: min(178px, 100%) !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
+  }
+}

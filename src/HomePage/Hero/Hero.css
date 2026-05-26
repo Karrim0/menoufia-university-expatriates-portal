@@ -312,56 +312,74 @@
 
 @media (max-width: 767px) {
   :root {
-    --hero-height: calc(100dvh - var(--nav-height));
-    --hero-radius: 0;
-    --hero-card-width: calc(100% - 44px);
-    --hero-card-bottom: 72px;
-    --hero-card-inset: 22px;
-    --hero-card-pad-v: 18px;
-    --hero-card-pad-h: 20px;
+    --hero-height: clamp(520px, 72dvh, 680px);
+    --hero-radius: 18px;
+    --hero-card-width: calc(100% - 24px);
+    --hero-card-bottom: 56px;
+    --hero-card-inset: 12px;
+    --hero-card-pad-v: 14px;
+    --hero-card-pad-h: 16px;
     --hero-font-size: 16px;
-    --hero-arrow-size: 42px;
-    --hero-dot-size: 8px;
-    --hero-dot-active: 24px;
+    --hero-arrow-size: 34px;
+    --hero-dot-size: 6px;
+    --hero-dot-active: 20px;
   }
 
   .hero-carousel-main {
-    margin: 0;
-    border-radius: 0;
-    min-height: calc(100dvh - var(--nav-height));
+    height: var(--hero-height);
+    min-height: 0;
+    margin: 10px 10px 0;
+    border-radius: var(--hero-radius);
   }
 
-  .hero-carousel-image {
-    object-position: center top;
+  .hero-image-frame-contain .hero-carousel-image-bg {
+    display: none;
+  }
+
+  .hero-carousel-image,
+  .hero-carousel-image-contain {
+    object-fit: cover;
+    object-position: center 24%;
   }
 
   .hero-content-card {
-    min-height: 150px;
-    max-height: 230px;
-    border-radius: 18px;
-    gap: 14px;
+    min-height: 106px;
+    max-height: 142px;
+    border-radius: 14px;
+    gap: 10px;
+    background: linear-gradient(
+      135deg,
+      rgba(8, 26, 51, 0.86),
+      rgba(8, 26, 51, 0.64)
+    );
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
   .hero-main-heading {
     -webkit-line-clamp: 3;
-    line-height: 1.45;
+    line-height: 1.55;
   }
 
   .hero-pagination-dots {
-    bottom: 34px;
+    bottom: 24px;
+    gap: 8px;
+  }
+
+  .hero-arrow-wrapper {
+    display: none;
   }
 }
 
 @media (max-width: 430px) {
   :root {
-    --hero-height: calc(100dvh - var(--nav-height));
-    --hero-card-width: calc(100% - 36px);
-    --hero-card-bottom: 70px;
-    --hero-card-inset: 18px;
+    --hero-height: clamp(500px, 68dvh, 620px);
+    --hero-card-width: calc(100% - 22px);
+    --hero-card-bottom: 48px;
+    --hero-card-inset: 11px;
     --hero-card-pad-v: 16px;
-    --hero-card-pad-h: 18px;
+    --hero-card-pad-h: 14px;
     --hero-font-size: 15.5px;
-    --hero-arrow-size: 40px;
   }
 }
 /* ─── Clickable slide ─── */
@@ -425,16 +443,18 @@
 /* Responsive */
 @media (max-width: 767px) {
   .hero-side-arrow {
-    width: 42px;
-    height: 42px;
+    width: 34px;
+    height: 34px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
   }
 
   .hero-side-arrow-prev {
-    left: 14px;
+    left: 12px;
   }
 
   .hero-side-arrow-next {
-    right: 14px;
+    right: 12px;
   }
 
   .hero-side-arrow i {
@@ -444,8 +464,8 @@
 
 @media (max-width: 430px) {
   .hero-side-arrow {
-    width: 38px;
-    height: 38px;
+    width: 32px;
+    height: 32px;
   }
 
   .hero-side-arrow-prev {

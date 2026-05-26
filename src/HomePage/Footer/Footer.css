@@ -14,7 +14,6 @@
 ───────────────────────────── */
 .ft-grid {
   width: 100%;
-  min-height: 371px;
   background: #081a33;
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -23,7 +22,7 @@
 
 .ft-col {
   min-width: 0;
-  padding: 34px 30px 28px;
+  padding: clamp(26px, 2.2vw, 34px) clamp(18px, 1.7vw, 30px) 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -77,7 +76,7 @@
   margin: 0;
   min-height: 50px;
   color: #ffffff;
-  font-size: 20px;
+  font-size: clamp(17px, 1.1vw, 20px);
   font-weight: 800;
   line-height: 1.15;
   display: flex;
@@ -96,9 +95,9 @@
 }
 
 /* Links */
-.ft-links-panel {
+.ft-links-box {
   width: 100%;
-  height: 128px;
+  min-height: 128px;
   overflow: hidden;
   padding-inline-start: 4px;
   padding-inline-end: 0;
@@ -106,25 +105,26 @@
   scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
 }
 
-.ft-links-panel.is-open {
+.ft-links-box.scrollable {
+  max-height: 190px;
   overflow-y: auto;
   scroll-behavior: smooth;
 }
 
-.ft-links-panel::-webkit-scrollbar {
+.ft-links-box::-webkit-scrollbar {
   width: 4px;
 }
 
-.ft-links-panel::-webkit-scrollbar-track {
+.ft-links-box::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.ft-links-panel::-webkit-scrollbar-thumb {
+.ft-links-box::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.14);
   border-radius: 999px;
 }
 
-.ft-col:hover .ft-links-panel::-webkit-scrollbar-thumb {
+.ft-col:hover .ft-links-box::-webkit-scrollbar-thumb {
   background: color-mix(in srgb, var(--ac) 55%, transparent);
 }
 
@@ -164,7 +164,7 @@
 .ft-link-text {
   flex: 1;
   color: rgba(255, 255, 255, 0.94);
-  font-size: 17px;
+  font-size: clamp(14px, 0.95vw, 17px);
   font-weight: 500;
   line-height: 1.25;
   text-align: right;
@@ -215,18 +215,17 @@
    Bottom Footer
 ───────────────────────────── */
 .ft-modern-bottom {
-  min-height: 299px;
   background:#0F2340 ;
-  padding: 36px 54px 38px;
+  padding: clamp(30px, 3vw, 36px) clamp(18px, 4vw, 54px) 38px;
   color: #ffffff;
   direction: ltr;
 }
 
 .ft-contact-row {
   display: grid;
-  grid-template-columns: 1fr 1.45fr 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(180px, 0.9fr) minmax(0, 1fr);
   align-items: center;
-  gap: 42px;
+  gap: clamp(22px, 3vw, 42px);
 
 }
 
@@ -238,7 +237,7 @@
 .ft-contact-card {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 18px;
   direction: rtl;
 }
@@ -261,8 +260,8 @@
 
 /* أيقونات الجزء السفلي */
 .ft-contact-icon {
-  width: 62px;
-  height: 62px;
+  width: clamp(52px, 4vw, 62px);
+  height: clamp(52px, 4vw, 62px);
   border-radius: 10px;
   border: 2px solid rgba(92, 147, 108, 0.9);
   color: #5c936c;
@@ -273,7 +272,7 @@
 }
 
 .ft-contact-icon i {
-  font-size: 32px;
+  font-size: clamp(25px, 2.3vw, 32px);
 }
 
 /* النص */
@@ -284,7 +283,7 @@
 .ft-contact-text h4 {
   margin: 0 0 10px;
   color: #ffffff;
-  font-size: 19px;
+  font-size: clamp(16px, 1.2vw, 19px);
   font-weight: 800;
   line-height: 1.2;
 }
@@ -292,7 +291,7 @@
 .ft-contact-text p {
   margin: 0 0 5px;
   color: rgba(255, 255, 255, 0.9);
-  font-size: 13px;
+  font-size: clamp(12px, 0.9vw, 13px);
   font-weight: 500;
   line-height: 1.45;
 }
@@ -301,6 +300,7 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
+  flex-wrap: wrap;
   margin-top: 6px;
   color: rgba(255, 255, 255, 0.42);
   font-size: 12px;
@@ -319,7 +319,7 @@
 }
 
 .ft-main-logo {
-  width: 295px;
+  width: clamp(210px, 20vw, 295px);
   max-width: 100%;
   height: auto;
   display: block;
@@ -346,6 +346,7 @@
   justify-content: center;
   gap: 14px;
   direction: rtl;
+  min-width: 0;
 }
 
 .ft-social-center strong {
@@ -358,6 +359,8 @@
 .ft-social-icons {
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 9px;
 }
 
@@ -439,6 +442,10 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.22);
   }
 
+  .ft-col:nth-child(n) {
+    border-left: 1px solid rgba(255, 255, 255, 0.22);
+  }
+
   .ft-col:nth-child(3n + 1) {
     border-left: none;
   }
@@ -470,6 +477,8 @@
 
   .ft-contact-row {
     grid-template-columns: 1fr;
+    justify-items: stretch;
+    gap: 22px;
   }
 
   .ft-contact-with-border {
@@ -489,6 +498,7 @@
   .ft-bottom-links-row {
     flex-direction: column-reverse;
     text-align: center;
+    gap: 18px;
   }
 
   .ft-policy-links {
@@ -504,11 +514,20 @@
 
   .ft-col {
     border-left: none !important;
-    padding: 34px 22px 30px;
+    padding: 30px 22px 28px;
   }
 
-  .ft-links-panel {
-    height: 130px;
+  .ft-icon-wrap {
+    width: 70px;
+    height: 70px;
+  }
+
+  .ft-icon-glyph {
+    font-size: 31px;
+  }
+
+  .ft-links-box {
+    min-height: auto;
   }
 
   .ft-modern-bottom {
@@ -518,6 +537,8 @@
   .ft-contact-card {
     flex-direction: column;
     text-align: center;
+    justify-content: center;
+    gap: 12px;
   }
 
   .ft-contact-text {
@@ -534,5 +555,25 @@
 
   .ft-policy-links a {
     padding-inline: 14px;
+    margin-block: 4px;
+  }
+}
+
+@media (max-width: 380px) {
+  .ft-modern-bottom {
+    padding-inline: 14px;
+  }
+
+  .ft-col {
+    padding-inline: 16px;
+  }
+
+  .ft-policy-links {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .ft-policy-links a {
+    border-inline-start: none !important;
   }
 }

@@ -334,7 +334,7 @@ const Footer: React.FC = () => {
       <div className="ft-contact-text">
         <h4>{isRTL ? "تواصل معنا" : "Contact Us"}</h4>
         <p>0482222170</p>
-        <span>
+        <span className="ft-work-time">
           <i className="fa-regular fa-clock" />
           {isRTL ? " ساعات العمل : من 8 صباحا - 4 مساء" : "Working hours: 8 AM - 4 PM"}
         </span>
