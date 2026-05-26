@@ -2,7 +2,7 @@ import api from "./api";
 import axios from "axios";
 
 const facultyApi = axios.create({
-  baseURL: "http://193.227.24.31:5050/api",
+  baseURL: "https://stage.menofia.edu.eg/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -220,6 +220,17 @@ const newsService = {
 
     return response.data;
   },
+  getCollegesLogos: async ({ langId = 1, pageIndex = 1, pageSize = 100 }) => {
+  const response = await facultyApi.get("/faculty-news/GetCollegesLogos", {
+    params: {
+      langId,
+      PageIndex: pageIndex,
+      PageSize: pageSize,
+    },
+  });
+
+  return response.data;
+},
 };
 
 export default newsService;

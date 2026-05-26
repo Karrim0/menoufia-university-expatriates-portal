@@ -1,23 +1,32 @@
 /* ─── Google Fonts ─────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Noto+Kufi+Arabic:wght@400;500;600;700&family=Almarai:wght@400;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Noto+Kufi+Arabic:wght@400;500;600;700&family=Almarai:wght@400;700;800&display=swap");
 
+body,
+button,
+input,
+textarea,
+select {
+  font-family: "Cairo", sans-serif;
+}
 :root {
-  --MNF_Body_EN:    "Source Sans 3", sans-serif;
-  --MNF_Heading_EN: "Montserrat",    sans-serif;
-  --MNF_Body_AR:    "Noto Kufi Arabic", sans-serif;
-  --MNF_Heading_AR: "Almarai",       sans-serif;
+  --MNF_Body_EN: "Source Sans 3", sans-serif;
+  --MNF_Heading_EN: "Montserrat", sans-serif;
+  --MNF_Body_AR: "Noto Kufi Arabic", sans-serif;
+  --MNF_Heading_AR: "Almarai", sans-serif;
 
   --MNF_Heading_Size1: 64px;
   --MNF_Heading_Size2: 32px;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* body يتغير font تلقائياً مع اللغة */
 html[dir="ltr"] body {
   font-family: var(--MNF_Body_EN);
 }

@@ -1,6 +1,23 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link, useLocation, useParams, useSearchParams } from "react-router-dom";
-import { Calendar, ChevronDown, ChevronLeft, X } from "lucide-react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import {
+  Link,
+  useLocation,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
+import {
+  Calendar,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  X,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import newsService from "../Services/newsService";
@@ -44,6 +61,12 @@ type HighlightItem = {
   endDate: string;
   image: string;
   translationData: string;
+};
+
+type CollegeLogoItem = {
+  id: number;
+  title: string;
+  logoUrl: string;
 };
 
 type ArticlePage = {
@@ -176,6 +199,103 @@ const cleanTitle = (value?: string) =>
   String(value || "")
     .replace(/\s+/g, " ")
     .trim();
+
+const normalizeCollegeName = (value?: string) =>
+  String(value || "")
+    .trim()
+    .replace(/[أإآ]/g, "ا")
+    .replace(/ة/g, "ه")
+    .replace(/ى/g, "ي")
+    .replace(/\s+/g, " ")
+    .toLowerCase();
+
+const FAC_MAP: Record<string, number> = {
+  [normalizeCollegeName("كلية العلوم")]: 100,
+  [normalizeCollegeName("كلية علوم")]: 100,
+  [normalizeCollegeName("Faculty of Science")]: 100,
+  [normalizeCollegeName("كلية الطب")]: 200,
+  [normalizeCollegeName("Faculty of Medicine")]: 200,
+  [normalizeCollegeName("كلية الزراعة")]: 300,
+  [normalizeCollegeName("كليه الزراعه")]: 300,
+  [normalizeCollegeName("Faculty of Agriculture")]: 300,
+  [normalizeCollegeName("كلية الهندسة")]: 400,
+  [normalizeCollegeName("كليه الهندسه")]: 400,
+  [normalizeCollegeName("Faculty of Engineering")]: 400,
+  [normalizeCollegeName("كلية التجارة")]: 500,
+  [normalizeCollegeName("كليه التجاره")]: 500,
+  [normalizeCollegeName("Faculty of Commerce")]: 500,
+  [normalizeCollegeName("كلية الحقوق")]: 600,
+  [normalizeCollegeName("Faculty of Law")]: 600,
+  [normalizeCollegeName("كلية طب الأسنان")]: 700,
+  [normalizeCollegeName("كلية طب الاسنان")]: 700,
+  [normalizeCollegeName("Faculty of Dentistry")]: 700,
+  [normalizeCollegeName("كلية التمريض")]: 800,
+  [normalizeCollegeName("Faculty of Nursing")]: 800,
+  [normalizeCollegeName("كلية الصيدلة")]: 900,
+  [normalizeCollegeName("كليه الصيدله")]: 900,
+  [normalizeCollegeName("Faculty of Pharmacy")]: 900,
+  [normalizeCollegeName("كلية الطب البيطري")]: 1000,
+  [normalizeCollegeName("كلية الطب البيطرى")]: 1000,
+  [normalizeCollegeName("Faculty of Veterinary Medicine")]: 1000,
+  [normalizeCollegeName("كلية الذكاء الاصطناعي")]: 1100,
+  [normalizeCollegeName("Faculty of Artificial Intelligence")]: 1100,
+  [normalizeCollegeName("كلية الآداب")]: 1200,
+  [normalizeCollegeName("كلية الاداب")]: 1200,
+  [normalizeCollegeName("Faculty of Arts")]: 1200,
+  [normalizeCollegeName("كلية العلوم التطبيقية")]: 1300,
+  [normalizeCollegeName("كلية العلوم الطبية التطبيقية")]: 1300,
+  [normalizeCollegeName("Faculty of Applied Health Sciences Technology")]: 1300,
+  [normalizeCollegeName("كلية التربية للطفولة المبكرة")]: 1400,
+  [normalizeCollegeName("كلية تربية الطفولة المبكره")]: 1400,
+  [normalizeCollegeName("Faculty of Early Childhood Education")]: 1400,
+  [normalizeCollegeName("كلية التربية")]: 1500,
+  [normalizeCollegeName("كلية تربية")]: 1500,
+  [normalizeCollegeName("Faculty of Education")]: 1500,
+  [normalizeCollegeName("كلية التربية النوعية")]: 1600,
+  [normalizeCollegeName("Faculty of Specific Education")]: 1600,
+  [normalizeCollegeName("كلية الفنون الجميلة")]: 1700,
+  [normalizeCollegeName("Faculty of Fine Arts")]: 1700,
+  [normalizeCollegeName("كلية الحاسبات والمعلومات")]: 1800,
+  [normalizeCollegeName("كلية الحاسبات")]: 1800,
+  [normalizeCollegeName("Faculty of Computers and Information")]: 1800,
+  [normalizeCollegeName("كلية الهندسة الالكترونية")]: 1900,
+  [normalizeCollegeName("كلية الهندسة الإلكترونية")]: 1900,
+  [normalizeCollegeName("Faculty of Electronic Engineering")]: 1900,
+  [normalizeCollegeName("FEE")]: 1900,
+  [normalizeCollegeName("كلية التربية الرياضية")]: 2000,
+  [normalizeCollegeName("Faculty of Physical Education")]: 2000,
+  [normalizeCollegeName("كلية الاقتصاد المنزلي")]: 2100,
+  [normalizeCollegeName("كلية الاقتصاد المنزلى")]: 2100,
+  [normalizeCollegeName("Faculty of Home Economics")]: 2100,
+  [normalizeCollegeName("Ho")]: 2200,
+  [normalizeCollegeName("معهد الكبد القومي")]: 2300,
+  [normalizeCollegeName("LIV")]: 2300,
+  [normalizeCollegeName("National Liver Institute")]: 2300,
+  [normalizeCollegeName("كلية الإعلام")]: 2400,
+  [normalizeCollegeName("كلية الاعلام")]: 2400,
+  [normalizeCollegeName("Faculty of Mass Communication")]: 2400,
+};
+
+const getFacCodeFromCollegeTitle = (title?: string) =>
+  FAC_MAP[normalizeCollegeName(title)] ?? null;
+
+const isValidLogoUrl = (url?: string) => {
+  const value = String(url || "").trim();
+
+  return (
+    value.length > 0 &&
+    value !== "YOUR_LOGO_URL_HERE" &&
+    /^https?:\/\//i.test(value)
+  );
+};
+
+const getCollegeLogoByFacCode = (facCode: number, logos: CollegeLogoItem[]) => {
+  const matchedLogo = logos.find(
+    (item) => getFacCodeFromCollegeTitle(item.title) === facCode,
+  );
+
+  return isValidLogoUrl(matchedLogo?.logoUrl) ? matchedLogo?.logoUrl || "" : "";
+};
 
 const isExternalUrl = (url?: string) =>
   typeof url === "string" && /^https?:\/\//i.test(url);
@@ -531,6 +651,8 @@ const DepartmentPage: React.FC = () => {
     return "";
   }, [location.state]);
 
+  const [collegeLogoUrl, setCollegeLogoUrl] = useState("");
+
   const [departmentMenu, setDepartmentMenu] = useState<MenuItem[]>([]);
   const [departmentMenuLoading, setDepartmentMenuLoading] = useState(false);
 
@@ -643,6 +765,49 @@ const DepartmentPage: React.FC = () => {
 
     return chunkItems(allFooterItems, 3);
   }, [visibleDepartmentMenu]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchCollegeLogo = async () => {
+      const facultyCode = Number(fac);
+
+      if (!facultyCode) {
+        setCollegeLogoUrl("");
+        return;
+      }
+
+      try {
+        const response = await newsService.getCollegesLogos({
+          langId,
+          pageIndex: 1,
+          pageSize: 100,
+        });
+
+        if (!isMounted) return;
+
+        const logos: CollegeLogoItem[] = Array.isArray(response?.result)
+          ? response.result
+          : [];
+
+        const matchedLogoUrl = getCollegeLogoByFacCode(facultyCode, logos);
+
+        setCollegeLogoUrl(matchedLogoUrl);
+      } catch (error) {
+        console.error("Failed to fetch department college logo:", error);
+
+        if (isMounted) {
+          setCollegeLogoUrl("");
+        }
+      }
+    };
+
+    fetchCollegeLogo();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [fac, langId]);
 
   useEffect(() => {
     let count = 0;
@@ -968,7 +1133,7 @@ const DepartmentPage: React.FC = () => {
           <button
             type="button"
             className="department-back-btn"
-            onClick={() => window.history.back()}
+            onClick={() => window.location.assign("/")}
           >
             <i className="fa-solid fa-chevron-right" />
             <span>
@@ -983,7 +1148,13 @@ const DepartmentPage: React.FC = () => {
             </div>
 
             <div className="department-top-logo-wrap">
-              <img src={logo} alt="university logo" />
+              <img
+                src={collegeLogoUrl || logo}
+                alt={facultyName || "faculty logo"}
+                onError={(e) => {
+                  e.currentTarget.src = logo;
+                }}
+              />
             </div>
           </div>
         </div>
@@ -1058,11 +1229,11 @@ const DepartmentPage: React.FC = () => {
                       <div className="department-highlight-content">
                         <h2>{activeHighlight.translationData}</h2>
                         <span className="department-highlight-arrow">
-                        <span className="department-highlight-arrow-icon">
-                        ↗
+                          <span className="department-highlight-arrow-icon">
+                            ↗
+                          </span>
                         </span>
-                        </span>
-                      </div>  
+                      </div>
                     </Link>
 
                     {highlights.length > 1 && (
@@ -1079,76 +1250,76 @@ const DepartmentPage: React.FC = () => {
                         ))}
                       </div>
                     )}
-{highlights.length > 1 && (
-  <>
-    <button
-      type="button"
-      className="department-slider-control department-slider-control-next"
-      onClick={(e) => {
-        e.preventDefault();
-        handleNextHighlight();
-      }}
-      aria-label="next highlight"
-    >
-      <ChevronRight size={26} strokeWidth={2.6} />
-    </button>
+                    {highlights.length > 1 && (
+                      <>
+                        <button
+                          type="button"
+                          className="department-slider-control department-slider-control-next"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleNextHighlight();
+                          }}
+                          aria-label="next highlight"
+                        >
+                          <ChevronRight size={26} strokeWidth={2.6} />
+                        </button>
 
-    <button
-      type="button"
-      className="department-slider-control department-slider-control-prev"
-      onClick={(e) => {
-        e.preventDefault();
-        handlePrevHighlight();
-      }}
-      aria-label="previous highlight"
-    >
-      <ChevronLeft size={26} strokeWidth={2.6} />
-    </button>
-  </>
-)}
-<Link
-  to={`/fac/${fac}/details/${activeHighlight.id}`}
-  state={{
-    news: activeHighlight,
-    newsType: "faculty",
-    fac: Number(fac),
-    departmentCode,
-    langId,
-  }}
-  className="department-highlight-link"
->
-  <SmartImage
-    src={activeHighlight.image}
-    alt={activeHighlight.translationData || departmentName}
-    className="department-highlight-image"
-  />
+                        <button
+                          type="button"
+                          className="department-slider-control department-slider-control-prev"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handlePrevHighlight();
+                          }}
+                          aria-label="previous highlight"
+                        >
+                          <ChevronLeft size={26} strokeWidth={2.6} />
+                        </button>
+                      </>
+                    )}
+                    <Link
+                      to={`/fac/${fac}/details/${activeHighlight.id}`}
+                      state={{
+                        news: activeHighlight,
+                        newsType: "faculty",
+                        fac: Number(fac),
+                        departmentCode,
+                        langId,
+                      }}
+                      className="department-highlight-link"
+                    >
+                      <SmartImage
+                        src={activeHighlight.image}
+                        alt={activeHighlight.translationData || departmentName}
+                        className="department-highlight-image"
+                      />
 
-  <div className="department-highlight-overlay" />
+                      <div className="department-highlight-overlay" />
 
-  <div className="department-highlight-content">
-    <h2>{activeHighlight.translationData}</h2>
-    <span className="department-highlight-arrow">
-      <i className="fa-solid fa-arrow-up" />
-    </span>
-  </div>
-</Link>
+                      <div className="department-highlight-content">
+                        <h2>{activeHighlight.translationData}</h2>
+                        <span className="department-highlight-arrow">
+                          <i className="fa-solid fa-arrow-up" />
+                        </span>
+                      </div>
+                    </Link>
 
-{highlights.length > 1 && (
-  <button
-    type="button"
-    className="department-slider-control department-slider-control-next"
-    onClick={(e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setActiveHighlightIndex((prev) =>
-        prev === highlights.length - 1 ? 0 : prev + 1
-      );
-    }}
-    aria-label={isArabic ? "الخبر التالي" : "Next news"}
-  >
-    <span className="department-slider-icon">‹</span>
-  </button>
-)}
+                    {highlights.length > 1 && (
+                      <button
+                        type="button"
+                        className="department-slider-control department-slider-control-next"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setActiveHighlightIndex((prev) =>
+                            prev === highlights.length - 1 ? 0 : prev + 1,
+                          );
+                        }}
+                        aria-label={isArabic ? "الخبر التالي" : "Next news"}
+                      >
+                        <span className="department-slider-icon">‹</span>
+                      </button>
+                    )}
                   </div>
                 </div>
               ) : null}
