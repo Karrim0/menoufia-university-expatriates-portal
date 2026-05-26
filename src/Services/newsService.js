@@ -220,6 +220,17 @@ const newsService = {
 
     return response.data;
   },
+  getCollegesLogos: async ({ langId = 1, pageIndex = 1, pageSize = 100 }) => {
+  const response = await facultyApi.get("/faculty-news/GetCollegesLogos", {
+    params: {
+      langId,
+      PageIndex: pageIndex,
+      PageSize: pageSize,
+    },
+  });
+
+  return response.data;
+},
 };
 
 export default newsService;
