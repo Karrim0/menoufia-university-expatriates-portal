@@ -3200,3 +3200,30 @@
     border-inline-start: 3px solid var(--faculty-primary) !important;
   }
 }
+/* Fix faculty news card portrait images */
+.faculty-page-wrapper .news-card-image {
+  grid-area: image;
+  width: 100% !important;
+  min-width: 0 !important;
+  aspect-ratio: 4 / 5 !important;
+  min-height: 185px !important;
+  max-height: 230px !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  background: var(--faculty-muted-bg) !important;
+  align-self: start !important;
+}
+
+.faculty-page-wrapper .news-card-image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+  display: block !important;
+  border-radius: 12px !important;
+  transition: transform 0.35s ease !important;
+}
+
+.faculty-page-wrapper .news-card:hover .news-card-image img {
+  transform: scale(1.015) !important;
+}

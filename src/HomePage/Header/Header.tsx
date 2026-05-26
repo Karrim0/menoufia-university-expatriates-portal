@@ -790,7 +790,7 @@ const Header = () => {
     const newsStatisticsItem = {
       key: "news-statistics",
       label: t("nav.newsStatistics"),
-      link: "https://stage.menofia.edu.eg/dashboard",
+      link: "https://stage.menofia.edu.eg:5050/dashboard",
     };
 
     return items.map((item) => {

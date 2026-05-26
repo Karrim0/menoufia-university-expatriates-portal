@@ -452,13 +452,13 @@
   position: absolute;
   z-index: 2;
   right: clamp(32px, 7vw, 128px);
-  bottom: clamp(42px, 7vw, 126px);
+  bottom: clamp(36px, 6vw, 110px);
 
-  width: min(800px, 58%);
-  min-height: 190px;
-  max-height: 272px;
+  width: min(900px, 62%);
+  min-height: 230px;
+  max-height: 360px;
 
-  padding: clamp(28px, 3.3vw, 48px);
+  padding: clamp(30px, 3.3vw, 48px);
   padding-left: 112px;
 
   background: rgba(var(--department-primary-rgb), 0.34) !important;
@@ -483,13 +483,13 @@
   width: 100%;
   color: #ffffff;
   font-family: "Cairo", sans-serif;
-  font-size: clamp(26px, 2.8vw, 40px);
+  font-size: clamp(24px, 2.5vw, 38px);
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.45;
   text-align: right;
 
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

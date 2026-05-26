@@ -15,9 +15,11 @@ const SmartImage = ({
   className?: string;
 }) => {
   const [imageSrc, setImageSrc] = useState(defaultImg);
+  const [fitMode, setFitMode] = useState<"cover" | "contain">("cover");
 
   useEffect(() => {
     setImageSrc(defaultImg);
+    setFitMode("cover");
 
     if (!src) return;
 
@@ -27,11 +29,22 @@ const SmartImage = ({
     img.src = src;
 
     img.onload = () => {
-      if (!cancelled) setImageSrc(src);
+      if (cancelled) return;
+
+      const imageRatio = img.naturalWidth / img.naturalHeight;
+
+   
+      const shouldUseContain = imageRatio < 1.45;
+
+      setFitMode(shouldUseContain ? "contain" : "cover");
+      setImageSrc(src);
     };
 
     img.onerror = () => {
-      if (!cancelled) setImageSrc(defaultImg);
+      if (!cancelled) {
+        setImageSrc(defaultImg);
+        setFitMode("cover");
+      }
     };
 
     return () => {
@@ -39,9 +52,33 @@ const SmartImage = ({
     };
   }, [src]);
 
-  return <img src={imageSrc} alt={alt} className={className} />;
-};
+  return (
+    <div
+      className={`hero-image-frame ${
+        fitMode === "contain" ? "hero-image-frame-contain" : ""
+      }`}
+    >
+      {fitMode === "contain" && (
+        <img
+          src={imageSrc}
+          alt=""
+          aria-hidden="true"
+          className="hero-carousel-image-bg"
+        />
+      )}
 
+      <img
+        src={imageSrc}
+        alt={alt}
+        className={`${className || ""} ${
+          fitMode === "contain"
+            ? "hero-carousel-image-contain"
+            : "hero-carousel-image-cover"
+        }`}
+      />
+    </div>
+  );
+};
 // ─── Tooltip ───
 const Tooltip = ({ text }: { text: string }) => (
   <div className="hero-tooltip" role="tooltip">

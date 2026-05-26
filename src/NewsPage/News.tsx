@@ -32,7 +32,70 @@ interface NewsItem {
   }>;
   [key: string]: any;
 }
+//
+const AdaptiveNewsCardImage = ({ src, alt }: { src: string; alt: string }) => {
+  const [fitMode, setFitMode] = useState<"cover" | "contain">("cover");
 
+  useEffect(() => {
+    setFitMode("cover");
+
+    if (!src) return;
+
+    let cancelled = false;
+    const img = new Image();
+
+    img.src = src;
+
+    img.onload = () => {
+      if (cancelled) return;
+
+      const imageRatio = img.naturalWidth / img.naturalHeight;
+
+      /*
+        مساحة صورة الكارت تقريبًا 280x220
+        يعني ratio حوالي 1.27
+        الصور الطولية جدًا أو العريضة جدًا هي اللي بتبوظ مع cover
+      */
+      const isTooTall = imageRatio < 0.95;
+      const isTooWide = imageRatio > 2.1;
+
+      setFitMode(isTooTall || isTooWide ? "contain" : "cover");
+    };
+
+    img.onerror = () => {
+      if (!cancelled) {
+        setFitMode("cover");
+      }
+    };
+
+    return () => {
+      cancelled = true;
+    };
+  }, [src]);
+
+  return (
+    <div
+      className={`news-card-adaptive-image-frame ${
+        fitMode === "contain" ? "is-contain" : "is-cover"
+      }`}
+    >
+      {fitMode === "contain" && (
+        <SmartImage src={src} alt="" className="news-card-image-blur-bg" />
+      )}
+
+      <SmartImage
+        src={src}
+        alt={alt}
+        className={`news-card-main-image ${
+          fitMode === "contain"
+            ? "news-card-main-image-contain"
+            : "news-card-main-image-cover"
+        }`}
+      />
+    </div>
+  );
+};
+//
 const DATE_FILTERS = [
   { value: 0, labelAr: "كل الأخبار", labelEn: "All News" },
   { value: 2, labelAr: "اليوم", labelEn: "Today" },
@@ -111,7 +174,7 @@ function News() {
         response?.totalPage ??
         response?.pageCount ??
         response?.pagesCount ??
-        response?.pagination?.totalPages
+        response?.pagination?.totalPages,
     );
 
     if (apiTotalPages && apiTotalPages > 0) {
@@ -122,7 +185,7 @@ function News() {
       response?.totalCount ??
         response?.count ??
         response?.totalRecords ??
-        response?.pagination?.totalCount
+        response?.pagination?.totalCount,
     );
 
     if (totalCount && totalCount > 0) {
@@ -149,7 +212,7 @@ function News() {
 
     try {
       const response = await newsService.getUniversityNews(
-        buildParams(page, term)
+        buildParams(page, term),
       );
 
       setFilteredNews(response?.result || []);
@@ -439,7 +502,7 @@ function News() {
         </span>
       ) : (
         part
-      )
+      ),
     );
   };
 
@@ -561,8 +624,7 @@ function News() {
                               dateFilter === 0 &&
                               !fromDate &&
                               !toDate) ||
-                            (filter.value !== 0 &&
-                              dateFilter === filter.value)
+                            (filter.value !== 0 && dateFilter === filter.value)
                               ? "chip-active"
                               : ""
                           }`}
@@ -680,7 +742,7 @@ function News() {
                       <h3 className="news-card-title">
                         {highlightText(
                           news?.newsDetails?.head?.slice(0, 85),
-                          appliedSearchTerm
+                          appliedSearchTerm,
                         )}
 
                         {(news?.newsDetails?.head?.length || 0) > 85
@@ -691,7 +753,7 @@ function News() {
                       <p className="news-card-description">
                         {highlightText(
                           news?.newsDetails?.abbr?.slice(0, 110) || "",
-                          appliedSearchTerm
+                          appliedSearchTerm,
                         )}
 
                         {(news?.newsDetails?.abbr?.length || 0) > 110
@@ -705,11 +767,11 @@ function News() {
                     </div>
 
                     <div className="news-card-image">
-                      <SmartImage
-                        src={getImageUrl(news?.newsImg)}
-                        alt={news?.newsDetails?.head || ""}
-                      />
-                    </div>
+  <AdaptiveNewsCardImage
+    src={getImageUrl(news?.newsImg)}
+    alt={news?.newsDetails?.head || ""}
+  />
+</div>
 
                     <div className="news-card-arrow">
                       <i className="fa-solid fa-arrow-up" />
@@ -772,7 +834,7 @@ function News() {
                     >
                       {page}
                     </button>
-                  )
+                  ),
                 )}
 
                 <button
