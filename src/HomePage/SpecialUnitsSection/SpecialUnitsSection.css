@@ -1,7 +1,7 @@
 .special-units-section {
   width: 100%;
-  margin: 40px 0;
-  padding: 0 20px;
+  margin: 20px 0;
+  padding: 54px 40px;
   direction: rtl;
   font-family: "Cairo", sans-serif;
   color: #303d5e;
@@ -84,7 +84,7 @@
 
 /* Body */
 .special-units-body {
-    margin-top: 10px;
+  margin-top: 10px;
   padding: 22px;
   background-color: #dcedf480;
 }

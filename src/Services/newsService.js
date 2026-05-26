@@ -2,7 +2,7 @@ import api from "./api";
 import axios from "axios";
 
 const facultyApi = axios.create({
-  baseURL: "https://stage.menofia.edu.eg/api",
+  baseURL: "https://stage.menofia.edu.eg:5050/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -120,7 +120,7 @@ const newsService = {
         params: {
           lang,
         },
-      }
+      },
     );
 
     return response.data;
@@ -139,13 +139,13 @@ const newsService = {
   getDepartmentMenu: async ({ facultyCode, departmentCode, lang = 1 }) => {
     const response = await facultyApi.get(
       `/DepartmentMenu/${encodeURIComponent(
-        facultyCode
+        facultyCode,
       )}/${encodeURIComponent(departmentCode)}`,
       {
         params: {
           lang,
         },
-      }
+      },
     );
 
     return response.data;
@@ -154,6 +154,7 @@ const newsService = {
   getHighlights: async ({
     fac,
     langId,
+    departmentCode = "",
     pageIndex = 1,
     pageSize = 10,
     search = "",
@@ -164,6 +165,7 @@ const newsService = {
       params: {
         fac,
         langId,
+        departmentCode,
         PageIndex: pageIndex,
         PageSize: pageSize,
         Search: search,
@@ -203,12 +205,7 @@ const newsService = {
     return response.data;
   },
 
-  getFacultyNewsDetails: async ({
-    id,
-    fac,
-    langId,
-    departmentCode = "",
-  }) => {
+  getFacultyNewsDetails: async ({ id, fac, langId, departmentCode = "" }) => {
     const response = await facultyApi.get("/faculty-news/details", {
       params: {
         id,
@@ -221,16 +218,16 @@ const newsService = {
     return response.data;
   },
   getCollegesLogos: async ({ langId = 1, pageIndex = 1, pageSize = 100 }) => {
-  const response = await facultyApi.get("/faculty-news/GetCollegesLogos", {
-    params: {
-      langId,
-      PageIndex: pageIndex,
-      PageSize: pageSize,
-    },
-  });
+    const response = await facultyApi.get("/faculty-news/GetCollegesLogos", {
+      params: {
+        langId,
+        PageIndex: pageIndex,
+        PageSize: pageSize,
+      },
+    });
 
-  return response.data;
-},
+    return response.data;
+  },
 };
 
 export default newsService;

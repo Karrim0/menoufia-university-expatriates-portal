@@ -933,7 +933,12 @@ const DepartmentPage: React.FC = () => {
   }, [articleId, langId]);
 
   const fetchHighlights = useCallback(async () => {
-    if (!fac || notFound) return;
+    if (!fac || !departmentCode || notFound) {
+      setHighlights([]);
+      setActiveHighlightIndex(0);
+      setHighlightsLoading(false);
+      return;
+    }
 
     setHighlightsLoading(true);
 
@@ -941,6 +946,7 @@ const DepartmentPage: React.FC = () => {
       const data = await newsService.getHighlights({
         fac: Number(fac),
         langId,
+        departmentCode,
         pageIndex: 1,
         pageSize: 10,
         search: "",
@@ -955,10 +961,11 @@ const DepartmentPage: React.FC = () => {
     } catch (error) {
       console.error("Failed to fetch department highlights:", error);
       setHighlights([]);
+      setActiveHighlightIndex(0);
     } finally {
       setHighlightsLoading(false);
     }
-  }, [fac, langId, notFound]);
+  }, [fac, departmentCode, langId, notFound]);
 
   const fetchNews = useCallback(async () => {
     if (!fac || !departmentCode || notFound) return;
@@ -1104,6 +1111,22 @@ const DepartmentPage: React.FC = () => {
     setPageIndex(1);
   };
 
+  const handleNextHighlight = () => {
+    if (highlights.length <= 1) return;
+
+    setActiveHighlightIndex((prev) =>
+      prev === highlights.length - 1 ? 0 : prev + 1,
+    );
+  };
+
+  const handlePrevHighlight = () => {
+    if (highlights.length <= 1) return;
+
+    setActiveHighlightIndex((prev) =>
+      prev === 0 ? highlights.length - 1 : prev - 1,
+    );
+  };
+
   const formatDate = (dateStr: string) => {
     if (!dateStr) return "";
 
@@ -1147,15 +1170,24 @@ const DepartmentPage: React.FC = () => {
               <p>{departmentName || departmentCode}</p>
             </div>
 
-            <div className="department-top-logo-wrap">
-              <img
-                src={collegeLogoUrl || logo}
-                alt={facultyName || "faculty logo"}
-                onError={(e) => {
-                  e.currentTarget.src = logo;
-                }}
-              />
-            </div>
+            <Link
+  to={`/fac/${fac}`}
+  state={{
+    facultyTitle: facultyName,
+    langId,
+    themeColor: selectedThemeColor,
+  }}
+  className="department-top-logo-wrap"
+  aria-label={isArabic ? "الرجوع لصفحة الكلية" : "Back to faculty page"}
+>
+  <img
+    src={collegeLogoUrl || logo}
+    alt={facultyName || "faculty logo"}
+    onError={(e) => {
+      e.currentTarget.src = logo;
+    }}
+  />
+</Link>
           </div>
         </div>
       </header>
@@ -1208,13 +1240,15 @@ const DepartmentPage: React.FC = () => {
                 <div className="department-highlight-slider">
                   <div className="department-highlight-image-wrap">
                     <Link
-                      to={`/fac/${fac}/details/${activeHighlight.id}`}
+                      to={`/fac/${fac}/department/${departmentCode}/highlight/${activeHighlight.id}?lang=${langId}`}
                       state={{
-                        news: activeHighlight,
-                        newsType: "faculty",
+                        highlight: activeHighlight,
+                        newsType: "department",
                         fac: Number(fac),
                         departmentCode,
                         langId,
+                        collegeName: facultyName,
+                        departmentName,
                       }}
                       className="department-highlight-link"
                     >
@@ -1228,6 +1262,7 @@ const DepartmentPage: React.FC = () => {
 
                       <div className="department-highlight-content">
                         <h2>{activeHighlight.translationData}</h2>
+
                         <span className="department-highlight-arrow">
                           <span className="department-highlight-arrow-icon">
                             ↗
@@ -1237,29 +1272,16 @@ const DepartmentPage: React.FC = () => {
                     </Link>
 
                     {highlights.length > 1 && (
-                      <div className="department-highlight-dots">
-                        {highlights.map((item, index) => (
-                          <button
-                            key={item.id || index}
-                            type="button"
-                            className={`department-highlight-dot ${
-                              index === activeHighlightIndex ? "active" : ""
-                            }`}
-                            onClick={() => setActiveHighlightIndex(index)}
-                          />
-                        ))}
-                      </div>
-                    )}
-                    {highlights.length > 1 && (
                       <>
                         <button
                           type="button"
                           className="department-slider-control department-slider-control-next"
                           onClick={(e) => {
                             e.preventDefault();
+                            e.stopPropagation();
                             handleNextHighlight();
                           }}
-                          aria-label="next highlight"
+                          aria-label={isArabic ? "الخبر التالي" : "Next news"}
                         >
                           <ChevronRight size={26} strokeWidth={2.6} />
                         </button>
@@ -1269,56 +1291,34 @@ const DepartmentPage: React.FC = () => {
                           className="department-slider-control department-slider-control-prev"
                           onClick={(e) => {
                             e.preventDefault();
+                            e.stopPropagation();
                             handlePrevHighlight();
                           }}
-                          aria-label="previous highlight"
+                          aria-label={
+                            isArabic ? "الخبر السابق" : "Previous news"
+                          }
                         >
                           <ChevronLeft size={26} strokeWidth={2.6} />
                         </button>
+
+                        <div className="department-highlight-dots">
+                          {highlights.map((item, index) => (
+                            <button
+                              key={item.id || index}
+                              type="button"
+                              className={`department-highlight-dot ${
+                                index === activeHighlightIndex ? "active" : ""
+                              }`}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setActiveHighlightIndex(index);
+                              }}
+                              aria-label={`go to highlight ${index + 1}`}
+                            />
+                          ))}
+                        </div>
                       </>
-                    )}
-                    <Link
-                      to={`/fac/${fac}/details/${activeHighlight.id}`}
-                      state={{
-                        news: activeHighlight,
-                        newsType: "faculty",
-                        fac: Number(fac),
-                        departmentCode,
-                        langId,
-                      }}
-                      className="department-highlight-link"
-                    >
-                      <SmartImage
-                        src={activeHighlight.image}
-                        alt={activeHighlight.translationData || departmentName}
-                        className="department-highlight-image"
-                      />
-
-                      <div className="department-highlight-overlay" />
-
-                      <div className="department-highlight-content">
-                        <h2>{activeHighlight.translationData}</h2>
-                        <span className="department-highlight-arrow">
-                          <i className="fa-solid fa-arrow-up" />
-                        </span>
-                      </div>
-                    </Link>
-
-                    {highlights.length > 1 && (
-                      <button
-                        type="button"
-                        className="department-slider-control department-slider-control-next"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          setActiveHighlightIndex((prev) =>
-                            prev === highlights.length - 1 ? 0 : prev + 1,
-                          );
-                        }}
-                        aria-label={isArabic ? "الخبر التالي" : "Next news"}
-                      >
-                        <span className="department-slider-icon">‹</span>
-                      </button>
                     )}
                   </div>
                 </div>
@@ -1505,10 +1505,10 @@ const DepartmentPage: React.FC = () => {
                   {news.map((item) => (
                     <article key={item.id} className="news-card">
                       <Link
-                        to={`/fac/${fac}/details/${item.id}`}
+                        to={`/fac/${fac}/department/${departmentCode}/details/${item.id}?lang=${langId}`}
                         state={{
                           news: item,
-                          newsType: "faculty",
+                          newsType: "department",
                           fac: Number(fac),
                           departmentCode,
                           langId,

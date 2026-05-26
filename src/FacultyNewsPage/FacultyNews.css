@@ -3094,3 +3094,109 @@
   background: var(--faculty-footer-bottom) !important;
 }
 /* ------------------------------------------- */
+.faculty-page-wrapper .news-hero-content {
+  width: min(1600px, calc(100% - 28px));
+  margin: 0 auto;
+  padding: 0;
+  min-height: 0;
+  display: block;
+  background: transparent !important;
+}
+
+.faculty-page-wrapper .news-search-wrapper {
+  width: min(1600px, calc(100% - 28px));
+  min-height: 129px;
+  margin: 30px auto;
+  padding: 24px 16px;
+  background: var(--faculty-search-bg) !important;
+  border: 1px solid rgba(var(--faculty-primary-rgb), 0.14) !important;
+  border-radius: 16px;
+  box-shadow: 0 3px 1px rgba(var(--faculty-primary-rgb), 0.1) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*  */
+/* ===== Faculty layout width override ===== */
+/* ===== Faculty slider/search width like department layout ===== */
+
+.faculty-page-wrapper .faculty-news-hero .news-hero-content {
+  width: min(1400px, calc(100% - 48px)) !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+
+.faculty-page-wrapper .faculty-highlight-slider {
+  width: 100% !important;
+  margin: 0 auto 24px !important;
+}
+
+.faculty-page-wrapper .faculty-highlight-image-wrap {
+  width: 100% !important;
+}
+
+.faculty-page-wrapper .news-search-wrapper {
+  width: min(1369px, 100%) !important;
+  max-width: 1369px !important;
+  margin: 30px auto !important;
+}
+
+.faculty-page-wrapper .news-main-content .news-content-wrapper {
+  width: min(1400px, calc(100% - 48px)) !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+}
+/* ===== Nested dropdown opens beside parent dropdown ===== */
+
+.faculty-menu-section,
+.faculty-menu-wrapper,
+.faculty-menu-bar,
+.faculty-menu-item,
+.faculty-sub-menu {
+  overflow: visible !important;
+}
+
+.faculty-menu-item {
+  position: relative !important;
+}
+
+/* أول دروب ليست */
+.faculty-menu-item.level-0 > .faculty-sub-menu {
+  top: 100% !important;
+  right: 0 !important;
+}
+
+.faculty-sub-menu .faculty-sub-menu {
+  position: absolute !important;
+  top: 0 !important;
+  right: 100% !important;
+  left: auto !important;
+  margin-right: 0 !important;
+  z-index: 10000 !important;
+}
+
+.faculty-sub-menu .faculty-menu-item.has-children {
+  position: relative !important;
+}
+
+.faculty-sub-menu .faculty-menu-link {
+  justify-content: space-between !important;
+  width: 100% !important;
+}
+
+.faculty-sub-menu .faculty-menu-arrow {
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .faculty-sub-menu .faculty-sub-menu {
+    position: static !important;
+    width: 100% !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    border-inline-start: 3px solid var(--faculty-primary) !important;
+  }
+}

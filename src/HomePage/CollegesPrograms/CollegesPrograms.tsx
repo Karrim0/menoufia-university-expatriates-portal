@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { ChevronDown } from "lucide-react";
 import "./CollegesPrograms.css";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -130,7 +131,7 @@ const CollegesPrograms: React.FC = () => {
 
   const [colleges, setColleges] = useState<College[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const [isOpen, setIsOpen] = useState(true);
   const requestIdRef = useRef(0);
 
   const selectedLangId = useMemo(() => {
@@ -221,101 +222,118 @@ const CollegesPrograms: React.FC = () => {
       dir={isRTL ? "rtl" : "ltr"}
     >
       <div className="cp-container">
-        <div className="cp-titleWrap">
-          <h2 className="cp-title">{isArabic ? "الكليات" : "Colleges"}</h2>
-          <span className="cp-underline" />
-        </div>
-
-        {loading ? (
-          <div className="cp-loading">
-            {isArabic ? "جاري التحميل..." : "Loading..."}
-          </div>
-        ) : colleges.length === 0 ? (
-          <div className="cp-empty">
-            {isArabic ? "لا توجد كليات" : "No colleges found"}
-          </div>
-        ) : (
-          <div className="cp-grid">
-            {colleges.map((college) => (
-              <article
-                key={`${college.fac}-${college.id}-${selectedLangId}`}
-                className="cp-card"
-                onClick={() => handleCollegeClick(college)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleCollegeClick(college);
-                  }
-                }}
-              >
-                <div className="cp-card-title" title={college.title}>
-                  <span className="cp-title-text">{college.title}</span>
-                  <svg
-  className="cp-arrow-icon"
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
+        <button
+  type="button"
+  className={`cp-collapse-header ${isOpen ? "open" : ""}`}
+  onClick={() => setIsOpen((prev) => !prev)}
 >
-  <path
-    d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  />
-  <polyline
-    points="15 3 21 3 21 9"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  />
-  <line
-    x1="10"
-    y1="14"
-    x2="21"
-    y2="3"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  />
-</svg>
-                </div>
+  <span className="cp-titleWrap">
+    <span className="cp-dot" />
+    <span className="cp-title">{isArabic ? "الكليات" : "Colleges"}</span>
+  </span>
 
-                {college.url && college.url !== "#" && (
-                  <a
-                    href={college.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="cp-classic-link"
-                    onClick={handleClassicClick}
-                  >
-                    <span className="cp-classic-text">
-                      {isArabic ? "الموقع الكلاسيكي" : "Classic website"}
-                    </span>
+  <ChevronDown
+    size={34}
+    strokeWidth={2.4}
+    className="cp-collapse-arrow"
+  />
+</button>
 
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <path
-                        d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <polyline
-                        points="15 3 21 3 21 9"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <line
-                        x1="10"
-                        y1="14"
-                        x2="21"
-                        y2="3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </a>
-                )}
-              </article>
-            ))}
-          </div>
-        )}
+{isOpen && (
+  <div className="cp-collapse-body">
+    {loading ? (
+      <div className="cp-loading">
+        {isArabic ? "جاري التحميل..." : "Loading..."}
+      </div>
+    ) : colleges.length === 0 ? (
+      <div className="cp-empty">
+        {isArabic ? "لا توجد كليات" : "No colleges found"}
+      </div>
+    ) : (
+      <div className="cp-grid">
+        {colleges.map((college) => (
+          <article
+            key={`${college.fac}-${college.id}-${selectedLangId}`}
+            className="cp-card"
+            onClick={() => handleCollegeClick(college)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleCollegeClick(college);
+              }
+            }}
+          >
+            <div className="cp-card-title" title={college.title}>
+              <span className="cp-title-text">{college.title}</span>
+
+              <svg
+                className="cp-arrow-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <polyline
+                  points="15 3 21 3 21 9"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <line
+                  x1="10"
+                  y1="14"
+                  x2="21"
+                  y2="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+
+            {college.url && college.url !== "#" && (
+              <a
+                href={college.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cp-classic-link"
+                onClick={handleClassicClick}
+              >
+                <span className="cp-classic-text">
+                  {isArabic ? "الموقع الكلاسيكي" : "Classic website"}
+                </span>
+
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path
+                    d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <polyline
+                    points="15 3 21 3 21 9"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <line
+                    x1="10"
+                    y1="14"
+                    x2="21"
+                    y2="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </a>
+            )}
+          </article>
+        ))}
+      </div>
+    )}
+  </div>
+)}
       </div>
     </section>
   );

@@ -2069,3 +2069,78 @@
   top: 0;
   right: 100%;
 }
+/*  */
+/* ===== Department slider arrows ===== */
+
+.department-highlight-image-wrap {
+  position: relative;
+}
+
+.department-slider-control {
+  position: absolute;
+  top: 50%;
+  z-index: 10;
+
+  width: 54px;
+  height: 54px;
+  border: 0;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--department-primary);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transform: translateY(-50%);
+  box-shadow: 0 12px 28px rgba(var(--department-primary-rgb), 0.22);
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.department-slider-control i {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.department-slider-control:hover {
+  background: var(--department-primary);
+  color: #ffffff;
+  transform: translateY(-50%) scale(1.06);
+  box-shadow: 0 16px 34px rgba(var(--department-primary-rgb), 0.28);
+}
+
+/* الزر اللي على يمين السلايدر */
+.department-slider-control-prev {
+  right: 24px;
+}
+
+/* الزر اللي على شمال السلايدر */
+.department-slider-control-next {
+  left: 24px;
+}
+
+@media (max-width: 768px) {
+  .department-slider-control {
+    width: 42px;
+    height: 42px;
+  }
+
+  .department-slider-control-prev {
+    right: 12px;
+  }
+
+  .department-slider-control-next {
+    left: 12px;
+  }
+
+  .department-slider-control i {
+    font-size: 15px;
+  }
+}

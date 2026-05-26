@@ -23,6 +23,7 @@ import SectorsNews from "./SectorsNewsPage/SectorsNews";
 import FacultyNewsPage from "./FacultyNewsPage/FacultyNews";
 import UniversityHistory from "./HomePage/UniversityHistory/UniversityHistory";
 import FacultyNewsDetails from "./FacultyNewsDetails/FacultyNewsDetails";
+import FacultyHighlightDetails from "./FacultyHighlightDetails/FacultyHighlightDetails";
 import ErrorPage from "./ErrorPage/ErrorPage";
 import SplashScreen from "./SplashScreen/SplashScreen";
 import IntroVideo from "./IntroVideo/IntroVideo";
@@ -86,18 +87,33 @@ const isValidRouteShape = (pathname) => {
     return Boolean(parts[1]);
   }
   if (parts[0] === "university-sectors" && parts.length === 2) {
-  return Boolean(parts[1]);
-}
+    return Boolean(parts[1]);
+  }
   if (parts[0] === "fac" && parts.length === 2) {
     return Boolean(parts[1]);
   }
   if (
+    parts[0] === "fac" &&
+    parts[2] === "department" &&
+    parts[4] === "details" &&
+    parts.length === 6
+  ) {
+    return Boolean(parts[1]) && Boolean(parts[3]) && isPositiveNumber(parts[5]);
+  }
+  if (
   parts[0] === "fac" &&
   parts[2] === "department" &&
-  parts.length === 4
+  parts[4] === "highlight" &&
+  parts.length === 6
 ) {
-  return Boolean(parts[1]) && Boolean(parts[3]);
+  return Boolean(parts[1]) && Boolean(parts[3]) && isPositiveNumber(parts[5]);
 }
+  if (parts[0] === "fac" && parts[2] === "department" && parts.length === 4) {
+    return Boolean(parts[1]) && Boolean(parts[3]);
+  }
+  if (parts[0] === "fac" && parts[2] === "highlight" && parts.length === 4) {
+    return Boolean(parts[1]) && isPositiveNumber(parts[3]);
+  }
   if (parts[0] === "fac" && parts[2] === "details" && parts.length === 4) {
     return Boolean(parts[1]) && isPositiveNumber(parts[3]);
   }
@@ -117,8 +133,7 @@ const AppContent = () => {
 
   useEffect(() => {
     const hasSeenSplash = sessionStorage.getItem("hasSeenSplash") === "true";
-    const hasSeenVideo =
-      sessionStorage.getItem("hasSeenIntroVideo") === "true";
+    const hasSeenVideo = sessionStorage.getItem("hasSeenIntroVideo") === "true";
 
     if (hasSeenSplash) {
       if (!hasSeenVideo) {
@@ -178,14 +193,31 @@ const AppContent = () => {
           <Route path="/sectors/:sectorName" element={<SectorsNews />} />
           <Route path="/university-history" element={<UniversityHistory />} />
           <Route path="/fac/:fac" element={<FacultyNewsPage />} />
-          
-          <Route path="/fac/:fac/details/:id" element={<FacultyNewsDetails />}/>
           <Route
-  path="/university-sectors/:keyword"
-  element={<UniversitySectorsPage />}
+            path="/fac/:fac/highlight/:id"
+            element={<FacultyHighlightDetails />}
+          />
+          <Route
+  path="/fac/:fac/department/:departmentCode/highlight/:id"
+  element={<FacultyHighlightDetails />}
 />
-          <Route path="/fac/:fac/department/:departmentCode" element={<DepartmentPage />}
-/>
+          <Route
+            path="/fac/:fac/department/:departmentCode/details/:id"
+            element={<FacultyNewsDetails />}
+          />
+          <Route
+            path="/fac/:fac/details/:id"
+            element={<FacultyNewsDetails />}
+          />
+          <Route
+            path="/university-sectors/:keyword"
+            element={<UniversitySectorsPage />}
+          />
+          <Route
+            path="/fac/:fac/department/:departmentCode"
+            element={<DepartmentPage />}
+          />
+
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       )}

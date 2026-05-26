@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import "./Carousel.css";
 import { useTranslation } from "react-i18next";
 import defaultImg from "../../assets/raes.jpg";
-
 const SmartImage = ({
   src,
   alt = "",

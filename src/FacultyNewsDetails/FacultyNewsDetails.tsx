@@ -51,7 +51,11 @@ const getSavedLangId = () => {
 };
 
 const FacultyNewsDetails: React.FC = () => {
-  const { id, fac } = useParams<{ id: string; fac: string }>();
+  const { id, fac, departmentCode } = useParams<{
+    id: string;
+    fac: string;
+    departmentCode?: string;
+  }>();
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -64,26 +68,26 @@ const FacultyNewsDetails: React.FC = () => {
   const facId = Number(fac) || 0;
   const collegeName: string = location.state?.collegeName || "";
 
-const initialLangId =
-  Number(searchParams.get("lang")) ||
-  Number(location.state?.lid) ||
-  Number(location.state?.langId) ||
-  Number(savedLang?.id) ||
-  1;
+  const initialLangId =
+    Number(searchParams.get("lang")) ||
+    Number(location.state?.lid) ||
+    Number(location.state?.langId) ||
+    Number(savedLang?.id) ||
+    1;
 
   const [langId, setLangId] = useState<number>(initialLangId);
   const [news, setNews] = useState<NewsDetails | null>(
-    location.state?.news || null
+    location.state?.news || null,
   );
   const [loading, setLoading] = useState(true);
   const [noLang, setNoLang] = useState(false);
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
-const stateLangId =
-  Number(searchParams.get("lang")) ||
-  Number(location.state?.lid) ||
-  Number(location.state?.langId);
+    const stateLangId =
+      Number(searchParams.get("lang")) ||
+      Number(location.state?.lid) ||
+      Number(location.state?.langId);
 
     if (stateLangId) {
       setLangId(stateLangId);
@@ -113,6 +117,7 @@ const stateLangId =
   id: newsId,
   fac: facId,
   langId,
+  departmentCode: departmentCode || "",
 });
 
         if (data?.success && data?.result) {
@@ -168,6 +173,17 @@ const stateLangId =
   };
 
   const handleBack = () => {
+    if (departmentCode) {
+      navigate(`/fac/${facId}/department/${departmentCode}`, {
+        state: {
+          collegeName,
+          langId,
+        },
+      });
+
+      return;
+    }
+
     navigate(`/fac/${facId}`, {
       state: {
         collegeName,
@@ -179,7 +195,13 @@ const stateLangId =
   if (notFound) {
     return <ErrorPage />;
   }
-
+  const backLabel = departmentCode
+    ? isArabic
+      ? "أخبار القسم"
+      : "Department News"
+    : isArabic
+      ? "أخبار الكلية"
+      : "Faculty News";
   return (
     <div className="fnd-wrapper" dir={isRTL ? "rtl" : "ltr"}>
       <div className="fnd-breadcrumb">
@@ -194,7 +216,7 @@ const stateLangId =
           onClick={handleBack}
           style={{ cursor: "pointer" }}
         >
-          {collegeName || (isArabic ? "أخبار الكلية" : "Faculty News")}
+          {collegeName || backLabel}
         </span>
 
         <span className="fnd-breadcrumb-sep">›</span>
@@ -253,7 +275,13 @@ const stateLangId =
             onClick={handleBack}
             type="button"
           >
-            {isArabic ? "→ رجوع لأخبار الكلية" : "← Back to Faculty News"}
+            {isArabic
+  ? departmentCode
+    ? "→ رجوع لأخبار القسم"
+    : "→ رجوع لأخبار الكلية"
+  : departmentCode
+    ? "← Back to Department News"
+    : "← Back to Faculty News"}
           </button>
         </div>
       ) : news ? (

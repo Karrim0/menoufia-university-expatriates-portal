@@ -1870,15 +1870,15 @@ const FacultyNews: React.FC = () => {
                 <div className="faculty-highlight-slider">
                   <div className="faculty-highlight-image-wrap">
                     <Link
-                      to={`/fac/${fac}/details/${activeHighlight.id}`}
-                      state={{
-                        news: activeHighlight,
-                        newsType: "faculty",
-                        fac: Number(fac),
-                        langId: getActiveSearchLangId(),
-                        collegeName: displayName,
-                      }}
-                      className="faculty-highlight-link"
+  to={`/fac/${fac}/highlight/${activeHighlight.id}?lang=${getActiveSearchLangId()}`}
+  state={{
+  highlight: activeHighlight,
+  fac: Number(fac),
+  langId: getActiveSearchLangId(),
+  collegeName: displayName,
+}}
+  className="faculty-highlight-link"
+
                       aria-label={
                         activeHighlight.translationData ||
                         displayName ||
