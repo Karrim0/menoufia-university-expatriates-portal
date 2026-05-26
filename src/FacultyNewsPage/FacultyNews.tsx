@@ -190,6 +190,12 @@ interface HighlightItem {
   translationData: string;
 }
 
+interface CollegeLogoItem {
+  id: number;
+  title: string;
+  logoUrl: string;
+}
+
 interface FacultyMenuItem {
   menuId: number;
   parentId: number | null;
@@ -275,6 +281,29 @@ const normalizeName = (value: string): string =>
 
 const normalizeMenuTitle = (title?: string): string =>
   normalizeName(String(title || ""));
+
+const isValidLogoUrl = (url?: string) => {
+  const value = String(url || "").trim();
+
+  return (
+    value.length > 0 &&
+    value !== "YOUR_LOGO_URL_HERE" &&
+    /^https?:\/\//i.test(value)
+  );
+};
+
+const getCollegeLogoByName = (
+  collegeTitle: string,
+  logos: CollegeLogoItem[],
+) => {
+  const normalizedTitle = normalizeName(collegeTitle);
+
+  const matchedLogo = logos.find(
+    (item) => normalizeName(item.title) === normalizedTitle,
+  );
+
+  return isValidLogoUrl(matchedLogo?.logoUrl) ? matchedLogo?.logoUrl || "" : "";
+};
 
 const FAC_MAP: Record<string, number> = {
   [normalizeName("كلية العلوم")]: 100,
@@ -1049,6 +1078,8 @@ const FacultyNews: React.FC = () => {
   );
   const [collegeNameFallback, setCollegeNameFallback] = useState<string>("");
   const [collegeName, setCollegeName] = useState<string>("");
+  const [collegeLogos, setCollegeLogos] = useState<CollegeLogoItem[]>([]);
+  const [collegeLogoUrl, setCollegeLogoUrl] = useState<string>("");
 
   const [news, setNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -1199,6 +1230,56 @@ const FacultyNews: React.FC = () => {
       isMounted = false;
     };
   }, [fac, i18n.language]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchCollegeLogos = async () => {
+      const currentLangId = getSavedLangId();
+
+      try {
+        const response = await newsService.getCollegesLogos({
+          langId: currentLangId,
+          pageIndex: 1,
+          pageSize: 100,
+        });
+
+        if (!isMounted) return;
+
+        const logos = Array.isArray(response?.result) ? response.result : [];
+
+        setCollegeLogos(logos);
+      } catch (error) {
+        console.error("Failed to fetch colleges logos:", error);
+
+        if (isMounted) {
+          setCollegeLogos([]);
+        }
+      }
+    };
+
+    fetchCollegeLogos();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [i18n.language]);
+
+  useEffect(() => {
+    const currentCollegeName = collegeName || collegeNameFallback;
+
+    if (!currentCollegeName || collegeLogos.length === 0) {
+      setCollegeLogoUrl("");
+      return;
+    }
+
+    const matchedLogoUrl = getCollegeLogoByName(
+      currentCollegeName,
+      collegeLogos,
+    );
+
+    setCollegeLogoUrl(matchedLogoUrl || "");
+  }, [collegeName, collegeNameFallback, collegeLogos]);
 
   useEffect(() => {
     let isMounted = true;
@@ -1710,9 +1791,13 @@ const FacultyNews: React.FC = () => {
 
             <div className="faculty-top-logo-wrap">
               <img
-                src={logo}
-                alt="university logo"
+                src={collegeLogoUrl || logo}
+                alt={displayName || "faculty logo"}
                 className="faculty-top-logo"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = logo;
+                }}
               />
             </div>
           </div>
