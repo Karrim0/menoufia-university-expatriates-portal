@@ -289,12 +289,30 @@ const isValidLogoUrl = (url?: string) => {
   );
 };
 
-const getCollegeLogoByFacCode = (facCode: number, logos: CollegeLogoItem[]) => {
-  const matchedLogo = logos.find(
-    (item) => getFacCodeFromCollegeTitle(item.title) === facCode,
+const getCollegeLogoByFacCode = ({
+  facCode,
+  logos,
+  facultyTitle,
+}: {
+  facCode: number;
+  logos: CollegeLogoItem[];
+  facultyTitle?: string;
+}) => {
+  const validLogos = logos.filter(
+    (item) =>
+      getFacCodeFromCollegeTitle(item.title) === facCode &&
+      isValidLogoUrl(item.logoUrl),
   );
 
-  return isValidLogoUrl(matchedLogo?.logoUrl) ? matchedLogo?.logoUrl || "" : "";
+  if (validLogos.length === 0) return "";
+
+  const normalizedFacultyTitle = normalizeCollegeName(facultyTitle);
+
+  const exactTitleMatch = validLogos.find(
+    (item) => normalizeCollegeName(item.title) === normalizedFacultyTitle,
+  );
+
+  return exactTitleMatch?.logoUrl || validLogos[0]?.logoUrl || "";
 };
 
 const isExternalUrl = (url?: string) =>
@@ -790,7 +808,11 @@ const DepartmentPage: React.FC = () => {
           ? response.result
           : [];
 
-        const matchedLogoUrl = getCollegeLogoByFacCode(facultyCode, logos);
+        const matchedLogoUrl = getCollegeLogoByFacCode({
+          facCode: facultyCode,
+          logos,
+          facultyTitle: facultyName,
+        });
 
         setCollegeLogoUrl(matchedLogoUrl);
       } catch (error) {
@@ -807,8 +829,7 @@ const DepartmentPage: React.FC = () => {
     return () => {
       isMounted = false;
     };
-  }, [fac, langId]);
-
+  }, [fac, langId, facultyName]);
   useEffect(() => {
     let count = 0;
 
@@ -1164,31 +1185,33 @@ const DepartmentPage: React.FC = () => {
             </span>
           </button>
 
-          <div className="department-top-brand">
+          <Link
+            to={`/fac/${fac}`}
+            state={{
+              facultyTitle: facultyName,
+              langId,
+              themeColor: selectedThemeColor,
+            }}
+            className="department-top-brand"
+            aria-label={
+              isArabic ? "الرجوع لصفحة الكلية" : "Back to faculty page"
+            }
+          >
             <div className="department-top-brand-text">
               <h2>{facultyName}</h2>
               <p>{departmentName || departmentCode}</p>
             </div>
 
-            <Link
-  to={`/fac/${fac}`}
-  state={{
-    facultyTitle: facultyName,
-    langId,
-    themeColor: selectedThemeColor,
-  }}
-  className="department-top-logo-wrap"
-  aria-label={isArabic ? "الرجوع لصفحة الكلية" : "Back to faculty page"}
->
-  <img
-    src={collegeLogoUrl || logo}
-    alt={facultyName || "faculty logo"}
-    onError={(e) => {
-      e.currentTarget.src = logo;
-    }}
-  />
-</Link>
-          </div>
+            <div className="department-top-logo-wrap">
+              <img
+                src={collegeLogoUrl || logo}
+                alt={facultyName || "faculty logo"}
+                onError={(e) => {
+                  e.currentTarget.src = logo;
+                }}
+              />
+            </div>
+          </Link>
         </div>
       </header>
 
@@ -1264,9 +1287,7 @@ const DepartmentPage: React.FC = () => {
                         <h2>{activeHighlight.translationData}</h2>
 
                         <span className="department-highlight-arrow">
-                          <span className="department-highlight-arrow-icon">
-                            ↗
-                          </span>
+                          <i className="fa-solid fa-arrow-up department-highlight-arrow-icon" />
                         </span>
                       </div>
                     </Link>
@@ -1275,7 +1296,7 @@ const DepartmentPage: React.FC = () => {
                       <>
                         <button
                           type="button"
-                          className="department-slider-control department-slider-control-next"
+                          className="department-slider-control department-slider-control-right"
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
@@ -1283,12 +1304,15 @@ const DepartmentPage: React.FC = () => {
                           }}
                           aria-label={isArabic ? "الخبر التالي" : "Next news"}
                         >
-                          <ChevronRight size={26} strokeWidth={2.6} />
+                          <i
+                            className="fa-solid fa-chevron-right"
+                            aria-hidden="true"
+                          />
                         </button>
 
                         <button
                           type="button"
-                          className="department-slider-control department-slider-control-prev"
+                          className="department-slider-control department-slider-control-left"
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
@@ -1298,7 +1322,10 @@ const DepartmentPage: React.FC = () => {
                             isArabic ? "الخبر السابق" : "Previous news"
                           }
                         >
-                          <ChevronLeft size={26} strokeWidth={2.6} />
+                          <i
+                            className="fa-solid fa-chevron-left"
+                            aria-hidden="true"
+                          />
                         </button>
 
                         <div className="department-highlight-dots">
