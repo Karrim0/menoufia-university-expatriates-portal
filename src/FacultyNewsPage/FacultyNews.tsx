@@ -755,6 +755,223 @@ const parseArticleContent = (html = "") => {
     videoLinks: links.filter((link) => link.isVideo),
   };
 };
+type HistoricalTimelineItem = {
+  year: string;
+  content: string;
+};
+
+const isHistoricalOverviewArticle = (title = "") => {
+  const normalizedTitle = normalizeMenuTitle(title);
+
+  return (
+    normalizedTitle.includes("نبذه تاريخيه") ||
+    normalizedTitle.includes("نبذة تاريخية") ||
+    normalizedTitle.includes("historical overview") ||
+    normalizedTitle.includes("history")
+  );
+};
+
+const extractHistoricalTimeline = (
+  html = "",
+): {
+  intro: string;
+  timeline: HistoricalTimelineItem[];
+} => {
+  const text = stripHtmlToText(html)
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!text) {
+    return {
+      intro: "",
+      timeline: [],
+    };
+  }
+
+  const yearRegex = /\b(?:18|19|20)\d{2}\b/g;
+  const matches = Array.from(text.matchAll(yearRegex));
+
+  if (matches.length === 0) {
+    return {
+      intro: text,
+      timeline: [],
+    };
+  }
+
+  const firstYearIndex = matches[0].index ?? 0;
+  const intro = text.slice(0, firstYearIndex).trim();
+
+  const timeline = matches
+    .map((match, index) => {
+      const year = match[0];
+      const start = (match.index ?? 0) + year.length;
+      const end =
+        index < matches.length - 1
+          ? matches[index + 1].index ?? text.length
+          : text.length;
+
+      const content = text
+        .slice(start, end)
+        .replace(/^(\s*[-–—:،,.])+\s*/, "")
+        .trim();
+
+      return {
+        year,
+        content,
+      };
+    })
+    .filter((item) => item.content);
+
+  return {
+    intro,
+    timeline,
+  };
+};
+
+const isGoalsArticle = (title = "") => {
+  const normalizedTitle = normalizeMenuTitle(title);
+
+  return (
+    normalizedTitle.includes("الاهداف") ||
+    normalizedTitle.includes("اهداف") ||
+    normalizedTitle.includes("goals") ||
+    normalizedTitle.includes("objectives")
+  );
+};
+
+type FacultyAccordionItem = {
+  title: string;
+  contentHtml: string;
+};
+
+const isStudentAffairsAccordionArticle = (title = "") => {
+  const normalizedTitle = normalizeMenuTitle(title);
+
+  return (
+    normalizedTitle.includes("شؤون التعليم والطلاب") ||
+    normalizedTitle.includes("شئون التعليم والطلاب") ||
+    normalizedTitle.includes("اداره شؤون التعليم والطلاب") ||
+    normalizedTitle.includes("ادارة شؤون التعليم والطلاب") ||
+    normalizedTitle.includes("education and student affairs") ||
+    normalizedTitle.includes("student affairs")
+  );
+};
+
+const isAccordionHeadingText = (value = "") => {
+  const text = String(value || "").replace(/\s+/g, " ").trim();
+
+  if (!text || text.length > 180) return false;
+
+  return /^(?:أولاً|أولا|ثانياً|ثانيا|ثالثاً|ثالثا|رابعاً|رابعا|خامساً|خامسا|سادساً|سادسا|سابعاً|سابعا|ثامناً|ثامنا|تاسعاً|تاسعا|عاشراً|عاشرا)\s*[:：\-–—]?/i.test(
+    text,
+  );
+};
+
+const extractStudentAffairsAccordion = (
+  html = "",
+): FacultyAccordionItem[] => {
+  const cleanedHtml = removeWordNoise(html);
+
+  if (typeof window === "undefined" || !window.DOMParser) {
+    return [];
+  }
+
+  const doc = new DOMParser().parseFromString(cleanedHtml, "text/html");
+  const body = doc.body;
+
+  const blockElements = Array.from(
+    body.querySelectorAll(
+      ":scope > h1, :scope > h2, :scope > h3, :scope > h4, :scope > h5, :scope > h6, :scope > p, :scope > div, :scope > ul, :scope > ol",
+    ),
+  );
+
+  const items: FacultyAccordionItem[] = [];
+  let currentTitle = "";
+  let currentContent: string[] = [];
+
+  const pushCurrentItem = () => {
+    if (!currentTitle) return;
+
+    items.push({
+      title: currentTitle,
+      contentHtml:
+        currentContent.join("").trim() ||
+        `<p>لا يوجد محتوى إضافي لهذا البند.</p>`,
+    });
+
+    currentTitle = "";
+    currentContent = [];
+  };
+
+  blockElements.forEach((element) => {
+    const elementText = (element.textContent || "")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    const tagName = element.tagName.toLowerCase();
+    const isHeadingTag = /^h[1-6]$/.test(tagName);
+    const strongText =
+      element.querySelector(":scope > strong, :scope > b")?.textContent || "";
+    const titleCandidate = strongText.replace(/\s+/g, " ").trim();
+
+    const shouldStartItem =
+      isAccordionHeadingText(elementText) ||
+      isAccordionHeadingText(titleCandidate) ||
+      (isHeadingTag && elementText.length > 0);
+
+    if (shouldStartItem) {
+      pushCurrentItem();
+      currentTitle = titleCandidate || elementText;
+      return;
+    }
+
+    if (currentTitle) {
+      currentContent.push(element.outerHTML);
+    }
+  });
+
+  pushCurrentItem();
+
+  if (items.length > 0) {
+    return items;
+  }
+
+  const plainText = (body.textContent || "").replace(/\s+/g, " ").trim();
+  const headingRegex =
+    /(?:أولاً|أولا|ثانياً|ثانيا|ثالثاً|ثالثا|رابعاً|رابعا|خامساً|خامسا|سادساً|سادسا|سابعاً|سابعا|ثامناً|ثامنا|تاسعاً|تاسعا|عاشراً|عاشرا)\s*[:：\-–—]?/g;
+
+  const matches = Array.from(plainText.matchAll(headingRegex));
+
+  return matches
+    .map((match, index) => {
+      const start = match.index ?? 0;
+      const nextStart =
+        index < matches.length - 1
+          ? matches[index + 1].index ?? plainText.length
+          : plainText.length;
+
+      const sectionText = plainText.slice(start, nextStart).trim();
+      const separatorIndex = sectionText.search(/[.،؛]\s/);
+
+      const title =
+        separatorIndex > 0
+          ? sectionText.slice(0, separatorIndex + 1).trim()
+          : sectionText.slice(0, 120).trim();
+
+      const content =
+        separatorIndex > 0
+          ? sectionText.slice(separatorIndex + 1).trim()
+          : "";
+
+      return {
+        title,
+        contentHtml: content
+          ? `<p>${content}</p>`
+          : `<p>لا يوجد محتوى إضافي لهذا البند.</p>`,
+      };
+    })
+    .filter((item) => item.title);
+};
 
 const getArticleType = (
   article: FacultyArticlePageData,
@@ -796,6 +1013,185 @@ const FacultyArticleRenderer: React.FC<{
   );
 
   const articleType = getArticleType(article, parsed);
+
+  const accordionItems = useMemo(
+    () => extractStudentAffairsAccordion(article.content || ""),
+    [article.content],
+  );
+
+  const [openAccordionIndex, setOpenAccordionIndex] =
+  useState<number | null>(null);
+  const isStudentAffairsAccordion =
+    isStudentAffairsAccordionArticle(article.title);
+  const historicalData = useMemo(
+  () => extractHistoricalTimeline(article.content || ""),
+  [article.content],
+);
+
+const isHistoricalArticle = isHistoricalOverviewArticle(article.title);
+if (isHistoricalArticle) {
+  return (
+    <article className="faculty-history-card">
+      <div className="faculty-history-card-header">
+        <span className="faculty-history-icon" aria-hidden="true">
+          <i className="fa-regular fa-file-lines" />
+        </span>
+
+        <div className="faculty-history-heading">
+          <h2>
+            {isArabic
+              ? "نبذة تاريخية عن الكلية"
+              : article.title || "Historical Overview"}
+          </h2>
+
+          <span className="faculty-history-heading-line" />
+        </div>
+      </div>
+
+      <div className="faculty-history-body">
+        <div className="faculty-history-content">
+          {historicalData.intro && (
+            <p className="faculty-history-intro">
+              {historicalData.intro}
+            </p>
+          )}
+
+          {historicalData.timeline.length > 0 ? (
+            <div className="faculty-history-timeline">
+              {historicalData.timeline.map((item, index) => (
+                <div
+                  key={`${item.year}-${index}`}
+                  className="faculty-history-timeline-item"
+                >
+                  <div className="faculty-history-year">
+                    <span className="faculty-history-year-dot" />
+                    <strong>{item.year}</strong>
+                  </div>
+
+                  <p className="faculty-history-description">
+                    {item.content}
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div
+              className="faculty-history-fallback-content"
+              dangerouslySetInnerHTML={{
+                __html:
+                  parsed.cleanedHtml ||
+                  `<p>${
+                    isArabic
+                      ? "لا يوجد محتوى متاح"
+                      : "No content available"
+                  }</p>`,
+              }}
+            />
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}
+
+
+  if (isStudentAffairsAccordion) {
+    return (
+      <article className="faculty-student-affairs-card">
+        <div className="faculty-student-affairs-header">
+          <span
+            className="faculty-student-affairs-icon"
+            aria-hidden="true"
+          >
+            <i className="fa-regular fa-file-lines" />
+          </span>
+
+          <div className="faculty-student-affairs-heading">
+            <h2>{article.title}</h2>
+            <span className="faculty-student-affairs-heading-line" />
+          </div>
+        </div>
+
+        <div className="faculty-student-affairs-accordion">
+          {accordionItems.length > 0 ? (
+            accordionItems.map((item, index) => {
+              const isOpen = openAccordionIndex === index;
+
+              return (
+                <section
+                  key={`${item.title}-${index}`}
+                  className={`faculty-student-affairs-item ${
+                    isOpen ? "open" : ""
+                  }`}
+                >
+                  <button
+                    type="button"
+                    className="faculty-student-affairs-trigger"
+                    onClick={() =>
+                      setOpenAccordionIndex((currentIndex) =>
+                        currentIndex === index ? null : index,
+                      )
+                    }
+                    aria-expanded={isOpen}
+                  >
+                    <span className="faculty-student-affairs-title-wrap">
+                      <span
+                        className="faculty-student-affairs-dot"
+                        aria-hidden="true"
+                      />
+<span className="faculty-student-affairs-title">
+  <strong>
+    {item.title.split(/[:：\-–—]/)[0]}
+  </strong>
+
+  {item.title.includes(":") && (
+    <>
+      {":"}
+      {item.title.split(":").slice(1).join(":")}
+    </>
+  )}
+</span>
+                    </span>
+
+                    <ChevronDown
+                      size={18}
+                      strokeWidth={1.8}
+                      className="faculty-student-affairs-chevron"
+                      aria-hidden="true"
+                    />
+                  </button>
+
+                  {isOpen && (
+                    <div className="faculty-student-affairs-panel">
+                      <div
+                        className="faculty-student-affairs-content"
+                        dangerouslySetInnerHTML={{
+                          __html: item.contentHtml,
+                        }}
+                      />
+                    </div>
+                  )}
+                </section>
+              );
+            })
+          ) : (
+            <div
+              className="faculty-student-affairs-empty"
+              dangerouslySetInnerHTML={{
+                __html:
+                  parsed.cleanedHtml ||
+                  `<p>${
+                    isArabic
+                      ? "لا يوجد محتوى متاح"
+                      : "No content available"
+                  }</p>`,
+              }}
+            />
+          )}
+        </div>
+      </article>
+    );
+  }
 
   if (articleType === "video") {
     const video = parsed.videoLinks[0];
@@ -944,7 +1340,6 @@ const FacultyArticleRenderer: React.FC<{
     </article>
   );
 };
-
 const FacultyArticlePage: React.FC<{
   article: FacultyArticlePageData | null;
   loading: boolean;
@@ -952,24 +1347,44 @@ const FacultyArticlePage: React.FC<{
   isArabic: boolean;
   isRTL: boolean;
   fac?: string;
-}> = ({ article, loading, error, isArabic, isRTL, fac }) => {
+}> = ({ article, loading, error, isArabic, isRTL }) => {
+  const parsedArticle = useMemo(
+    () => parseArticleContent(article?.content || ""),
+    [article?.content],
+  );
+
+  const isHistoryPage = Boolean(
+    article && isHistoricalOverviewArticle(article.title),
+  );
+
+  const isGoalsPage = Boolean(
+    article && isGoalsArticle(article.title),
+  );
+
+  const isFilePage = Boolean(
+    article && parsedArticle.fileLinks.length > 0,
+  );
+
+  const isStudentAffairsPage = Boolean(
+    article && isStudentAffairsAccordionArticle(article.title),
+  );
+
+  const specialPageClass = isHistoryPage
+    ? "faculty-history-page-section"
+    : isGoalsPage
+      ? "faculty-goals-page-section"
+      : isFilePage
+        ? "faculty-pdf-page-section"
+        : isStudentAffairsPage
+          ? "faculty-student-affairs-page-section"
+          : "";
+
   return (
-    <section className="faculty-article-section" dir={isRTL ? "rtl" : "ltr"}>
+    <section
+      className={`faculty-article-section ${specialPageClass}`}
+      dir={isRTL ? "rtl" : "ltr"}
+    >
       <div className="faculty-article-wrapper">
-        <Link to={`/fac/${fac}`} className="faculty-article-back-link">
-          <i className="fa-solid fa-arrow-right" aria-hidden="true" />
-          <span>
-            {isArabic ? "العودة إلى أخبار الكلية" : "Back to faculty news"}
-          </span>
-        </Link>
-
-        <div className="faculty-section-heading" dir={isRTL ? "rtl" : "ltr"}>
-          <span className="faculty-section-dot" />
-          <h1 className="faculty-section-title">
-            {article?.title || (isArabic ? "محتوى الكلية" : "Faculty Content")}
-          </h1>
-        </div>
-
         {loading ? (
           <div className="faculty-article-card faculty-article-loading-card">
             <div className="skeleton skeleton-title" />
@@ -980,15 +1395,24 @@ const FacultyArticlePage: React.FC<{
         ) : error ? (
           <div className="faculty-article-card faculty-article-error-card">
             <h2>
-              {isArabic ? "تعذر تحميل المحتوى" : "Could not load content"}
+              {isArabic
+                ? "تعذر تحميل المحتوى"
+                : "Could not load content"}
             </h2>
             <p>{error}</p>
           </div>
         ) : article ? (
-          <FacultyArticleRenderer article={article} isArabic={isArabic} />
+          <FacultyArticleRenderer
+            article={article}
+            isArabic={isArabic}
+          />
         ) : (
           <div className="faculty-article-card faculty-article-error-card">
-            <h2>{isArabic ? "لا يوجد محتوى متاح" : "No content available"}</h2>
+            <h2>
+              {isArabic
+                ? "لا يوجد محتوى متاح"
+                : "No content available"}
+            </h2>
           </div>
         )}
       </div>

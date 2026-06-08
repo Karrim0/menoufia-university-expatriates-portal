@@ -4000,3 +4000,1651 @@
     margin-right: 0 !important;
   }
 }
+/* =========================================
+   Historical Overview Page
+========================================= */
+
+.faculty-history-page-section {
+  padding: 30px 0 140px !important;
+  background: #ffffff !important;
+}
+
+.faculty-history-page-section .faculty-article-wrapper {
+  width: min(1320px, calc(100% - 70px));
+}
+
+.faculty-history-page-title {
+  margin: 0 0 32px !important;
+  padding: 0 10px !important;
+  gap: 14px !important;
+}
+
+.faculty-history-page-title .faculty-section-dot {
+  width: 15px !important;
+  height: 15px !important;
+  background: #f97316 !important;
+}
+
+.faculty-history-page-title .faculty-section-title {
+  color: #303d5e !important;
+  font-size: 30px !important;
+  font-weight: 800 !important;
+  line-height: 1.4 !important;
+}
+
+.faculty-history-card {
+  position: relative;
+  width: 100%;
+  min-height: 370px;
+  padding: 28px 34px 32px;
+  overflow: hidden;
+  background: #f6f7fb;
+  border: 1px solid #e1e4eb;
+  border-radius: 16px;
+  box-shadow: 0 3px 8px rgba(48, 61, 94, 0.13);
+  color: #303d5e;
+}
+
+.faculty-history-card-header {
+  width: 100%;
+  min-height: 72px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 18px;
+  direction: rtl;
+}
+
+.faculty-history-icon {
+  width: 76px;
+  height: 76px;
+  min-width: 76px;
+  border-radius: 50%;
+  background: #303d5e;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+}
+
+.faculty-history-icon i {
+  font-size: 36px;
+  font-weight: 400;
+}
+
+.faculty-history-heading {
+  min-width: 0;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.faculty-history-heading h2 {
+  margin: 0;
+  color: #303d5e !important;
+  font-family: "Cairo", sans-serif;
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.faculty-history-heading-line {
+  width: 58px;
+  height: 1px;
+  margin-top: 7px;
+  background: #9ca3af;
+}
+
+.faculty-history-body {
+  width: 100%;
+  margin-top: 22px;
+  padding-right: 94px;
+}
+
+.faculty-history-content {
+  position: relative;
+  width: 100%;
+  direction: rtl;
+}
+
+.faculty-history-intro {
+  margin: 0 0 18px;
+  color: #777f91;
+  font-family: "Cairo", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 2;
+  text-align: right;
+}
+
+.faculty-history-timeline {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.faculty-history-timeline::before {
+  content: "";
+  position: absolute;
+  top: 7px;
+  bottom: 7px;
+  right: 96px;
+  width: 1px;
+  background: #d0d4dc;
+}
+
+.faculty-history-timeline-item {
+  position: relative;
+  width: 100%;
+  min-height: 52px;
+  padding-right: 128px;
+}
+
+.faculty-history-year {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  direction: rtl;
+  color: #ef7a35;
+}
+
+.faculty-history-year-dot {
+  position: relative;
+  z-index: 2;
+  width: 9px;
+  height: 9px;
+  min-width: 9px;
+  border-radius: 50%;
+  background: #f97316;
+}
+
+.faculty-history-year strong {
+  color: #df7739;
+  font-family: "Cairo", sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1;
+  direction: ltr;
+}
+
+.faculty-history-description {
+  margin: 0;
+  color: #7a8292;
+  font-family: "Cairo", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 2;
+  text-align: right;
+}
+
+.faculty-history-fallback-content {
+  color: #7a8292;
+  font-family: "Cairo", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 2;
+  text-align: right;
+}
+
+.faculty-history-fallback-content p,
+.faculty-history-fallback-content div,
+.faculty-history-fallback-content span {
+  color: inherit !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  background: transparent !important;
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+  .faculty-history-page-section {
+    padding-bottom: 90px !important;
+  }
+
+  .faculty-history-page-section .faculty-article-wrapper {
+    width: calc(100% - 40px);
+  }
+
+  .faculty-history-card {
+    padding: 26px;
+  }
+
+  .faculty-history-body {
+    padding-right: 70px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .faculty-history-page-section {
+    padding: 24px 0 60px !important;
+  }
+
+  .faculty-history-page-section .faculty-article-wrapper {
+    width: calc(100% - 24px);
+  }
+
+  .faculty-history-page-title {
+    margin-bottom: 22px !important;
+    padding: 0 4px !important;
+  }
+
+  .faculty-history-page-title .faculty-section-title {
+    font-size: 23px !important;
+  }
+
+  .faculty-history-page-title .faculty-section-dot {
+    width: 12px !important;
+    height: 12px !important;
+  }
+
+  .faculty-history-card {
+    min-height: 0;
+    padding: 20px 16px 26px;
+    border-radius: 13px;
+  }
+
+  .faculty-history-card-header {
+    gap: 12px;
+  }
+
+  .faculty-history-icon {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+  }
+
+  .faculty-history-icon i {
+    font-size: 27px;
+  }
+
+  .faculty-history-heading {
+    padding-top: 4px;
+  }
+
+  .faculty-history-heading h2 {
+    font-size: 19px;
+  }
+
+  .faculty-history-heading-line {
+    width: 45px;
+  }
+
+  .faculty-history-body {
+    margin-top: 24px;
+    padding-right: 0;
+  }
+
+  .faculty-history-intro {
+    font-size: 12px;
+    line-height: 1.9;
+  }
+
+  .faculty-history-timeline {
+    gap: 22px;
+  }
+
+  .faculty-history-timeline::before {
+    right: 4px;
+  }
+
+  .faculty-history-timeline-item {
+    padding-right: 28px;
+  }
+
+  .faculty-history-year {
+    position: relative;
+    width: auto;
+    margin-bottom: 9px;
+    justify-content: flex-start;
+  }
+
+  .faculty-history-year-dot {
+    position: absolute;
+    right: -28px;
+    top: 6px;
+  }
+
+  .faculty-history-year strong {
+    font-size: 17px;
+  }
+
+  .faculty-history-description {
+    font-size: 12px;
+    line-height: 1.9;
+  }
+}
+/* =========================================
+   Faculty Goals Page
+========================================= */
+
+.faculty-goals-page-section {
+  padding: 30px 0 130px !important;
+  background: #ffffff !important;
+}
+
+.faculty-goals-page-section .faculty-article-wrapper {
+  width: min(1319px, calc(100% - 70px));
+}
+
+.faculty-special-page-title {
+  margin: 0 0 32px !important;
+  padding: 0 8px !important;
+  gap: 14px !important;
+}
+
+.faculty-special-page-title .faculty-section-dot {
+  width: 15px !important;
+  height: 15px !important;
+  background: #f97316 !important;
+}
+
+.faculty-special-page-title .faculty-section-title {
+  color: #303d5e !important;
+  font-family: "Cairo", sans-serif !important;
+  font-size: 30px !important;
+  font-weight: 800 !important;
+  line-height: 1.4 !important;
+}
+
+.faculty-goals-card {
+  width: 100%;
+  min-height: 396px;
+  padding: 28px 34px 38px;
+  background: #f5f7fa;
+  border-radius: 20px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  color: #303d5e;
+  overflow: hidden;
+}
+
+.faculty-goals-card-header {
+  width: 100%;
+  min-height: 78px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 18px;
+  direction: rtl;
+}
+
+.faculty-goals-icon {
+  width: 76px;
+  height: 76px;
+  min-width: 76px;
+  border-radius: 50%;
+  background: #303d5e;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.faculty-goals-icon i {
+  font-size: 36px;
+}
+
+.faculty-goals-heading {
+  min-width: 0;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.faculty-goals-heading h2 {
+  margin: 0;
+  color: #303d5e !important;
+  font-family: "Cairo", sans-serif;
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.faculty-goals-heading-line {
+  width: 58px;
+  height: 1px;
+  margin-top: 7px;
+  background: #9ca3af;
+}
+
+.faculty-goals-content {
+  width: 100%;
+  margin-top: 20px;
+  padding-right: 95px;
+}
+
+.faculty-goals-list {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+  direction: rtl;
+}
+
+.faculty-goals-list li {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 14px;
+}
+
+.faculty-goals-dot {
+  width: 9px;
+  height: 9px;
+  min-width: 9px;
+  margin-top: 9px;
+  border-radius: 50%;
+  background: #f97316;
+}
+
+.faculty-goals-list p {
+  margin: 0;
+  color: #737b8c;
+  font-family: "Cairo", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 2;
+  text-align: right;
+}
+
+.faculty-goals-fallback {
+  color: #737b8c;
+  font-family: "Cairo", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 2;
+  text-align: right;
+}
+
+.faculty-goals-fallback p,
+.faculty-goals-fallback div,
+.faculty-goals-fallback span {
+  margin: 0 0 14px !important;
+  color: inherit !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  background: transparent !important;
+}
+
+@media (max-width: 768px) {
+  .faculty-goals-page-section {
+    padding: 24px 0 60px !important;
+  }
+
+  .faculty-goals-page-section .faculty-article-wrapper {
+    width: calc(100% - 24px);
+  }
+
+  .faculty-special-page-title {
+    margin-bottom: 22px !important;
+  }
+
+  .faculty-special-page-title .faculty-section-title {
+    font-size: 23px !important;
+  }
+
+  .faculty-goals-card {
+    min-height: 0;
+    padding: 20px 16px 28px;
+    border-radius: 14px;
+  }
+
+  .faculty-goals-card-header {
+    min-height: 60px;
+    gap: 12px;
+  }
+
+  .faculty-goals-icon {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+  }
+
+  .faculty-goals-icon i {
+    font-size: 27px;
+  }
+
+  .faculty-goals-heading {
+    padding-top: 4px;
+  }
+
+  .faculty-goals-heading h2 {
+    font-size: 19px;
+  }
+
+  .faculty-goals-heading-line {
+    width: 45px;
+  }
+
+  .faculty-goals-content {
+    margin-top: 22px;
+    padding-right: 0;
+  }
+
+  .faculty-goals-list {
+    gap: 14px;
+  }
+
+  .faculty-goals-list p {
+    font-size: 12px;
+    line-height: 1.9;
+  }
+}/* =========================================================
+   Shared special article pages
+========================================================= */
+
+.faculty-history-page-section,
+.faculty-goals-page-section,
+.faculty-pdf-page-section {
+  padding: 30px 0 120px !important;
+  background: #ffffff !important;
+}
+
+.faculty-history-page-section .faculty-article-wrapper,
+.faculty-goals-page-section .faculty-article-wrapper,
+.faculty-pdf-page-section .faculty-article-wrapper {
+  width: min(1319px, calc(100% - 70px));
+  margin: 0 auto;
+}
+
+.faculty-special-page-title,
+.faculty-history-page-title {
+  margin: 0 0 32px !important;
+  padding: 0 8px !important;
+  gap: 14px !important;
+}
+
+.faculty-special-page-title .faculty-section-dot,
+.faculty-history-page-title .faculty-section-dot {
+  width: 15px !important;
+  height: 15px !important;
+  min-width: 15px !important;
+  border-radius: 50%;
+  background: #f97316 !important;
+}
+
+.faculty-special-page-title .faculty-section-title,
+.faculty-history-page-title .faculty-section-title {
+  margin: 0;
+  color: #303d5e !important;
+  font-family: "Cairo", sans-serif !important;
+  font-size: 30px !important;
+  font-weight: 800 !important;
+  line-height: 1.4 !important;
+}
+
+/* =========================================================
+   Historical overview page
+========================================================= */
+
+.faculty-history-card {
+  position: relative;
+  width: 100%;
+  min-height: 396px;
+  padding: 28px 34px 36px;
+  overflow: hidden;
+  background: #f5f7fa;
+  border: 1px solid #e1e4eb;
+  border-radius: 20px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  color: #303d5e;
+}
+
+.faculty-history-card-header {
+  width: 100%;
+  min-height: 76px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 18px;
+  direction: rtl;
+}
+
+.faculty-history-icon {
+  width: 76px;
+  height: 76px;
+  min-width: 76px;
+  border-radius: 50%;
+  background: #303d5e;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.faculty-history-icon i {
+  font-size: 35px;
+}
+
+.faculty-history-heading {
+  min-width: 0;
+  padding-top: 9px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.faculty-history-heading h2 {
+  margin: 0;
+  color: #303d5e !important;
+  font-family: "Cairo", sans-serif;
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.faculty-history-heading-line {
+  width: 58px;
+  height: 1px;
+  margin-top: 7px;
+  background: #9ca3af;
+}
+
+.faculty-history-body {
+  width: 100%;
+  margin-top: 22px;
+  padding-right: 94px;
+}
+
+.faculty-history-content {
+  position: relative;
+  width: 100%;
+  direction: rtl;
+}
+
+.faculty-history-intro {
+  margin: 0 0 18px;
+  color: #777f91;
+  font-family: "Cairo", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 2;
+  text-align: right;
+}
+
+.faculty-history-timeline {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.faculty-history-timeline::before {
+  content: "";
+  position: absolute;
+  top: 7px;
+  bottom: 7px;
+  right: 96px;
+  width: 1px;
+  background: #d0d4dc;
+}
+
+.faculty-history-timeline-item {
+  position: relative;
+  width: 100%;
+  min-height: 52px;
+  padding-right: 128px;
+}
+
+.faculty-history-year {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  direction: rtl;
+}
+
+.faculty-history-year-dot {
+  position: relative;
+  z-index: 2;
+  width: 9px;
+  height: 9px;
+  min-width: 9px;
+  border-radius: 50%;
+  background: #f97316;
+}
+
+.faculty-history-year strong {
+  color: #df7739;
+  font-family: "Cairo", sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1;
+  direction: ltr;
+}
+
+.faculty-history-description {
+  margin: 0;
+  color: #7a8292;
+  font-family: "Cairo", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 2;
+  text-align: right;
+}
+
+.faculty-history-fallback-content {
+  color: #7a8292;
+  font-family: "Cairo", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 2;
+  text-align: right;
+}
+
+.faculty-history-fallback-content p,
+.faculty-history-fallback-content div,
+.faculty-history-fallback-content span {
+  color: inherit !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  background: transparent !important;
+}
+
+/* =========================================================
+   Goals page
+========================================================= */
+
+.faculty-goals-card {
+  width: 100%;
+  min-height: 396px;
+  padding: 28px 34px 38px;
+  background: #f5f7fa;
+  border: 1px solid #e1e4eb;
+  border-radius: 20px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  color: #303d5e;
+  overflow: hidden;
+}
+
+.faculty-goals-card-header {
+  width: 100%;
+  min-height: 78px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 18px;
+  direction: rtl;
+}
+
+.faculty-goals-icon {
+  width: 76px;
+  height: 76px;
+  min-width: 76px;
+  border-radius: 50%;
+  background: #303d5e;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.faculty-goals-icon i {
+  font-size: 35px;
+}
+
+.faculty-goals-heading {
+  min-width: 0;
+  padding-top: 9px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.faculty-goals-heading h2 {
+  margin: 0;
+  color: #303d5e !important;
+  font-family: "Cairo", sans-serif;
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.faculty-goals-heading-line {
+  width: 58px;
+  height: 1px;
+  margin-top: 7px;
+  background: #9ca3af;
+}
+
+.faculty-goals-content {
+  width: 100%;
+  margin-top: 20px;
+  padding-right: 95px;
+}
+
+.faculty-goals-list {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+  direction: rtl;
+}
+
+.faculty-goals-list li {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 14px;
+}
+
+.faculty-goals-dot {
+  width: 9px;
+  height: 9px;
+  min-width: 9px;
+  margin-top: 9px;
+  border-radius: 50%;
+  background: #f97316;
+}
+
+.faculty-goals-list p {
+  margin: 0;
+  color: #737b8c;
+  font-family: "Cairo", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 2;
+  text-align: right;
+}
+
+.faculty-goals-fallback {
+  color: #737b8c;
+  font-family: "Cairo", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 2;
+  text-align: right;
+}
+
+.faculty-goals-fallback p,
+.faculty-goals-fallback div,
+.faculty-goals-fallback span {
+  margin: 0 0 14px !important;
+  color: inherit !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  background: transparent !important;
+}
+
+/* =========================================================
+   PDF file page
+========================================================= */
+
+/* =========================================================
+   Faculty file page — Figma match
+========================================================= */
+
+.faculty-pdf-page-section {
+  padding: 28px 0 110px !important;
+  background: #ffffff !important;
+}
+
+.faculty-pdf-page-section .faculty-article-wrapper {
+  width: min(1319px, calc(100% - 70px));
+  margin: 0 auto;
+}
+
+.faculty-pdf-page-section .faculty-special-page-title {
+  margin: 0 0 28px !important;
+  padding: 0 6px !important;
+  gap: 14px !important;
+}
+
+.faculty-pdf-page-section
+  .faculty-special-page-title
+  .faculty-section-dot {
+  width: 15px !important;
+  height: 15px !important;
+  min-width: 15px !important;
+  background: #f97316 !important;
+}
+
+.faculty-pdf-page-section
+  .faculty-special-page-title
+  .faculty-section-title {
+  margin: 0;
+  color: #303d5e !important;
+  font-family: "Cairo", sans-serif !important;
+  font-size: 30px !important;
+  font-weight: 800 !important;
+  line-height: 1.4 !important;
+}
+
+.faculty-pdf-page-content {
+  width: 100%;
+}
+
+.faculty-pdf-card {
+  width: 100%;
+  min-height: 396px;
+  padding: 34px 42px;
+  background: #f5f7fa;
+  border: 1px solid #d9dee7;
+  border-radius: 20px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  align-items: center;
+  gap: 56px;
+  direction: ltr;
+}
+
+.faculty-pdf-illustration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.faculty-pdf-illustration-circle {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: #eef0f3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.faculty-pdf-document {
+  position: relative;
+  width: 116px;
+  height: 154px;
+  border-radius: 7px;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(48, 61, 94, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.faculty-pdf-document::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(
+    225deg,
+    #eef0f3 0 50%,
+    #ffffff 50% 100%
+  );
+}
+
+.faculty-pdf-document i {
+  color: #e43d3d;
+  font-size: 68px;
+}
+
+.faculty-pdf-label {
+  position: absolute;
+  top: 17px;
+  left: 12px;
+  z-index: 2;
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: #e84545;
+  color: #ffffff;
+  font-family: "Cairo", sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.faculty-pdf-details {
+  width: 100%;
+  direction: rtl;
+}
+
+.faculty-pdf-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.faculty-pdf-header-icon {
+  width: 72px;
+  height: 72px;
+  min-width: 72px;
+  border-radius: 50%;
+  background: #303d5e;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.faculty-pdf-header-icon i {
+  font-size: 34px;
+}
+
+.faculty-pdf-heading {
+  min-width: 0;
+  padding-top: 9px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.faculty-pdf-heading h2 {
+  margin: 0;
+  color: #303d5e !important;
+  font-family: "Cairo", sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.faculty-pdf-heading-line {
+  width: 76px;
+  height: 1px;
+  margin-top: 6px;
+  background: #8f96a3;
+}
+
+.faculty-pdf-type {
+  margin-top: 26px;
+  padding-right: 90px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #303d5e;
+  font-family: "Cairo", sans-serif;
+  font-size: 14px;
+}
+
+.faculty-pdf-type span {
+  font-weight: 600;
+}
+
+.faculty-pdf-type strong {
+  color: #303d5e;
+  font-weight: 500;
+  direction: ltr;
+}
+
+.faculty-pdf-type i {
+  margin-right: 6px;
+  color: #303d5e;
+  font-size: 18px;
+}
+
+.faculty-pdf-actions {
+  margin-top: 36px;
+  padding-right: 90px;
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.faculty-pdf-view-button,
+.faculty-pdf-download-button {
+  width: 245px;
+  height: 64px;
+  padding: 0 24px;
+  border-radius: 7px;
+  font-family: "Cairo", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.faculty-pdf-view-button {
+  background: #303d5e;
+  color: #ffffff !important;
+  border: 1px solid #303d5e;
+}
+
+.faculty-pdf-download-button {
+  background: transparent;
+  color: #303d5e !important;
+  border: 1px solid #303d5e;
+}
+
+.faculty-pdf-view-button:hover,
+.faculty-pdf-download-button:hover {
+  transform: translateY(-2px);
+}
+
+.faculty-pdf-download-button:hover {
+  background: #ffffff;
+}
+
+.faculty-pdf-view-button i,
+.faculty-pdf-download-button i {
+  font-size: 17px;
+}
+
+.faculty-pdf-note {
+  width: 100%;
+  min-height: 86px;
+  margin-top: 28px;
+  padding: 18px 28px;
+  border-radius: 14px;
+  background: #eaf1fc;
+  color: #303d5e;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  direction: rtl;
+}
+
+.faculty-pdf-note i {
+  color: #303d5e;
+  font-size: 27px;
+}
+
+.faculty-pdf-note p {
+  margin: 0;
+  color: #303d5e;
+  font-family: "Cairo", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.8;
+}
+
+/* Tablet */
+
+@media (max-width: 992px) {
+  .faculty-pdf-page-section .faculty-article-wrapper {
+    width: calc(100% - 40px);
+  }
+
+  .faculty-pdf-card {
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 28px;
+    padding: 32px 26px;
+  }
+
+  .faculty-pdf-illustration-circle {
+    width: 185px;
+    height: 185px;
+  }
+
+  .faculty-pdf-actions {
+    gap: 14px;
+  }
+
+  .faculty-pdf-view-button,
+  .faculty-pdf-download-button {
+    width: 188px;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+  .faculty-pdf-page-section {
+    padding: 24px 0 60px !important;
+  }
+
+  .faculty-pdf-page-section .faculty-article-wrapper {
+    width: calc(100% - 24px);
+  }
+
+  .faculty-pdf-page-section .faculty-special-page-title {
+    margin-bottom: 22px !important;
+  }
+
+  .faculty-pdf-page-section
+    .faculty-special-page-title
+    .faculty-section-title {
+    font-size: 23px !important;
+  }
+
+  .faculty-pdf-card {
+    min-height: 0;
+    padding: 22px 16px 28px;
+    grid-template-columns: 1fr;
+    gap: 26px;
+    border-radius: 14px;
+  }
+
+  .faculty-pdf-details {
+    order: -1;
+  }
+
+  .faculty-pdf-header-icon {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+  }
+
+  .faculty-pdf-header-icon i {
+    font-size: 27px;
+  }
+
+  .faculty-pdf-heading {
+    padding-top: 3px;
+  }
+
+  .faculty-pdf-heading h2 {
+    font-size: 19px;
+  }
+
+  .faculty-pdf-type {
+    margin-top: 22px;
+    padding-right: 0;
+    font-size: 13px;
+  }
+
+  .faculty-pdf-actions {
+    margin-top: 24px;
+    padding-right: 0;
+    gap: 12px;
+  }
+
+  .faculty-pdf-view-button,
+  .faculty-pdf-download-button {
+    width: 50%;
+    height: 50px;
+    padding: 0 12px;
+    gap: 10px;
+    font-size: 12px;
+  }
+
+  .faculty-pdf-illustration-circle {
+    width: 170px;
+    height: 170px;
+  }
+
+  .faculty-pdf-document {
+    width: 90px;
+    height: 125px;
+  }
+
+  .faculty-pdf-document i {
+    font-size: 54px;
+  }
+
+  .faculty-pdf-note {
+    min-height: 70px;
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .faculty-pdf-note i {
+    font-size: 22px;
+  }
+
+  .faculty-pdf-note p {
+    font-size: 12px;
+  }
+}
+/* ===== Exact Figma title + white background for file page ===== */
+
+.faculty-page-wrapper .faculty-pdf-page-section {
+  background: #ffffff !important;
+  padding-top: 28px !important;
+}
+
+.faculty-page-wrapper
+  .faculty-pdf-page-section
+  .faculty-article-wrapper {
+  width: min(1319px, calc(100% - 70px)) !important;
+  margin: 0 auto !important;
+}
+
+.faculty-page-wrapper
+  .faculty-pdf-page-section
+  .faculty-special-page-title {
+  width: 100%;
+  margin: 0 0 32px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 14px !important;
+  direction: rtl !important;
+}
+
+.faculty-page-wrapper
+  .faculty-pdf-page-section
+  .faculty-special-page-title
+  .faculty-section-title {
+  margin: 0 !important;
+  color: #303d5e !important;
+  font-family: "Cairo", sans-serif !important;
+  font-size: 30px !important;
+  font-weight: 800 !important;
+  line-height: 1.4 !important;
+  text-align: right !important;
+}
+
+.faculty-page-wrapper
+  .faculty-pdf-page-section
+  .faculty-special-page-title
+  .faculty-section-dot {
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  min-height: 30px !important;
+  flex: 0 0 30px !important;
+  border-radius: 50% !important;
+  background: #f66b15 !important;
+  background-color: #f66b15 !important;
+  display: block !important;
+}
+
+.faculty-page-wrapper
+  .faculty-pdf-page-section
+  .faculty-pdf-card {
+  margin-top: 0 !important;
+  background: #f5f7fa !important;
+}
+/* =========================================================
+   Student Affairs Accordion Page — Figma match
+========================================================= */
+
+.faculty-page-wrapper .faculty-student-affairs-page-section {
+  padding: 30px 0 120px !important;
+  background: #ffffff !important;
+}
+
+.faculty-page-wrapper .faculty-student-affairs-page-section .faculty-article-wrapper {
+  width: min(1319px, calc(100% - 70px)) !important;
+  margin: 0 auto !important;
+}
+
+.faculty-student-affairs-card {
+  width: 100%;
+  min-height: 650px;
+  padding: 28px 34px 38px;
+  background: #f5f7fa;
+  border: 1px solid #dfe3ea;
+  border-radius: 20px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  color: #303d5e;
+  overflow: hidden;
+}
+
+.faculty-student-affairs-header {
+  width: 100%;
+  min-height: 78px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 18px;
+  direction: rtl;
+}
+
+.faculty-student-affairs-icon {
+  width: 76px;
+  height: 76px;
+  min-width: 76px;
+  border-radius: 50%;
+  background: #303d5e;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.faculty-student-affairs-icon i { font-size: 35px; }
+
+.faculty-student-affairs-heading {
+  min-width: 0;
+  padding-top: 9px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.faculty-student-affairs-heading h2 {
+  margin: 0;
+  color: #303d5e !important;
+  font-family: "Cairo", sans-serif;
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.faculty-student-affairs-heading-line {
+  width: 64px;
+  height: 1px;
+  margin-top: 7px;
+  background: #9ca3af;
+}
+
+.faculty-student-affairs-accordion {
+  width: calc(100% - 110px);
+  margin-right: 110px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background: transparent;
+  border: 0;
+  overflow: visible;
+}
+
+.faculty-student-affairs-item {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #d9dee7;
+  border-radius: 12px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.14);
+  overflow: hidden;
+}
+
+.faculty-student-affairs-item:last-child {
+  border-bottom: 1px solid #d9dee7;
+}
+
+.faculty-student-affairs-trigger {
+  width: 100%;
+  min-height: 109px;
+  padding: 22px 28px;
+  border: 0;
+  outline: 0;
+  background: #ffffff;
+  color: #303d5e;
+  font-family: "Cairo", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  direction: rtl;
+  text-align: right;
+  cursor: pointer;
+}
+
+.faculty-student-affairs-trigger:hover {
+  background: #fbfcfe;
+}
+
+.faculty-student-affairs-title-wrap {
+  min-width: 0;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.faculty-student-affairs-dot {
+  width: 8px;
+  height: 8px;
+  min-width: 8px;
+  margin-top: 9px;
+  border-radius: 50%;
+  background: #f66b15;
+}
+
+.faculty-student-affairs-title {
+  color: #303d5e;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.8;
+}
+
+.faculty-student-affairs-title::first-line {
+  font-weight: 800;
+}
+
+.faculty-student-affairs-chevron {
+  flex: 0 0 auto;
+  color: #303d5e;
+  transform: rotate(90deg);
+  transition: transform 0.22s ease;
+}
+
+.faculty-student-affairs-item.open
+  .faculty-student-affairs-chevron {
+  transform: rotate(180deg);
+}
+
+.faculty-student-affairs-panel {
+  width: 100%;
+  padding: 0 28px 30px;
+  background: #ffffff;
+  border-top: 1px solid #edf0f4;
+}
+
+.faculty-student-affairs-content {
+  width: 100%;
+  padding-top: 18px;
+  color: #6f7788;
+  font-family: "Cairo", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 2;
+  direction: rtl;
+  text-align: right;
+}
+
+.faculty-student-affairs-content p,
+.faculty-student-affairs-content div {
+  margin: 0 0 12px !important;
+  padding: 0 !important;
+  color: inherit !important;
+  background: transparent !important;
+  font-family: "Cairo", sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 2 !important;
+  text-align: right !important;
+}
+
+.faculty-student-affairs-content strong,
+.faculty-student-affairs-content b {
+  color: #303d5e !important;
+  font-weight: 800 !important;
+}
+
+.faculty-student-affairs-empty {
+  padding: 28px;
+  color: #6f7788;
+  font-family: "Cairo", sans-serif;
+  font-size: 14px;
+  line-height: 2;
+  direction: rtl;
+  text-align: right;
+}
+.faculty-student-affairs-order {
+  color: #303d5e;
+  font-weight: 800;
+  margin-left: 4px;
+}
+
+@media (max-width: 992px) {
+  .faculty-page-wrapper .faculty-student-affairs-page-section .faculty-article-wrapper {
+    width: calc(100% - 40px) !important;
+  }
+  .faculty-student-affairs-card { padding: 26px; }
+  .faculty-student-affairs-accordion {
+    width: calc(100% - 72px);
+    margin-right: 72px;
+  }
+}
+
+@media (max-width: 768px) {
+  .faculty-page-wrapper .faculty-student-affairs-page-section {
+    padding: 24px 0 60px !important;
+  }
+  .faculty-page-wrapper .faculty-student-affairs-page-section .faculty-article-wrapper {
+    width: calc(100% - 24px) !important;
+  }
+  .faculty-student-affairs-card {
+    min-height: 0;
+    padding: 20px 14px 24px;
+    border-radius: 14px;
+  }
+  .faculty-student-affairs-header {
+    min-height: 60px;
+    margin-bottom: 18px;
+    gap: 12px;
+  }
+  .faculty-student-affairs-icon {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+  }
+  .faculty-student-affairs-icon i { font-size: 27px; }
+  .faculty-student-affairs-heading { padding-top: 4px; }
+  .faculty-student-affairs-heading h2 { font-size: 18px; }
+  .faculty-student-affairs-heading-line { width: 48px; }
+  .faculty-student-affairs-accordion {
+    width: 100%;
+    margin-right: 0;
+  }
+  .faculty-student-affairs-trigger {
+    min-height: 76px;
+    padding: 16px 14px;
+    gap: 12px;
+  }
+  .faculty-student-affairs-title {
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .faculty-student-affairs-dot {
+    width: 7px;
+    height: 7px;
+    min-width: 7px;
+    margin-top: 7px;
+  }
+  .faculty-student-affairs-panel { padding: 0 14px 20px; }
+  .faculty-student-affairs-content {
+    font-size: 12px;
+    line-height: 1.9;
+  }
+}
