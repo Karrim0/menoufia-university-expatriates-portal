@@ -17,6 +17,18 @@ select {
 
   --MNF_Heading_Size1: 64px;
   --MNF_Heading_Size2: 32px;
+  --theme-primary: #102c57;
+--theme-secondary: #dac0a3;
+--theme-button: #102c57;
+--theme-background: #f8f0e5;
+--theme-button-hover: #dac0a3;
+--theme-card: #ffffff;
+--theme-icon-bg: #102c57;
+--theme-secondary-text: #6b7280;
+--theme-icon-color: #ffffff;
+--theme-primary-text: #1a1a1a;
+--theme-icon-bg-hover: #dac0a3;
+--theme-icon-hover: #ffffff;
 }
 
 *,
@@ -37,9 +49,12 @@ html[dir="rtl"] body {
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #303d5e;
-  background-color: #ffffff;
+  color: var(--theme-primary-text);
+  background-color: var(--theme-background);
   min-height: 100vh;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
 }
 
 #root {

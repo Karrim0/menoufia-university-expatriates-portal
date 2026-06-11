@@ -1,8 +1,11 @@
 .fhd-wrapper {
   min-height: 100vh;
-  background: #f6f8fb;
+  background: var(--theme-background);
   padding: 42px 7vw 70px;
-  color: #14213d;
+  color: var(--theme-primary-text);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
 }
 
 .fhd-breadcrumb {
@@ -13,12 +16,12 @@
   gap: 10px;
   flex-wrap: wrap;
   font-size: 15px;
-  color: #8b95ad;
+  color: var(--theme-secondary-text);
 }
 
 .fhd-breadcrumb-link,
 .fhd-breadcrumb-btn {
-  color: #26385f;
+  color: var(--theme-primary);
   font-weight: 700;
   text-decoration: none;
   transition: 0.25s ease;
@@ -35,16 +38,16 @@
 
 .fhd-breadcrumb-link:hover,
 .fhd-breadcrumb-btn:hover {
-  color: #102c57;
+  color: var(--theme-primary);
 }
 
 .fhd-breadcrumb-sep {
-  color: #a8b0c3;
+  color: color-mix(in srgb, var(--theme-secondary-text) 45%, transparent);
   font-weight: 800;
 }
 
 .fhd-breadcrumb-current {
-  color: #9aa4b8;
+  color: var(--theme-secondary-text);
   font-weight: 600;
 }
 
@@ -52,19 +55,19 @@
   max-width: 1180px;
   min-height: 420px;
   margin: 0 auto;
-  background: #ffffff;
+  background: var(--theme-card);
   border-radius: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 45px color-mix(in srgb, var(--theme-primary-text) 8%, transparent);
 }
 
 .fhd-spinner {
   width: 54px;
   height: 54px;
-  border: 5px solid #e5ebf5;
-  border-top-color: #26385f;
+  border: 5px solid color-mix(in srgb, var(--theme-secondary-text) 18%, transparent);
+  border-top-color: var(--theme-primary);
   border-radius: 50%;
   animation: fhd-spin 0.9s linear infinite;
 }
@@ -78,20 +81,20 @@
 .fhd-article {
   max-width: 1180px;
   margin: 0 auto;
-  background: #ffffff;
+  background: var(--theme-card);
   border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 20px 55px rgba(15, 23, 42, 0.09);
+  box-shadow: 0 20px 55px color-mix(in srgb, var(--theme-primary-text) 9%, transparent);
 }
 
 .fhd-header {
   padding: 38px 44px 24px;
-  border-bottom: 1px solid #edf1f7;
+  border-bottom: 1px solid color-mix(in srgb, var(--theme-secondary-text) 14%, transparent);
 }
 
 .fhd-title {
   margin: 0;
-  color: #10213f;
+  color: var(--theme-primary-text);
   font-size: clamp(26px, 3vw, 42px);
   line-height: 1.55;
   font-weight: 900;
@@ -110,9 +113,9 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #f4f7fb;
-  color: #52617d;
-  border: 1px solid #e6ecf4;
+  background: color-mix(in srgb, var(--theme-background) 72%, var(--theme-card));
+  color: var(--theme-secondary-text);
+  border: 1px solid color-mix(in srgb, var(--theme-secondary-text) 18%, transparent);
   border-radius: 999px;
   padding: 9px 15px;
   font-size: 14px;
@@ -120,7 +123,7 @@
 }
 
 .fhd-meta-item i {
-  color: #26385f;
+  color: var(--theme-icon-bg);
 }
 
 .fhd-img-wrap {
@@ -135,13 +138,13 @@
   object-position: center;
   display: block;
   border-radius: 20px;
-  background: #f5f7fb;
-  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+  background: color-mix(in srgb, var(--theme-background) 70%, var(--theme-card));
+  box-shadow: 0 12px 35px color-mix(in srgb, var(--theme-primary-text) 8%, transparent);
 }
 
 .fhd-body {
   padding: 34px 44px 42px;
-  color: #283852;
+  color: var(--theme-primary-text);
   font-size: 19px;
   line-height: 2.05;
   font-weight: 500;
@@ -159,7 +162,7 @@
 }
 
 .fhd-body a {
-  color: #102c57;
+  color: var(--theme-primary);
   font-weight: 800;
   text-decoration: underline;
   text-underline-offset: 4px;
@@ -179,15 +182,15 @@
 
 .fhd-back-btn {
   border: 0;
-  background: #26385f;
-  color: #ffffff;
+  background: var(--theme-button);
+  color: var(--theme-icon-color);
   border-radius: 12px;
   padding: 14px 28px;
   font-family: inherit;
   font-size: 16px;
   font-weight: 900;
   cursor: pointer;
-  box-shadow: 0 12px 26px rgba(38, 56, 95, 0.22);
+  box-shadow: 0 12px 26px color-mix(in srgb, var(--theme-primary) 22%, transparent);
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease,
@@ -195,9 +198,10 @@
 }
 
 .fhd-back-btn:hover {
-  background: #102c57;
+  background: var(--theme-button-hover);
+  color: var(--theme-icon-hover);
   transform: translateY(-2px);
-  box-shadow: 0 16px 32px rgba(38, 56, 95, 0.28);
+  box-shadow: 0 16px 32px color-mix(in srgb, var(--theme-primary) 28%, transparent);
 }
 
 .fhd-back-btn:active {

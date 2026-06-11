@@ -1,8 +1,9 @@
 .about-section {
   width: 100%;
   padding: 40px 0;
-  background: #DCEDF4;
+  background: var(--theme-background);
   box-sizing: border-box;
+  transition: background-color 0.3s ease;
 }
 
 .about-section.about-rtl {
@@ -26,9 +27,14 @@
   padding: 40px 40px;
   box-sizing: border-box;
 
-  background: #dcedf4;
-  border: 1px solid rgba(48, 61, 94, 0.55);
+  background: var(--theme-card);
+  border: 1px solid
+    color-mix(in srgb, var(--theme-primary) 55%, transparent);
   border-radius: 20px;
+
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .about-image-wrap {
@@ -45,20 +51,21 @@
   object-position: center;
   display: block;
   width: 661px;
-height: 335px;
-angle: 0 deg;
-opacity: 1;
-border-radius: 20px;
-
+  height: 335px;
+  angle: 0deg;
+  opacity: 1;
+  border-radius: 20px;
 }
 
 .about-text {
   max-width: 660px;
-  color: #303d5e;
+  color: var(--theme-primary-text);
   font-family: Cairo, sans-serif;
 
   display: flex;
   flex-direction: column;
+
+  transition: color 0.3s ease;
 }
 
 .about-section.about-rtl .about-text {
@@ -73,18 +80,20 @@ border-radius: 20px;
 
 .about-title {
   margin: 0 0 22px;
-  color: #303D5E;
+  color: var(--theme-primary-text);
   font-family: Cairo, sans-serif;
   font-size: 32px;
   font-weight: 700;
   line-height: 1.25;
+
+  transition: color 0.3s ease;
 }
 
 .about-description {
   margin: 0;
   max-width: 690px;
 
-  color: #303d5ecc;
+  color: var(--theme-secondary-text);
   font-family: Cairo, sans-serif;
   font-size: 20px;
   font-weight: 500;
@@ -93,9 +102,9 @@ border-radius: 20px;
 
   text-wrap: balance;
   white-space: normal;
+
+  transition: color 0.3s ease;
 }
-
-
 
 .about-read-more {
   margin-top: 28px;
@@ -105,24 +114,27 @@ border-radius: 20px;
 
   border: 0;
   border-radius: 10px;
-  background: #303d5e;
-  color: #ffffff;
+  background: var(--theme-button);
+  color: var(--theme-card);
 
   font-family: Cairo, sans-serif;
   font-size: 20px;
   font-weight: 500;
 
   cursor: pointer;
-  transition: 0.25s ease;
-  font-family: Cairo;
-font-weight: 600;
-font-style: SemiBold;
-font-size: 16px;
-leading-trim: NONE;
-line-height: 100%;
-letter-spacing: 0%;
-vertical-align: middle;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
 
+  font-family: Cairo;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 16px;
+  leading-trim: none;
+  line-height: 100%;
+  letter-spacing: 0%;
+  vertical-align: middle;
 }
 
 .about-section.about-rtl .about-read-more {
@@ -134,7 +146,8 @@ vertical-align: middle;
 }
 
 .about-read-more:hover {
-  background: #f8904f;
+  background: var(--theme-button-hover);
+  color: var(--theme-card);
   transform: translateY(-2px);
 }
 
@@ -162,8 +175,6 @@ vertical-align: middle;
 }
 
 @media (max-width: 900px) {
-  
-
   .about-card {
     width: calc(100% - 32px);
     grid-template-columns: 1fr;

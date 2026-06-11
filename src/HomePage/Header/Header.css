@@ -1,20 +1,25 @@
 :root {
   --nav-height: 100px;
-  --nav-bg: #ffffff;
+  --nav-bg: var(--theme-card);
+
   --nav-shadow:
-    0px 1px 0px 0px rgba(0, 0, 0, 0.06), 0 2px 12px rgba(0, 0, 0, 0.04);
-  --nav-text: #303d5e;
-  --nav-text-hover: #001351;
-  --nav-active-color: #001351;
+    0px 1px 0px 0px rgba(0, 0, 0, 0.06),
+    0 2px 12px rgba(0, 0, 0, 0.04);
+
+  --nav-text: var(--theme-primary);
+  --nav-text-hover: var(--theme-secondary);
+  --nav-active-color: var(--theme-primary);
   --nav-active-fw: 700;
 
   --drop-width: 268px;
-  --drop-bg: #ffffff;
+  --drop-bg: var(--theme-card);
   --drop-radius: 10px;
-  --drop-shadow: 0 8px 32px rgba(0, 19, 81, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
-  --drop-border: 1px solid rgba(0, 19, 81, 0.09);
-  --drop-item-hover: rgba(0, 19, 81, 0.05);
-  --drop-accent: #001351;
+  --drop-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.06);
+  --drop-border: 1px solid rgba(0, 0, 0, 0.09);
+  --drop-item-hover: var(--theme-background);
+  --drop-accent: var(--theme-primary);
 
   --z-nav: 1000;
   --z-dropdown: 1100;
@@ -745,5 +750,106 @@ html[dir="ltr"] .search-input-pro {
   to {
     opacity: 1;
     transform: translateY(-50%) scale(1);
+  }
+}
+.palette-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 8px;
+  border-radius: 8px;
+  color: var(--theme-primary);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.palette-wrapper:hover {
+  background-color: var(--theme-background);
+  color: var(--theme-secondary);
+}
+
+.palette-arrow {
+  transition: transform 0.25s ease;
+}
+
+.palette-arrow.rotated {
+  transform: rotate(180deg);
+}
+
+.palette-dropdown {
+  display: none;
+  position: fixed;
+  top: var(--nav-height);
+  inset-inline-end: 115px;
+  width: 190px;
+  padding: 10px;
+  background-color: var(--theme-card);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: var(--drop-shadow);
+  z-index: var(--z-dropdown);
+  animation: dropSlideIn 0.18s ease;
+}
+
+.palette-dropdown.open {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.palette-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--theme-primary-text);
+  font-family: var(--MNF_Body_EN), Arial, sans-serif;
+  font-size: 13px;
+  text-align: start;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.palette-option:hover {
+  background-color: var(--theme-background);
+  transform: translateX(-2px);
+}
+
+.palette-option.selected {
+  background-color: var(--theme-background);
+  font-weight: 700;
+}
+
+.palette-colors {
+  display: flex;
+  align-items: center;
+}
+
+.palette-color {
+  width: 17px;
+  height: 17px;
+  border: 2px solid var(--theme-card);
+  border-radius: 50%;
+  margin-inline-start: -4px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+.palette-color:first-child {
+  margin-inline-start: 0;
+}
+
+@media (max-width: 600px) {
+  .palette-dropdown {
+    inset-inline-end: 16px;
+    width: 180px;
   }
 }

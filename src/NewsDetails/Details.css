@@ -1,7 +1,7 @@
 .main {
   width: 100%;
   padding: 32px;
-  background: #f8fafc;
+  background: var(--theme-background);
   min-height: 100vh;
 }
 
@@ -28,7 +28,7 @@
   width: 100%;
   max-width: 430px;
   max-height: calc(100vh - 130px);
-  background: #DCEDF4;
+  background: var(--theme-background);
   border-radius: 10px;
   padding: 28px 11px 24px;
   box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
@@ -40,6 +40,9 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
 }
 
 .related-news::after {
@@ -52,8 +55,8 @@
   min-height: 85px;
   margin: 0 0 18px;
   border-radius: 10px;
-  background: #000820;
-  color: #ffffff;
+  background: var(--theme-primary);
+  color: var(--theme-card);
   font-family: Cairo, sans-serif;
   font-weight: 700;
   font-size: clamp(24px, 2.4vw, 32px);
@@ -90,18 +93,18 @@
 }
 
 .news-grid::-webkit-scrollbar-thumb {
-  background: rgba(0, 8, 32, 0.25);
+  background: color-mix(in srgb, var(--theme-primary) 25%, transparent);
   border-radius: 999px;
 }
 
 .news-grid::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 8, 32, 0.45);
+  background: color-mix(in srgb, var(--theme-primary) 45%, transparent);
 }
 
 /* Scrollbar — Firefox */
 .news-grid {
   scrollbar-width: thin;
-  scrollbar-color: rgba(0, 8, 32, 0.3) transparent;
+  scrollbar-color: color-mix(in srgb, var(--theme-primary) 30%, transparent) transparent;
 }
 
 .about-news {
@@ -114,8 +117,8 @@
   width: 100%;
   min-height: 150px;
   border-radius: 20px;
-  border: 1px solid #96989B80;
-  background: #ffffff;
+  border: 1px solid color-mix(in srgb, var(--theme-secondary-text) 50%, transparent);
+  background: var(--theme-card);
   padding: 14px;
 
   display: flex;
@@ -130,7 +133,7 @@
 
 .news-details-card:hover {
   transform: translateY(-2px);
-  background: #f8fbff;
+  background: color-mix(in srgb, var(--theme-background) 70%, var(--theme-card));
   box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
 }
 
@@ -145,7 +148,7 @@
   font-size: 16px;
   font-weight: 700;
   line-height: 1.7;
-  color: #27314f;
+  color: var(--theme-primary-text);
 
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -158,7 +161,7 @@
   font-family: Cairo, sans-serif;
   font-size: 13px;
   font-weight: 500;
-  color: #7c8aa5;
+  color: var(--theme-secondary-text);
 }
 
 .news-image,
@@ -175,10 +178,13 @@
 ========================= */
 .event-text-content {
   min-width: 0;
-  background: #ffffff;
+  background: var(--theme-card);
   border-radius: 24px;
   padding: 28px;
   box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
 }
 
 .headertext {
@@ -201,7 +207,7 @@
   font-size: clamp(24px, 3vw, 40px);
   font-weight: 800;
   line-height: 1.5;
-  color: #0f172a;
+  color: var(--theme-primary-text);
 }
 
 /* =========================
@@ -236,12 +242,12 @@
 }
 
 .edit-btn {
-  background: #eff6ff;
-  color: #2563eb;
+  background: color-mix(in srgb, var(--theme-secondary) 14%, var(--theme-card));
+  color: var(--theme-primary);
 }
 
 .delete-btn {
-  background: #fef2f2;
+  background: color-mix(in srgb, #dc2626 10%, var(--theme-card));
   color: #dc2626;
 }
 
@@ -263,8 +269,8 @@
   width: 52px;
   height: 52px;
   border-radius: 14px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: var(--theme-background);
+  border: 1px solid color-mix(in srgb, var(--theme-secondary-text) 20%, transparent);
 
   display: flex;
   align-items: center;
@@ -278,7 +284,7 @@
 
 .language-card:hover {
   transform: translateY(-2px);
-  border-color: #cbd5e1;
+  border-color: color-mix(in srgb, var(--theme-secondary-text) 35%, transparent);
   box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
 }
 
@@ -323,7 +329,7 @@
   font-family: Cairo, sans-serif;
   font-size: 17px;
   line-height: 2;
-  color: #334155;
+  color: var(--theme-primary-text);
   word-break: break-word;
 }
 
@@ -348,7 +354,7 @@
   font-family: Cairo, sans-serif;
   font-size: 15px;
   font-weight: 600;
-  color: #64748b;
+  color: var(--theme-secondary-text);
 }
 
 /* =========================

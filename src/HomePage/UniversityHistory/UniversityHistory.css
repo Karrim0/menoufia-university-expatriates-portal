@@ -1,8 +1,12 @@
 .uh-page {
   width: 100%;
   min-height: 100vh;
-  color: #303d5e;
+  color: var(--theme-primary);
+  background: var(--theme-background);
   font-family: Cairo, sans-serif;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
 }
 
 /* ── Hero ── */
@@ -22,24 +26,23 @@
 .uh-hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 8, 32, 0.45);
+  background: color-mix(in srgb, var(--theme-primary) 45%, transparent);
   font-family: Cairo;
-font-weight: 700;
-font-style: Bold;
-font-size: 64px;
-leading-trim: NONE;
-line-height: 100%;
-letter-spacing: 0%;
-text-align: center;
-vertical-align: middle;
-
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 64px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .uh-hero h1 {
   position: relative;
   z-index: 2;
   margin: 0;
-  color: #fff;
+  color: var(--theme-card);
   font-size: 48px;
   font-weight: 800;
   line-height: 1.2;
@@ -63,22 +66,23 @@ vertical-align: middle;
   grid-template-columns: 680px 1fr;
   align-items: center;
   gap: 70px;
-  border: 1px solid #303d5e;
+  border: 1px solid var(--theme-primary);
   border-radius: 14px;
-  background: transparent;
+  background: var(--theme-card);
   direction: ltr;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .uh-intro-image {
-
   border-radius: 12px;
   overflow: hidden;
   width: 614px;
-height: 458px;
-angle: 0 deg;
-opacity: 1;
-border-radius: 20px;
-
+  height: 458px;
+  angle: 0 deg;
+  opacity: 1;
+  border-radius: 20px;
 }
 
 .uh-intro-image img {
@@ -89,7 +93,7 @@ border-radius: 20px;
 }
 
 .uh-intro-content {
-  color: #303D5ECC;
+  color: color-mix(in srgb, var(--theme-primary) 80%, transparent);
   text-align: right;
 }
 
@@ -98,7 +102,7 @@ border-radius: 20px;
   font-size: 32px;
   font-weight: 800;
   line-height: 1.25;
-  color: #303D5ECC;
+  color: color-mix(in srgb, var(--theme-primary) 80%, transparent);
 }
 
 .uh-intro-content p {
@@ -106,7 +110,7 @@ border-radius: 20px;
   font-size: 20px;
   font-weight: 700;
   line-height: 1.9;
-  color: #303d5e;
+  color: var(--theme-primary);
 }
 
 /* ── Tags ── */
@@ -127,10 +131,10 @@ border-radius: 20px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
-  border: 1px solid #b8c1d0;
+  background: var(--theme-card);
+  border: 1px solid color-mix(in srgb, var(--theme-secondary-text) 35%, transparent);
   border-radius: 5px;
-  color: #303d5e;
+  color: var(--theme-primary);
   font-size: 15px;
   font-weight: 700;
   line-height: 1.15;
@@ -149,7 +153,7 @@ border-radius: 20px;
 
 .uh-section-title h2 {
   margin: 0;
-  color: #303d5e;
+  color: var(--theme-primary);
   font-size: 42px;
   font-weight: 800;
   line-height: 1.2;
@@ -160,7 +164,7 @@ border-radius: 20px;
   width: 74px;
   height: 2px;
   margin: 16px auto 0;
-  background: #f66b15;
+  background: var(--theme-secondary);
 }
 
 /* ── Timeline Grid ── */
@@ -181,10 +185,11 @@ border-radius: 20px;
   grid-column: 2;
   grid-row: 1 / 99;
   width: 2px;
-  background: rgba(48, 61, 94, 0.4);
+  background: color-mix(in srgb, var(--theme-primary) 40%, transparent);
   justify-self: center;
   align-self: stretch;
 }
+
 .uh-timeline::before {
   content: "";
   position: absolute;
@@ -193,20 +198,21 @@ border-radius: 20px;
   top: 40px;
   bottom: 40px;
   width: 2px;
-  background: rgba(48, 61, 94, 0.4);
+  background: color-mix(in srgb, var(--theme-primary) 40%, transparent);
   z-index: 0;
 }
+
 /* ── Cards ── */
 .uh-timeline-card {
   position: relative;
   padding: 26px 34px;
   box-sizing: border-box;
-  background: #eef3fc;
+  background: var(--theme-card);
   border-radius: 20px;
-  color: #303d5e;
+  color: var(--theme-primary);
   text-align: right;
-  box-shadow: 0 2px 12px rgba(48, 61, 94, 0.08);
-  border: none; 
+  box-shadow: 0 2px 12px color-mix(in srgb, var(--theme-primary) 8%, transparent);
+  border: none;
 }
 
 .uh-timeline-card.uh-left {
@@ -253,7 +259,7 @@ border-radius: 20px;
   line-height: 1;
   letter-spacing: 0;
   text-align: right;
-  color: #303d5e;
+  color: var(--theme-primary);
 }
 
 .uh-timeline-card h4 {
@@ -264,7 +270,7 @@ border-radius: 20px;
   line-height: 1;
   letter-spacing: 0;
   text-align: right;
-  color: #303d5e;
+  color: var(--theme-primary);
 }
 
 .uh-timeline-card p {
@@ -275,7 +281,7 @@ border-radius: 20px;
   line-height: 1.7;
   letter-spacing: 0;
   text-align: right;
-  color: #303d5e;
+  color: var(--theme-primary);
 }
 
 .uh-timeline-card ul {
@@ -293,7 +299,7 @@ border-radius: 20px;
   font-size: 16px;
   line-height: 1.6;
   text-align: right;
-  color: #303d5e;
+  color: var(--theme-primary);
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -302,7 +308,7 @@ border-radius: 20px;
 
 .uh-timeline-card li::before {
   content: "•";
-  color: #303d5e;
+  color: var(--theme-primary);
   flex-shrink: 0;
   margin-top: 2px;
 }
@@ -371,7 +377,7 @@ border-radius: 20px;
     padding-inline-start: 0;
   }
 
-    .uh-timeline::before {
+  .uh-timeline::before {
     inset-inline-start: auto;
     inset-inline-end: 0;
     transform: none;

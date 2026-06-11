@@ -58,105 +58,6 @@ const TOP_MENU_TITLES = [
   "وحدات ومراكز",
 ];
 
-const THEME_PRESETS = [
-  {
-    primary: "#840D0D",
-    primaryRgb: "132, 13, 13",
-    dark: "#262626",
-    darkRgb: "38, 38, 38",
-    secondary: "#EAEAEA",
-    soft: "#F8F0E5",
-    card: "#FFFFFF",
-    muted: "#EAEAEA",
-    button: "#840D0D",
-    buttonHover: "#262626",
-    headerOverlay: "#262626D9",
-    footer: "#262626",
-    footerRgb: "38, 38, 38",
-    footerBottom: "#262626F2",
-    iconBackground: "#840D0D",
-    iconColor: "#FFFFFF",
-    iconBackgroundHover: "#262626",
-    iconHover: "#FFFFFF",
-    primaryText: "#262626",
-    secondaryText: "#6B6B6B",
-    paginationBg: "#EAEAEA",
-    paginationText: "#262626",
-    paginationBorder: "#262626",
-    paginationActiveBg: "#840D0D",
-    paginationActiveText: "#FFFFFF",
-    paginationArrowBg: "#262626",
-    paginationArrowColor: "#FFFFFF",
-    paginationDisabledBg: "#FFFFFF",
-    paginationDisabledColor: "#C3C3C3",
-    paginationInfoStrong: "#840D0D",
-  },
-  {
-    primary: "#27374D",
-    primaryRgb: "39, 55, 77",
-    dark: "#27374D",
-    darkRgb: "39, 55, 77",
-    secondary: "#526D82",
-    soft: "#DDE6ED",
-    card: "#FFFFFF",
-    muted: "#9DB2BF",
-    button: "#27374D",
-    buttonHover: "#9DB2BF",
-    headerOverlay: "#27374DE5",
-    footer: "#27374D",
-    footerRgb: "39, 55, 77",
-    footerBottom: "#27374DF2",
-    iconBackground: "#27374D",
-    iconColor: "#526D82",
-    iconBackgroundHover: "#526D82",
-    iconHover: "#526D82",
-    primaryText: "#1A1A1A",
-    secondaryText: "#526D82",
-    paginationBg: "#F8FAFC",
-    paginationText: "#27374D",
-    paginationBorder: "#27374D",
-    paginationActiveBg: "#27374D",
-    paginationActiveText: "#FFFFFF",
-    paginationArrowBg: "#FFFFFF",
-    paginationArrowColor: "#27374D",
-    paginationDisabledBg: "#FFFFFF",
-    paginationDisabledColor: "#C3C3C3",
-    paginationInfoStrong: "#27374D",
-  },
-  {
-    primary: "#102C57",
-    primaryRgb: "16, 44, 87",
-    dark: "#102C57",
-    darkRgb: "16, 44, 87",
-    secondary: "#DAC0A3",
-    soft: "#F8F9FA",
-    card: "#FFFFFF",
-    muted: "#DAC0A3",
-    button: "#102C57",
-    buttonHover: "#DAC0A3",
-    headerOverlay: "#102C57E5",
-    footer: "#102C57",
-    footerRgb: "16, 44, 87",
-    footerBottom: "#102C57F2",
-    iconBackground: "#102C57",
-    iconColor: "#FFFFFF",
-    iconBackgroundHover: "#DAC0A3",
-    iconHover: "#FFFFFF",
-    primaryText: "#1A1A1A",
-    secondaryText: "#6B7280",
-    paginationBg: "#102C57",
-    paginationText: "#FFFFFF",
-    paginationBorder: "#DAC0A3",
-    paginationActiveBg: "#DAC0A3",
-    paginationActiveText: "#FFFFFF",
-    paginationArrowBg: "#FFFFFF",
-    paginationArrowColor: "#102C57",
-    paginationDisabledBg: "#FFFFFF",
-    paginationDisabledColor: "#C3C3C3",
-    paginationInfoStrong: "#DAC0A3",
-  },
-];
-
 const FOOTER_GROUP_TITLES = [
   "مواقع هامة",
   "خدمات أكاديمية",
@@ -511,9 +412,8 @@ const FacultyMenuItemView: React.FC<{
   item: FacultyMenuItem;
   fac?: string;
   facultyTitle?: string;
-  themeColor?: string;
   level?: number;
-}> = ({ item, fac, facultyTitle, themeColor, level = 0 }) => {
+}> = ({ item, fac, facultyTitle, level = 0 }) => {
   const [open, setOpen] = useState(false);
   const children = getMenuChildren(item);
   const hasChildren = children.length > 0;
@@ -577,7 +477,6 @@ const FacultyMenuItemView: React.FC<{
           state={{
             facultyTitle,
             departmentTitle: cleanMenuTitle(item.title),
-            themeColor,
           }}
           className="faculty-menu-link"
         >
@@ -593,7 +492,6 @@ const FacultyMenuItemView: React.FC<{
               item={child}
               fac={fac}
               facultyTitle={facultyTitle}
-              themeColor={themeColor}
               level={level + 1}
             />
           ))}
@@ -1528,7 +1426,6 @@ const FacultyNews: React.FC = () => {
   const [facultyMenu, setFacultyMenu] = useState<FacultyMenuItem[]>([]);
   const [facultyMenuLoading, setFacultyMenuLoading] = useState(false);
 
-  const [selectedThemeColor, setSelectedThemeColor] = useState("#102C57");
 
   const [articlePage, setArticlePage] = useState<FacultyArticlePageData | null>(
     null,
@@ -2103,46 +2000,6 @@ const FacultyNews: React.FC = () => {
   const activeHighlight = highlights[activeHighlightIndex];
   const displayName = collegeName || collegeNameFallback || "...";
 
-  const activeTheme =
-    THEME_PRESETS.find((theme) => theme.primary === selectedThemeColor) ||
-    THEME_PRESETS[2];
-
-  const pageThemeStyle = {
-    "--faculty-primary": activeTheme.primary,
-    "--faculty-primary-rgb": activeTheme.primaryRgb,
-    "--faculty-dark": activeTheme.dark,
-    "--faculty-dark-rgb": activeTheme.darkRgb,
-    "--faculty-secondary": activeTheme.secondary,
-    "--faculty-soft-bg": activeTheme.soft,
-    "--faculty-card-bg": activeTheme.card,
-    "--faculty-muted-bg": activeTheme.muted,
-    "--faculty-button": activeTheme.button,
-    "--faculty-button-hover": activeTheme.buttonHover,
-    "--faculty-search-bg": activeTheme.secondary,
-    "--faculty-header-overlay": activeTheme.headerOverlay,
-
-    "--faculty-footer": activeTheme.footer,
-    "--faculty-footer-top": activeTheme.footer,
-    "--faculty-footer-rgb": activeTheme.footerRgb,
-    "--faculty-footer-bottom": activeTheme.footerBottom,
-
-    "--faculty-icon-bg": activeTheme.iconBackground,
-    "--faculty-icon-color": activeTheme.iconColor,
-    "--faculty-icon-bg-hover": activeTheme.iconBackgroundHover,
-    "--faculty-icon-hover": activeTheme.iconHover,
-    "--faculty-primary-text": activeTheme.primaryText,
-    "--faculty-secondary-text": activeTheme.secondaryText,
-    "--faculty-pagination-bg": activeTheme.paginationBg,
-    "--faculty-pagination-text": activeTheme.paginationText,
-    "--faculty-pagination-border": activeTheme.paginationBorder,
-    "--faculty-pagination-active-bg": activeTheme.paginationActiveBg,
-    "--faculty-pagination-active-text": activeTheme.paginationActiveText,
-    "--faculty-pagination-arrow-bg": activeTheme.paginationArrowBg,
-    "--faculty-pagination-arrow-color": activeTheme.paginationArrowColor,
-    "--faculty-pagination-disabled-bg": activeTheme.paginationDisabledBg,
-    "--faculty-pagination-disabled-color": activeTheme.paginationDisabledColor,
-    "--faculty-pagination-info-strong": activeTheme.paginationInfoStrong,
-  } as React.CSSProperties;
 
   const paginationNumbers = useMemo<(number | "...")[]>(() => {
     if (totalPages <= 6) {
@@ -2181,10 +2038,7 @@ const FacultyNews: React.FC = () => {
   }
 
   return (
-    <div
-      className="news-page-wrapper faculty-page-wrapper"
-      style={pageThemeStyle}
-    >
+    <div className="news-page-wrapper faculty-page-wrapper">
       <header
         className="faculty-top-header"
         style={{ backgroundImage: `url(${headerBg})` }}
@@ -2236,30 +2090,6 @@ const FacultyNews: React.FC = () => {
             </div>
           ) : topFacultyMenu.length > 0 ? (
             <div className="faculty-menu-bar">
-              <div className="faculty-color-switcher" aria-label="page colors">
-                <button
-                  type="button"
-                  className="faculty-color-palette-btn"
-                  aria-label="change page color"
-                >
-                  <i className="fa-solid fa-palette" aria-hidden="true" />
-                </button>
-
-                <div className="faculty-color-options">
-                  {THEME_PRESETS.map((theme) => (
-                    <button
-                      key={theme.primary}
-                      type="button"
-                      className={`faculty-color-dot ${
-                        selectedThemeColor === theme.primary ? "active" : ""
-                      }`}
-                      style={{ backgroundColor: theme.primary }}
-                      onClick={() => setSelectedThemeColor(theme.primary)}
-                      aria-label={`change color to ${theme.primary}`}
-                    />
-                  ))}
-                </div>
-              </div>
 
               {topFacultyMenu.map((item) => (
                 <FacultyMenuItemView
@@ -2267,7 +2097,6 @@ const FacultyNews: React.FC = () => {
                   item={item}
                   fac={fac}
                   facultyTitle={displayName}
-                  themeColor={selectedThemeColor}
                 />
               ))}
             </div>

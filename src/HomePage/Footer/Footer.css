@@ -3,10 +3,13 @@
 ───────────────────────────── */
 .ft-root {
   width: 100%;
-  background: #081a33;
+  background: var(--theme-primary);
   font-family: "Cairo", "Segoe UI", sans-serif;
-  color: #ffffff;
+  color: var(--theme-card);
   overflow: hidden;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
 }
 
 /* ─────────────────────────────
@@ -14,7 +17,7 @@
 ───────────────────────────── */
 .ft-grid {
   width: 100%;
-  background: #081a33;
+  background: var(--theme-primary);
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   direction: ltr;
@@ -28,7 +31,7 @@
   align-items: center;
   text-align: center;
   direction: rtl;
-  border-left: 1px solid rgba(255, 255, 255, 0.24);
+  border-left: 1px solid color-mix(in srgb, var(--theme-card) 24%, transparent);
   border-inline-start: none;
 }
 
@@ -52,7 +55,7 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 2px solid var(--ac);
+  border: 2px solid var(--theme-secondary);
   opacity: 0.95;
 }
 
@@ -61,13 +64,13 @@
   position: absolute;
   inset: 11px;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--ac) 11%, transparent);
+  background: color-mix(in srgb, var(--theme-secondary) 11%, transparent);
 }
 
 .ft-icon-glyph {
   position: relative;
   z-index: 1;
-  color: var(--ac);
+  color: var(--theme-secondary);
   font-size: 38px;
 }
 
@@ -75,7 +78,7 @@
 .ft-col-title {
   margin: 0;
   min-height: 50px;
-  color: #ffffff;
+  color: var(--theme-card);
   font-size: clamp(17px, 1.1vw, 20px);
   font-weight: 800;
   line-height: 1.15;
@@ -87,7 +90,7 @@
 .ft-rule {
   width: 78px;
   height: 2px;
-  background: var(--ac);
+  background: var(--theme-secondary);
   border-radius: 999px;
   display: block;
   margin: 8px auto 18px;
@@ -102,7 +105,7 @@
   padding-inline-start: 4px;
   padding-inline-end: 0;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+  scrollbar-color: color-mix(in srgb, var(--theme-card) 16%, transparent) transparent;
 }
 
 .ft-links-box.scrollable {
@@ -120,12 +123,12 @@
 }
 
 .ft-links-box::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.14);
+  background: color-mix(in srgb, var(--theme-card) 14%, transparent);
   border-radius: 999px;
 }
 
 .ft-col:hover .ft-links-box::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--ac) 55%, transparent);
+  background: color-mix(in srgb, var(--theme-secondary) 55%, transparent);
 }
 
 .ft-links {
@@ -147,7 +150,7 @@
   flex-direction: row;
   gap: 12px;
   text-decoration: none;
-  color: #ffffff;
+  color: var(--theme-card);
   direction: rtl;
 }
 
@@ -156,14 +159,14 @@
   width: 11px;
   height: 11px;
   border-radius: 50%;
-  background: var(--ac);
+  background: var(--theme-secondary);
   flex-shrink: 0;
   opacity: 0.95;
 }
 
 .ft-link-text {
   flex: 1;
-  color: rgba(255, 255, 255, 0.94);
+  color: color-mix(in srgb, var(--theme-card) 94%, transparent);
   font-size: clamp(14px, 0.95vw, 17px);
   font-weight: 500;
   line-height: 1.25;
@@ -172,7 +175,7 @@
 }
 
 .ft-link:hover .ft-link-text {
-  color: var(--ac);
+  color: var(--theme-secondary);
 }
 
 /* More Button */
@@ -182,10 +185,10 @@
   margin-top: 18px;
   padding: 10px 16px;
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid color-mix(in srgb, var(--theme-card) 18%, transparent);
 
-  background: rgba(48, 61, 94, 0.1);
-  color: var(--ac);
+  background: color-mix(in srgb, var(--theme-secondary) 10%, transparent);
+  color: var(--theme-secondary);
 
   font-family: "Cairo", "Segoe UI", sans-serif;
   font-size: 15px;
@@ -198,7 +201,7 @@
 
   cursor: pointer;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 1px 0 color-mix(in srgb, var(--theme-card) 12%, transparent),
     0 12px 22px rgba(0, 0, 0, 0.12);
   transition:
     transform 0.2s ease,
@@ -208,16 +211,20 @@
 
 .ft-more-btn:hover {
   transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--ac) 50%, transparent);
-  background: color-mix(in srgb, var(--ac) 8%, transparent);
+  border-color: color-mix(in srgb, var(--theme-secondary) 50%, transparent);
+  background: color-mix(in srgb, var(--theme-secondary) 8%, transparent);
 }
 /* ─────────────────────────────
    Bottom Footer
 ───────────────────────────── */
 .ft-modern-bottom {
-  background:#0F2340 ;
+  background: color-mix(
+    in srgb,
+    var(--theme-primary) 84%,
+    var(--theme-primary-text)
+  );
   padding: clamp(30px, 3vw, 36px) clamp(18px, 4vw, 54px) 38px;
-  color: #ffffff;
+  color: var(--theme-card);
   direction: ltr;
 }
 
@@ -254,7 +261,7 @@
 /* الخطوط الرأسية بين البلوكات */
 .ft-contact-with-border,
 .ft-main-logo-wrap {
-  border-inline-start: 1px solid rgba(255, 255, 255, 0.28);
+  border-inline-start: 1px solid color-mix(in srgb, var(--theme-card) 28%, transparent);
   padding-inline-start: 38px;
 }
 
@@ -263,8 +270,9 @@
   width: clamp(52px, 4vw, 62px);
   height: clamp(52px, 4vw, 62px);
   border-radius: 10px;
-  border: 2px solid rgba(92, 147, 108, 0.9);
-  color: #5c936c;
+  border: 2px solid
+    color-mix(in srgb, var(--theme-secondary) 90%, transparent);
+  color: var(--theme-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -282,7 +290,7 @@
 
 .ft-contact-text h4 {
   margin: 0 0 10px;
-  color: #ffffff;
+  color: var(--theme-card);
   font-size: clamp(16px, 1.2vw, 19px);
   font-weight: 800;
   line-height: 1.2;
@@ -290,7 +298,7 @@
 
 .ft-contact-text p {
   margin: 0 0 5px;
-  color: rgba(255, 255, 255, 0.9);
+  color: color-mix(in srgb, var(--theme-card) 90%, transparent);
   font-size: clamp(12px, 0.9vw, 13px);
   font-weight: 500;
   line-height: 1.45;
@@ -302,7 +310,7 @@
   gap: 7px;
   flex-wrap: wrap;
   margin-top: 6px;
-  color: rgba(255, 255, 255, 0.42);
+  color: color-mix(in srgb, var(--theme-card) 42%, transparent);
   font-size: 12px;
   font-weight: 500;
 }
@@ -337,7 +345,7 @@
 
 .ft-social-line {
   height: 1px;
-  background: rgba(255, 255, 255, 0.28);
+  background: color-mix(in srgb, var(--theme-card) 28%, transparent);
 }
 
 .ft-social-center {
@@ -350,7 +358,7 @@
 }
 
 .ft-social-center strong {
-  color: #ffffff;
+  color: var(--theme-card);
   font-size: 18px;
   font-weight: 800;
   white-space: nowrap;
@@ -368,8 +376,8 @@
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  border: 1.5px solid rgba(255, 255, 255, 0.88);
-  color: #ffffff;
+  border: 1.5px solid color-mix(in srgb, var(--theme-card) 88%, transparent);
+  color: var(--theme-card);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -386,8 +394,8 @@
 
 .ft-social-icons a:hover {
   transform: translateY(-2px);
-  background: #ffffff;
-  color: #021349;
+  background: var(--theme-card);
+  color: var(--theme-primary);
 }
 
 /* Bottom Links */
@@ -402,7 +410,7 @@
 
 .ft-copy {
   margin: 0;
-  color: rgba(255, 255, 255, 0.46);
+  color: color-mix(in srgb, var(--theme-card) 46%, transparent);
   font-size: 13px;
   font-weight: 500;
 }
@@ -415,7 +423,7 @@
 }
 
 .ft-policy-links a {
-  color: rgba(255, 255, 255, 0.46);
+  color: color-mix(in srgb, var(--theme-card) 46%, transparent);
   text-decoration: none;
   font-size: 13px;
   font-weight: 500;
@@ -424,11 +432,11 @@
 }
 
 .ft-policy-links a + a {
-  border-inline-start: 1px solid rgba(255, 255, 255, 0.28);
+  border-inline-start: 1px solid color-mix(in srgb, var(--theme-card) 28%, transparent);
 }
 
 .ft-policy-links a:hover {
-  color: #ffffff;
+  color: var(--theme-card);
 }
 /* ─────────────────────────────
    Responsive
@@ -439,11 +447,11 @@
   }
 
   .ft-col {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+    border-bottom: 1px solid color-mix(in srgb, var(--theme-card) 22%, transparent);
   }
 
   .ft-col:nth-child(n) {
-    border-left: 1px solid rgba(255, 255, 255, 0.22);
+    border-left: 1px solid color-mix(in srgb, var(--theme-card) 22%, transparent);
   }
 
   .ft-col:nth-child(3n + 1) {
@@ -468,7 +476,7 @@
   }
 
   .ft-col:nth-child(3n + 1) {
-    border-left: 1px solid rgba(255, 255, 255, 0.22);
+    border-left: 1px solid color-mix(in srgb, var(--theme-card) 22%, transparent);
   }
 
   .ft-col:nth-child(2n + 1) {

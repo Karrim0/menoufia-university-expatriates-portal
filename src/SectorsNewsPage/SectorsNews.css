@@ -1,8 +1,8 @@
 @import "../NewsPage/News.css";
 
-
 .sectors-page-wrapper {
-  background: #f8fafb;
+  background: var(--theme-background);
+  transition: background-color 0.25s ease;
 }
 
 .sectors-hero .news-hero-title {
@@ -26,7 +26,9 @@
   }
 }
 
-
+/* =========================
+   Skeleton
+========================= */
 .skeleton-card {
   pointer-events: none;
 }
@@ -34,8 +36,13 @@
 .skeleton {
   position: relative;
   overflow: hidden;
-  background: #ebeef3;
+  background: color-mix(
+    in srgb,
+    var(--theme-secondary) 14%,
+    var(--theme-card)
+  );
   border-radius: 10px;
+  transition: background-color 0.25s ease;
 }
 
 .skeleton::after {
@@ -46,7 +53,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.55),
+    color-mix(in srgb, var(--theme-card) 55%, transparent),
     transparent
   );
   animation: skeleton-loading 1.4s ease-in-out infinite;
@@ -85,8 +92,11 @@
   100% {
     transform: translateX(100%);
   }
-} 
+}
 
+/* =========================
+   Card Image Arrow
+========================= */
 .news-card-image {
   position: relative;
 }

@@ -3,9 +3,15 @@ import { Link, useLocation } from "react-router-dom";
 import "./Header.css";
 import logo from "../../assets/logo.jpg";
 import { useTranslation } from "react-i18next";
-import { Globe, ChevronDown, ChevronLeft } from "lucide-react";
+import {
+  Globe,
+  ChevronDown,
+  ChevronLeft,
+  Palette as PaletteIcon,
+} from "lucide-react";
 import newsService from "../../Services/newsService";
 import { saveLanguage } from "../../utils/language";
+import { useTheme } from "../../theme/ThemeContext";
 
 const LANGUAGE_ORDER = [
   "ar",
@@ -727,6 +733,7 @@ const NavItem = ({ item, isActive }: any) => {
 const Header = () => {
   const { i18n, t } = useTranslation();
   const location = useLocation();
+  const { palettes, selectedPalette, changePalette } = useTheme();
 
   const getSavedLang = () => {
     try {
@@ -738,6 +745,7 @@ const Header = () => {
 
   const [menuActive, setMenuActive] = useState(false);
   const [langActive, setLangActive] = useState(false);
+  const [paletteActive, setPaletteActive] = useState(false);
   const [currentLang, setCurrentLang] = useState(getSavedLang);
   const [languages, setLanguages] = useState(FIXED_LANGUAGES);
   const [aboutChildren, setAboutChildren] = useState<any[]>([]);
@@ -835,15 +843,21 @@ const Header = () => {
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (langActive && !(e.target as HTMLElement).closest(".lang-wrapper")) {
+      const target = e.target as HTMLElement;
+
+      if (langActive && !target.closest(".lang-wrapper")) {
         setLangActive(false);
+      }
+
+      if (paletteActive && !target.closest(".palette-wrapper")) {
+        setPaletteActive(false);
       }
     };
 
     document.addEventListener("mousedown", handler);
 
     return () => document.removeEventListener("mousedown", handler);
-  }, [langActive]);
+  }, [langActive, paletteActive]);
 
   useEffect(() => {
     document.body.style.overflow = menuActive ? "hidden" : "";
@@ -894,8 +908,57 @@ const Header = () => {
 
       <div className="nav-icons">
         <div
+          className="palette-wrapper"
+          onClick={() => {
+            setPaletteActive((prev) => !prev);
+            setLangActive(false);
+          }}
+        >
+          <PaletteIcon size={23} />
+
+          <ChevronDown
+            size={16}
+            className={`palette-arrow ${paletteActive ? "rotated" : ""}`}
+          />
+
+          <div
+            className={`palette-dropdown ${paletteActive ? "open" : ""}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {Object.values(palettes).map((palette: any) => (
+              <button
+                type="button"
+                key={palette.id}
+                className={`palette-option ${
+                  selectedPalette === palette.id ? "selected" : ""
+                }`}
+                onClick={() => {
+                  changePalette(palette.id);
+                  setPaletteActive(false);
+                }}
+              >
+                <span className="palette-colors">
+                  {palette.preview.map((color: string) => (
+                    <span
+                      key={color}
+                      className="palette-color"
+                      style={{ backgroundColor: color }}
+                    />
+                  ))}
+                </span>
+
+                <span>{palette.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div
           className="lang-wrapper"
-          onClick={() => setLangActive((prev) => !prev)}
+          onClick={() => {
+            setLangActive((prev) => !prev);
+            setPaletteActive(false);
+          }}
         >
           <Globe size={20} />
           <span className="lang-code">{currentLang.code?.toUpperCase()}</span>
