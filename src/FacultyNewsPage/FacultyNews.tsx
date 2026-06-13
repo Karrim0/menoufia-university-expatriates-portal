@@ -66,6 +66,12 @@ const FOOTER_GROUP_TITLES = [
   "خدمات الكترونية",
 ];
 
+const FACULTY_FOOTER_ACCENTS = [
+  "#cfa000",
+  "#d48df5",
+  "#58df9c",
+] as const;
+
 type SavedLang = {
   id?: number;
   code?: string;
@@ -1322,7 +1328,8 @@ const FacultyFooterColumn: React.FC<{
   group: FooterMenuGroup;
   fac?: string;
   isArabic: boolean;
-}> = ({ group, fac, isArabic }) => {
+  accentColor: string;
+}> = ({ group, fac, isArabic, accentColor }) => {
   const [showAll, setShowAll] = useState(false);
 
   const cleanChildren = group.children.filter(
@@ -1334,7 +1341,14 @@ const FacultyFooterColumn: React.FC<{
   const visibleExtraItems = showAll ? extraItems : [];
 
   return (
-    <div className={`faculty-footer-column ${showAll ? "expanded" : ""}`}>
+    <div
+      className={`faculty-footer-column ${showAll ? "expanded" : ""}`}
+      style={
+        {
+          "--col-accent": accentColor,
+        } as React.CSSProperties
+      }
+    >
       <h3>{cleanMenuTitle(group.title)}</h3>
 
       <div className="faculty-footer-links-scroll">
@@ -2546,12 +2560,16 @@ const FacultyNews: React.FC = () => {
       {footerMenuGroups.length > 0 && (
         <footer className="faculty-links-footer" dir={isRTL ? "rtl" : "ltr"}>
           <div className="faculty-links-footer-top">
-            {footerMenuGroups.slice(0, 3).map((group) => (
+            {footerMenuGroups.slice(0, 3).map((group, index) => (
               <FacultyFooterColumn
                 key={group.menuId}
                 group={group}
                 fac={fac}
                 isArabic={isArabic}
+                accentColor={
+                  FACULTY_FOOTER_ACCENTS[index] ??
+                  FACULTY_FOOTER_ACCENTS[0]
+                }
               />
             ))}
           </div>

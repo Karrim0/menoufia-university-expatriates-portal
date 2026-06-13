@@ -51,9 +51,13 @@ const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
   lang = 1,
   defaultOpen = false,
 }) => {
-  const [article, setArticle] = useState<SpecialUnitsArticle | null>(null);
+  const [article, setArticle] =
+    useState<SpecialUnitsArticle | null>(null);
+
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  const [loading, setLoading] = useState(false);
+
+  // يبدأ true عشان الـSkeleton يظهر من أول Render
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
@@ -94,19 +98,29 @@ const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
     return extractUnitsFromHtml(article?.content || "");
   }, [article?.content]);
 
+  // نخفي السكشن فقط بعد انتهاء التحميل لو مفيش داتا
   if (!loading && units.length === 0) {
     return null;
   }
+
+  const shouldShowBody = loading || isOpen;
 
   return (
     <section className="special-units-section" dir="rtl">
       <button
         type="button"
         className={`special-units-header ${isOpen ? "open" : ""}`}
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={() => {
+          if (!loading) {
+            setIsOpen((prev) => !prev);
+          }
+        }}
+        aria-expanded={isOpen}
+        disabled={loading}
       >
         <span className="special-units-title-wrap">
           <span className="special-units-dot" />
+
           <span className="special-units-title">
             {article?.title || "الوحدات ذات الطابع الخاص"}
           </span>
@@ -119,12 +133,19 @@ const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
         />
       </button>
 
-      {isOpen && (
+      {shouldShowBody && (
         <div className="special-units-body">
           {loading ? (
-            <div className="special-units-grid">
+            <div
+              className="special-units-grid"
+              aria-label="جاري تحميل الوحدات"
+            >
               {Array.from({ length: 12 }).map((_, index) => (
-                <div key={index} className="special-unit-card skeleton-unit" />
+                <div
+                  key={`special-unit-skeleton-${index}`}
+                  className="special-unit-card skeleton-unit"
+                  aria-hidden="true"
+                />
               ))}
             </div>
           ) : (
@@ -138,6 +159,7 @@ const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
                   className="special-unit-card"
                 >
                   <ExternalLink size={22} strokeWidth={2.5} />
+
                   <span>{unit.title}</span>
                 </a>
               ))}

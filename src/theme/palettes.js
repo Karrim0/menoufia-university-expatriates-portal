@@ -1,25 +1,6 @@
 export const palettes = {
-  palette1: {
-    id: "palette1",
-    name: "Palette 1",
-    preview: ["#102C57", "#DAC0A3", "#F8F0E5"],
-    colors: {
-      "--theme-primary": "#102C57",
-      "--theme-secondary": "#DAC0A3",
-      "--theme-button": "#102C57",
-      "--theme-background": "#F8F0E5",
-      "--theme-button-hover": "#DAC0A3",
-      "--theme-card": "#FFFFFF",
-      "--theme-icon-bg": "#102C57",
-      "--theme-secondary-text": "#6B7280",
-      "--theme-icon-color": "#FFFFFF",
-      "--theme-primary-text": "#1A1A1A",
-      "--theme-icon-bg-hover": "#DAC0A3",
-      "--theme-icon-hover": "#FFFFFF",
-    },
-  },
 
-  palette2: {
+    palette1: {
     id: "palette2",
     name: "Palette 2",
     preview: ["#27374D", "#526D82", "#DDE6ED"],
@@ -36,6 +17,26 @@ export const palettes = {
       "--theme-primary-text": "#1A1A1A",
       "--theme-icon-bg-hover": "#526D82",
       "--theme-icon-hover": "#526D82",
+    },
+  },
+
+  palette2: {
+    id: "palette1",
+    name: "Palette 1",
+    preview: ["#102C57", "#DAC0A3", "#F8F0E5"],
+    colors: {
+      "--theme-primary": "#102C57",
+      "--theme-secondary": "#DAC0A3",
+      "--theme-button": "#102C57",
+      "--theme-background": "#F8F0E5",
+      "--theme-button-hover": "#DAC0A3",
+      "--theme-card": "#FFFFFF",
+      "--theme-icon-bg": "#102C57",
+      "--theme-secondary-text": "#6B7280",
+      "--theme-icon-color": "#FFFFFF",
+      "--theme-primary-text": "#1A1A1A",
+      "--theme-icon-bg-hover": "#DAC0A3",
+      "--theme-icon-hover": "#FFFFFF",
     },
   },
 

@@ -5608,3 +5608,1124 @@
     line-height: 1.9;
   }
 }
+
+/* =========================================
+   Faculty footer backgrounds — all palettes
+   Keep this block at the very end of FacultyNews.css
+========================================= */
+
+html[data-palette="palette1"] .faculty-page-wrapper {
+  --faculty-footer: #27374d;
+  --faculty-footer-top: #27374d;
+  --faculty-footer-bottom: #3d4b5f;
+}
+
+html[data-palette="palette2"] .faculty-page-wrapper {
+  --faculty-footer: #102c57;
+  --faculty-footer-top: #102c57;
+  --faculty-footer-bottom: #1c375f;
+}
+
+html[data-palette="palette3"] .faculty-page-wrapper {
+  --faculty-footer: #262626;
+  --faculty-footer-top: #262626;
+  --faculty-footer-bottom: #313131;
+}
+
+html[data-palette="palette4"] .faculty-page-wrapper {
+  --faculty-footer: #1f150c;
+  --faculty-footer-top: #1f150c;
+  --faculty-footer-bottom: #2a2118;
+}
+
+html[data-palette="palette5"] .faculty-page-wrapper {
+  --faculty-footer: #76885b;
+  --faculty-footer-top: #76885b;
+  --faculty-footer-bottom: #7d8e63;
+}
+
+html[data-palette="palette6"] .faculty-page-wrapper {
+  --faculty-footer: #5a9690;
+  --faculty-footer-top: #5a9690;
+  --faculty-footer-bottom: #629b96;
+}
+
+/* Force the faculty footer sections to use the palette-specific colors. */
+html[data-palette] .faculty-page-wrapper .faculty-links-footer,
+html[data-palette] .faculty-page-wrapper .faculty-links-footer-top {
+  background: var(--faculty-footer-top) !important;
+}
+
+html[data-palette] .faculty-page-wrapper .faculty-links-footer-bottom,
+html[data-palette]
+  .faculty-page-wrapper
+  .faculty-links-footer-bottom.faculty-new-bottom {
+  background: var(--faculty-footer-bottom) !important;
+}
+
+
+/* =========================================
+   Palette 6 Pagination — Figma
+   ضعيه في آخر FacultyNews.css
+========================================= */
+
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination {
+  width: fit-content !important;
+  max-width: calc(100% - 32px) !important;
+  min-height: 52px !important;
+
+  margin: 42px auto 24px !important;
+  padding: 8px 12px !important;
+
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 26px !important;
+
+  direction: ltr !important;
+
+  border: 0 !important;
+  border-radius: 14px !important;
+
+  background: #ffffff !important;
+  box-shadow: none !important;
+
+  overflow: visible !important;
+  box-sizing: border-box !important;
+}
+
+/* مجموعة الأرقام والأسهم ناحية الشمال */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-pages {
+  order: 1 !important;
+
+  width: auto !important;
+  max-width: none !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 9px !important;
+
+  direction: ltr !important;
+  flex: 0 0 auto !important;
+
+  overflow: visible !important;
+}
+
+/* نص الصفحة ناحية اليمين */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-page-info {
+  order: 2 !important;
+
+  width: auto !important;
+  min-width: 128px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 0 6px !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+
+  direction: rtl !important;
+
+  border: 0 !important;
+  border-radius: 0 !important;
+
+  background: transparent !important;
+  color: #432323 !important;
+
+  font-family: "Cairo", sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+
+  box-shadow: none !important;
+}
+
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-page-info strong {
+  color: #432323 !important;
+  font-size: 17px !important;
+  font-weight: 800 !important;
+}
+
+/* أرقام الصفحات العادية */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-number {
+  width: 34px !important;
+  min-width: 34px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 0 !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  border: 1px solid #432323 !important;
+  border-radius: 9px !important;
+
+  background: #ffffff !important;
+  color: #432323 !important;
+
+  font-family: "Cairo", sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+
+  opacity: 1 !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+}
+
+/* الصفحة النشطة */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-number.active,
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-number.active:disabled {
+  border-color: #432323 !important;
+  background: #432323 !important;
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+/* الأسهم */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-arrow {
+  width: 34px !important;
+  min-width: 34px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 0 !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  border: 0 !important;
+  border-radius: 9px !important;
+
+  background: #432323 !important;
+  color: #ffffff !important;
+
+  opacity: 1 !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+}
+
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-arrow:disabled {
+  background: #432323 !important;
+  color: #ffffff !important;
+  opacity: 1 !important;
+  cursor: not-allowed !important;
+}
+
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-arrow i,
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-arrow svg {
+  width: 14px !important;
+  height: 14px !important;
+  font-size: 14px !important;
+  color: inherit !important;
+}
+
+/* علامة ... */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-dots {
+  width: 25px !important;
+  min-width: 25px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 0 !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  border: 0 !important;
+  background: transparent !important;
+  color: #432323 !important;
+
+  font-family: "Cairo", sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+}
+
+/* Hover */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-number:hover:not(:disabled):not(.active) {
+  border-color: #432323 !important;
+  background: rgba(67, 35, 35, 0.07) !important;
+  color: #432323 !important;
+}
+
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-arrow:hover:not(:disabled) {
+  background: #2f1818 !important;
+  color: #ffffff !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination {
+    width: calc(100% - 20px) !important;
+    max-width: 540px !important;
+    min-height: 50px !important;
+
+    padding: 7px 8px !important;
+    gap: 10px !important;
+
+    border-radius: 13px !important;
+    overflow: hidden !important;
+  }
+
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination-pages {
+    min-width: 0 !important;
+    gap: 6px !important;
+
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+
+    scrollbar-width: none !important;
+  }
+
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination-pages::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-page-info {
+    min-width: 105px !important;
+    font-size: 12px !important;
+  }
+
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-page-info strong {
+    font-size: 14px !important;
+  }
+
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination-number,
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination-arrow {
+    width: 30px !important;
+    min-width: 30px !important;
+    height: 30px !important;
+    min-height: 30px !important;
+
+    border-radius: 8px !important;
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination {
+    flex-direction: column-reverse !important;
+
+    width: calc(100% - 16px) !important;
+    max-width: 350px !important;
+
+    gap: 6px !important;
+  }
+
+
+
+  /* =========================================
+   Palette 6 Pagination — Colors Only
+   لا يغيّر أي مقاسات أو مسافات
+========================================= */
+
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination {
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+
+/* أرقام الصفحات العادية */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-number {
+  background: #ffffff !important;
+  color: #432323 !important;
+  border-color: #432323 !important;
+}
+
+/* الصفحة النشطة */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-number.active,
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-number.active:disabled {
+  background: #432323 !important;
+  color: #ffffff !important;
+  border-color: #432323 !important;
+  opacity: 1 !important;
+}
+
+/* الأسهم */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-arrow {
+  background: #432323 !important;
+  color: #ffffff !important;
+  border-color: #432323 !important;
+}
+
+/* السهم المعطّل */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-arrow:disabled {
+  background: #432323 !important;
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+/* علامة ... */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-dots {
+  background: transparent !important;
+  color: #432323 !important;
+}
+
+/* نص الصفحة 1 من 50 */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-page-info {
+  background: transparent !important;
+  color: #432323 !important;
+}
+
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-page-info strong {
+  color: #432323 !important;
+}
+
+/* Hover */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-number:hover:not(:disabled):not(.active) {
+  background: rgba(67, 35, 35, 0.07) !important;
+  color: #432323 !important;
+  border-color: #432323 !important;
+}
+
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-arrow:hover:not(:disabled) {
+  background: #2f1818 !important;
+  color: #ffffff !important;
+}}
+/* =========================================
+   Palette 6 Pagination — Figma Sizes Only
+========================================= */
+
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination {
+  width: 950px !important;
+  max-width: calc(100% - 32px) !important;
+  min-height: 92px !important;
+
+  margin: 42px auto 24px !important;
+  padding: 16px !important;
+
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 50px !important;
+
+  direction: rtl !important;
+
+  border-radius: 30px !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+/* مجموعة الأرقام والأسهم */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-pages {
+  width: auto !important;
+  max-width: none !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 14px !important;
+
+  direction: ltr !important;
+  flex-wrap: nowrap !important;
+  flex-shrink: 0 !important;
+
+  overflow: visible !important;
+}
+
+/* أرقام الصفحات والأسهم */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-number,
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-arrow {
+  width: 60px !important;
+  min-width: 60px !important;
+  height: 60px !important;
+  min-height: 60px !important;
+
+  padding: 0 !important;
+  border-radius: 20px !important;
+
+  font-size: 26px !important;
+  line-height: 1 !important;
+
+  box-sizing: border-box !important;
+}
+
+/* علامة ... */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-pagination-dots {
+  width: 60px !important;
+  min-width: 60px !important;
+  height: 60px !important;
+  min-height: 60px !important;
+
+  padding: 0 !important;
+
+  font-size: 28px !important;
+  line-height: 1 !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* الصفحة 1 من 50 */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-page-info {
+  width: 200px !important;
+  min-width: 200px !important;
+  height: 58px !important;
+  min-height: 58px !important;
+
+  padding: 0 16px !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  direction: rtl !important;
+
+  font-size: 21px !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+
+  box-sizing: border-box !important;
+}
+
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .news-page-info strong {
+  font-size: 26px !important;
+}
+
+/* Tablet */
+@media (max-width: 1100px) {
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination {
+    width: 100% !important;
+    gap: 24px !important;
+  }
+
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination-number,
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination-arrow,
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination-dots {
+    width: 52px !important;
+    min-width: 52px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+
+    border-radius: 18px !important;
+    font-size: 22px !important;
+  }
+
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-page-info {
+    width: 180px !important;
+    min-width: 180px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+
+    font-size: 18px !important;
+  }
+
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-page-info strong {
+    font-size: 22px !important;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination {
+    width: calc(100% - 24px) !important;
+    max-width: 420px !important;
+    min-height: 0 !important;
+
+    padding: 12px !important;
+    gap: 10px !important;
+
+    flex-direction: column-reverse !important;
+    align-items: stretch !important;
+
+    border-radius: 18px !important;
+  }
+
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination-pages {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    justify-content: flex-start !important;
+    gap: 8px !important;
+
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+  }
+
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination-number,
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination-arrow {
+    width: 36px !important;
+    min-width: 36px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+
+    border-radius: 11px !important;
+    font-size: 13px !important;
+  }
+
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination-dots {
+    width: 24px !important;
+    min-width: 24px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+
+    font-size: 13px !important;
+  }
+
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-page-info {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 34px !important;
+    min-height: 34px !important;
+
+    padding: 0 8px !important;
+
+    font-size: 12.5px !important;
+  }
+
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-page-info strong {
+    font-size: 14px !important;
+  }
+}
+/* =========================================
+   Pagination Colors Only — Palettes 1 to 5
+   لا يغيّر أي مقاسات
+========================================= */
+
+/* Palette 1 — Navy + Beige */
+html[data-palette="palette1"] .faculty-page-wrapper {
+ --pg-bg: #f8fafc;
+  --pg-border: #526d82;
+  --pg-number-bg: transparent;
+  --pg-number-text: #27374d;
+
+  --pg-active-bg: #27374d;
+  --pg-active-text: #ffffff;
+
+  --pg-arrow-bg: #ffffff;
+  --pg-arrow-text: #27374d;
+  --pg-arrow-disabled: #d5dbe2;
+
+  --pg-info-text: #27374d;
+  --pg-info-strong: #27374d;
+
+  --pg-hover-bg: #e8eef3;
+  --pg-shadow: 0 4px 10px rgba(39, 55, 77, 0.08);
+}
+
+/* Palette 2 — Blue Gray */
+html[data-palette="palette2"] .faculty-page-wrapper {
+  --pg-bg: #102c57;
+  --pg-border: #71809a;
+  --pg-number-bg: transparent;
+  --pg-number-text: #ffffff;
+
+  --pg-active-bg: #dac0a3;
+  --pg-active-text: #ffffff;
+
+  --pg-arrow-bg: #ffffff;
+  --pg-arrow-text: #102c57;
+  --pg-arrow-disabled: #c8ced7;
+
+  --pg-info-text: #ffffff;
+  --pg-info-strong: #dac0a3;
+
+  --pg-hover-bg: rgba(255, 255, 255, 0.12);
+  --pg-shadow: 0 14px 34px rgba(16, 44, 87, 0.18);
+}
+
+/* Palette 3 — Red + Charcoal */
+html[data-palette="palette3"] .faculty-page-wrapper {
+  --pg-bg: #eaeaea;
+  --pg-border: #262626;
+  --pg-number-bg: transparent;
+  --pg-number-text: #262626;
+
+  --pg-active-bg: #840d0d;
+  --pg-active-text: #ffffff;
+
+  --pg-arrow-bg: #262626;
+  --pg-arrow-text: #ffffff;
+  --pg-arrow-disabled: #ffffff;
+
+  --pg-info-text: #262626;
+  --pg-info-strong: #840d0d;
+
+  --pg-hover-bg: rgba(38, 38, 38, 0.08);
+  --pg-shadow: none;
+}
+
+/* Palette 4 — Brown + White */
+html[data-palette="palette4"] .faculty-page-wrapper {
+  --pg-bg: #ffffff;
+  --pg-border: #1f150c;
+  --pg-number-bg: transparent;
+  --pg-number-text: #1f150c;
+
+  --pg-active-bg: #1f150c;
+  --pg-active-text: #ffffff;
+
+  --pg-arrow-bg: #1f150c;
+  --pg-arrow-text: #ffffff;
+  --pg-arrow-disabled: #ffffff;
+
+  --pg-info-text: #1f150c;
+  --pg-info-strong: #1f150c;
+
+  --pg-hover-bg: rgba(31, 21, 12, 0.08);
+  --pg-shadow: none;
+}
+
+/* Palette 5 — Olive */
+html[data-palette="palette5"] .faculty-page-wrapper {
+  --pg-bg: #b7c1a9;
+  --pg-border: #76885b;
+  --pg-number-bg: transparent;
+  --pg-number-text: #6e7e5b;
+
+  --pg-active-bg: #76885b;
+  --pg-active-text: #ffffff;
+
+  --pg-arrow-bg: #e1dcc9;
+  --pg-arrow-text: #627254;
+  --pg-arrow-disabled: #aaa997;
+
+  --pg-info-text: #2f2f2f;
+  --pg-info-strong: #2f2f2f;
+
+  --pg-hover-bg: rgba(98, 114, 84, 0.1);
+  --pg-shadow: none;
+}
+
+/* =========================================
+   Apply colors to Palettes 1–5
+========================================= */
+
+:is(
+    html[data-palette="palette1"],
+    html[data-palette="palette2"],
+    html[data-palette="palette3"],
+    html[data-palette="palette4"],
+    html[data-palette="palette5"]
+  )
+  .faculty-page-wrapper
+  .news-pagination {
+  background: var(--pg-bg) !important;
+  box-shadow: var(--pg-shadow) !important;
+}
+
+/* الأرقام العادية */
+:is(
+    html[data-palette="palette1"],
+    html[data-palette="palette2"],
+    html[data-palette="palette3"],
+    html[data-palette="palette4"],
+    html[data-palette="palette5"]
+  )
+  .faculty-page-wrapper
+  .news-pagination-number {
+  background: var(--pg-number-bg) !important;
+  color: var(--pg-number-text) !important;
+  border-color: var(--pg-border) !important;
+}
+
+/* الرقم النشط */
+:is(
+    html[data-palette="palette1"],
+    html[data-palette="palette2"],
+    html[data-palette="palette3"],
+    html[data-palette="palette4"],
+    html[data-palette="palette5"]
+  )
+  .faculty-page-wrapper
+  .news-pagination-number.active,
+:is(
+    html[data-palette="palette1"],
+    html[data-palette="palette2"],
+    html[data-palette="palette3"],
+    html[data-palette="palette4"],
+    html[data-palette="palette5"]
+  )
+  .faculty-page-wrapper
+  .news-pagination-number.active:disabled {
+  background: var(--pg-active-bg) !important;
+  color: var(--pg-active-text) !important;
+  border-color: var(--pg-active-bg) !important;
+  opacity: 1 !important;
+}
+
+/* الأسهم */
+:is(
+    html[data-palette="palette1"],
+    html[data-palette="palette2"],
+    html[data-palette="palette3"],
+    html[data-palette="palette4"],
+    html[data-palette="palette5"]
+  )
+  .faculty-page-wrapper
+  .news-pagination-arrow {
+  background: var(--pg-arrow-bg) !important;
+  color: var(--pg-arrow-text) !important;
+  border-color: var(--pg-arrow-bg) !important;
+}
+
+/* السهم المعطل */
+:is(
+    html[data-palette="palette1"],
+    html[data-palette="palette2"],
+    html[data-palette="palette3"],
+    html[data-palette="palette4"],
+    html[data-palette="palette5"]
+  )
+  .faculty-page-wrapper
+  .news-pagination-arrow:disabled {
+  background: var(--pg-arrow-bg) !important;
+  color: var(--pg-arrow-disabled) !important;
+  opacity: 1 !important;
+}
+
+/* علامة ... */
+:is(
+    html[data-palette="palette1"],
+    html[data-palette="palette2"],
+    html[data-palette="palette3"],
+    html[data-palette="palette4"],
+    html[data-palette="palette5"]
+  )
+  .faculty-page-wrapper
+  .news-pagination-dots {
+  background: transparent !important;
+  color: var(--pg-number-text) !important;
+}
+
+/* نص الصفحة 1 من 50 */
+:is(
+    html[data-palette="palette1"],
+    html[data-palette="palette2"],
+    html[data-palette="palette3"],
+    html[data-palette="palette4"],
+    html[data-palette="palette5"]
+  )
+  .faculty-page-wrapper
+  .news-page-info {
+  background: transparent !important;
+  color: var(--pg-info-text) !important;
+}
+
+:is(
+    html[data-palette="palette1"],
+    html[data-palette="palette2"],
+    html[data-palette="palette3"],
+    html[data-palette="palette4"],
+    html[data-palette="palette5"]
+  )
+  .faculty-page-wrapper
+  .news-page-info strong {
+  color: var(--pg-info-strong) !important;
+}
+
+/* Hover الأرقام */
+:is(
+    html[data-palette="palette1"],
+    html[data-palette="palette2"],
+    html[data-palette="palette3"],
+    html[data-palette="palette4"],
+    html[data-palette="palette5"]
+  )
+  .faculty-page-wrapper
+  .news-pagination-number:hover:not(:disabled):not(.active) {
+  background: var(--pg-hover-bg) !important;
+  color: var(--pg-number-text) !important;
+  border-color: var(--pg-border) !important;
+}
+
+/* Hover الأسهم */
+:is(
+    html[data-palette="palette1"],
+    html[data-palette="palette2"],
+    html[data-palette="palette3"],
+    html[data-palette="palette4"],
+    html[data-palette="palette5"]
+  )
+  .faculty-page-wrapper
+  .news-pagination-arrow:hover:not(:disabled) {
+  background: var(--pg-active-bg) !important;
+  color: var(--pg-active-text) !important;
+}
+/* =========================================
+   Search colors — Figma
+   Colors only, no size changes
+========================================= */
+
+/* Palette 5 — search wrapper background */
+html[data-palette="palette5"] .faculty-page-wrapper {
+  --faculty-search-bg: #909f7a;
+}
+
+/* Filter icon beside search icon — all palettes */
+
+html[data-palette="palette1"] .faculty-page-wrapper {
+  --faculty-filter-icon-bg: #102c57;
+  --faculty-filter-icon-color: #ffffff;
+}
+
+html[data-palette="palette2"] .faculty-page-wrapper {
+  --faculty-filter-icon-bg: #27374d;
+  --faculty-filter-icon-color: #ffffff;
+}
+
+html[data-palette="palette3"] .faculty-page-wrapper {
+  --faculty-filter-icon-bg: #840d0d;
+  --faculty-filter-icon-color: #ffffff;
+}
+
+html[data-palette="palette4"] .faculty-page-wrapper {
+  --faculty-filter-icon-bg: #e1dcc9;
+  --faculty-filter-icon-color: #412d15;
+}
+
+html[data-palette="palette5"] .faculty-page-wrapper {
+  --faculty-filter-icon-bg: #627254;
+  --faculty-filter-icon-color: #e1dcc9;
+}
+
+html[data-palette="palette6"] .faculty-page-wrapper {
+  --faculty-filter-icon-bg: #2f5755;
+  --faculty-filter-icon-color: #e0d9d9;
+}
+
+/* Apply Palette 5 search background */
+html[data-palette="palette5"]
+  .faculty-page-wrapper
+  .news-search-wrapper {
+  background: #909f7a !important;
+  border-color: #909f7a !important;
+}
+
+/* Apply filter icon colors */
+html[data-palette]
+  .faculty-page-wrapper
+  .news-filter-toggle {
+  background: var(--faculty-filter-icon-bg) !important;
+  color: var(--faculty-filter-icon-color) !important;
+}
+
+/* Keep the same correct colors on hover and active */
+html[data-palette]
+  .faculty-page-wrapper
+  .news-filter-toggle:hover,
+html[data-palette]
+  .faculty-page-wrapper
+  .news-filter-toggle.active {
+  background: var(--faculty-filter-icon-bg) !important;
+  color: var(--faculty-filter-icon-color) !important;
+}
+html[data-palette="palette4"]
+  .faculty-page-wrapper
+  .news-search-wrapper {
+  background: #655541 !important;
+  border-color: #655541 !important;
+}
+/* =========================================
+   Faculty navbar + header overlay
+   Palettes 3 to 6 — Colors only
+========================================= */
+
+/* Palette 3 */
+html[data-palette="palette3"]
+  .faculty-page-wrapper
+  .faculty-menu-bar {
+  background: #840d0d !important;
+}
+
+html[data-palette="palette3"]
+  .faculty-page-wrapper
+  .faculty-top-header-overlay {
+  background: rgba(132, 13, 13, 0.8) !important;
+}
+
+/* Palette 4 */
+html[data-palette="palette4"]
+  .faculty-page-wrapper
+  .faculty-menu-bar {
+  background: #1f150c !important;
+}
+
+html[data-palette="palette4"]
+  .faculty-page-wrapper
+  .faculty-top-header-overlay {
+  background: rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Palette 5 */
+html[data-palette="palette5"]
+  .faculty-page-wrapper
+  .faculty-menu-bar {
+  background: #76885b !important;
+}
+
+html[data-palette="palette5"]
+  .faculty-page-wrapper
+  .faculty-top-header-overlay {
+  background: rgba(98, 114, 84, 0.85) !important;
+}
+
+/* Palette 6 */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .faculty-menu-bar {
+  background: #2f5755 !important;
+}
+
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .faculty-top-header-overlay {
+  background: rgba(47, 87, 85, 0.8) !important;
+}
+/* Palette 4 — Internal navbar */
+html[data-palette="palette4"]
+  .faculty-page-wrapper
+  .faculty-menu-bar {
+  background: #1f150c !important;
+}
+
+/* Palette 4 — First section overlay */
+html[data-palette="palette4"]
+  .faculty-page-wrapper
+  .faculty-top-header-overlay {
+  background: rgba(0, 0, 0, 0.8) !important;
+}
+/* Palette 5 — Internal navbar */
+html[data-palette="palette5"]
+  .faculty-page-wrapper
+  .faculty-menu-bar {
+  background: #76885b !important;
+}
+
+/* Palette 5 — First section overlay */
+html[data-palette="palette5"]
+  .faculty-page-wrapper
+  .faculty-top-header-overlay {
+  background: rgba(98, 114, 84, 0.85) !important;
+}
+/* Palette 6 — Internal navbar */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .faculty-menu-bar {
+  background: #2f5755 !important;
+}
+
+/* Palette 6 — First section overlay */
+html[data-palette="palette6"]
+  .faculty-page-wrapper
+  .faculty-top-header-overlay {
+  background: rgba(47, 87, 85, 0.8) !important;
+}

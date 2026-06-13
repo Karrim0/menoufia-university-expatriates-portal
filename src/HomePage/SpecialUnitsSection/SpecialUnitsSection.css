@@ -10,6 +10,10 @@
     background-color 0.25s ease;
 }
 
+/* =========================================
+   Header
+========================================= */
+
 .special-units-header {
   width: 100%;
   min-height: 78px;
@@ -30,10 +34,12 @@
     var(--theme-background) 75%,
     var(--theme-card)
   );
+
   border-radius: 12px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.18);
 
   font-family: inherit;
+
   transition:
     background-color 0.25s ease,
     color 0.25s ease;
@@ -48,83 +54,105 @@
 }
 
 .special-units-title-wrap {
+  margin: 0;
+  margin-inline: 0;
+
   display: flex;
   align-items: center;
   gap: 8px;
-
-  margin: 0;
-  margin-inline-start: 0;
-  margin-inline-end: 0;
 
   direction: rtl;
 }
 
 /* Accent dot */
+
 .special-units-dot {
   width: 20px;
   height: 20px;
-  angle: 0deg;
-  opacity: 1;
-  border-radius: 50px;
-  background: var(--theme-secondary);
   flex-shrink: 0;
+
+  border-radius: 50%;
+  background-color: var(--theme-secondary);
+
   transition: background-color 0.25s ease;
 }
 
-/* Title text */
+/* Title */
+
 .special-units-title {
+  margin: 0;
+
   color: var(--theme-primary);
-  font-family: Cairo;
-  font-weight: 700;
-  font-style: Bold;
+
+  font-family: "Cairo", sans-serif;
   font-size: 36px;
-  leading-trim: none;
-  line-height: 100%;
-  letter-spacing: 0%;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0;
   text-align: right;
-  vertical-align: middle;
+
   transition: color 0.25s ease;
 }
 
-/* Arrow left side */
+/* Arrow */
+
 .special-units-arrow {
-  color: var(--theme-primary);
   flex-shrink: 0;
+  color: var(--theme-primary);
+
   transition:
     transform 0.25s ease,
     color 0.25s ease;
 }
 
-/* Arrow rotation when open */
 .special-units-header.open .special-units-arrow {
   transform: rotate(180deg);
 }
 
-/* Body */
+/* =========================================
+   Body
+========================================= */
+
 .special-units-body {
+  width: 100%;
   margin-top: 10px;
   padding: 22px;
+
   background-color: color-mix(
     in srgb,
     var(--theme-background) 65%,
     transparent
   );
+
   transition: background-color 0.25s ease;
 }
 
 .special-units-grid {
+  width: 100%;
+
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 16px;
 }
 
+/* =========================================
+   Unit card
+========================================= */
+
 .special-unit-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
   min-height: 62px;
   padding: 14px 18px;
 
+  border: none;
   border-radius: 10px;
+
   background-color: var(--theme-card);
   color: var(--theme-primary);
+
   text-decoration: none;
 
   display: flex;
@@ -132,40 +160,147 @@
   justify-content: flex-start;
   gap: 10px;
 
+  font-family: "Cairo", sans-serif;
   font-size: 17px;
   font-weight: 600;
+  line-height: 1.6;
 
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+
   transition:
     transform 0.25s ease,
     color 0.25s ease,
-    background-color 0.25s ease;
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .special-unit-card svg {
+  position: relative;
+  z-index: 2;
+
   flex-shrink: 0;
   color: currentColor;
+}
+
+.special-unit-card span {
+  position: relative;
+  z-index: 2;
 }
 
 .special-unit-card:hover {
   transform: translateY(-2px);
   color: var(--theme-secondary);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.15);
 }
 
-/* Skeleton */
-.skeleton-unit {
+/* =========================================
+   Skeleton loading
+========================================= */
+
+.special-unit-card.skeleton-unit {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  min-height: 62px;
+
   pointer-events: none;
+  cursor: default;
+
+  color: transparent !important;
+
+  background-color: color-mix(
+    in srgb,
+    var(--theme-background) 70%,
+    var(--theme-card)
+  ) !important;
+
+  box-shadow: none;
+  transform: none !important;
+}
+
+/* نخفي أي محتوى داخل كارت الـLoading */
+
+.special-unit-card.skeleton-unit > * {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* طبقة الـShimmer */
+
+.special-unit-card.skeleton-unit::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+
+  border-radius: inherit;
+
   background: linear-gradient(
     90deg,
-    color-mix(in srgb, var(--theme-background) 55%, var(--theme-card)) 25%,
-    color-mix(in srgb, var(--theme-secondary) 18%, var(--theme-card)) 50%,
-    color-mix(in srgb, var(--theme-background) 55%, var(--theme-card)) 75%
+    color-mix(
+        in srgb,
+        var(--theme-background) 78%,
+        var(--theme-card)
+      )
+      0%,
+    color-mix(
+        in srgb,
+        var(--theme-secondary) 18%,
+        var(--theme-card)
+      )
+      50%,
+    color-mix(
+        in srgb,
+        var(--theme-background) 78%,
+        var(--theme-card)
+      )
+      100%
   );
-  background-size: 200% 100%;
-  animation: skeleton-loading 1.2s infinite;
+
+  background-size: 220% 100%;
+
+  animation: special-units-skeleton-loading 1.25s ease-in-out infinite;
 }
 
-@keyframes skeleton-loading {
+/* شكل خط وهمي داخل الـSkeleton */
+
+.special-unit-card.skeleton-unit::after {
+  content: "";
+
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  z-index: 6;
+
+  width: 62%;
+  height: 14px;
+
+  border-radius: 999px;
+
+  background-color: color-mix(
+    in srgb,
+    var(--theme-primary) 12%,
+    transparent
+  );
+
+  transform: translateY(-50%);
+}
+
+.special-unit-card.skeleton-unit:hover {
+  color: transparent !important;
+  background-color: color-mix(
+    in srgb,
+    var(--theme-background) 70%,
+    var(--theme-card)
+  ) !important;
+
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+@keyframes special-units-skeleton-loading {
   from {
     background-position: 200% 0;
   }
@@ -175,9 +310,21 @@
   }
 }
 
-/* Responsive */
+/* إيقاف الحركة عند تفعيل تقليل الأنيميشن من الجهاز */
+
+@media (prefers-reduced-motion: reduce) {
+  .special-unit-card.skeleton-unit::before {
+    animation: none;
+  }
+}
+
+/* =========================================
+   Responsive
+========================================= */
+
 @media (max-width: 768px) {
   .special-units-section {
+    margin: 14px 0;
     padding: 0 12px;
   }
 
@@ -188,10 +335,39 @@
 
   .special-units-title {
     font-size: 21px;
+    line-height: 1.4;
+  }
+
+  .special-units-dot {
+    width: 14px;
+    height: 14px;
   }
 
   .special-units-arrow {
     width: 26px;
     height: 26px;
+  }
+
+  .special-units-body {
+    margin-top: 8px;
+    padding: 14px 0;
+  }
+
+  .special-units-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .special-unit-card,
+  .special-unit-card.skeleton-unit {
+    min-height: 58px;
+    padding: 12px 14px;
+    font-size: 15px;
+  }
+
+  .special-unit-card.skeleton-unit::after {
+    right: 14px;
+    width: 70%;
+    height: 12px;
   }
 }
