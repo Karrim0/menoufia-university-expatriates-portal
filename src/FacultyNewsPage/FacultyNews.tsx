@@ -115,7 +115,7 @@ interface FacultyMenuItem {
 
 interface FacultyArticlePageData {
   articleId: number;
-  menuItemId: number;
+  menuItemId: number | null;
   title: string;
   content: string;
   imageDescription?: string | null;
@@ -286,6 +286,24 @@ const extractDepartmentCodeFromUrl = (url?: string) => {
   return match?.[1]?.toUpperCase() || "";
 };
 
+const extractLegacyArticleIdFromUrl = (url?: string) => {
+  if (!url) return null;
+
+  const match = String(url).match(/\/view\/(\d+)(?:\/|$|\?)/i);
+
+  return match?.[1] ? Number(match[1]) : null;
+};
+
+const isLegacyMenofiaMenuUrl = (url?: string) => {
+  const value = String(url || "").trim();
+
+  return /^https?:\/\/(?:www\.)?(?:menofia\.edu\.eg|mu\.menofia\.edu\.eg)\//i.test(
+    value,
+  );
+};
+
+const getFacultyFallbackLink = (fac?: string) => (fac ? `/fac/${fac}` : "/");
+
 const getFac = (title: string): number | null =>
   FAC_MAP[normalizeName(title)] ?? null;
 
@@ -335,18 +353,29 @@ const sanitizeFacultyMenuItems = (items: FacultyMenuItem[] = []) => {
 
 const getFacultyMenuLink = (item: FacultyMenuItem, fac?: string) => {
   const departmentCode = extractDepartmentCodeFromUrl(item.url);
+  const legacyArticleId = extractLegacyArticleIdFromUrl(item.url);
 
   if (departmentCode && fac) {
     return `/fac/${fac}/department/${departmentCode}`;
   }
 
-  if (isExternalMenuUrl(item.url)) return item.url;
-
-  if (item.articleId !== null && item.articleId !== undefined) {
+  if (item.articleId !== null && item.articleId !== undefined && fac) {
     return `/fac/${fac}?articleId=${item.articleId}`;
   }
 
-  return `/fac/${fac}`;
+  if (legacyArticleId && fac) {
+    return `/fac/${fac}?articleId=${legacyArticleId}`;
+  }
+
+  if (isLegacyMenofiaMenuUrl(item.url)) {
+    return getFacultyFallbackLink(fac);
+  }
+
+  if (isExternalMenuUrl(item.url)) {
+    return item.url;
+  }
+
+  return getFacultyFallbackLink(fac);
 };
 
 const filterMenuByTitles = (items: FacultyMenuItem[], titles: string[]) => {
