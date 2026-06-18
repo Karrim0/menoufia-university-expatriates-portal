@@ -40,19 +40,21 @@ const extractSpecialUnitAbbrFromUrl = (url: string) => {
       .map((segment) => segment.trim())
       .filter(Boolean);
 
-    const homeIndex = cleanSegments.findIndex(
-      (segment) => segment.toLowerCase() === "home",
+    const stopWords = ["home", "suhome", "view", "page", "article", "details"];
+
+    const stopIndex = cleanSegments.findIndex((segment) =>
+      stopWords.includes(segment.toLowerCase()),
     );
 
-    if (homeIndex > 0) {
-      return cleanSegments[homeIndex - 1];
+    if (stopIndex > 0) {
+      return cleanSegments[stopIndex - 1];
     }
 
-    return cleanSegments[0] || "";
+    return cleanSegments[cleanSegments.length - 1] || "";
   };
 
   try {
-    const parsedUrl = new URL(url);
+    const parsedUrl = new URL(url, "https://mu.menofia.edu.eg");
     return getAbbrFromSegments(parsedUrl.pathname.split("/"));
   } catch {
     return getAbbrFromSegments(String(url).split("/"));
@@ -125,22 +127,22 @@ const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
   }, [article?.content]);
 
   const handleUnitClick = (unit: SpecialUnit) => {
-  const abbr = extractSpecialUnitAbbrFromUrl(unit.url);
+    const abbr = extractSpecialUnitAbbrFromUrl(unit.url);
 
-  if (!abbr) return;
+    if (!abbr) return;
 
-  sessionStorage.setItem(
-    `specialUnitTitle:${abbr.toLowerCase()}`,
-    unit.title,
-  );
+    sessionStorage.setItem(
+      `specialUnitTitle:${abbr.toLowerCase()}`,
+      unit.title,
+    );
 
-  navigate(`/special-units/${encodeURIComponent(abbr)}`, {
-    state: {
-      title: unit.title,
-      abbr,
-    },
-  });
-};
+    navigate(`/special-units/${encodeURIComponent(abbr)}`, {
+      state: {
+        title: unit.title,
+        abbr,
+      },
+    });
+  };
 
   if (!loading && units.length === 0) {
     return null;
@@ -179,10 +181,7 @@ const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
       {shouldShowBody && (
         <div className="special-units-body">
           {loading ? (
-            <div
-              className="special-units-grid"
-              aria-label="جاري تحميل الوحدات"
-            >
+            <div className="special-units-grid" aria-label="جاري تحميل الوحدات">
               {Array.from({ length: 12 }).map((_, index) => (
                 <div
                   key={`special-unit-skeleton-${index}`}

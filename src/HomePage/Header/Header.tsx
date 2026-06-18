@@ -35,15 +35,60 @@ const sortLanguages = (langs: any[]) =>
 
 const FIXED_LANGUAGES = [
   { code: "ar", name: "عربي", id: 1, flag: "https://flagcdn.com/w40/eg.png" },
-  { code: "en", name: "English", id: 2, flag: "https://flagcdn.com/w40/gb.png" },
-  { code: "fr", name: "Français", id: 3, flag: "https://flagcdn.com/w40/fr.png" },
-  { code: "de", name: "Deutsch", id: 24, flag: "https://flagcdn.com/w40/de.png" },
-  { code: "ja", name: "Japanese", id: 23, flag: "https://flagcdn.com/w40/jp.png" },
-  { code: "tr", name: "Turkish", id: 25, flag: "https://flagcdn.com/w40/tr.png" },
-  { code: "fa", name: "Persian", id: 26, flag: "https://flagcdn.com/w40/ir.png" },
-  { code: "ru", name: "Russian", id: 27, flag: "https://flagcdn.com/w40/ru.png" },
-  { code: "ch", name: "Chamorro", id: 28, flag: "https://flagcdn.com/w40/mp.png" },
-  { code: "it", name: "Italian", id: 29, flag: "https://flagcdn.com/w40/it.png" },
+  {
+    code: "en",
+    name: "English",
+    id: 2,
+    flag: "https://flagcdn.com/w40/gb.png",
+  },
+  {
+    code: "fr",
+    name: "Français",
+    id: 3,
+    flag: "https://flagcdn.com/w40/fr.png",
+  },
+  {
+    code: "de",
+    name: "Deutsch",
+    id: 24,
+    flag: "https://flagcdn.com/w40/de.png",
+  },
+  {
+    code: "ja",
+    name: "Japanese",
+    id: 23,
+    flag: "https://flagcdn.com/w40/jp.png",
+  },
+  {
+    code: "tr",
+    name: "Turkish",
+    id: 25,
+    flag: "https://flagcdn.com/w40/tr.png",
+  },
+  {
+    code: "fa",
+    name: "Persian",
+    id: 26,
+    flag: "https://flagcdn.com/w40/ir.png",
+  },
+  {
+    code: "ru",
+    name: "Russian",
+    id: 27,
+    flag: "https://flagcdn.com/w40/ru.png",
+  },
+  {
+    code: "ch",
+    name: "Chamorro",
+    id: 28,
+    flag: "https://flagcdn.com/w40/mp.png",
+  },
+  {
+    code: "it",
+    name: "Italian",
+    id: 29,
+    flag: "https://flagcdn.com/w40/it.png",
+  },
 ];
 
 const SECTOR_NAV_ITEMS = [
@@ -107,7 +152,7 @@ const getNavItems = (t: any) => [
     children: [
       {
         key: "digital-identity",
-        label:t("nav.aboutDigitalIdentity"),
+        label: t("nav.aboutDigitalIdentity"),
         link: "/",
       },
       {
@@ -536,11 +581,11 @@ const mapMenuItem = (item: any): any => {
   const childrenSource = Array.isArray(item?.subMenus)
     ? item.subMenus
     : Array.isArray(item?.children)
-    ? item.children
-    : [];
+      ? item.children
+      : [];
 
   const validChildren = childrenSource.filter(
-    (child: any) => child !== null && typeof child === "object"
+    (child: any) => child !== null && typeof child === "object",
   );
 
   const rawUrl = item?.url || item?.link || "/";
@@ -563,18 +608,47 @@ const SubDropdownItem = ({ item }: any) => {
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (!open || !subDropdownRef.current) return;
+  if (!open || !subDropdownRef.current) return;
 
-    const rect = subDropdownRef.current.getBoundingClientRect();
+  const dropdown = subDropdownRef.current;
+  const safeGap = 12;
+  const pageDir = document.documentElement.dir || "rtl";
 
-    if (rect.left < 0) {
-      subDropdownRef.current.style.insetInlineStart = "100%";
-      subDropdownRef.current.style.insetInlineEnd = "auto";
-    } else if (rect.right > window.innerWidth) {
-      subDropdownRef.current.style.insetInlineStart = "auto";
-      subDropdownRef.current.style.insetInlineEnd = "100%";
+  dropdown.style.insetInlineStart = "100%";
+  dropdown.style.insetInlineEnd = "auto";
+
+  requestAnimationFrame(() => {
+    const rect = dropdown.getBoundingClientRect();
+
+    const openToRight = () => {
+      if (pageDir === "rtl") {
+        dropdown.style.insetInlineStart = "auto";
+        dropdown.style.insetInlineEnd = "100%";
+      } else {
+        dropdown.style.insetInlineStart = "100%";
+        dropdown.style.insetInlineEnd = "auto";
+      }
+    };
+
+    const openToLeft = () => {
+      if (pageDir === "rtl") {
+        dropdown.style.insetInlineStart = "100%";
+        dropdown.style.insetInlineEnd = "auto";
+      } else {
+        dropdown.style.insetInlineStart = "auto";
+        dropdown.style.insetInlineEnd = "100%";
+      }
+    };
+
+    if (rect.left < safeGap) {
+      openToRight();
     }
-  }, [open]);
+
+    if (rect.right > window.innerWidth - safeGap) {
+      openToLeft();
+    }
+  });
+}, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -768,29 +842,29 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-  let mounted = true;
+    let mounted = true;
 
-  newsService
-    .getFullMenu(currentLang?.id || 1)
-    .then((data: any) => {
-      if (!mounted) return;
+    newsService
+      .getFullMenu(currentLang?.id || 1)
+      .then((data: any) => {
+        if (!mounted) return;
 
-      const result = Array.isArray(data)
-        ? data
-        : Array.isArray(data?.result)
-        ? data.result
-        : [];
+        const result = Array.isArray(data)
+          ? data
+          : Array.isArray(data?.result)
+            ? data.result
+            : [];
 
-      setAboutChildren(result.map(mapMenuItem));
-    })
-    .catch(() => {
-      if (mounted) setAboutChildren([]);
-    });
+        setAboutChildren(result.map(mapMenuItem));
+      })
+      .catch(() => {
+        if (mounted) setAboutChildren([]);
+      });
 
-  return () => {
-    mounted = false;
-  };
-}, [currentLang?.id]);
+    return () => {
+      mounted = false;
+    };
+  }, [currentLang?.id]);
 
   const NAV_ITEMS = useMemo(() => {
     const items = getNavItems(t);
@@ -803,10 +877,12 @@ const Header = () => {
 
     return items.map((item) => {
       if (item.key === "about") {
-        const children = aboutChildren.length ? aboutChildren : item.children || [];
+        const children = aboutChildren.length
+          ? aboutChildren
+          : item.children || [];
 
         const hasNewsStatistics = children.some(
-          (child: any) => child.key === "news-statistics"
+          (child: any) => child.key === "news-statistics",
         );
 
         return {
@@ -818,15 +894,15 @@ const Header = () => {
       }
 
       if (item.key === "sectors") {
-  return {
-    ...item,
-    children: SECTOR_NAV_ITEMS.map((sector) => ({
-      key: sector.key,
-      label: t(sector.labelKey),
-      link: `/university-sectors/${sector.key}`,
-    })),
-  };
-}
+        return {
+          ...item,
+          children: SECTOR_NAV_ITEMS.map((sector) => ({
+            key: sector.key,
+            label: t(sector.labelKey),
+            link: `/university-sectors/${sector.key}`,
+          })),
+        };
+      }
 
       return item;
     });
@@ -907,105 +983,105 @@ const Header = () => {
       </nav>
 
       <div className="nav-icons">
+  <div
+    className="lang-wrapper"
+    onClick={() => {
+      setLangActive((prev) => !prev);
+      setPaletteActive(false);
+    }}
+  >
+    <Globe size={20} />
+    <span className="lang-code">{currentLang.code?.toUpperCase()}</span>
+    <ChevronDown
+      size={14}
+      className={`lang-arrow ${langActive ? "rotated" : ""}`}
+    />
+
+    <div className={`lang-dropdown ${langActive ? "open" : ""}`}>
+      {languages.map((lang: any) => (
         <div
-          className="palette-wrapper"
-          onClick={() => {
-            setPaletteActive((prev) => !prev);
-            setLangActive(false);
+          key={lang.code}
+          className={`lang-option ${
+            currentLang.code === lang.code ? "current" : ""
+          }`}
+          onClick={(e) => {
+            e.stopPropagation();
+            changeLanguage(lang);
           }}
         >
-          <PaletteIcon size={23} />
+          {lang.flag && (
+            <img
+              src={lang.flag}
+              alt={lang.name}
+              width={20}
+              height={15}
+              style={{
+                objectFit: "cover",
+                borderRadius: "2px",
+              }}
+            />
+          )}
 
-          <ChevronDown
-            size={16}
-            className={`palette-arrow ${paletteActive ? "rotated" : ""}`}
-          />
-
-          <div
-            className={`palette-dropdown ${paletteActive ? "open" : ""}`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            {Object.values(palettes).map((palette: any) => (
-              <button
-                type="button"
-                key={palette.id}
-                className={`palette-option ${
-                  selectedPalette === palette.id ? "selected" : ""
-                }`}
-                onClick={() => {
-                  changePalette(palette.id);
-                  setPaletteActive(false);
-                }}
-              >
-                <span className="palette-colors">
-                  {palette.preview.map((color: string) => (
-                    <span
-                      key={color}
-                      className="palette-color"
-                      style={{ backgroundColor: color }}
-                    />
-                  ))}
-                </span>
-
-                <span>{palette.name}</span>
-              </button>
-            ))}
-          </div>
+          <span>{lang.name}</span>
         </div>
+      ))}
+    </div>
+  </div>
 
-        <div
-          className="lang-wrapper"
+  <div
+    className="palette-wrapper"
+    onClick={() => {
+      setPaletteActive((prev) => !prev);
+      setLangActive(false);
+    }}
+  >
+    <PaletteIcon size={23} />
+
+    <ChevronDown
+      size={16}
+      className={`palette-arrow ${paletteActive ? "rotated" : ""}`}
+    />
+
+    <div
+      className={`palette-dropdown ${paletteActive ? "open" : ""}`}
+      onClick={(e) => e.stopPropagation()}
+    >
+      {Object.values(palettes).map((palette: any) => (
+        <button
+          type="button"
+          key={palette.id}
+          className={`palette-option ${
+            selectedPalette === palette.id ? "selected" : ""
+          }`}
+          aria-label={`Change theme to ${palette.name}`}
+          title={palette.name}
           onClick={() => {
-            setLangActive((prev) => !prev);
+            changePalette(palette.id);
             setPaletteActive(false);
           }}
         >
-          <Globe size={20} />
-          <span className="lang-code">{currentLang.code?.toUpperCase()}</span>
-          <ChevronDown
-            size={14}
-            className={`lang-arrow ${langActive ? "rotated" : ""}`}
-          />
-
-          <div className={`lang-dropdown ${langActive ? "open" : ""}`}>
-            {languages.map((lang: any) => (
-              <div
-                key={lang.code}
-                className={`lang-option ${
-                  currentLang.code === lang.code ? "current" : ""
-                }`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  changeLanguage(lang);
-                }}
-              >
-                {lang.flag && (
-                  <img
-                    src={lang.flag}
-                    alt={lang.name}
-                    width={20}
-                    height={15}
-                    style={{
-                      objectFit: "cover",
-                      borderRadius: "2px",
-                    }}
-                  />
-                )}
-
-                <span>{lang.name}</span>
-              </div>
+          <span className="palette-colors" aria-hidden="true">
+            {palette.preview.map((color: string) => (
+              <span
+                key={color}
+                className="palette-color"
+                style={{ backgroundColor: color }}
+              />
             ))}
-          </div>
-        </div>
-
-        <button
-          className="icon-btn menu-btn"
-          onClick={() => setMenuActive(true)}
-          aria-label="open menu"
-        >
-          <i className="fa-solid fa-bars" />
+          </span>
         </button>
-      </div>
+      ))}
+    </div>
+  </div>
+
+  <button
+    className="icon-btn menu-btn"
+    onClick={() => setMenuActive(true)}
+    aria-label="open menu"
+  >
+    <i className="fa-solid fa-bars" />
+  </button>
+</div>
 
       {menuActive && (
         <div className="nav-overlay" onClick={() => setMenuActive(false)} />

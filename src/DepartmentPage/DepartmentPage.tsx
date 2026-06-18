@@ -77,105 +77,6 @@ type ArticlePage = {
   imageDescription?: string | null;
 };
 
-const THEME_PRESETS = [
-  {
-    primary: "#840D0D",
-    primaryRgb: "132, 13, 13",
-    dark: "#262626",
-    darkRgb: "38, 38, 38",
-    secondary: "#EAEAEA",
-    soft: "#F8F0E5",
-    card: "#FFFFFF",
-    muted: "#EAEAEA",
-    button: "#840D0D",
-    buttonHover: "#262626",
-    headerOverlay: "#262626D9",
-    footer: "#262626",
-    footerRgb: "38, 38, 38",
-    footerBottom: "#262626F2",
-    iconBackground: "#840D0D",
-    iconColor: "#FFFFFF",
-    iconBackgroundHover: "#262626",
-    iconHover: "#FFFFFF",
-    primaryText: "#262626",
-    secondaryText: "#6B6B6B",
-    paginationBg: "#EAEAEA",
-    paginationText: "#262626",
-    paginationBorder: "#262626",
-    paginationActiveBg: "#840D0D",
-    paginationActiveText: "#FFFFFF",
-    paginationArrowBg: "#262626",
-    paginationArrowColor: "#FFFFFF",
-    paginationDisabledBg: "#FFFFFF",
-    paginationDisabledColor: "#C3C3C3",
-    paginationInfoStrong: "#840D0D",
-  },
-  {
-    primary: "#27374D",
-    primaryRgb: "39, 55, 77",
-    dark: "#27374D",
-    darkRgb: "39, 55, 77",
-    secondary: "#526D82",
-    soft: "#DDE6ED",
-    card: "#FFFFFF",
-    muted: "#9DB2BF",
-    button: "#27374D",
-    buttonHover: "#9DB2BF",
-    headerOverlay: "#27374DE5",
-    footer: "#27374D",
-    footerRgb: "39, 55, 77",
-    footerBottom: "#27374DF2",
-    iconBackground: "#27374D",
-    iconColor: "#526D82",
-    iconBackgroundHover: "#526D82",
-    iconHover: "#526D82",
-    primaryText: "#1A1A1A",
-    secondaryText: "#526D82",
-    paginationBg: "#F8FAFC",
-    paginationText: "#27374D",
-    paginationBorder: "#27374D",
-    paginationActiveBg: "#27374D",
-    paginationActiveText: "#FFFFFF",
-    paginationArrowBg: "#FFFFFF",
-    paginationArrowColor: "#27374D",
-    paginationDisabledBg: "#FFFFFF",
-    paginationDisabledColor: "#C3C3C3",
-    paginationInfoStrong: "#27374D",
-  },
-  {
-    primary: "#102C57",
-    primaryRgb: "16, 44, 87",
-    dark: "#102C57",
-    darkRgb: "16, 44, 87",
-    secondary: "#DAC0A3",
-    soft: "#F8F9FA",
-    card: "#FFFFFF",
-    muted: "#DAC0A3",
-    button: "#102C57",
-    buttonHover: "#DAC0A3",
-    headerOverlay: "#102C57E5",
-    footer: "#102C57",
-    footerRgb: "16, 44, 87",
-    footerBottom: "#102C57F2",
-    iconBackground: "#102C57",
-    iconColor: "#FFFFFF",
-    iconBackgroundHover: "#DAC0A3",
-    iconHover: "#FFFFFF",
-    primaryText: "#1A1A1A",
-    secondaryText: "#6B7280",
-    paginationBg: "#102C57",
-    paginationText: "#FFFFFF",
-    paginationBorder: "#DAC0A3",
-    paginationActiveBg: "#DAC0A3",
-    paginationActiveText: "#FFFFFF",
-    paginationArrowBg: "#FFFFFF",
-    paginationArrowColor: "#102C57",
-    paginationDisabledBg: "#FFFFFF",
-    paginationDisabledColor: "#C3C3C3",
-    paginationInfoStrong: "#DAC0A3",
-  },
-];
-
 const DEPARTMENT_NAV_LIMIT = 7;
 
 const DATE_FILTERS = [
@@ -390,7 +291,6 @@ const DepartmentMenuItem: React.FC<{
   departmentCode?: string;
   facultyTitle?: string;
   departmentTitle?: string;
-  themeColor?: string;
   level?: number;
 }> = ({
   item,
@@ -399,7 +299,6 @@ const DepartmentMenuItem: React.FC<{
   facultyTitle,
   departmentTitle,
   level = 0,
-  themeColor,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -472,7 +371,6 @@ const DepartmentMenuItem: React.FC<{
           state={{
             facultyTitle,
             departmentTitle,
-            themeColor,
           }}
           className="department-menu-link"
         >
@@ -490,7 +388,6 @@ const DepartmentMenuItem: React.FC<{
               departmentCode={departmentCode}
               facultyTitle={facultyTitle}
               departmentTitle={departmentTitle}
-              themeColor={themeColor}
               level={level + 1}
             />
           ))}
@@ -714,54 +611,6 @@ const DepartmentPage: React.FC = () => {
       .filter((item) => cleanTitle(item.title).length > 0)
       .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
   }, [departmentMenu]);
-
-  const selectedThemeColor =
-    location.state?.themeColor ||
-    sessionStorage.getItem(`faculty-theme-${fac}`) ||
-    "#102C57";
-
-  const activeTheme =
-    THEME_PRESETS.find((theme) => theme.primary === selectedThemeColor) ||
-    THEME_PRESETS[2];
-
-  const pageThemeStyle = {
-    "--department-primary": activeTheme.primary,
-    "--department-primary-rgb": activeTheme.primaryRgb,
-    "--department-dark": activeTheme.dark,
-    "--department-dark-rgb": activeTheme.darkRgb,
-    "--department-secondary": activeTheme.secondary,
-    "--department-soft-bg": activeTheme.soft,
-    "--department-card-bg": activeTheme.card,
-    "--department-muted-bg": activeTheme.muted,
-    "--department-button": activeTheme.button,
-    "--department-button-hover": activeTheme.buttonHover,
-    "--department-search-bg": activeTheme.secondary,
-    "--department-header-overlay": activeTheme.headerOverlay,
-
-    "--department-footer": activeTheme.footer,
-    "--department-footer-top": activeTheme.footer,
-    "--department-footer-rgb": activeTheme.footerRgb,
-    "--department-footer-bottom": activeTheme.footerBottom,
-
-    "--department-icon-bg": activeTheme.iconBackground,
-    "--department-icon-color": activeTheme.iconColor,
-    "--department-icon-bg-hover": activeTheme.iconBackgroundHover,
-    "--department-icon-hover": activeTheme.iconHover,
-    "--department-primary-text": activeTheme.primaryText,
-    "--department-secondary-text": activeTheme.secondaryText,
-
-    "--department-pagination-bg": activeTheme.paginationBg,
-    "--department-pagination-text": activeTheme.paginationText,
-    "--department-pagination-border": activeTheme.paginationBorder,
-    "--department-pagination-active-bg": activeTheme.paginationActiveBg,
-    "--department-pagination-active-text": activeTheme.paginationActiveText,
-    "--department-pagination-arrow-bg": activeTheme.paginationArrowBg,
-    "--department-pagination-arrow-color": activeTheme.paginationArrowColor,
-    "--department-pagination-disabled-bg": activeTheme.paginationDisabledBg,
-    "--department-pagination-disabled-color":
-      activeTheme.paginationDisabledColor,
-    "--department-pagination-info-strong": activeTheme.paginationInfoStrong,
-  } as React.CSSProperties;
 
   const departmentTopMenu = useMemo(() => {
     return visibleDepartmentMenu.slice(0, DEPARTMENT_NAV_LIMIT);
@@ -1165,7 +1014,7 @@ const DepartmentPage: React.FC = () => {
   }
 
   return (
-    <div className="department-page-wrapper" style={pageThemeStyle}>
+    <div className="department-page-wrapper">
       <header
         className="department-top-header"
         style={{ backgroundImage: `url(${headerBg})` }}
@@ -1190,7 +1039,6 @@ const DepartmentPage: React.FC = () => {
             state={{
               facultyTitle: facultyName,
               langId,
-              themeColor: selectedThemeColor,
             }}
             className="department-top-brand"
             aria-label={
@@ -1231,7 +1079,6 @@ const DepartmentPage: React.FC = () => {
                   departmentCode={departmentCode}
                   facultyTitle={facultyName}
                   departmentTitle={departmentName}
-                  themeColor={selectedThemeColor}
                 />
               ))}
             </div>
@@ -1658,7 +1505,6 @@ const DepartmentPage: React.FC = () => {
                           state={{
                             facultyTitle: facultyName,
                             departmentTitle: departmentName,
-                            themeColor: selectedThemeColor,
                           }}
                           className="department-footer-link"
                         >

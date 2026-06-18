@@ -89,23 +89,17 @@ const extractSpecialUnitAbbrFromUrl = (url: string) => {
       .map((segment) => segment.trim())
       .filter(Boolean);
 
-    const homeIndex = cleanSegments.findIndex(
-      (segment) => segment.toLowerCase() === "home",
+    const stopWords = ["home", "suhome", "view", "page", "article", "details"];
+
+    const stopIndex = cleanSegments.findIndex((segment) =>
+      stopWords.includes(segment.toLowerCase()),
     );
 
-    if (homeIndex > 0) {
-      return cleanSegments[homeIndex - 1];
+    if (stopIndex > 0) {
+      return cleanSegments[stopIndex - 1];
     }
 
-    const viewIndex = cleanSegments.findIndex(
-      (segment) => segment.toLowerCase() === "view",
-    );
-
-    if (viewIndex > 0) {
-      return cleanSegments[viewIndex - 1];
-    }
-
-    return cleanSegments[0] || "";
+    return cleanSegments[cleanSegments.length - 1] || "";
   };
 
   try {

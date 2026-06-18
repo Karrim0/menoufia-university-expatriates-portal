@@ -59,11 +59,7 @@
   --faculty-pagination-info-strong: var(--theme-secondary);
   --faculty-pagination-icon: var(--theme-primary);
 
-  --f-border: color-mix(
-    in srgb,
-    var(--theme-card) 18%,
-    transparent
-  );
+  --f-border: color-mix(in srgb, var(--theme-card) 18%, transparent);
 
   width: 100%;
   min-height: 100vh;
@@ -237,7 +233,8 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  box-shadow: 0 8px 24px color-mix(in srgb, var(--faculty-dark) 18%, transparent);
+  box-shadow: 0 8px 24px
+    color-mix(in srgb, var(--faculty-dark) 18%, transparent);
 }
 
 .faculty-top-logo {
@@ -289,7 +286,8 @@
   direction: rtl;
   background: var(--faculty-primary) !important;
   border-radius: 6px !important;
-  box-shadow: 0 6px 14px color-mix(in srgb, var(--faculty-primary) 18%, transparent);
+  box-shadow: 0 6px 14px
+    color-mix(in srgb, var(--faculty-primary) 18%, transparent);
   overflow: visible;
   transition:
     background 0.25s ease,
@@ -346,7 +344,11 @@
 
 .faculty-menu-link:hover,
 .faculty-menu-item.open > .faculty-menu-link {
-  background: color-mix(in srgb, var(--faculty-white) 10%, transparent) !important;
+  background: color-mix(
+    in srgb,
+    var(--faculty-white) 10%,
+    transparent
+  ) !important;
   color: var(--faculty-white) !important;
 }
 
@@ -371,7 +373,6 @@
   background: color-mix(in srgb, var(--faculty-white) 16%, transparent);
 }
 
-
 .faculty-menu-item.level-0 > .faculty-sub-menu {
   position: absolute;
   top: 100%;
@@ -384,7 +385,8 @@
   background: var(--faculty-white);
   border: 1px solid color-mix(in srgb, var(--faculty-primary) 14%, transparent);
   border-radius: 8px;
-  box-shadow: 0 16px 36px color-mix(in srgb, var(--faculty-dark) 18%, transparent);
+  box-shadow: 0 16px 36px
+    color-mix(in srgb, var(--faculty-dark) 18%, transparent);
   display: flex;
   flex-direction: column;
 }
@@ -502,7 +504,11 @@
   max-height: 272px;
   padding: clamp(28px, 3.3vw, 48px);
   padding-left: 112px;
-  background: color-mix(in srgb, var(--faculty-primary) 34%, transparent) !important;
+  background: color-mix(
+    in srgb,
+    var(--faculty-primary) 34%,
+    transparent
+  ) !important;
   border-radius: 20px;
   color: var(--faculty-white);
   display: flex;
@@ -637,7 +643,8 @@
   background: var(--faculty-search-bg) !important;
   border: 1px solid color-mix(in srgb, var(--faculty-primary) 14%, transparent) !important;
   border-radius: 16px;
-  box-shadow: 0 3px 1px color-mix(in srgb, var(--faculty-primary) 10%, transparent) !important;
+  box-shadow: 0 3px 1px
+    color-mix(in srgb, var(--faculty-primary) 10%, transparent) !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -726,7 +733,11 @@
 }
 
 .faculty-page-wrapper .news-filterr-panel {
-  border-color: color-mix(in srgb, var(--faculty-primary) 12%, transparent) !important;
+  border-color: color-mix(
+    in srgb,
+    var(--faculty-primary) 12%,
+    transparent
+  ) !important;
 }
 
 .faculty-page-wrapper .filter-labell,
@@ -736,7 +747,11 @@
 
 .faculty-page-wrapper .filter-chip {
   color: var(--faculty-primary) !important;
-  border-color: color-mix(in srgb, var(--faculty-primary) 20%, transparent) !important;
+  border-color: color-mix(
+    in srgb,
+    var(--faculty-primary) 20%,
+    transparent
+  ) !important;
 }
 
 .faculty-page-wrapper .filter-chip.chip-active,
@@ -819,7 +834,8 @@
 
 .faculty-page-wrapper .news-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 18px 38px color-mix(in srgb, var(--faculty-primary) 14%, transparent) !important;
+  box-shadow: 0 18px 38px
+    color-mix(in srgb, var(--faculty-primary) 14%, transparent) !important;
 }
 
 .faculty-page-wrapper .news-card-link {
@@ -954,7 +970,8 @@
   justify-content: center;
   justify-self: start;
   align-self: start;
-  box-shadow: 0 8px 22px color-mix(in srgb, var(--faculty-primary) 8%, transparent) !important;
+  box-shadow: 0 8px 22px
+    color-mix(in srgb, var(--faculty-primary) 8%, transparent) !important;
   transition:
     background 0.25s ease,
     color 0.25s ease,
@@ -971,7 +988,8 @@
   background: var(--faculty-icon-bg-hover) !important;
   color: var(--faculty-icon-hover) !important;
   transform: translateY(-2px);
-  box-shadow: 0 12px 24px color-mix(in srgb, var(--faculty-primary) 22%, transparent) !important;
+  box-shadow: 0 12px 24px
+    color-mix(in srgb, var(--faculty-primary) 22%, transparent) !important;
 }
 
 .faculty-page-wrapper .news-card:hover .news-card-arrow i {
@@ -979,7 +997,11 @@
 }
 
 .faculty-page-wrapper .highlight {
-  background: color-mix(in srgb, var(--faculty-primary) 14%, transparent) !important;
+  background: color-mix(
+    in srgb,
+    var(--faculty-primary) 14%,
+    transparent
+  ) !important;
   color: var(--faculty-primary) !important;
 }
 
@@ -1165,7 +1187,8 @@
   min-width: 7px;
   border-radius: 50%;
   background: var(--col-accent);
-  box-shadow: 0 0 8px color-mix(in srgb, var(--faculty-secondary) 35%, transparent);
+  box-shadow: 0 0 8px
+    color-mix(in srgb, var(--faculty-secondary) 35%, transparent);
 }
 
 .faculty-footer-link::before {
@@ -1627,7 +1650,8 @@
   display: block;
   direction: rtl;
   border-top: none;
-  border-bottom: 3px solid color-mix(in srgb, var(--faculty-secondary) 22%, transparent);
+  border-bottom: 3px solid
+    color-mix(in srgb, var(--faculty-secondary) 22%, transparent);
 }
 
 .faculty-new-bottom .ft-contact-row {
@@ -1649,7 +1673,8 @@
 
 .faculty-new-bottom .ft-contact-with-border,
 .faculty-new-bottom .ft-main-logo-wrap {
-  border-inline-start: 1px solid color-mix(in srgb, var(--faculty-white) 22%, transparent);
+  border-inline-start: 1px solid
+    color-mix(in srgb, var(--faculty-white) 22%, transparent);
   padding-inline-start: 34px;
 }
 
@@ -1767,7 +1792,8 @@
 .faculty-new-bottom .ft-bottom-links-row {
   margin-top: 30px;
   padding-top: 22px;
-  border-top: 1px solid color-mix(in srgb, var(--faculty-white) 14%, transparent);
+  border-top: 1px solid
+    color-mix(in srgb, var(--faculty-white) 14%, transparent);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1786,7 +1812,8 @@
   padding-inline: 18px;
   color: color-mix(in srgb, var(--faculty-white) 72%, transparent);
   text-decoration: none;
-  border-inline-start: 1px solid color-mix(in srgb, var(--faculty-white) 18%, transparent);
+  border-inline-start: 1px solid
+    color-mix(in srgb, var(--faculty-white) 18%, transparent);
 }
 
 .faculty-new-bottom .ft-policy-links a:first-child {
@@ -1823,7 +1850,8 @@
   gap: 10px;
   font-size: 14px;
   font-weight: 700;
-  box-shadow: 0 10px 24px color-mix(in srgb, var(--faculty-primary) 8%, transparent);
+  box-shadow: 0 10px 24px
+    color-mix(in srgb, var(--faculty-primary) 8%, transparent);
   transition:
     transform 0.2s ease,
     color 0.2s ease,
@@ -1842,7 +1870,8 @@
   border-radius: 24px;
   background: var(--faculty-white);
   border: 1px solid color-mix(in srgb, var(--faculty-primary) 12%, transparent);
-  box-shadow: 0 20px 48px color-mix(in srgb, var(--faculty-primary) 9%, transparent);
+  box-shadow: 0 20px 48px
+    color-mix(in srgb, var(--faculty-primary) 9%, transparent);
   color: var(--faculty-primary);
 }
 
@@ -1873,7 +1902,8 @@
   align-items: center;
   justify-content: center;
   font-size: 27px;
-  box-shadow: 0 14px 26px color-mix(in srgb, var(--faculty-primary) 18%, transparent);
+  box-shadow: 0 14px 26px
+    color-mix(in srgb, var(--faculty-primary) 18%, transparent);
 }
 
 .faculty-article-html {
@@ -1913,7 +1943,8 @@
   display: block;
   margin: 24px auto;
   border-radius: 18px;
-  box-shadow: 0 16px 36px color-mix(in srgb, var(--faculty-primary) 12%, transparent);
+  box-shadow: 0 16px 36px
+    color-mix(in srgb, var(--faculty-primary) 12%, transparent);
 }
 
 .faculty-article-html a {
@@ -1953,7 +1984,8 @@
   object-fit: contain;
   border-radius: 22px;
   background: var(--faculty-muted-bg);
-  box-shadow: 0 18px 46px color-mix(in srgb, var(--faculty-primary) 14%, transparent);
+  box-shadow: 0 18px 46px
+    color-mix(in srgb, var(--faculty-primary) 14%, transparent);
 }
 
 .faculty-article-file-card,
@@ -2051,7 +2083,8 @@
   overflow: hidden;
   background: #000;
   margin-bottom: 28px;
-  box-shadow: 0 18px 46px color-mix(in srgb, var(--faculty-primary) 16%, transparent);
+  box-shadow: 0 18px 46px
+    color-mix(in srgb, var(--faculty-primary) 16%, transparent);
 }
 
 .faculty-article-video {
@@ -2075,7 +2108,8 @@
   border-radius: 24px;
   overflow: hidden;
   background: var(--faculty-muted-bg);
-  box-shadow: 0 18px 44px color-mix(in srgb, var(--faculty-primary) 14%, transparent);
+  box-shadow: 0 18px 44px
+    color-mix(in srgb, var(--faculty-primary) 14%, transparent);
 }
 
 .faculty-article-profile-image {
@@ -2441,7 +2475,7 @@
     padding: 0 8px !important;
     font-size: 10.5px !important;
   }
-  
+
   .faculty-highlight-image-wrap {
     aspect-ratio: 16 / 10;
     min-height: 300px;
@@ -2978,7 +3012,8 @@
 .faculty-page-wrapper .news-pagination {
   background: var(--faculty-primary) !important;
   border-radius: 30px;
-  box-shadow: 0 14px 34px color-mix(in srgb, var(--faculty-primary) 18%, transparent) !important;
+  box-shadow: 0 14px 34px
+    color-mix(in srgb, var(--faculty-primary) 18%, transparent) !important;
 }
 
 .faculty-page-wrapper .news-pagination-arrow,
@@ -3002,7 +3037,11 @@
 
 .faculty-page-wrapper
   .news-pagination-number:hover:not(:disabled):not(.active) {
-  background: color-mix(in srgb, var(--faculty-white) 12%, transparent) !important;
+  background: color-mix(
+    in srgb,
+    var(--faculty-white) 12%,
+    transparent
+  ) !important;
   color: var(--faculty-white) !important;
 }
 
@@ -3088,7 +3127,8 @@
   background: var(--faculty-search-bg) !important;
   border: 1px solid color-mix(in srgb, var(--faculty-primary) 14%, transparent) !important;
   border-radius: 16px;
-  box-shadow: 0 3px 1px color-mix(in srgb, var(--faculty-primary) 10%, transparent) !important;
+  box-shadow: 0 3px 1px
+    color-mix(in srgb, var(--faculty-primary) 10%, transparent) !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3575,15 +3615,15 @@
     min-height: 34px !important;
     padding: 0 12px !important;
     border-radius: 8px !important;
-    background: color-mix(in srgb, var(--faculty-white) 8%, transparent) !important;
+    background: color-mix(
+      in srgb,
+      var(--faculty-white) 8%,
+      transparent
+    ) !important;
     font-size: 11px !important;
     line-height: 1.2 !important;
     white-space: nowrap !important;
   }
-
-  
-
-  
 
   .faculty-sub-menu {
     min-width: min(260px, calc(100vw - 32px)) !important;
@@ -3633,7 +3673,11 @@
     padding: 11px 14px !important;
     transform: translateX(50%) !important;
     border-radius: 14px !important;
-    background: color-mix(in srgb, var(--faculty-primary) 78%, transparent) !important;
+    background: color-mix(
+      in srgb,
+      var(--faculty-primary) 78%,
+      transparent
+    ) !important;
     align-items: center !important;
     text-align: center !important;
   }
@@ -3754,14 +3798,19 @@
     padding: 0 !important;
     border: 0 !important;
     border-radius: 50% !important;
-    background: color-mix(in srgb, var(--faculty-white) 92%, transparent) !important;
+    background: color-mix(
+      in srgb,
+      var(--faculty-white) 92%,
+      transparent
+    ) !important;
     color: var(--faculty-primary) !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     cursor: pointer !important;
     transform: translateY(-50%) !important;
-    box-shadow: 0 8px 20px color-mix(in srgb, var(--faculty-primary) 22%, transparent) !important;
+    box-shadow: 0 8px 20px
+      color-mix(in srgb, var(--faculty-primary) 22%, transparent) !important;
   }
 
   .faculty-highlight-prev {
@@ -3897,8 +3946,6 @@
     border-radius: 8px !important;
     border-inline-start: 3px solid var(--faculty-primary) !important;
   }
-
-  
 }
 
 @media (max-width: 430px) {
@@ -3998,10 +4045,16 @@
   min-height: 370px;
   padding: 28px 34px 32px;
   overflow: hidden;
-  background: color-mix(in srgb, var(--faculty-soft-bg) 72%, var(--faculty-white));
-  border: 1px solid color-mix(in srgb, var(--faculty-secondary-text) 20%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--faculty-soft-bg) 72%,
+    var(--faculty-white)
+  );
+  border: 1px solid
+    color-mix(in srgb, var(--faculty-secondary-text) 20%, transparent);
   border-radius: 16px;
-  box-shadow: 0 3px 8px color-mix(in srgb, var(--faculty-primary) 13%, transparent);
+  box-shadow: 0 3px 8px
+    color-mix(in srgb, var(--faculty-primary) 13%, transparent);
   color: var(--faculty-primary);
 }
 
@@ -4054,7 +4107,11 @@
   width: 58px;
   height: 1px;
   margin-top: 7px;
-  background: color-mix(in srgb, var(--faculty-secondary-text) 65%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--faculty-secondary-text) 65%,
+    transparent
+  );
 }
 
 .faculty-history-body {
@@ -4094,7 +4151,11 @@
   bottom: 7px;
   right: 96px;
   width: 1px;
-  background: color-mix(in srgb, var(--faculty-secondary-text) 30%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--faculty-secondary-text) 30%,
+    transparent
+  );
 }
 
 .faculty-history-timeline-item {
@@ -4375,7 +4436,11 @@
   width: 58px;
   height: 1px;
   margin-top: 7px;
-  background: color-mix(in srgb, var(--faculty-secondary-text) 65%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--faculty-secondary-text) 65%,
+    transparent
+  );
 }
 
 .faculty-goals-content {
@@ -4505,7 +4570,7 @@
     font-size: 12px;
     line-height: 1.9;
   }
-}/* =========================================================
+} /* =========================================================
    Shared special article pages
 ========================================================= */
 
@@ -4560,7 +4625,8 @@
   padding: 28px 34px 36px;
   overflow: hidden;
   background: var(--faculty-soft-bg);
-  border: 1px solid color-mix(in srgb, var(--faculty-secondary-text) 20%, transparent);
+  border: 1px solid
+    color-mix(in srgb, var(--faculty-secondary-text) 20%, transparent);
   border-radius: 20px;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   color: var(--faculty-primary);
@@ -4614,7 +4680,11 @@
   width: 58px;
   height: 1px;
   margin-top: 7px;
-  background: color-mix(in srgb, var(--faculty-secondary-text) 65%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--faculty-secondary-text) 65%,
+    transparent
+  );
 }
 
 .faculty-history-body {
@@ -4654,7 +4724,11 @@
   bottom: 7px;
   right: 96px;
   width: 1px;
-  background: color-mix(in srgb, var(--faculty-secondary-text) 30%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--faculty-secondary-text) 30%,
+    transparent
+  );
 }
 
 .faculty-history-timeline-item {
@@ -4733,7 +4807,8 @@
   min-height: 396px;
   padding: 28px 34px 38px;
   background: var(--faculty-soft-bg);
-  border: 1px solid color-mix(in srgb, var(--faculty-secondary-text) 20%, transparent);
+  border: 1px solid
+    color-mix(in srgb, var(--faculty-secondary-text) 20%, transparent);
   border-radius: 20px;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   color: var(--faculty-primary);
@@ -4788,7 +4863,11 @@
   width: 58px;
   height: 1px;
   margin-top: 7px;
-  background: color-mix(in srgb, var(--faculty-secondary-text) 65%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--faculty-secondary-text) 65%,
+    transparent
+  );
 }
 
 .faculty-goals-content {
@@ -4879,18 +4958,14 @@
   gap: 14px !important;
 }
 
-.faculty-pdf-page-section
-  .faculty-special-page-title
-  .faculty-section-dot {
+.faculty-pdf-page-section .faculty-special-page-title .faculty-section-dot {
   width: 15px !important;
   height: 15px !important;
   min-width: 15px !important;
   background: var(--faculty-secondary) !important;
 }
 
-.faculty-pdf-page-section
-  .faculty-special-page-title
-  .faculty-section-title {
+.faculty-pdf-page-section .faculty-special-page-title .faculty-section-title {
   margin: 0;
   color: var(--faculty-primary) !important;
   font-family: "Cairo", sans-serif !important;
@@ -4908,7 +4983,8 @@
   min-height: 396px;
   padding: 34px 42px;
   background: var(--faculty-soft-bg);
-  border: 1px solid color-mix(in srgb, var(--faculty-secondary-text) 22%, transparent);
+  border: 1px solid
+    color-mix(in srgb, var(--faculty-secondary-text) 22%, transparent);
   border-radius: 20px;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   display: grid;
@@ -4928,7 +5004,11 @@
   width: 220px;
   height: 220px;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--faculty-secondary-text) 14%, var(--faculty-white));
+  background: color-mix(
+    in srgb,
+    var(--faculty-secondary-text) 14%,
+    var(--faculty-white)
+  );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4940,7 +5020,8 @@
   height: 154px;
   border-radius: 7px;
   background: var(--faculty-white);
-  box-shadow: 0 8px 20px color-mix(in srgb, var(--faculty-primary) 12%, transparent);
+  box-shadow: 0 8px 20px
+    color-mix(in srgb, var(--faculty-primary) 12%, transparent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4955,7 +5036,8 @@
   height: 34px;
   background: linear-gradient(
     225deg,
-    color-mix(in srgb, var(--faculty-secondary-text) 14%, var(--faculty-white)) 0 50%,
+    color-mix(in srgb, var(--faculty-secondary-text) 14%, var(--faculty-white))
+      0 50%,
     var(--faculty-white) 50% 100%
   );
 }
@@ -5119,7 +5201,11 @@
   margin-top: 28px;
   padding: 18px 28px;
   border-radius: 14px;
-  background: color-mix(in srgb, var(--faculty-secondary) 14%, var(--faculty-white));
+  background: color-mix(
+    in srgb,
+    var(--faculty-secondary) 14%,
+    var(--faculty-white)
+  );
   color: var(--faculty-primary);
   display: flex;
   align-items: center;
@@ -5185,9 +5271,7 @@
     margin-bottom: 22px !important;
   }
 
-  .faculty-pdf-page-section
-    .faculty-special-page-title
-    .faculty-section-title {
+  .faculty-pdf-page-section .faculty-special-page-title .faculty-section-title {
     font-size: 23px !important;
   }
 
@@ -5278,16 +5362,12 @@
   padding-top: 28px !important;
 }
 
-.faculty-page-wrapper
-  .faculty-pdf-page-section
-  .faculty-article-wrapper {
+.faculty-page-wrapper .faculty-pdf-page-section .faculty-article-wrapper {
   width: min(1319px, calc(100% - 70px)) !important;
   margin: 0 auto !important;
 }
 
-.faculty-page-wrapper
-  .faculty-pdf-page-section
-  .faculty-special-page-title {
+.faculty-page-wrapper .faculty-pdf-page-section .faculty-special-page-title {
   width: 100%;
   margin: 0 0 32px !important;
   padding: 0 !important;
@@ -5326,9 +5406,7 @@
   display: block !important;
 }
 
-.faculty-page-wrapper
-  .faculty-pdf-page-section
-  .faculty-pdf-card {
+.faculty-page-wrapper .faculty-pdf-page-section .faculty-pdf-card {
   margin-top: 0 !important;
   background: var(--faculty-soft-bg) !important;
 }
@@ -5341,7 +5419,9 @@
   background: var(--faculty-white) !important;
 }
 
-.faculty-page-wrapper .faculty-student-affairs-page-section .faculty-article-wrapper {
+.faculty-page-wrapper
+  .faculty-student-affairs-page-section
+  .faculty-article-wrapper {
   width: min(1319px, calc(100% - 70px)) !important;
   margin: 0 auto !important;
 }
@@ -5351,7 +5431,8 @@
   min-height: 650px;
   padding: 28px 34px 38px;
   background: var(--faculty-soft-bg);
-  border: 1px solid color-mix(in srgb, var(--faculty-secondary-text) 18%, transparent);
+  border: 1px solid
+    color-mix(in srgb, var(--faculty-secondary-text) 18%, transparent);
   border-radius: 20px;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   color: var(--faculty-primary);
@@ -5381,7 +5462,9 @@
   justify-content: center;
 }
 
-.faculty-student-affairs-icon i { font-size: 35px; }
+.faculty-student-affairs-icon i {
+  font-size: 35px;
+}
 
 .faculty-student-affairs-heading {
   min-width: 0;
@@ -5405,7 +5488,11 @@
   width: 64px;
   height: 1px;
   margin-top: 7px;
-  background: color-mix(in srgb, var(--faculty-secondary-text) 65%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--faculty-secondary-text) 65%,
+    transparent
+  );
 }
 
 .faculty-student-affairs-accordion {
@@ -5422,14 +5509,16 @@
 .faculty-student-affairs-item {
   width: 100%;
   background: var(--faculty-white);
-  border: 1px solid color-mix(in srgb, var(--faculty-secondary-text) 22%, transparent);
+  border: 1px solid
+    color-mix(in srgb, var(--faculty-secondary-text) 22%, transparent);
   border-radius: 12px;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.14);
   overflow: hidden;
 }
 
 .faculty-student-affairs-item:last-child {
-  border-bottom: 1px solid color-mix(in srgb, var(--faculty-secondary-text) 22%, transparent);
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--faculty-secondary-text) 22%, transparent);
 }
 
 .faculty-student-affairs-trigger {
@@ -5451,7 +5540,11 @@
 }
 
 .faculty-student-affairs-trigger:hover {
-  background: color-mix(in srgb, var(--faculty-soft-bg) 55%, var(--faculty-white));
+  background: color-mix(
+    in srgb,
+    var(--faculty-soft-bg) 55%,
+    var(--faculty-white)
+  );
 }
 
 .faculty-student-affairs-title-wrap {
@@ -5488,8 +5581,7 @@
   transition: transform 0.22s ease;
 }
 
-.faculty-student-affairs-item.open
-  .faculty-student-affairs-chevron {
+.faculty-student-affairs-item.open .faculty-student-affairs-chevron {
   transform: rotate(180deg);
 }
 
@@ -5497,7 +5589,8 @@
   width: 100%;
   padding: 0 28px 30px;
   background: var(--faculty-white);
-  border-top: 1px solid color-mix(in srgb, var(--faculty-secondary-text) 12%, transparent);
+  border-top: 1px solid
+    color-mix(in srgb, var(--faculty-secondary-text) 12%, transparent);
 }
 
 .faculty-student-affairs-content {
@@ -5547,10 +5640,14 @@
 }
 
 @media (max-width: 992px) {
-  .faculty-page-wrapper .faculty-student-affairs-page-section .faculty-article-wrapper {
+  .faculty-page-wrapper
+    .faculty-student-affairs-page-section
+    .faculty-article-wrapper {
     width: calc(100% - 40px) !important;
   }
-  .faculty-student-affairs-card { padding: 26px; }
+  .faculty-student-affairs-card {
+    padding: 26px;
+  }
   .faculty-student-affairs-accordion {
     width: calc(100% - 72px);
     margin-right: 72px;
@@ -5561,7 +5658,9 @@
   .faculty-page-wrapper .faculty-student-affairs-page-section {
     padding: 24px 0 60px !important;
   }
-  .faculty-page-wrapper .faculty-student-affairs-page-section .faculty-article-wrapper {
+  .faculty-page-wrapper
+    .faculty-student-affairs-page-section
+    .faculty-article-wrapper {
     width: calc(100% - 24px) !important;
   }
   .faculty-student-affairs-card {
@@ -5579,10 +5678,18 @@
     height: 58px;
     min-width: 58px;
   }
-  .faculty-student-affairs-icon i { font-size: 27px; }
-  .faculty-student-affairs-heading { padding-top: 4px; }
-  .faculty-student-affairs-heading h2 { font-size: 18px; }
-  .faculty-student-affairs-heading-line { width: 48px; }
+  .faculty-student-affairs-icon i {
+    font-size: 27px;
+  }
+  .faculty-student-affairs-heading {
+    padding-top: 4px;
+  }
+  .faculty-student-affairs-heading h2 {
+    font-size: 18px;
+  }
+  .faculty-student-affairs-heading-line {
+    width: 48px;
+  }
   .faculty-student-affairs-accordion {
     width: 100%;
     margin-right: 0;
@@ -5602,7 +5709,9 @@
     min-width: 7px;
     margin-top: 7px;
   }
-  .faculty-student-affairs-panel { padding: 0 14px 20px; }
+  .faculty-student-affairs-panel {
+    padding: 0 14px 20px;
+  }
   .faculty-student-affairs-content {
     font-size: 12px;
     line-height: 1.9;
@@ -5663,15 +5772,12 @@ html[data-palette]
   background: var(--faculty-footer-bottom) !important;
 }
 
-
 /* =========================================
    Palette 6 Pagination — Figma
    ضعيه في آخر FacultyNews.css
 ========================================= */
 
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination {
+html[data-palette="palette6"] .faculty-page-wrapper .news-pagination {
   width: fit-content !important;
   max-width: calc(100% - 32px) !important;
   min-height: 52px !important;
@@ -5698,9 +5804,7 @@ html[data-palette="palette6"]
 }
 
 /* مجموعة الأرقام والأسهم ناحية الشمال */
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination-pages {
+html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-pages {
   order: 1 !important;
 
   width: auto !important;
@@ -5720,9 +5824,7 @@ html[data-palette="palette6"]
 }
 
 /* نص الصفحة ناحية اليمين */
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-page-info {
+html[data-palette="palette6"] .faculty-page-wrapper .news-page-info {
   order: 2 !important;
 
   width: auto !important;
@@ -5753,18 +5855,14 @@ html[data-palette="palette6"]
   box-shadow: none !important;
 }
 
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-page-info strong {
+html[data-palette="palette6"] .faculty-page-wrapper .news-page-info strong {
   color: #432323 !important;
   font-size: 17px !important;
   font-weight: 800 !important;
 }
 
 /* أرقام الصفحات العادية */
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination-number {
+html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-number {
   width: 34px !important;
   min-width: 34px !important;
   height: 34px !important;
@@ -5805,9 +5903,7 @@ html[data-palette="palette6"]
 }
 
 /* الأسهم */
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination-arrow {
+html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-arrow {
   width: 34px !important;
   min-width: 34px !important;
   height: 34px !important;
@@ -5838,12 +5934,8 @@ html[data-palette="palette6"]
   cursor: not-allowed !important;
 }
 
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination-arrow i,
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination-arrow svg {
+html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-arrow i,
+html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-arrow svg {
   width: 14px !important;
   height: 14px !important;
   font-size: 14px !important;
@@ -5851,9 +5943,7 @@ html[data-palette="palette6"]
 }
 
 /* علامة ... */
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination-dots {
+html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-dots {
   width: 25px !important;
   min-width: 25px !important;
   height: 34px !important;
@@ -5892,9 +5982,7 @@ html[data-palette="palette6"]
 
 /* Responsive */
 @media (max-width: 768px) {
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-pagination {
+  html[data-palette="palette6"] .faculty-page-wrapper .news-pagination {
     width: calc(100% - 20px) !important;
     max-width: 540px !important;
     min-height: 50px !important;
@@ -5906,9 +5994,7 @@ html[data-palette="palette6"]
     overflow: hidden !important;
   }
 
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-pagination-pages {
+  html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-pages {
     min-width: 0 !important;
     gap: 6px !important;
 
@@ -5924,25 +6010,17 @@ html[data-palette="palette6"]
     display: none !important;
   }
 
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-page-info {
+  html[data-palette="palette6"] .faculty-page-wrapper .news-page-info {
     min-width: 105px !important;
     font-size: 12px !important;
   }
 
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-page-info strong {
+  html[data-palette="palette6"] .faculty-page-wrapper .news-page-info strong {
     font-size: 14px !important;
   }
 
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-pagination-number,
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-pagination-arrow {
+  html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-number,
+  html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-arrow {
     width: 30px !important;
     min-width: 30px !important;
     height: 30px !important;
@@ -5954,9 +6032,7 @@ html[data-palette="palette6"]
 }
 
 @media (max-width: 480px) {
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-pagination {
+  html[data-palette="palette6"] .faculty-page-wrapper .news-pagination {
     flex-direction: column-reverse !important;
 
     width: calc(100% - 16px) !important;
@@ -5965,104 +6041,89 @@ html[data-palette="palette6"]
     gap: 6px !important;
   }
 
-
-
   /* =========================================
    Palette 6 Pagination — Colors Only
    لا يغيّر أي مقاسات أو مسافات
 ========================================= */
 
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination {
-  background: #ffffff !important;
-  box-shadow: none !important;
-}
+  html[data-palette="palette6"] .faculty-page-wrapper .news-pagination {
+    background: #ffffff !important;
+    box-shadow: none !important;
+  }
 
-/* أرقام الصفحات العادية */
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination-number {
-  background: #ffffff !important;
-  color: #432323 !important;
-  border-color: #432323 !important;
-}
+  /* أرقام الصفحات العادية */
+  html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-number {
+    background: #ffffff !important;
+    color: #432323 !important;
+    border-color: #432323 !important;
+  }
 
-/* الصفحة النشطة */
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination-number.active,
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination-number.active:disabled {
-  background: #432323 !important;
-  color: #ffffff !important;
-  border-color: #432323 !important;
-  opacity: 1 !important;
-}
+  /* الصفحة النشطة */
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination-number.active,
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination-number.active:disabled {
+    background: #432323 !important;
+    color: #ffffff !important;
+    border-color: #432323 !important;
+    opacity: 1 !important;
+  }
 
-/* الأسهم */
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination-arrow {
-  background: #432323 !important;
-  color: #ffffff !important;
-  border-color: #432323 !important;
-}
+  /* الأسهم */
+  html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-arrow {
+    background: #432323 !important;
+    color: #ffffff !important;
+    border-color: #432323 !important;
+  }
 
-/* السهم المعطّل */
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination-arrow:disabled {
-  background: #432323 !important;
-  color: #ffffff !important;
-  opacity: 1 !important;
-}
+  /* السهم المعطّل */
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination-arrow:disabled {
+    background: #432323 !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
+  }
 
-/* علامة ... */
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination-dots {
-  background: transparent !important;
-  color: #432323 !important;
-}
+  /* علامة ... */
+  html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-dots {
+    background: transparent !important;
+    color: #432323 !important;
+  }
 
-/* نص الصفحة 1 من 50 */
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-page-info {
-  background: transparent !important;
-  color: #432323 !important;
-}
+  /* نص الصفحة 1 من 50 */
+  html[data-palette="palette6"] .faculty-page-wrapper .news-page-info {
+    background: transparent !important;
+    color: #432323 !important;
+  }
 
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-page-info strong {
-  color: #432323 !important;
-}
+  html[data-palette="palette6"] .faculty-page-wrapper .news-page-info strong {
+    color: #432323 !important;
+  }
 
-/* Hover */
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination-number:hover:not(:disabled):not(.active) {
-  background: rgba(67, 35, 35, 0.07) !important;
-  color: #432323 !important;
-  border-color: #432323 !important;
-}
+  /* Hover */
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination-number:hover:not(:disabled):not(.active) {
+    background: rgba(67, 35, 35, 0.07) !important;
+    color: #432323 !important;
+    border-color: #432323 !important;
+  }
 
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination-arrow:hover:not(:disabled) {
-  background: #2f1818 !important;
-  color: #ffffff !important;
-}}
+  html[data-palette="palette6"]
+    .faculty-page-wrapper
+    .news-pagination-arrow:hover:not(:disabled) {
+    background: #2f1818 !important;
+    color: #ffffff !important;
+  }
+}
 /* =========================================
    Palette 6 Pagination — Figma Sizes Only
 ========================================= */
 
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination {
+html[data-palette="palette6"] .faculty-page-wrapper .news-pagination {
   width: 950px !important;
   max-width: calc(100% - 32px) !important;
   min-height: 92px !important;
@@ -6084,9 +6145,7 @@ html[data-palette="palette6"]
 }
 
 /* مجموعة الأرقام والأسهم */
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination-pages {
+html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-pages {
   width: auto !important;
   max-width: none !important;
   padding: 0 !important;
@@ -6105,12 +6164,8 @@ html[data-palette="palette6"]
 }
 
 /* أرقام الصفحات والأسهم */
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination-number,
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination-arrow {
+html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-number,
+html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-arrow {
   width: 60px !important;
   min-width: 60px !important;
   height: 60px !important;
@@ -6126,9 +6181,7 @@ html[data-palette="palette6"]
 }
 
 /* علامة ... */
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-pagination-dots {
+html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-dots {
   width: 60px !important;
   min-width: 60px !important;
   height: 60px !important;
@@ -6145,9 +6198,7 @@ html[data-palette="palette6"]
 }
 
 /* الصفحة 1 من 50 */
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-page-info {
+html[data-palette="palette6"] .faculty-page-wrapper .news-page-info {
   width: 200px !important;
   min-width: 200px !important;
   height: 58px !important;
@@ -6168,30 +6219,20 @@ html[data-palette="palette6"]
   box-sizing: border-box !important;
 }
 
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .news-page-info strong {
+html[data-palette="palette6"] .faculty-page-wrapper .news-page-info strong {
   font-size: 26px !important;
 }
 
 /* Tablet */
 @media (max-width: 1100px) {
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-pagination {
+  html[data-palette="palette6"] .faculty-page-wrapper .news-pagination {
     width: 100% !important;
     gap: 24px !important;
   }
 
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-pagination-number,
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-pagination-arrow,
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-pagination-dots {
+  html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-number,
+  html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-arrow,
+  html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-dots {
     width: 52px !important;
     min-width: 52px !important;
     height: 52px !important;
@@ -6201,9 +6242,7 @@ html[data-palette="palette6"]
     font-size: 22px !important;
   }
 
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-page-info {
+  html[data-palette="palette6"] .faculty-page-wrapper .news-page-info {
     width: 180px !important;
     min-width: 180px !important;
     height: 52px !important;
@@ -6212,18 +6251,14 @@ html[data-palette="palette6"]
     font-size: 18px !important;
   }
 
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-page-info strong {
+  html[data-palette="palette6"] .faculty-page-wrapper .news-page-info strong {
     font-size: 22px !important;
   }
 }
 
 /* Mobile */
 @media (max-width: 768px) {
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-pagination {
+  html[data-palette="palette6"] .faculty-page-wrapper .news-pagination {
     width: calc(100% - 24px) !important;
     max-width: 420px !important;
     min-height: 0 !important;
@@ -6237,9 +6272,7 @@ html[data-palette="palette6"]
     border-radius: 18px !important;
   }
 
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-pagination-pages {
+  html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-pages {
     width: 100% !important;
     max-width: 100% !important;
 
@@ -6250,12 +6283,8 @@ html[data-palette="palette6"]
     overflow-y: hidden !important;
   }
 
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-pagination-number,
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-pagination-arrow {
+  html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-number,
+  html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-arrow {
     width: 36px !important;
     min-width: 36px !important;
     height: 36px !important;
@@ -6265,9 +6294,7 @@ html[data-palette="palette6"]
     font-size: 13px !important;
   }
 
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-pagination-dots {
+  html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-dots {
     width: 24px !important;
     min-width: 24px !important;
     height: 36px !important;
@@ -6276,9 +6303,7 @@ html[data-palette="palette6"]
     font-size: 13px !important;
   }
 
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-page-info {
+  html[data-palette="palette6"] .faculty-page-wrapper .news-page-info {
     width: 100% !important;
     min-width: 0 !important;
     height: 34px !important;
@@ -6289,9 +6314,7 @@ html[data-palette="palette6"]
     font-size: 12.5px !important;
   }
 
-  html[data-palette="palette6"]
-    .faculty-page-wrapper
-    .news-page-info strong {
+  html[data-palette="palette6"] .faculty-page-wrapper .news-page-info strong {
     font-size: 14px !important;
   }
 }
@@ -6302,7 +6325,7 @@ html[data-palette="palette6"]
 
 /* Palette 1 — Navy + Beige */
 html[data-palette="palette1"] .faculty-page-wrapper {
- --pg-bg: #f8fafc;
+  --pg-bg: #f8fafc;
   --pg-border: #526d82;
   --pg-number-bg: transparent;
   --pg-number-text: #27374d;
@@ -6528,7 +6551,8 @@ html[data-palette="palette5"] .faculty-page-wrapper {
     html[data-palette="palette5"]
   )
   .faculty-page-wrapper
-  .news-page-info strong {
+  .news-page-info
+  strong {
   color: var(--pg-info-strong) !important;
 }
 
@@ -6603,34 +6627,24 @@ html[data-palette="palette6"] .faculty-page-wrapper {
 }
 
 /* Apply Palette 5 search background */
-html[data-palette="palette5"]
-  .faculty-page-wrapper
-  .news-search-wrapper {
+html[data-palette="palette5"] .faculty-page-wrapper .news-search-wrapper {
   background: #909f7a !important;
   border-color: #909f7a !important;
 }
 
 /* Apply filter icon colors */
-html[data-palette]
-  .faculty-page-wrapper
-  .news-filter-toggle {
+html[data-palette] .faculty-page-wrapper .news-filter-toggle {
   background: var(--faculty-filter-icon-bg) !important;
   color: var(--faculty-filter-icon-color) !important;
 }
 
 /* Keep the same correct colors on hover and active */
-html[data-palette]
-  .faculty-page-wrapper
-  .news-filter-toggle:hover,
-html[data-palette]
-  .faculty-page-wrapper
-  .news-filter-toggle.active {
+html[data-palette] .faculty-page-wrapper .news-filter-toggle:hover,
+html[data-palette] .faculty-page-wrapper .news-filter-toggle.active {
   background: var(--faculty-filter-icon-bg) !important;
   color: var(--faculty-filter-icon-color) !important;
 }
-html[data-palette="palette4"]
-  .faculty-page-wrapper
-  .news-search-wrapper {
+html[data-palette="palette4"] .faculty-page-wrapper .news-search-wrapper {
   background: #655541 !important;
   border-color: #655541 !important;
 }
@@ -6640,9 +6654,7 @@ html[data-palette="palette4"]
 ========================================= */
 
 /* Palette 3 */
-html[data-palette="palette3"]
-  .faculty-page-wrapper
-  .faculty-menu-bar {
+html[data-palette="palette3"] .faculty-page-wrapper .faculty-menu-bar {
   background: #840d0d !important;
 }
 
@@ -6653,9 +6665,7 @@ html[data-palette="palette3"]
 }
 
 /* Palette 4 */
-html[data-palette="palette4"]
-  .faculty-page-wrapper
-  .faculty-menu-bar {
+html[data-palette="palette4"] .faculty-page-wrapper .faculty-menu-bar {
   background: #1f150c !important;
 }
 
@@ -6666,9 +6676,7 @@ html[data-palette="palette4"]
 }
 
 /* Palette 5 */
-html[data-palette="palette5"]
-  .faculty-page-wrapper
-  .faculty-menu-bar {
+html[data-palette="palette5"] .faculty-page-wrapper .faculty-menu-bar {
   background: #76885b !important;
 }
 
@@ -6679,9 +6687,7 @@ html[data-palette="palette5"]
 }
 
 /* Palette 6 */
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .faculty-menu-bar {
+html[data-palette="palette6"] .faculty-page-wrapper .faculty-menu-bar {
   background: #2f5755 !important;
 }
 
@@ -6691,9 +6697,7 @@ html[data-palette="palette6"]
   background: rgba(47, 87, 85, 0.8) !important;
 }
 /* Palette 4 — Internal navbar */
-html[data-palette="palette4"]
-  .faculty-page-wrapper
-  .faculty-menu-bar {
+html[data-palette="palette4"] .faculty-page-wrapper .faculty-menu-bar {
   background: #1f150c !important;
 }
 
@@ -6704,9 +6708,7 @@ html[data-palette="palette4"]
   background: rgba(0, 0, 0, 0.8) !important;
 }
 /* Palette 5 — Internal navbar */
-html[data-palette="palette5"]
-  .faculty-page-wrapper
-  .faculty-menu-bar {
+html[data-palette="palette5"] .faculty-page-wrapper .faculty-menu-bar {
   background: #76885b !important;
 }
 
@@ -6717,9 +6719,7 @@ html[data-palette="palette5"]
   background: rgba(98, 114, 84, 0.85) !important;
 }
 /* Palette 6 — Internal navbar */
-html[data-palette="palette6"]
-  .faculty-page-wrapper
-  .faculty-menu-bar {
+html[data-palette="palette6"] .faculty-page-wrapper .faculty-menu-bar {
   background: #2f5755 !important;
 }
 
@@ -6729,7 +6729,6 @@ html[data-palette="palette6"]
   .faculty-top-header-overlay {
   background: rgba(47, 87, 85, 0.8) !important;
 }
-
 
 /* =========================================================
    Final Figma Article Pages Restore
@@ -6751,7 +6750,9 @@ html[data-palette="palette6"]
 .faculty-page-wrapper .faculty-history-page-section .faculty-article-wrapper,
 .faculty-page-wrapper .faculty-goals-page-section .faculty-article-wrapper,
 .faculty-page-wrapper .faculty-pdf-page-section .faculty-article-wrapper,
-.faculty-page-wrapper .faculty-student-affairs-page-section .faculty-article-wrapper {
+.faculty-page-wrapper
+  .faculty-student-affairs-page-section
+  .faculty-article-wrapper {
   width: min(1319px, calc(100% - 70px)) !important;
   margin: 0 auto !important;
 }
@@ -7027,7 +7028,9 @@ html[data-palette="palette6"]
   .faculty-page-wrapper .faculty-history-page-section .faculty-article-wrapper,
   .faculty-page-wrapper .faculty-goals-page-section .faculty-article-wrapper,
   .faculty-page-wrapper .faculty-pdf-page-section .faculty-article-wrapper,
-  .faculty-page-wrapper .faculty-student-affairs-page-section .faculty-article-wrapper {
+  .faculty-page-wrapper
+    .faculty-student-affairs-page-section
+    .faculty-article-wrapper {
     width: calc(100% - 40px) !important;
   }
 
@@ -7054,7 +7057,9 @@ html[data-palette="palette6"]
   .faculty-page-wrapper .faculty-history-page-section .faculty-article-wrapper,
   .faculty-page-wrapper .faculty-goals-page-section .faculty-article-wrapper,
   .faculty-page-wrapper .faculty-pdf-page-section .faculty-article-wrapper,
-  .faculty-page-wrapper .faculty-student-affairs-page-section .faculty-article-wrapper {
+  .faculty-page-wrapper
+    .faculty-student-affairs-page-section
+    .faculty-article-wrapper {
     width: calc(100% - 24px) !important;
   }
 
@@ -7126,3 +7131,198 @@ html[data-palette="palette6"]
   }
 }
 
+/* =========================================
+   Faculty menu article pages — theme colors fix
+   الصفحات اللي بتتفتح من القوائم
+========================================= */
+
+.faculty-page-wrapper .faculty-article-section,
+.faculty-page-wrapper .faculty-history-page-section,
+.faculty-page-wrapper .faculty-goals-page-section,
+.faculty-page-wrapper .faculty-pdf-page-section,
+.faculty-page-wrapper .faculty-student-affairs-page-section {
+  background: var(--faculty-soft-bg) !important;
+  color: var(--faculty-primary-text) !important;
+}
+
+.faculty-page-wrapper .faculty-article-card,
+.faculty-page-wrapper .faculty-article-default-card,
+.faculty-page-wrapper .faculty-article-profile-card,
+.faculty-page-wrapper .faculty-article-image-card,
+.faculty-page-wrapper .faculty-history-card,
+.faculty-page-wrapper .faculty-goals-card,
+.faculty-page-wrapper .faculty-pdf-card,
+.faculty-page-wrapper .faculty-student-affairs-card {
+  background: var(--faculty-card-bg) !important;
+  color: var(--faculty-primary-text) !important;
+  border-color: color-mix(
+    in srgb,
+    var(--faculty-primary) 14%,
+    transparent
+  ) !important;
+  box-shadow: 0 20px 48px
+    color-mix(in srgb, var(--faculty-primary) 9%, transparent) !important;
+}
+
+.faculty-page-wrapper .faculty-article-card-head h2,
+.faculty-page-wrapper .faculty-article-profile-content h2,
+.faculty-page-wrapper .faculty-history-heading h2,
+.faculty-page-wrapper .faculty-goals-heading h2,
+.faculty-page-wrapper .faculty-pdf-heading h2,
+.faculty-page-wrapper .faculty-student-affairs-heading h2 {
+  color: var(--faculty-primary) !important;
+}
+
+.faculty-page-wrapper .faculty-article-card-icon,
+.faculty-page-wrapper .faculty-history-icon,
+.faculty-page-wrapper .faculty-goals-icon,
+.faculty-page-wrapper .faculty-pdf-icon,
+.faculty-page-wrapper .faculty-student-affairs-icon {
+  background: var(--faculty-icon-bg) !important;
+  color: var(--faculty-icon-color) !important;
+}
+
+.faculty-page-wrapper .faculty-history-heading-line,
+.faculty-page-wrapper .faculty-goals-heading-line,
+.faculty-page-wrapper .faculty-pdf-heading-line,
+.faculty-page-wrapper .faculty-student-affairs-heading-line {
+  background: var(--faculty-secondary) !important;
+}
+
+/* HTML content from backend */
+.faculty-page-wrapper .faculty-article-html,
+.faculty-page-wrapper .faculty-article-html p,
+.faculty-page-wrapper .faculty-article-html div,
+.faculty-page-wrapper .faculty-article-html span,
+.faculty-page-wrapper .faculty-article-html strong,
+.faculty-page-wrapper .faculty-article-html b,
+.faculty-page-wrapper .faculty-article-html u,
+.faculty-page-wrapper .faculty-article-profile-html,
+.faculty-page-wrapper .faculty-article-profile-html p,
+.faculty-page-wrapper .faculty-article-profile-html div,
+.faculty-page-wrapper .faculty-article-profile-html span,
+.faculty-page-wrapper .faculty-goals-content,
+.faculty-page-wrapper .faculty-goals-content p,
+.faculty-page-wrapper .faculty-goals-fallback,
+.faculty-page-wrapper .faculty-goals-fallback p {
+  color: var(--faculty-primary-text) !important;
+  background: transparent !important;
+  font-family: "Cairo", sans-serif !important;
+}
+
+.faculty-page-wrapper .faculty-article-html a,
+.faculty-page-wrapper .faculty-article-profile-html a,
+.faculty-page-wrapper .faculty-goals-content a {
+  color: var(--faculty-primary) !important;
+  font-weight: 800;
+}
+
+/* Student affairs accordion */
+.faculty-page-wrapper .faculty-student-affairs-item {
+  background: var(--faculty-card-bg) !important;
+  border-color: color-mix(
+    in srgb,
+    var(--faculty-primary) 14%,
+    transparent
+  ) !important;
+  box-shadow: 0 10px 26px
+    color-mix(in srgb, var(--faculty-primary) 8%, transparent) !important;
+}
+
+.faculty-page-wrapper .faculty-student-affairs-trigger {
+  background: var(--faculty-card-bg) !important;
+  color: var(--faculty-primary-text) !important;
+}
+
+.faculty-page-wrapper .faculty-student-affairs-title,
+.faculty-page-wrapper .faculty-student-affairs-order {
+  color: var(--faculty-primary) !important;
+}
+
+.faculty-page-wrapper .faculty-student-affairs-dot {
+  background: var(--faculty-secondary) !important;
+}
+
+.faculty-page-wrapper .faculty-student-affairs-panel {
+  background: var(--faculty-card-bg) !important;
+  border-top-color: color-mix(
+    in srgb,
+    var(--faculty-primary) 12%,
+    transparent
+  ) !important;
+}
+
+.faculty-page-wrapper .faculty-student-affairs-content,
+.faculty-page-wrapper .faculty-student-affairs-content p,
+.faculty-page-wrapper .faculty-student-affairs-content div,
+.faculty-page-wrapper .faculty-student-affairs-content span,
+.faculty-page-wrapper .faculty-student-affairs-content li {
+  color: var(--faculty-secondary-text) !important;
+  background: transparent !important;
+  font-family: "Cairo", sans-serif !important;
+}
+
+.faculty-page-wrapper .faculty-student-affairs-arrow {
+  color: var(--faculty-primary) !important;
+}
+
+/* Goals list */
+.faculty-page-wrapper .faculty-goals-list li {
+  background: color-mix(
+    in srgb,
+    var(--faculty-secondary) 10%,
+    var(--faculty-card-bg)
+  ) !important;
+  border-color: color-mix(
+    in srgb,
+    var(--faculty-primary) 12%,
+    transparent
+  ) !important;
+}
+
+.faculty-page-wrapper .faculty-goals-list p {
+  color: var(--faculty-primary-text) !important;
+}
+
+.faculty-page-wrapper .faculty-goals-dot {
+  background: var(--faculty-secondary) !important;
+}
+
+/* File / PDF buttons */
+.faculty-page-wrapper .faculty-file-card,
+.faculty-page-wrapper .faculty-pdf-file-card {
+  background: var(--faculty-card-bg) !important;
+  color: var(--faculty-primary-text) !important;
+  border-color: color-mix(
+    in srgb,
+    var(--faculty-primary) 14%,
+    transparent
+  ) !important;
+}
+
+.faculty-page-wrapper .faculty-file-view-btn,
+.faculty-page-wrapper .faculty-pdf-view-btn {
+  background: var(--faculty-button) !important;
+  color: var(--faculty-icon-color) !important;
+}
+
+.faculty-page-wrapper .faculty-file-download-btn,
+.faculty-page-wrapper .faculty-pdf-download-btn {
+  background: var(--faculty-card-bg) !important;
+  color: var(--faculty-primary) !important;
+  border-color: color-mix(
+    in srgb,
+    var(--faculty-primary) 22%,
+    transparent
+  ) !important;
+}
+
+.faculty-page-wrapper .faculty-file-note,
+.faculty-page-wrapper .faculty-pdf-note {
+  background: color-mix(
+    in srgb,
+    var(--faculty-secondary) 14%,
+    var(--faculty-card-bg)
+  ) !important;
+  color: var(--faculty-primary-text) !important;
+}
