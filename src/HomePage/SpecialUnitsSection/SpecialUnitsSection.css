@@ -371,3 +371,68 @@
     height: 12px;
   }
 }
+/* =========================================
+   Special Units Card Hover — All Palettes
+   Colors only
+========================================= */
+
+/* Palette 1 */
+html[data-palette="palette1"] .special-units-section {
+  --su-card-hover-bg: #27374d;
+  --su-card-hover-color: #ffffff;
+  --su-card-hover-shadow: rgba(39, 55, 77, 0.22);
+}
+
+/* Palette 2 */
+html[data-palette="palette2"] .special-units-section {
+  --su-card-hover-bg: #102c57;
+  --su-card-hover-color: #ffffff;
+  --su-card-hover-shadow: rgba(16, 44, 87, 0.22);
+}
+
+/* Palette 3 */
+html[data-palette="palette3"] .special-units-section {
+  --su-card-hover-bg: #840d0d;
+  --su-card-hover-color: #ffffff;
+  --su-card-hover-shadow: rgba(132, 13, 13, 0.2);
+}
+
+/* Palette 4 */
+html[data-palette="palette4"] .special-units-section {
+  --su-card-hover-bg: #412d15;
+  --su-card-hover-color: #ffffff;
+  --su-card-hover-shadow: rgba(65, 45, 21, 0.22);
+}
+
+/* Palette 5 */
+html[data-palette="palette5"] .special-units-section {
+  --su-card-hover-bg: #627254;
+  --su-card-hover-color: #ffffff;
+  --su-card-hover-shadow: rgba(98, 114, 84, 0.22);
+}
+
+/* Palette 6 */
+html[data-palette="palette6"] .special-units-section {
+  --su-card-hover-bg: #2f5755;
+  --su-card-hover-color: #ffffff;
+  --su-card-hover-shadow: rgba(47, 87, 85, 0.22);
+}
+
+/* Apply hover */
+html[data-palette] .special-units-section .special-unit-card:hover {
+  background-color: var(--su-card-hover-bg) !important;
+  color: var(--su-card-hover-color) !important;
+  box-shadow: 0 8px 20px var(--su-card-hover-shadow) !important;
+}
+
+/* Icon + text color on hover */
+html[data-palette] .special-units-section .special-unit-card:hover svg,
+html[data-palette] .special-units-section .special-unit-card:hover span {
+  color: var(--su-card-hover-color) !important;
+}
+
+/* Keyboard accessibility */
+html[data-palette] .special-units-section .special-unit-card:focus-visible {
+  outline: 2px solid var(--su-card-hover-bg);
+  outline-offset: 3px;
+}
