@@ -1914,3 +1914,210 @@
     font-size: 15px;
   }
 }
+/* ══════════════════════════════════════
+   Faculty News Mobile Cards — Final 
+══════════════════════════════════════ */
+
+@media (max-width: 640px) {
+  .faculty-page-wrapper .news-main-content {
+    padding: 18px 0 44px !important;
+  }
+
+  .faculty-page-wrapper .news-content-wrapper {
+    width: calc(100% - 20px) !important;
+  }
+
+  .faculty-page-wrapper .news-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    max-width: 430px !important;
+    margin-inline: auto !important;
+  }
+
+  .faculty-page-wrapper .news-card {
+    border-radius: 18px !important;
+    overflow: hidden !important;
+    min-height: 0 !important;
+
+    background: color-mix(
+      in srgb,
+      var(--theme-card) 88%,
+      var(--theme-background)
+    ) !important;
+
+    box-shadow: 0 8px 24px
+      color-mix(in srgb, var(--theme-primary) 8%, transparent) !important;
+  }
+
+  .faculty-page-wrapper .news-card-link {
+    position: relative !important;
+
+    min-height: 0 !important;
+    height: auto !important;
+
+    padding: 10px 10px 14px !important;
+    border-radius: 18px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 11px !important;
+
+    direction: rtl !important;
+    overflow: hidden !important;
+  }
+
+  .faculty-page-wrapper .news-card-image {
+    order: 1 !important;
+
+    width: 100% !important;
+    min-width: 0 !important;
+
+    height: 165px !important;
+    min-height: 165px !important;
+    max-height: 165px !important;
+    aspect-ratio: auto !important;
+
+    border-radius: 14px !important;
+    overflow: hidden !important;
+  }
+
+  .faculty-page-wrapper .news-card-image img,
+  .faculty-page-wrapper .news-card-main-image {
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: cover !important;
+    object-position: center 32% !important;
+
+    border-radius: 14px !important;
+  }
+
+  .faculty-page-wrapper .news-card-text {
+    order: 2 !important;
+
+    width: 100% !important;
+    min-width: 0 !important;
+
+    padding: 0 4px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    text-align: right !important;
+    align-items: flex-end !important;
+  }
+
+  .faculty-page-wrapper .news-card-title {
+    width: 100% !important;
+    margin: 0 0 7px !important;
+
+    color: var(--theme-primary) !important;
+
+    font-size: 14.5px !important;
+    font-weight: 800 !important;
+    line-height: 1.55 !important;
+    text-align: right !important;
+
+    -webkit-line-clamp: 2 !important;
+  }
+
+  .faculty-page-wrapper .news-card-description {
+    width: 100% !important;
+    margin: 0 0 8px !important;
+
+    font-size: 11.8px !important;
+    font-weight: 500 !important;
+    line-height: 1.65 !important;
+    text-align: right !important;
+
+    -webkit-line-clamp: 2 !important;
+  }
+
+  .faculty-page-wrapper .news-card-date {
+    width: 100% !important;
+    margin-top: 0 !important;
+
+    justify-content: flex-start !important;
+    text-align: left !important;
+
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+  }
+
+  .faculty-page-wrapper .news-card-arrow {
+    position: absolute !important;
+    left: 16px !important;
+    bottom: 16px !important;
+
+    width: 38px !important;
+    height: 38px !important;
+
+    margin: 0 !important;
+
+    background: var(--theme-icon-bg) !important;
+    color: var(--theme-icon-color) !important;
+
+    box-shadow: 0 8px 20px
+      color-mix(in srgb, var(--theme-primary) 12%, transparent) !important;
+
+    z-index: 5 !important;
+  }
+
+  .faculty-page-wrapper .news-card-arrow i {
+    font-size: 12px !important;
+    transform: rotate(45deg) !important;
+  }
+
+  .faculty-page-wrapper .news-card:hover {
+    transform: none !important;
+  }
+
+  .faculty-page-wrapper .news-card:hover .news-card-image img,
+  .faculty-page-wrapper .news-card:hover .news-card-main-image {
+    transform: none !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .faculty-page-wrapper .news-content-wrapper {
+    width: calc(100% - 18px) !important;
+  }
+
+  .faculty-page-wrapper .news-card-link {
+    padding: 10px 10px 13px !important;
+  }
+
+  .faculty-page-wrapper .news-card-image {
+    height: 150px !important;
+    min-height: 150px !important;
+    max-height: 150px !important;
+  }
+
+  .faculty-page-wrapper .news-card-title {
+    font-size: 13.8px !important;
+  }
+
+  .faculty-page-wrapper .news-card-description {
+    font-size: 11.4px !important;
+  }
+
+  .faculty-page-wrapper .news-card-arrow {
+    width: 36px !important;
+    height: 36px !important;
+    left: 14px !important;
+    bottom: 14px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .faculty-page-wrapper .news-card-image {
+    height: 138px !important;
+    min-height: 138px !important;
+    max-height: 138px !important;
+  }
+
+  .faculty-page-wrapper .news-card-title {
+    font-size: 13.2px !important;
+    -webkit-line-clamp: 3 !important;
+  }
+}
