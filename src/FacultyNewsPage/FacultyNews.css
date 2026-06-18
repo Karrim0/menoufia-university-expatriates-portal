@@ -6729,3 +6729,400 @@ html[data-palette="palette6"]
   .faculty-top-header-overlay {
   background: rgba(47, 87, 85, 0.8) !important;
 }
+
+
+/* =========================================================
+   Final Figma Article Pages Restore
+   History / Goals / PDF / Student Affairs / Profile
+========================================================= */
+
+.faculty-page-wrapper .faculty-article-section {
+  font-family: "Cairo", sans-serif !important;
+}
+
+.faculty-page-wrapper .faculty-history-page-section,
+.faculty-page-wrapper .faculty-goals-page-section,
+.faculty-page-wrapper .faculty-pdf-page-section,
+.faculty-page-wrapper .faculty-student-affairs-page-section {
+  background: #ffffff !important;
+  padding: 30px 0 120px !important;
+}
+
+.faculty-page-wrapper .faculty-history-page-section .faculty-article-wrapper,
+.faculty-page-wrapper .faculty-goals-page-section .faculty-article-wrapper,
+.faculty-page-wrapper .faculty-pdf-page-section .faculty-article-wrapper,
+.faculty-page-wrapper .faculty-student-affairs-page-section .faculty-article-wrapper {
+  width: min(1319px, calc(100% - 70px)) !important;
+  margin: 0 auto !important;
+}
+
+.faculty-page-wrapper .faculty-special-page-title {
+  width: 100% !important;
+  margin: 0 0 28px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 14px !important;
+  direction: rtl !important;
+}
+
+.faculty-page-wrapper .faculty-special-page-title .faculty-section-title {
+  margin: 0 !important;
+  color: #303d5e !important;
+  font-family: "Cairo", sans-serif !important;
+  font-size: 30px !important;
+  font-weight: 800 !important;
+  line-height: 1.4 !important;
+  text-align: right !important;
+}
+
+.faculty-page-wrapper .faculty-special-page-title .faculty-section-dot {
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  min-height: 30px !important;
+  flex: 0 0 30px !important;
+  border-radius: 50% !important;
+  background: #f66b15 !important;
+  background-color: #f66b15 !important;
+  display: block !important;
+}
+
+/* History */
+.faculty-page-wrapper .faculty-history-card {
+  min-height: 396px !important;
+  padding: 28px 34px 36px !important;
+  background: #f5f7fa !important;
+  border: 1px solid #dfe3ea !important;
+  border-radius: 20px !important;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25) !important;
+  color: #303d5e !important;
+}
+
+.faculty-page-wrapper .faculty-history-icon,
+.faculty-page-wrapper .faculty-goals-icon,
+.faculty-page-wrapper .faculty-pdf-header-icon,
+.faculty-page-wrapper .faculty-student-affairs-icon {
+  background: #303d5e !important;
+  color: #ffffff !important;
+}
+
+.faculty-page-wrapper .faculty-history-heading h2,
+.faculty-page-wrapper .faculty-goals-heading h2,
+.faculty-page-wrapper .faculty-pdf-heading h2,
+.faculty-page-wrapper .faculty-student-affairs-heading h2 {
+  color: #303d5e !important;
+  font-family: "Cairo", sans-serif !important;
+  font-weight: 600 !important;
+}
+
+.faculty-page-wrapper .faculty-history-intro,
+.faculty-page-wrapper .faculty-history-description,
+.faculty-page-wrapper .faculty-history-fallback-content {
+  color: #737b8c !important;
+}
+
+.faculty-page-wrapper .faculty-history-year-dot,
+.faculty-page-wrapper .faculty-goals-dot,
+.faculty-page-wrapper .faculty-student-affairs-dot {
+  background: #f66b15 !important;
+}
+
+.faculty-page-wrapper .faculty-history-year strong {
+  color: #df7739 !important;
+}
+
+/* Goals */
+.faculty-page-wrapper .faculty-goals-card {
+  min-height: 396px !important;
+  padding: 28px 34px 38px !important;
+  background: #f5f7fa !important;
+  border: 1px solid #dfe3ea !important;
+  border-radius: 20px !important;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25) !important;
+  color: #303d5e !important;
+}
+
+.faculty-page-wrapper .faculty-goals-list p,
+.faculty-page-wrapper .faculty-goals-fallback {
+  color: #737b8c !important;
+  font-weight: 500 !important;
+}
+
+/* PDF */
+.faculty-page-wrapper .faculty-pdf-page-content {
+  width: 100% !important;
+}
+
+.faculty-page-wrapper .faculty-pdf-card {
+  width: 100% !important;
+  min-height: 396px !important;
+  padding: 34px 42px !important;
+  background: #f5f7fa !important;
+  border: 1px solid #d9dee7 !important;
+  border-radius: 20px !important;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25) !important;
+  display: grid !important;
+  grid-template-columns: 300px minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: 56px !important;
+  direction: ltr !important;
+}
+
+.faculty-page-wrapper .faculty-pdf-illustration-circle {
+  width: 220px !important;
+  height: 220px !important;
+  border-radius: 50% !important;
+  background: #eef0f3 !important;
+}
+
+.faculty-page-wrapper .faculty-pdf-document {
+  width: 116px !important;
+  height: 154px !important;
+  background: #ffffff !important;
+  box-shadow: 0 8px 20px rgba(48, 61, 94, 0.12) !important;
+}
+
+.faculty-page-wrapper .faculty-pdf-document i {
+  color: #e43d3d !important;
+}
+
+.faculty-page-wrapper .faculty-pdf-label {
+  background: #e84545 !important;
+  color: #ffffff !important;
+}
+
+.faculty-page-wrapper .faculty-pdf-type,
+.faculty-page-wrapper .faculty-pdf-type strong,
+.faculty-page-wrapper .faculty-pdf-type i {
+  color: #303d5e !important;
+}
+
+.faculty-page-wrapper .faculty-pdf-view-button {
+  background: #303d5e !important;
+  border: 1px solid #303d5e !important;
+  color: #ffffff !important;
+}
+
+.faculty-page-wrapper .faculty-pdf-download-button {
+  background: transparent !important;
+  border: 1px solid #303d5e !important;
+  color: #303d5e !important;
+}
+
+.faculty-page-wrapper .faculty-pdf-note {
+  min-height: 86px !important;
+  margin-top: 28px !important;
+  padding: 18px 28px !important;
+  border-radius: 14px !important;
+  background: #eaf1fc !important;
+  color: #303d5e !important;
+}
+
+.faculty-page-wrapper .faculty-pdf-note p,
+.faculty-page-wrapper .faculty-pdf-note i {
+  color: #303d5e !important;
+}
+
+/* Student Affairs Accordion */
+.faculty-page-wrapper .faculty-student-affairs-card {
+  width: 100% !important;
+  min-height: 650px !important;
+  padding: 28px 34px 38px !important;
+  background: #f5f7fa !important;
+  border: 1px solid #dfe3ea !important;
+  border-radius: 20px !important;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25) !important;
+  color: #303d5e !important;
+  overflow: hidden !important;
+}
+
+.faculty-page-wrapper .faculty-student-affairs-accordion {
+  width: calc(100% - 110px) !important;
+  margin-right: 110px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 18px !important;
+  background: transparent !important;
+  border: 0 !important;
+  overflow: visible !important;
+}
+
+.faculty-page-wrapper .faculty-student-affairs-item {
+  width: 100% !important;
+  background: #ffffff !important;
+  border: 1px solid #d9dee7 !important;
+  border-radius: 12px !important;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.14) !important;
+  overflow: hidden !important;
+}
+
+.faculty-page-wrapper .faculty-student-affairs-trigger {
+  width: 100% !important;
+  min-height: 109px !important;
+  padding: 22px 28px !important;
+  background: #ffffff !important;
+  color: #303d5e !important;
+  font-family: "Cairo", sans-serif !important;
+}
+
+.faculty-page-wrapper .faculty-student-affairs-title {
+  color: #303d5e !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  line-height: 1.8 !important;
+}
+
+.faculty-page-wrapper .faculty-student-affairs-order {
+  color: #303d5e !important;
+  font-weight: 900 !important;
+  margin-left: 4px !important;
+}
+
+.faculty-page-wrapper .faculty-student-affairs-panel {
+  background: #ffffff !important;
+  border-top: 1px solid #edf0f4 !important;
+}
+
+.faculty-page-wrapper .faculty-student-affairs-content,
+.faculty-page-wrapper .faculty-student-affairs-content p,
+.faculty-page-wrapper .faculty-student-affairs-content div,
+.faculty-page-wrapper .faculty-student-affairs-content span,
+.faculty-page-wrapper .faculty-student-affairs-content li {
+  color: #6f7788 !important;
+  font-family: "Cairo", sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 2 !important;
+}
+
+/* Profile text: keep layout, reduce bold from second line */
+.faculty-page-wrapper .faculty-article-profile-content {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+.faculty-page-wrapper .faculty-article-profile-content h2 {
+  margin: 0 0 22px !important;
+  color: #303d5e !important;
+  font-weight: 800 !important;
+  text-align: right !important;
+}
+
+.faculty-page-wrapper .faculty-article-profile-html,
+.faculty-page-wrapper .faculty-article-profile-html p,
+.faculty-page-wrapper .faculty-article-profile-html div,
+.faculty-page-wrapper .faculty-article-profile-html span,
+.faculty-page-wrapper .faculty-article-profile-html strong,
+.faculty-page-wrapper .faculty-article-profile-html b {
+  color: #303d5e !important;
+  font-family: "Cairo", sans-serif !important;
+  font-weight: 400 !important;
+  text-align: right !important;
+  line-height: 1.9 !important;
+}
+
+@media (max-width: 992px) {
+  .faculty-page-wrapper .faculty-history-page-section .faculty-article-wrapper,
+  .faculty-page-wrapper .faculty-goals-page-section .faculty-article-wrapper,
+  .faculty-page-wrapper .faculty-pdf-page-section .faculty-article-wrapper,
+  .faculty-page-wrapper .faculty-student-affairs-page-section .faculty-article-wrapper {
+    width: calc(100% - 40px) !important;
+  }
+
+  .faculty-page-wrapper .faculty-pdf-card {
+    grid-template-columns: 220px minmax(0, 1fr) !important;
+    gap: 28px !important;
+    padding: 32px 26px !important;
+  }
+
+  .faculty-page-wrapper .faculty-student-affairs-accordion {
+    width: calc(100% - 72px) !important;
+    margin-right: 72px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .faculty-page-wrapper .faculty-history-page-section,
+  .faculty-page-wrapper .faculty-goals-page-section,
+  .faculty-page-wrapper .faculty-pdf-page-section,
+  .faculty-page-wrapper .faculty-student-affairs-page-section {
+    padding: 24px 0 60px !important;
+  }
+
+  .faculty-page-wrapper .faculty-history-page-section .faculty-article-wrapper,
+  .faculty-page-wrapper .faculty-goals-page-section .faculty-article-wrapper,
+  .faculty-page-wrapper .faculty-pdf-page-section .faculty-article-wrapper,
+  .faculty-page-wrapper .faculty-student-affairs-page-section .faculty-article-wrapper {
+    width: calc(100% - 24px) !important;
+  }
+
+  .faculty-page-wrapper .faculty-special-page-title .faculty-section-title {
+    font-size: 23px !important;
+  }
+
+  .faculty-page-wrapper .faculty-special-page-title .faculty-section-dot {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+    flex-basis: 18px !important;
+  }
+
+  .faculty-page-wrapper .faculty-pdf-card {
+    min-height: 0 !important;
+    padding: 22px 16px 28px !important;
+    grid-template-columns: 1fr !important;
+    gap: 26px !important;
+    border-radius: 14px !important;
+  }
+
+  .faculty-page-wrapper .faculty-pdf-details {
+    order: -1 !important;
+  }
+
+  .faculty-page-wrapper .faculty-pdf-actions {
+    padding-right: 0 !important;
+    gap: 12px !important;
+  }
+
+  .faculty-page-wrapper .faculty-pdf-view-button,
+  .faculty-page-wrapper .faculty-pdf-download-button {
+    width: 50% !important;
+    height: 50px !important;
+    font-size: 12px !important;
+  }
+
+  .faculty-page-wrapper .faculty-student-affairs-card {
+    min-height: 0 !important;
+    padding: 20px 14px 24px !important;
+    border-radius: 14px !important;
+  }
+
+  .faculty-page-wrapper .faculty-student-affairs-accordion {
+    width: 100% !important;
+    margin-right: 0 !important;
+  }
+
+  .faculty-page-wrapper .faculty-student-affairs-trigger {
+    min-height: 76px !important;
+    padding: 16px 14px !important;
+  }
+
+  .faculty-page-wrapper .faculty-student-affairs-title {
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .faculty-page-wrapper .faculty-pdf-actions {
+    flex-direction: column !important;
+  }
+
+  .faculty-page-wrapper .faculty-pdf-view-button,
+  .faculty-page-wrapper .faculty-pdf-download-button {
+    width: 100% !important;
+  }
+}
+

@@ -743,6 +743,30 @@ const isGoalsArticle = (title = "") => {
   );
 };
 
+const extractGoalsList = (html = ""): string[] => {
+  const cleanedHtml = removeWordNoise(html);
+
+  if (typeof window !== "undefined" && window.DOMParser) {
+    const doc = new DOMParser().parseFromString(cleanedHtml, "text/html");
+
+    const listItems = Array.from(doc.querySelectorAll("li"))
+      .map((item) => (item.textContent || "").replace(/\s+/g, " ").trim())
+      .filter(Boolean);
+
+    if (listItems.length > 0) return listItems;
+
+    return (doc.body.textContent || "")
+      .split(/[•\n\r]+|(?<=[.!؟])\s+/)
+      .map((item) => item.replace(/\s+/g, " ").trim())
+      .filter((item) => item.length > 4);
+  }
+
+  return stripHtmlToText(cleanedHtml)
+    .split(/[•\n\r]+|(?<=[.!؟])\s+/)
+    .map((item) => item.replace(/\s+/g, " ").trim())
+    .filter((item) => item.length > 4);
+};
+
 type FacultyAccordionItem = {
   title: string;
   contentHtml: string;
@@ -918,86 +942,139 @@ const FacultyArticleRenderer: React.FC<{
 
   const articleType = getArticleType(article, parsed);
 
+  const historicalData = useMemo(
+    () => extractHistoricalTimeline(article.content || ""),
+    [article.content],
+  );
+
+  const goalsList = useMemo(
+    () => extractGoalsList(article.content || ""),
+    [article.content],
+  );
+
   const accordionItems = useMemo(
     () => extractStudentAffairsAccordion(article.content || ""),
     [article.content],
   );
 
   const [openAccordionIndex, setOpenAccordionIndex] =
-  useState<number | null>(null);
+    useState<number | null>(null);
+
+  const isHistoricalArticle = isHistoricalOverviewArticle(article.title);
+  const isGoalsPage = isGoalsArticle(article.title);
   const isStudentAffairsAccordion =
     isStudentAffairsAccordionArticle(article.title);
-  const historicalData = useMemo(
-  () => extractHistoricalTimeline(article.content || ""),
-  [article.content],
-);
 
-const isHistoricalArticle = isHistoricalOverviewArticle(article.title);
-if (isHistoricalArticle) {
-  return (
-    <article className="faculty-history-card">
-      <div className="faculty-history-card-header">
-        <span className="faculty-history-icon" aria-hidden="true">
-          <i className="fa-regular fa-file-lines" />
-        </span>
+  if (isHistoricalArticle) {
+    return (
+      <article className="faculty-history-card">
+        <div className="faculty-history-card-header">
+          <span className="faculty-history-icon" aria-hidden="true">
+            <i className="fa-regular fa-file-lines" />
+          </span>
 
-        <div className="faculty-history-heading">
-          <h2>
-            {isArabic
-              ? "نبذة تاريخية عن الكلية"
-              : article.title || "Historical Overview"}
-          </h2>
-
-          <span className="faculty-history-heading-line" />
+          <div className="faculty-history-heading">
+            <h2>
+              {isArabic
+                ? "نبذة تاريخية عن الكلية"
+                : article.title || "Historical Overview"}
+            </h2>
+            <span className="faculty-history-heading-line" />
+          </div>
         </div>
-      </div>
 
-      <div className="faculty-history-body">
-        <div className="faculty-history-content">
-          {historicalData.intro && (
-            <p className="faculty-history-intro">
-              {historicalData.intro}
-            </p>
-          )}
+        <div className="faculty-history-body">
+          <div className="faculty-history-content">
+            {historicalData.intro && (
+              <p className="faculty-history-intro">
+                {historicalData.intro}
+              </p>
+            )}
 
-          {historicalData.timeline.length > 0 ? (
-            <div className="faculty-history-timeline">
-              {historicalData.timeline.map((item, index) => (
-                <div
-                  key={`${item.year}-${index}`}
-                  className="faculty-history-timeline-item"
-                >
-                  <div className="faculty-history-year">
-                    <span className="faculty-history-year-dot" />
-                    <strong>{item.year}</strong>
+            {historicalData.timeline.length > 0 ? (
+              <div className="faculty-history-timeline">
+                {historicalData.timeline.map((item, index) => (
+                  <div
+                    key={`${item.year}-${index}`}
+                    className="faculty-history-timeline-item"
+                  >
+                    <div className="faculty-history-year">
+                      <span className="faculty-history-year-dot" />
+                      <strong>{item.year}</strong>
+                    </div>
+
+                    <p className="faculty-history-description">
+                      {item.content}
+                    </p>
                   </div>
+                ))}
+              </div>
+            ) : (
+              <div
+                className="faculty-history-fallback-content"
+                dangerouslySetInnerHTML={{
+                  __html:
+                    parsed.cleanedHtml ||
+                    `<p>${
+                      isArabic
+                        ? "لا يوجد محتوى متاح"
+                        : "No content available"
+                    }</p>`,
+                }}
+              />
+            )}
+          </div>
+        </div>
+      </article>
+    );
+  }
 
-                  <p className="faculty-history-description">
-                    {item.content}
-                  </p>
-                </div>
+  if (isGoalsPage) {
+    return (
+      <article className="faculty-goals-card">
+        <div className="faculty-goals-card-header">
+          <span className="faculty-goals-icon" aria-hidden="true">
+            <i className="fa-regular fa-file-lines" />
+          </span>
+
+          <div className="faculty-goals-heading">
+            <h2>
+              {isArabic
+                ? "الأهداف الخاصة بالكلية"
+                : article.title || "Faculty Goals"}
+            </h2>
+            <span className="faculty-goals-heading-line" />
+          </div>
+        </div>
+
+        <div className="faculty-goals-content">
+          {goalsList.length > 0 ? (
+            <ul className="faculty-goals-list">
+              {goalsList.map((goal, index) => (
+                <li key={`${index}-${goal.slice(0, 32)}`}>
+                  <span className="faculty-goals-dot" aria-hidden="true" />
+                  <p>{goal}</p>
+                </li>
               ))}
-            </div>
+            </ul>
           ) : (
             <div
-              className="faculty-history-fallback-content"
+              className="faculty-goals-fallback"
               dangerouslySetInnerHTML={{
                 __html:
                   parsed.cleanedHtml ||
                   `<p>${
                     isArabic
-                      ? "لا يوجد محتوى متاح"
-                      : "No content available"
+                      ? "لا توجد أهداف متاحة"
+                      : "No goals available"
                   }</p>`,
               }}
             />
           )}
         </div>
-      </div>
-    </article>
-  );
-}
-
+      </article>
+    );
+  }
 
   if (isStudentAffairsAccordion) {
     return (
@@ -1020,6 +1097,9 @@ if (isHistoricalArticle) {
           {accordionItems.length > 0 ? (
             accordionItems.map((item, index) => {
               const isOpen = openAccordionIndex === index;
+              const titleMatch = item.title.match(
+                /^((?:أولاً|أولا|ثانياً|ثانيا|ثالثاً|ثالثا|رابعاً|رابعا|خامساً|خامسا|سادساً|سادسا|سابعاً|سابعا|ثامناً|ثامنا|تاسعاً|تاسعا|عاشراً|عاشرا)\s*[:：\-–—]?)(.*)$/i,
+              );
 
               return (
                 <section
@@ -1043,18 +1123,19 @@ if (isHistoricalArticle) {
                         className="faculty-student-affairs-dot"
                         aria-hidden="true"
                       />
-<span className="faculty-student-affairs-title">
-  <strong>
-    {item.title.split(/[:：\-–—]/)[0]}
-  </strong>
 
-  {item.title.includes(":") && (
-    <>
-      {":"}
-      {item.title.split(":").slice(1).join(":")}
-    </>
-  )}
-</span>
+                      <span className="faculty-student-affairs-title">
+                        {titleMatch ? (
+                          <>
+                            <strong className="faculty-student-affairs-order">
+                              {titleMatch[1]}
+                            </strong>
+                            <span>{titleMatch[2]}</span>
+                          </>
+                        ) : (
+                          item.title
+                        )}
+                      </span>
                     </span>
 
                     <ChevronDown
@@ -1131,48 +1212,77 @@ if (isHistoricalArticle) {
 
   if (articleType === "file") {
     const file = parsed.fileLinks[0];
+    const fileLabel = getFileLabel(file.extension);
+    const isPdfFile = file.extension.toLowerCase() === "pdf";
 
     return (
-      <article className="faculty-article-card faculty-article-file-card">
-        <div className="faculty-article-card-head">
-          <span className="faculty-article-card-icon">
-            <i className="fa-solid fa-file-lines" />
-          </span>
-          <h2>{article.title}</h2>
-        </div>
-
-        <div className="faculty-file-box">
-          <span className="faculty-file-extension">
-            {getFileLabel(file.extension)}
-          </span>
-
-          <div className="faculty-file-info">
-            <h3>{file.text || article.title}</h3>
-            <p>
-              {isArabic ? "ملف مرفق من بيانات الكلية" : "Attached faculty file"}
-            </p>
+      <div className="faculty-pdf-page-content">
+        <article className="faculty-pdf-card">
+          <div className="faculty-pdf-illustration" aria-hidden="true">
+            <div className="faculty-pdf-illustration-circle">
+              <div className="faculty-pdf-document">
+                <span className="faculty-pdf-label">{fileLabel}</span>
+                <i
+                  className={
+                    isPdfFile
+                      ? "fa-solid fa-file-pdf"
+                      : "fa-solid fa-file-lines"
+                  }
+                />
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div className="faculty-article-actions">
-          <a
-            href={file.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="faculty-article-main-action"
-          >
-            {isArabic ? "عرض الملف" : "View file"}
-          </a>
+          <div className="faculty-pdf-details">
+            <div className="faculty-pdf-header">
+              <span className="faculty-pdf-header-icon" aria-hidden="true">
+                <i className="fa-regular fa-file-lines" />
+              </span>
 
-          <a
-            href={file.href}
-            download
-            className="faculty-article-secondary-action"
-          >
-            {isArabic ? "تحميل" : "Download"}
-          </a>
+              <div className="faculty-pdf-heading">
+                <h2>{article.title}</h2>
+                <span className="faculty-pdf-heading-line" />
+              </div>
+            </div>
+
+            <div className="faculty-pdf-type">
+              <span>{isArabic ? "نوع الملف :" : "File type:"}</span>
+              <strong>{fileLabel}</strong>
+              <i className="fa-regular fa-file-lines" aria-hidden="true" />
+            </div>
+
+            <div className="faculty-pdf-actions">
+              <a
+                href={file.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="faculty-pdf-view-button"
+              >
+                <i className="fa-regular fa-eye" aria-hidden="true" />
+                <span>{isArabic ? "عرض الملف" : "View file"}</span>
+              </a>
+
+              <a
+                href={file.href}
+                download
+                className="faculty-pdf-download-button"
+              >
+                <i className="fa-solid fa-download" aria-hidden="true" />
+                <span>{isArabic ? "تحميل الملف" : "Download file"}</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <div className="faculty-pdf-note">
+          <i className="fa-solid fa-circle-info" aria-hidden="true" />
+          <p>
+            {isArabic
+              ? 'لعرض محتوى الملف يرجى الضغط على زر "عرض الملف".'
+              : 'To view the file content, click "View file".'}
+          </p>
         </div>
-      </article>
+      </div>
     );
   }
 
@@ -1283,12 +1393,30 @@ const FacultyArticlePage: React.FC<{
           ? "faculty-student-affairs-page-section"
           : "";
 
+  const shouldShowExternalTitle =
+    Boolean(article) && (isHistoryPage || isGoalsPage || isFilePage);
+
   return (
     <section
       className={`faculty-article-section ${specialPageClass}`}
       dir={isRTL ? "rtl" : "ltr"}
     >
       <div className="faculty-article-wrapper">
+        {shouldShowExternalTitle && (
+          <div
+            className={`faculty-section-heading faculty-special-page-title ${
+              isHistoryPage ? "faculty-history-page-title" : ""
+            }`}
+            dir={isRTL ? "rtl" : "ltr"}
+          >
+            <span className="faculty-section-dot" />
+            <h1 className="faculty-section-title">
+              {article?.title ||
+                (isArabic ? "محتوى الكلية" : "Faculty Content")}
+            </h1>
+          </div>
+        )}
+
         {loading ? (
           <div className="faculty-article-card faculty-article-loading-card">
             <div className="skeleton skeleton-title" />
