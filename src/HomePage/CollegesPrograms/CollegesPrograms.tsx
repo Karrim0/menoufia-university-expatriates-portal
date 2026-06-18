@@ -11,7 +11,9 @@ interface College {
   title: string;
   url: string;
   order: number;
-  fac: number;
+  fac: number | null;
+  isMapped: boolean;
+  apiIndex: number;
 }
 
 const normalizeName = (value: string): string =>
@@ -53,14 +55,18 @@ const FAC_MAP: Record<string, number> = {
   [normalizeName("كليه الطب البيطري")]: 1000,
 
   [normalizeName("كلية الذكاء الاصطناعي")]: 1100,
+  [normalizeName("كلية الذكاء الاصطناعى")]: 1100,
 
   [normalizeName("كلية الآداب")]: 1200,
   [normalizeName("كلية الاداب")]: 1200,
 
-  [normalizeName("كلية العلوم التطبيقية")]: 1300,
+  [normalizeName("كلية تكنولوجيا العلوم الصحية التطبيقية")]: 1300,
+  [normalizeName("كلية العلوم الصحية التطبيقية")]: 1300,
   [normalizeName("كلية العلوم الطبية التطبيقية")]: 1300,
+  [normalizeName("كلية العلوم التطبيقية")]: 1300,
 
   [normalizeName("كلية التربية للطفولة المبكرة")]: 1400,
+  [normalizeName("كلية تربية الطفولة المبكرة")]: 1400,
   [normalizeName("كلية تربية الطفولة المبكره")]: 1400,
 
   [normalizeName("كلية التربية")]: 1500,
@@ -68,7 +74,8 @@ const FAC_MAP: Record<string, number> = {
 
   [normalizeName("كلية التربية النوعية")]: 1600,
 
-  [normalizeName("كلية الفنون الجميلة")]: 1700,
+[normalizeName("كلية الفنون الجميلة")]: 1700,
+[normalizeName("كليه الفنون الجميله")]: 1700,
 
   [normalizeName("كلية الحاسبات والمعلومات")]: 1800,
   [normalizeName("كلية الحاسبات")]: 1800,
@@ -86,9 +93,16 @@ const FAC_MAP: Record<string, number> = {
 
   [normalizeName("LIV")]: 2300,
   [normalizeName("معهد الكبد القومي")]: 2300,
+  [normalizeName("معهد الكبد القومى")]: 2300,
 
   [normalizeName("كلية الإعلام")]: 2400,
   [normalizeName("كلية الاعلام")]: 2400,
+
+  [normalizeName("المستشفيات الجامعية")]: 2500,
+  [normalizeName("مستشفيات جامعة المنوفية")]: 2500,
+
+  [normalizeName("معهد الأورام")]: 2600,
+  [normalizeName("معهد الاورام")]: 2600,
 
   [normalizeName("Faculty of Science")]: 100,
   [normalizeName("Faculty of Medicine")]: 200,
@@ -102,26 +116,64 @@ const FAC_MAP: Record<string, number> = {
   [normalizeName("Faculty of Veterinary Medicine")]: 1000,
   [normalizeName("Faculty of Artificial Intelligence")]: 1100,
   [normalizeName("Faculty of Arts")]: 1200,
+
   [normalizeName("Faculty of Applied Health Sciences Technology")]: 1300,
+  [normalizeName("Faculty of Health Sciences Technology")]: 1300,
+
   [normalizeName("Faculty of Early Childhood Education")]: 1400,
   [normalizeName("Faculty of Education")]: 1500,
   [normalizeName("Faculty of Specific Education")]: 1600,
   [normalizeName("Faculty of Fine Arts")]: 1700,
   [normalizeName("Faculty of Computers and Information")]: 1800,
+  [normalizeName("Faculty of Fine Arts")]: 1700,
   [normalizeName("Faculty of Electronic Engineering")]: 1900,
   [normalizeName("Faculty of Physical Education")]: 2000,
   [normalizeName("Faculty of Home Economics")]: 2100,
+  [normalizeName("HO")]: 2200,
   [normalizeName("National Liver Institute")]: 2300,
+
   [normalizeName("Faculty of Mass Communication")]: 2400,
+
+  [normalizeName("University Hospitals")]: 2500,
+  [normalizeName("Menoufia University Hospitals")]: 2500,
+
+  [normalizeName("Oncology Institute")]: 2600,
+  [normalizeName("National Oncology Institute")]: 2600,
+  [normalizeName("MCI")]: 2600,
 };
 
-const getFac = (title: string): number | null => {
+const getMappedFac = (title: string): number | null => {
   return FAC_MAP[normalizeName(title)] ?? null;
+};
+
+const getApiFac = (item: any): number | null => {
+  const possibleCodes = [
+    item?.publicCode,
+    item?.PublicCode,
+    item?.fac,
+    item?.Fac,
+    item?.facCode,
+    item?.facultyCode,
+    item?.code,
+  ];
+
+  for (const possibleCode of possibleCodes) {
+    const numericCode = Number(possibleCode);
+
+    if (Number.isFinite(numericCode) && numericCode > 0) {
+      return numericCode;
+    }
+  }
+
+  return null;
 };
 
 const normalizeApiResponse = (data: any): any[] => {
   if (Array.isArray(data)) return data;
   if (Array.isArray(data?.result)) return data.result;
+  if (Array.isArray(data?.data)) return data.data;
+  if (Array.isArray(data?.data?.result)) return data.data.result;
+
   return [];
 };
 
@@ -132,6 +184,7 @@ const CollegesPrograms: React.FC = () => {
   const [colleges, setColleges] = useState<College[]>([]);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(true);
+
   const requestIdRef = useRef(0);
 
   const selectedLangId = useMemo(() => {
@@ -139,29 +192,64 @@ const CollegesPrograms: React.FC = () => {
   }, [i18n.language]);
 
   const isRTL = i18n.dir() === "rtl";
-  const isArabic = i18n.language === "ar";
+  const isArabic = i18n.language.toLowerCase().startsWith("ar");
 
-  const mapColleges = (data: any[]): College[] =>
-    data
-      .map((item) => {
-        const fac = getFac(item.title);
+  const mapColleges = (data: any[]): College[] => {
+    return data
+      .map((item, apiIndex): College | null => {
+        const title = String(item?.title || "").trim();
 
-        if (!fac) return null;
+        if (!title) return null;
+
+        const mappedFac = getMappedFac(title);
+        const apiFac = getApiFac(item);
 
         return {
-          id: Number(item.id),
-          title: String(item.title || ""),
-          url: String(item.url || "#"),
-          order: Number(item.order || 0),
-          fac,
+          id: Number(item?.id || apiIndex),
+          title,
+          url: String(item?.url || "#"),
+          order: Number(item?.order || 0),
+          fac: mappedFac ?? apiFac,
+          isMapped: mappedFac !== null,
+          apiIndex,
         };
       })
-      .filter(Boolean)
-      .sort((a: any, b: any) => Number(a.fac) - Number(b.fac)) as College[];
+      .filter((college): college is College => college !== null)
+      .sort((firstCollege, secondCollege) => {
+        /*
+         * الكليات الموجودة في FAC_MAP تظهر أولاً
+         * ومترتبة باستخدام fac.
+         */
+        if (firstCollege.isMapped && secondCollege.isMapped) {
+          return (
+            Number(firstCollege.fac) - Number(secondCollege.fac) ||
+            firstCollege.apiIndex - secondCollege.apiIndex
+          );
+        }
+
+        /*
+         * أي كلية جديدة وغير موجودة في FAC_MAP
+         * تظهر بعد الكليات المعروفة.
+         */
+        if (firstCollege.isMapped !== secondCollege.isMapped) {
+          return firstCollege.isMapped ? -1 : 1;
+        }
+
+        /*
+         * الكليات الجديدة تظل بترتيب الـAPI،
+         * ولا يتم ترتيبها باستخدام fac.
+         */
+        return (
+          firstCollege.order - secondCollege.order ||
+          firstCollege.apiIndex - secondCollege.apiIndex
+        );
+      });
+  };
 
   useEffect(() => {
     const fetchColleges = async () => {
       const requestId = ++requestIdRef.current;
+
       setLoading(true);
 
       try {
@@ -188,8 +276,10 @@ const CollegesPrograms: React.FC = () => {
           if (requestId !== requestIdRef.current) return;
 
           setColleges(mapColleges(fallbackData));
-        } catch {
+        } catch (fallbackError) {
           if (requestId !== requestIdRef.current) return;
+
+          console.error("Error fetching fallback colleges:", fallbackError);
           setColleges([]);
         }
       } finally {
@@ -203,6 +293,8 @@ const CollegesPrograms: React.FC = () => {
   }, [selectedLangId]);
 
   const handleCollegeClick = (college: College) => {
+    if (college.fac === null) return;
+
     navigate(`/fac/${college.fac}`, {
       state: {
         collegeName: college.title,
@@ -212,8 +304,10 @@ const CollegesPrograms: React.FC = () => {
     });
   };
 
-  const handleClassicClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.stopPropagation();
+  const handleClassicClick = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+  ) => {
+    event.stopPropagation();
   };
 
   return (
@@ -223,117 +317,155 @@ const CollegesPrograms: React.FC = () => {
     >
       <div className="cp-container">
         <button
-  type="button"
-  className={`cp-collapse-header ${isOpen ? "open" : ""}`}
-  onClick={() => setIsOpen((prev) => !prev)}
->
-  <span className="cp-titleWrap">
-    <span className="cp-dot" />
-    <span className="cp-title">{isArabic ? "الكليات" : "Colleges"}</span>
-  </span>
+          type="button"
+          className={`cp-collapse-header ${isOpen ? "open" : ""}`}
+          onClick={() => setIsOpen((previousState) => !previousState)}
+        >
+          <span className="cp-titleWrap">
+            <span className="cp-dot" />
 
-  <ChevronDown
-    size={34}
-    strokeWidth={2.4}
-    className="cp-collapse-arrow"
-  />
-</button>
+            <span className="cp-title">
+              {isArabic ? "الكليات" : "Colleges"}
+            </span>
+          </span>
 
-{isOpen && (
-  <div className="cp-collapse-body">
-    {loading ? (
-      <div className="cp-loading">
-        {isArabic ? "جاري التحميل..." : "Loading..."}
-      </div>
-    ) : colleges.length === 0 ? (
-      <div className="cp-empty">
-        {isArabic ? "لا توجد كليات" : "No colleges found"}
-      </div>
-    ) : (
-      <div className="cp-grid">
-        {colleges.map((college) => (
-          <article
-            key={`${college.fac}-${college.id}-${selectedLangId}`}
-            className="cp-card"
-            onClick={() => handleCollegeClick(college)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleCollegeClick(college);
-              }
-            }}
-          >
-            <div className="cp-card-title" title={college.title}>
-              <span className="cp-title-text">{college.title}</span>
+          <ChevronDown
+            size={34}
+            strokeWidth={2.4}
+            className="cp-collapse-arrow"
+          />
+        </button>
 
-              <svg
-                className="cp-arrow-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-              >
-                <path
-                  d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <polyline
-                  points="15 3 21 3 21 9"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <line
-                  x1="10"
-                  y1="14"
-                  x2="21"
-                  y2="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
+        {isOpen && (
+          <div className="cp-collapse-body">
+            {loading ? (
+              <div className="cp-loading">
+                {isArabic ? "جاري التحميل..." : "Loading..."}
+              </div>
+            ) : colleges.length === 0 ? (
+              <div className="cp-empty">
+                {isArabic ? "لا توجد كليات" : "No colleges found"}
+              </div>
+            ) : (
+              <div className="cp-grid">
+                {colleges.map((college) => {
+                  const hasInternalPage = college.fac !== null;
 
-            {college.url && college.url !== "#" && (
-              <a
-                href={college.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="cp-classic-link"
-                onClick={handleClassicClick}
-              >
-                <span className="cp-classic-text">
-                  {isArabic ? "الموقع الكلاسيكي" : "Classic website"}
-                </span>
+                  return (
+                    <article
+                      key={`${college.fac ?? "new"}-${college.id}-${college.apiIndex}-${selectedLangId}`}
+                      className="cp-card"
+                      onClick={
+                        hasInternalPage
+                          ? () => handleCollegeClick(college)
+                          : undefined
+                      }
+                      role={hasInternalPage ? "button" : undefined}
+                      tabIndex={hasInternalPage ? 0 : undefined}
+                      onKeyDown={
+                        hasInternalPage
+                          ? (event) => {
+                              if (
+                                event.key === "Enter" ||
+                                event.key === " "
+                              ) {
+                                event.preventDefault();
+                                handleCollegeClick(college);
+                              }
+                            }
+                          : undefined
+                      }
+                    >
+                      <div
+                        className="cp-card-title"
+                        title={college.title}
+                      >
+                        <span className="cp-title-text">
+                          {college.title}
+                        </span>
 
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path
-                    d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <polyline
-                    points="15 3 21 3 21 9"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <line
-                    x1="10"
-                    y1="14"
-                    x2="21"
-                    y2="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </a>
+                        {hasInternalPage && (
+                          <svg
+                            className="cp-arrow-icon"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+
+                            <polyline
+                              points="15 3 21 3 21 9"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+
+                            <line
+                              x1="10"
+                              y1="14"
+                              x2="21"
+                              y2="3"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        )}
+                      </div>
+
+                      {college.url && college.url !== "#" && (
+                        <a
+                          href={college.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="cp-classic-link"
+                          onClick={handleClassicClick}
+                        >
+                          <span className="cp-classic-text">
+                            {isArabic
+                              ? "الموقع الكلاسيكي"
+                              : "Classic website"}
+                          </span>
+
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+
+                            <polyline
+                              points="15 3 21 3 21 9"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+
+                            <line
+                              x1="10"
+                              y1="14"
+                              x2="21"
+                              y2="3"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </a>
+                      )}
+                    </article>
+                  );
+                })}
+              </div>
             )}
-          </article>
-        ))}
-      </div>
-    )}
-  </div>
-)}
+          </div>
+        )}
       </div>
     </section>
   );
