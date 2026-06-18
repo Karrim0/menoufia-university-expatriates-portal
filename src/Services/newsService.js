@@ -125,7 +125,13 @@ const newsService = {
 
     return response.data;
   },
+  getSpecialUnitsMenu: async ({ abbr }) => {
+  const response = await facultyApi.get(
+    `/SpecialUnitsMenu/${encodeURIComponent(abbr)}`,
+  );
 
+  return response.data;
+},
   getSectorPage: async ({ articleId, lang = 1 }) => {
     const response = await facultyApi.get(`/UnivPresPage/${articleId}`, {
       params: {

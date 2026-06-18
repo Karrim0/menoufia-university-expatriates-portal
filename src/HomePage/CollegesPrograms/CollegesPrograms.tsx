@@ -12,146 +12,15 @@ interface College {
   url: string;
   order: number;
   fac: number | null;
-  isMapped: boolean;
   apiIndex: number;
 }
 
-const normalizeName = (value: string): string =>
-  String(value || "")
-    .trim()
-    .replace(/[أإآ]/g, "ا")
-    .replace(/ة/g, "ه")
-    .replace(/ى/g, "ي")
-    .replace(/\s+/g, " ")
-    .toLowerCase();
-
-const FAC_MAP: Record<string, number> = {
-  [normalizeName("كلية العلوم")]: 100,
-  [normalizeName("كلية علوم")]: 100,
-
-  [normalizeName("كلية الطب")]: 200,
-
-  [normalizeName("كلية الزراعة")]: 300,
-  [normalizeName("كليه الزراعه")]: 300,
-
-  [normalizeName("كلية الهندسة")]: 400,
-  [normalizeName("كليه الهندسه")]: 400,
-
-  [normalizeName("كلية التجارة")]: 500,
-  [normalizeName("كليه التجاره")]: 500,
-
-  [normalizeName("كلية الحقوق")]: 600,
-
-  [normalizeName("كلية طب الأسنان")]: 700,
-  [normalizeName("كلية طب الاسنان")]: 700,
-
-  [normalizeName("كلية التمريض")]: 800,
-
-  [normalizeName("كلية الصيدلة")]: 900,
-  [normalizeName("كليه الصيدله")]: 900,
-
-  [normalizeName("كلية الطب البيطري")]: 1000,
-  [normalizeName("كلية الطب البيطرى")]: 1000,
-  [normalizeName("كليه الطب البيطري")]: 1000,
-
-  [normalizeName("كلية الذكاء الاصطناعي")]: 1100,
-  [normalizeName("كلية الذكاء الاصطناعى")]: 1100,
-
-  [normalizeName("كلية الآداب")]: 1200,
-  [normalizeName("كلية الاداب")]: 1200,
-
-  [normalizeName("كلية تكنولوجيا العلوم الصحية التطبيقية")]: 1300,
-  [normalizeName("كلية العلوم الصحية التطبيقية")]: 1300,
-  [normalizeName("كلية العلوم الطبية التطبيقية")]: 1300,
-  [normalizeName("كلية العلوم التطبيقية")]: 1300,
-
-  [normalizeName("كلية التربية للطفولة المبكرة")]: 1400,
-  [normalizeName("كلية تربية الطفولة المبكرة")]: 1400,
-  [normalizeName("كلية تربية الطفولة المبكره")]: 1400,
-
-  [normalizeName("كلية التربية")]: 1500,
-  [normalizeName("كلية تربية")]: 1500,
-
-  [normalizeName("كلية التربية النوعية")]: 1600,
-
-[normalizeName("كلية الفنون الجميلة")]: 1700,
-[normalizeName("كليه الفنون الجميله")]: 1700,
-
-  [normalizeName("كلية الحاسبات والمعلومات")]: 1800,
-  [normalizeName("كلية الحاسبات")]: 1800,
-
-  [normalizeName("كلية الهندسة الالكترونية")]: 1900,
-  [normalizeName("كلية الهندسة الإلكترونية")]: 1900,
-  [normalizeName("FEE")]: 1900,
-
-  [normalizeName("كلية التربية الرياضية")]: 2000,
-
-  [normalizeName("كلية الاقتصاد المنزلي")]: 2100,
-  [normalizeName("كلية الاقتصاد المنزلى")]: 2100,
-
-  [normalizeName("Ho")]: 2200,
-
-  [normalizeName("LIV")]: 2300,
-  [normalizeName("معهد الكبد القومي")]: 2300,
-  [normalizeName("معهد الكبد القومى")]: 2300,
-
-  [normalizeName("كلية الإعلام")]: 2400,
-  [normalizeName("كلية الاعلام")]: 2400,
-
-  [normalizeName("المستشفيات الجامعية")]: 2500,
-  [normalizeName("مستشفيات جامعة المنوفية")]: 2500,
-
-  [normalizeName("معهد الأورام")]: 2600,
-  [normalizeName("معهد الاورام")]: 2600,
-
-  [normalizeName("Faculty of Science")]: 100,
-  [normalizeName("Faculty of Medicine")]: 200,
-  [normalizeName("Faculty of Agriculture")]: 300,
-  [normalizeName("Faculty of Engineering")]: 400,
-  [normalizeName("Faculty of Commerce")]: 500,
-  [normalizeName("Faculty of Law")]: 600,
-  [normalizeName("Faculty of Dentistry")]: 700,
-  [normalizeName("Faculty of Nursing")]: 800,
-  [normalizeName("Faculty of Pharmacy")]: 900,
-  [normalizeName("Faculty of Veterinary Medicine")]: 1000,
-  [normalizeName("Faculty of Artificial Intelligence")]: 1100,
-  [normalizeName("Faculty of Arts")]: 1200,
-
-  [normalizeName("Faculty of Applied Health Sciences Technology")]: 1300,
-  [normalizeName("Faculty of Health Sciences Technology")]: 1300,
-
-  [normalizeName("Faculty of Early Childhood Education")]: 1400,
-  [normalizeName("Faculty of Education")]: 1500,
-  [normalizeName("Faculty of Specific Education")]: 1600,
-  [normalizeName("Faculty of Fine Arts")]: 1700,
-  [normalizeName("Faculty of Computers and Information")]: 1800,
-  [normalizeName("Faculty of Fine Arts")]: 1700,
-  [normalizeName("Faculty of Electronic Engineering")]: 1900,
-  [normalizeName("Faculty of Physical Education")]: 2000,
-  [normalizeName("Faculty of Home Economics")]: 2100,
-  [normalizeName("HO")]: 2200,
-  [normalizeName("National Liver Institute")]: 2300,
-
-  [normalizeName("Faculty of Mass Communication")]: 2400,
-
-  [normalizeName("University Hospitals")]: 2500,
-  [normalizeName("Menoufia University Hospitals")]: 2500,
-
-  [normalizeName("Oncology Institute")]: 2600,
-  [normalizeName("National Oncology Institute")]: 2600,
-  [normalizeName("MCI")]: 2600,
-};
-
-const getMappedFac = (title: string): number | null => {
-  return FAC_MAP[normalizeName(title)] ?? null;
-};
-
 const getApiFac = (item: any): number | null => {
   const possibleCodes = [
-    item?.publicCode,
-    item?.PublicCode,
     item?.fac,
     item?.Fac,
+    item?.publicCode,
+    item?.PublicCode,
     item?.facCode,
     item?.facultyCode,
     item?.code,
@@ -166,6 +35,10 @@ const getApiFac = (item: any): number | null => {
   }
 
   return null;
+};
+
+const hasValidFac = (fac: number | null): fac is number => {
+  return Number.isFinite(Number(fac)) && Number(fac) > 0;
 };
 
 const normalizeApiResponse = (data: any): any[] => {
@@ -201,44 +74,31 @@ const CollegesPrograms: React.FC = () => {
 
         if (!title) return null;
 
-        const mappedFac = getMappedFac(title);
-        const apiFac = getApiFac(item);
-
         return {
           id: Number(item?.id || apiIndex),
           title,
-          url: String(item?.url || "#"),
+          url: String(item?.url || ""),
           order: Number(item?.order || 0),
-          fac: mappedFac ?? apiFac,
-          isMapped: mappedFac !== null,
+          fac: getApiFac(item),
           apiIndex,
         };
       })
       .filter((college): college is College => college !== null)
       .sort((firstCollege, secondCollege) => {
-        /*
-         * الكليات الموجودة في FAC_MAP تظهر أولاً
-         * ومترتبة باستخدام fac.
-         */
-        if (firstCollege.isMapped && secondCollege.isMapped) {
+        const firstHasFac = hasValidFac(firstCollege.fac);
+        const secondHasFac = hasValidFac(secondCollege.fac);
+
+        if (firstHasFac && secondHasFac) {
           return (
             Number(firstCollege.fac) - Number(secondCollege.fac) ||
             firstCollege.apiIndex - secondCollege.apiIndex
           );
         }
 
-        /*
-         * أي كلية جديدة وغير موجودة في FAC_MAP
-         * تظهر بعد الكليات المعروفة.
-         */
-        if (firstCollege.isMapped !== secondCollege.isMapped) {
-          return firstCollege.isMapped ? -1 : 1;
+        if (firstHasFac !== secondHasFac) {
+          return firstHasFac ? -1 : 1;
         }
 
-        /*
-         * الكليات الجديدة تظل بترتيب الـAPI،
-         * ولا يتم ترتيبها باستخدام fac.
-         */
         return (
           firstCollege.order - secondCollege.order ||
           firstCollege.apiIndex - secondCollege.apiIndex
@@ -293,7 +153,7 @@ const CollegesPrograms: React.FC = () => {
   }, [selectedLangId]);
 
   const handleCollegeClick = (college: College) => {
-    if (college.fac === null) return;
+    if (!hasValidFac(college.fac)) return;
 
     navigate(`/fac/${college.fac}`, {
       state: {
@@ -349,7 +209,7 @@ const CollegesPrograms: React.FC = () => {
             ) : (
               <div className="cp-grid">
                 {colleges.map((college) => {
-                  const hasInternalPage = college.fac !== null;
+                  const hasInternalPage = hasValidFac(college.fac);
 
                   return (
                     <article
@@ -376,10 +236,7 @@ const CollegesPrograms: React.FC = () => {
                           : undefined
                       }
                     >
-                      <div
-                        className="cp-card-title"
-                        title={college.title}
-                      >
+                      <div className="cp-card-title" title={college.title}>
                         <span className="cp-title-text">
                           {college.title}
                         </span>

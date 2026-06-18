@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { ChevronDown, ExternalLink } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import newsService from "../../Services/newsService";
 import "./SpecialUnitsSection.css";
 
@@ -31,6 +32,33 @@ const cleanText = (value: string) => {
   return textarea.value.replace(/\s+/g, " ").trim();
 };
 
+const extractSpecialUnitAbbrFromUrl = (url: string) => {
+  if (!url || url === "#") return "";
+
+  const getAbbrFromSegments = (segments: string[]) => {
+    const cleanSegments = segments
+      .map((segment) => segment.trim())
+      .filter(Boolean);
+
+    const homeIndex = cleanSegments.findIndex(
+      (segment) => segment.toLowerCase() === "home",
+    );
+
+    if (homeIndex > 0) {
+      return cleanSegments[homeIndex - 1];
+    }
+
+    return cleanSegments[0] || "";
+  };
+
+  try {
+    const parsedUrl = new URL(url);
+    return getAbbrFromSegments(parsedUrl.pathname.split("/"));
+  } catch {
+    return getAbbrFromSegments(String(url).split("/"));
+  }
+};
+
 const extractUnitsFromHtml = (html: string): SpecialUnit[] => {
   if (!html) return [];
 
@@ -51,12 +79,10 @@ const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
   lang = 1,
   defaultOpen = false,
 }) => {
-  const [article, setArticle] =
-    useState<SpecialUnitsArticle | null>(null);
+  const navigate = useNavigate();
 
+  const [article, setArticle] = useState<SpecialUnitsArticle | null>(null);
   const [isOpen, setIsOpen] = useState(defaultOpen);
-
-  // يبدأ true عشان الـSkeleton يظهر من أول Render
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -98,7 +124,24 @@ const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
     return extractUnitsFromHtml(article?.content || "");
   }, [article?.content]);
 
-  // نخفي السكشن فقط بعد انتهاء التحميل لو مفيش داتا
+  const handleUnitClick = (unit: SpecialUnit) => {
+  const abbr = extractSpecialUnitAbbrFromUrl(unit.url);
+
+  if (!abbr) return;
+
+  sessionStorage.setItem(
+    `specialUnitTitle:${abbr.toLowerCase()}`,
+    unit.title,
+  );
+
+  navigate(`/special-units/${encodeURIComponent(abbr)}`, {
+    state: {
+      title: unit.title,
+      abbr,
+    },
+  });
+};
+
   if (!loading && units.length === 0) {
     return null;
   }
@@ -150,19 +193,25 @@ const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
             </div>
           ) : (
             <div className="special-units-grid">
-              {units.map((unit, index) => (
-                <a
-                  key={`${unit.title}-${index}`}
-                  href={unit.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="special-unit-card"
-                >
-                  <ExternalLink size={22} strokeWidth={2.5} />
+              {units.map((unit, index) => {
+                const abbr = extractSpecialUnitAbbrFromUrl(unit.url);
+                const canOpenUnit = Boolean(abbr);
 
-                  <span>{unit.title}</span>
-                </a>
-              ))}
+                return (
+                  <button
+                    key={`${unit.title}-${index}`}
+                    type="button"
+                    className="special-unit-card"
+                    onClick={() => handleUnitClick(unit)}
+                    disabled={!canOpenUnit}
+                    aria-label={`فتح ${unit.title}`}
+                  >
+                    <ExternalLink size={22} strokeWidth={2.5} />
+
+                    <span>{unit.title}</span>
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>

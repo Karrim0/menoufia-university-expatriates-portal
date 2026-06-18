@@ -29,6 +29,7 @@ import SplashScreen from "./SplashScreen/SplashScreen";
 import IntroVideo from "./IntroVideo/IntroVideo";
 import DepartmentPage from "./DepartmentPage/DepartmentPage";
 import UniversitySectorsPage from "./UniversitySectorsPage/UniversitySectorsPage";
+import SpecialUnitPage from "./SpecialUnitPage/SpecialUnitPage";
 import { useTranslation } from "react-i18next";
 
 const ScrollToTop = () => {
@@ -89,6 +90,9 @@ const isValidRouteShape = (pathname) => {
   if (parts[0] === "university-sectors" && parts.length === 2) {
     return Boolean(parts[1]);
   }
+  if (parts[0] === "special-units" && parts.length === 2) {
+  return Boolean(parts[1]);
+}
   if (parts[0] === "fac" && parts.length === 2) {
     return Boolean(parts[1]);
   }
@@ -213,6 +217,7 @@ const AppContent = () => {
             path="/university-sectors/:keyword"
             element={<UniversitySectorsPage />}
           />
+          <Route path="/special-units/:abbr" element={<SpecialUnitPage />} />
           <Route
             path="/fac/:fac/department/:departmentCode"
             element={<DepartmentPage />}
