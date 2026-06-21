@@ -66,11 +66,7 @@ const FOOTER_GROUP_TITLES = [
   "خدمات الكترونية",
 ];
 
-const FACULTY_FOOTER_ACCENTS = [
-  "#cfa000",
-  "#d48df5",
-  "#58df9c",
-] as const;
+const FACULTY_FOOTER_ACCENTS = ["#cfa000", "#d48df5", "#58df9c"] as const;
 
 type SavedLang = {
   id?: number;
@@ -240,10 +236,7 @@ const getCollegeFacFromApi = (college: any): number | null => {
   return null;
 };
 
-const findCollegeByFacultyCode = (
-  colleges: any[],
-  facultyCode: number,
-) => {
+const findCollegeByFacultyCode = (colleges: any[], facultyCode: number) => {
   return colleges.find((college) => {
     return getCollegeFacFromApi(college) === facultyCode;
   });
@@ -334,18 +327,6 @@ const getFacultyMenuLink = (item: FacultyMenuItem, fac?: string) => {
   }
 
   return `/fac/${fac}`;
-};
-
-const filterMenuByTitles = (items: FacultyMenuItem[], titles: string[]) => {
-  const allowedTitles = titles.map(normalizeMenuTitle);
-
-  return items
-    .filter((item) => allowedTitles.includes(normalizeMenuTitle(item.title)))
-    .sort(
-      (a, b) =>
-        allowedTitles.indexOf(normalizeMenuTitle(a.title)) -
-        allowedTitles.indexOf(normalizeMenuTitle(b.title)),
-    );
 };
 
 const chunkItems = (items: FacultyMenuItem[], chunksCount: number) => {
@@ -668,9 +649,7 @@ const extractHistoricalTimeline = (
   intro: string;
   timeline: HistoricalTimelineItem[];
 } => {
-  const text = stripHtmlToText(html)
-    .replace(/\s+/g, " ")
-    .trim();
+  const text = stripHtmlToText(html).replace(/\s+/g, " ").trim();
 
   if (!text) {
     return {
@@ -698,7 +677,7 @@ const extractHistoricalTimeline = (
       const start = (match.index ?? 0) + year.length;
       const end =
         index < matches.length - 1
-          ? matches[index + 1].index ?? text.length
+          ? (matches[index + 1].index ?? text.length)
           : text.length;
 
       const content = text
@@ -773,7 +752,9 @@ const isStudentAffairsAccordionArticle = (title = "") => {
 };
 
 const isAccordionHeadingText = (value = "") => {
-  const text = String(value || "").replace(/\s+/g, " ").trim();
+  const text = String(value || "")
+    .replace(/\s+/g, " ")
+    .trim();
 
   if (!text || text.length > 180) return false;
 
@@ -782,9 +763,7 @@ const isAccordionHeadingText = (value = "") => {
   );
 };
 
-const extractStudentAffairsAccordion = (
-  html = "",
-): FacultyAccordionItem[] => {
+const extractStudentAffairsAccordion = (html = ""): FacultyAccordionItem[] => {
   const cleanedHtml = removeWordNoise(html);
 
   if (typeof window === "undefined" || !window.DOMParser) {
@@ -819,9 +798,7 @@ const extractStudentAffairsAccordion = (
   };
 
   blockElements.forEach((element) => {
-    const elementText = (element.textContent || "")
-      .replace(/\s+/g, " ")
-      .trim();
+    const elementText = (element.textContent || "").replace(/\s+/g, " ").trim();
 
     const tagName = element.tagName.toLowerCase();
     const isHeadingTag = /^h[1-6]$/.test(tagName);
@@ -862,7 +839,7 @@ const extractStudentAffairsAccordion = (
       const start = match.index ?? 0;
       const nextStart =
         index < matches.length - 1
-          ? matches[index + 1].index ?? plainText.length
+          ? (matches[index + 1].index ?? plainText.length)
           : plainText.length;
 
       const sectionText = plainText.slice(start, nextStart).trim();
@@ -874,9 +851,7 @@ const extractStudentAffairsAccordion = (
           : sectionText.slice(0, 120).trim();
 
       const content =
-        separatorIndex > 0
-          ? sectionText.slice(separatorIndex + 1).trim()
-          : "";
+        separatorIndex > 0 ? sectionText.slice(separatorIndex + 1).trim() : "";
 
       return {
         title,
@@ -944,13 +919,15 @@ const FacultyArticleRenderer: React.FC<{
     [article.content],
   );
 
-  const [openAccordionIndex, setOpenAccordionIndex] =
-    useState<number | null>(null);
+  const [openAccordionIndex, setOpenAccordionIndex] = useState<number | null>(
+    null,
+  );
 
   const isHistoricalArticle = isHistoricalOverviewArticle(article.title);
   const isGoalsPage = isGoalsArticle(article.title);
-  const isStudentAffairsAccordion =
-    isStudentAffairsAccordionArticle(article.title);
+  const isStudentAffairsAccordion = isStudentAffairsAccordionArticle(
+    article.title,
+  );
 
   if (isHistoricalArticle) {
     return (
@@ -973,9 +950,7 @@ const FacultyArticleRenderer: React.FC<{
         <div className="faculty-history-body">
           <div className="faculty-history-content">
             {historicalData.intro && (
-              <p className="faculty-history-intro">
-                {historicalData.intro}
-              </p>
+              <p className="faculty-history-intro">{historicalData.intro}</p>
             )}
 
             {historicalData.timeline.length > 0 ? (
@@ -1003,9 +978,7 @@ const FacultyArticleRenderer: React.FC<{
                   __html:
                     parsed.cleanedHtml ||
                     `<p>${
-                      isArabic
-                        ? "لا يوجد محتوى متاح"
-                        : "No content available"
+                      isArabic ? "لا يوجد محتوى متاح" : "No content available"
                     }</p>`,
                 }}
               />
@@ -1051,9 +1024,7 @@ const FacultyArticleRenderer: React.FC<{
                 __html:
                   parsed.cleanedHtml ||
                   `<p>${
-                    isArabic
-                      ? "لا توجد أهداف متاحة"
-                      : "No goals available"
+                    isArabic ? "لا توجد أهداف متاحة" : "No goals available"
                   }</p>`,
               }}
             />
@@ -1067,10 +1038,7 @@ const FacultyArticleRenderer: React.FC<{
     return (
       <article className="faculty-student-affairs-card">
         <div className="faculty-student-affairs-header">
-          <span
-            className="faculty-student-affairs-icon"
-            aria-hidden="true"
-          >
+          <span className="faculty-student-affairs-icon" aria-hidden="true">
             <i className="fa-regular fa-file-lines" />
           </span>
 
@@ -1153,9 +1121,7 @@ const FacultyArticleRenderer: React.FC<{
                 __html:
                   parsed.cleanedHtml ||
                   `<p>${
-                    isArabic
-                      ? "لا يوجد محتوى متاح"
-                      : "No content available"
+                    isArabic ? "لا يوجد محتوى متاح" : "No content available"
                   }</p>`,
               }}
             />
@@ -1358,13 +1324,9 @@ const FacultyArticlePage: React.FC<{
     article && isHistoricalOverviewArticle(article.title),
   );
 
-  const isGoalsPage = Boolean(
-    article && isGoalsArticle(article.title),
-  );
+  const isGoalsPage = Boolean(article && isGoalsArticle(article.title));
 
-  const isFilePage = Boolean(
-    article && parsedArticle.fileLinks.length > 0,
-  );
+  const isFilePage = Boolean(article && parsedArticle.fileLinks.length > 0);
 
   const isStudentAffairsPage = Boolean(
     article && isStudentAffairsAccordionArticle(article.title),
@@ -1414,24 +1376,15 @@ const FacultyArticlePage: React.FC<{
         ) : error ? (
           <div className="faculty-article-card faculty-article-error-card">
             <h2>
-              {isArabic
-                ? "تعذر تحميل المحتوى"
-                : "Could not load content"}
+              {isArabic ? "تعذر تحميل المحتوى" : "Could not load content"}
             </h2>
             <p>{error}</p>
           </div>
         ) : article ? (
-          <FacultyArticleRenderer
-            article={article}
-            isArabic={isArabic}
-          />
+          <FacultyArticleRenderer article={article} isArabic={isArabic} />
         ) : (
           <div className="faculty-article-card faculty-article-error-card">
-            <h2>
-              {isArabic
-                ? "لا يوجد محتوى متاح"
-                : "No content available"}
-            </h2>
+            <h2>{isArabic ? "لا يوجد محتوى متاح" : "No content available"}</h2>
           </div>
         )}
       </div>
@@ -1559,7 +1512,6 @@ const FacultyNews: React.FC = () => {
   const [facultyMenu, setFacultyMenu] = useState<FacultyMenuItem[]>([]);
   const [facultyMenuLoading, setFacultyMenuLoading] = useState(false);
 
-
   const [articlePage, setArticlePage] = useState<FacultyArticlePageData | null>(
     null,
   );
@@ -1570,15 +1522,13 @@ const FacultyNews: React.FC = () => {
   const [articleNotFound, setArticleNotFound] = useState(false);
 
   const topFacultyMenu = useMemo(() => {
-    const matchedMenu = filterMenuByTitles(facultyMenu, TOP_MENU_TITLES);
-
-    if (matchedMenu.length > 0) {
-      return matchedMenu;
-    }
-
     return facultyMenu
       .filter((item) => cleanMenuTitle(item.title).length > 0)
-      .slice(0, 10);
+      .sort(
+        (a, b) =>
+          (Number(a.sortOrder ?? a.order) || 0) -
+          (Number(b.sortOrder ?? b.order) || 0),
+      );
   }, [facultyMenu]);
 
   const footerMenuGroups = useMemo(
@@ -1600,8 +1550,7 @@ const FacultyNews: React.FC = () => {
     let isMounted = true;
 
     const fetchCollegeName = async () => {
-      const currentLangId =
-        Number(location.state?.langId) || getSavedLangId();
+      const currentLangId = Number(location.state?.langId) || getSavedLangId();
       const facultyCode = Number(fac);
 
       setLangId(currentLangId);
@@ -1629,10 +1578,7 @@ const FacultyNews: React.FC = () => {
         const response = await newsService.getColleges(currentLangId);
         const colleges = normalizeApiResponse(response);
 
-        const matchedCollege = findCollegeByFacultyCode(
-          colleges,
-          facultyCode,
-        );
+        const matchedCollege = findCollegeByFacultyCode(colleges, facultyCode);
 
         if (!isMounted) return;
 
@@ -1652,10 +1598,7 @@ const FacultyNews: React.FC = () => {
         if (currentLangId !== 2) {
           const enResponse = await newsService.getColleges(2);
           const enColleges = normalizeApiResponse(enResponse);
-          const enMatch = findCollegeByFacultyCode(
-            enColleges,
-            facultyCode,
-          );
+          const enMatch = findCollegeByFacultyCode(enColleges, facultyCode);
 
           if (!isMounted) return;
 
@@ -1761,7 +1704,7 @@ const FacultyNews: React.FC = () => {
         if (!isMounted) return;
 
         const cleanMenu = sanitizeFacultyMenuItems(
-          Array.isArray(response?.result) ? response.result : [],
+          normalizeApiResponse(response),
         );
 
         setFacultyMenu(cleanMenu);
@@ -2136,7 +2079,6 @@ const FacultyNews: React.FC = () => {
   const activeHighlight = highlights[activeHighlightIndex];
   const displayName = collegeName || collegeNameFallback || "...";
 
-
   const paginationNumbers = useMemo<(number | "...")[]>(() => {
     if (totalPages <= 6) {
       return Array.from({ length: totalPages }, (_, index) => index + 1);
@@ -2226,7 +2168,6 @@ const FacultyNews: React.FC = () => {
             </div>
           ) : topFacultyMenu.length > 0 ? (
             <div className="faculty-menu-bar">
-
               {topFacultyMenu.map((item) => (
                 <FacultyMenuItemView
                   key={item.menuId}
@@ -2259,15 +2200,14 @@ const FacultyNews: React.FC = () => {
                 <div className="faculty-highlight-slider">
                   <div className="faculty-highlight-image-wrap">
                     <Link
-  to={`/fac/${fac}/highlight/${activeHighlight.id}?lang=${getActiveSearchLangId()}`}
-  state={{
-  highlight: activeHighlight,
-  fac: Number(fac),
-  langId: getActiveSearchLangId(),
-  collegeName: displayName,
-}}
-  className="faculty-highlight-link"
-
+                      to={`/fac/${fac}/highlight/${activeHighlight.id}?lang=${getActiveSearchLangId()}`}
+                      state={{
+                        highlight: activeHighlight,
+                        fac: Number(fac),
+                        langId: getActiveSearchLangId(),
+                        collegeName: displayName,
+                      }}
+                      className="faculty-highlight-link"
                       aria-label={
                         activeHighlight.translationData ||
                         displayName ||
@@ -2689,8 +2629,7 @@ const FacultyNews: React.FC = () => {
                 fac={fac}
                 isArabic={isArabic}
                 accentColor={
-                  FACULTY_FOOTER_ACCENTS[index] ??
-                  FACULTY_FOOTER_ACCENTS[0]
+                  FACULTY_FOOTER_ACCENTS[index] ?? FACULTY_FOOTER_ACCENTS[0]
                 }
               />
             ))}
