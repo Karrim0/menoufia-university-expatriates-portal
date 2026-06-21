@@ -104,13 +104,16 @@ interface CollegeLogoItem {
 }
 
 interface FacultyMenuItem {
+  id?: number;
   menuId: number;
   parentId: number | null;
   sortOrder: number;
+  order?: number;
   title: string;
   articleId: number | null;
   url: string;
   children: FacultyMenuItem[];
+  subMenus?: FacultyMenuItem[];
 }
 
 interface FacultyArticlePageData {
@@ -212,71 +215,38 @@ const getCollegeLogoByName = (
   return isValidLogoUrl(matchedLogo?.logoUrl) ? matchedLogo?.logoUrl || "" : "";
 };
 
-const FAC_MAP: Record<string, number> = {
-  [normalizeName("كلية العلوم")]: 100,
-  [normalizeName("كلية علوم")]: 100,
-  [normalizeName("Faculty of Science")]: 100,
-  [normalizeName("كلية الطب")]: 200,
-  [normalizeName("Faculty of Medicine")]: 200,
-  [normalizeName("كلية الزراعة")]: 300,
-  [normalizeName("كليه الزراعه")]: 300,
-  [normalizeName("Faculty of Agriculture")]: 300,
-  [normalizeName("كلية الهندسة")]: 400,
-  [normalizeName("كليه الهندسه")]: 400,
-  [normalizeName("Faculty of Engineering")]: 400,
-  [normalizeName("كلية التجارة")]: 500,
-  [normalizeName("كليه التجاره")]: 500,
-  [normalizeName("Faculty of Commerce")]: 500,
-  [normalizeName("كلية الحقوق")]: 600,
-  [normalizeName("Faculty of Law")]: 600,
-  [normalizeName("كلية طب الأسنان")]: 700,
-  [normalizeName("كلية طب الاسنان")]: 700,
-  [normalizeName("Faculty of Dentistry")]: 700,
-  [normalizeName("كلية التمريض")]: 800,
-  [normalizeName("Faculty of Nursing")]: 800,
-  [normalizeName("كلية الصيدلة")]: 900,
-  [normalizeName("كليه الصيدله")]: 900,
-  [normalizeName("Faculty of Pharmacy")]: 900,
-  [normalizeName("كلية الطب البيطري")]: 1000,
-  [normalizeName("كلية الطب البيطرى")]: 1000,
-  [normalizeName("Faculty of Veterinary Medicine")]: 1000,
-  [normalizeName("كلية الذكاء الاصطناعي")]: 1100,
-  [normalizeName("Faculty of Artificial Intelligence")]: 1100,
-  [normalizeName("كلية الآداب")]: 1200,
-  [normalizeName("كلية الاداب")]: 1200,
-  [normalizeName("Faculty of Arts")]: 1200,
-  [normalizeName("كلية العلوم التطبيقية")]: 1300,
-  [normalizeName("كلية العلوم الطبية التطبيقية")]: 1300,
-  [normalizeName("Faculty of Applied Health Sciences Technology")]: 1300,
-  [normalizeName("كلية التربية للطفولة المبكرة")]: 1400,
-  [normalizeName("كلية تربية الطفولة المبكره")]: 1400,
-  [normalizeName("Faculty of Early Childhood Education")]: 1400,
-  [normalizeName("كلية التربية")]: 1500,
-  [normalizeName("كلية تربية")]: 1500,
-  [normalizeName("Faculty of Education")]: 1500,
-  [normalizeName("كلية التربية النوعية")]: 1600,
-  [normalizeName("Faculty of Specific Education")]: 1600,
-  [normalizeName("كلية الفنون الجميلة")]: 1700,
-  [normalizeName("Faculty of Fine Arts")]: 1700,
-  [normalizeName("كلية الحاسبات والمعلومات")]: 1800,
-  [normalizeName("كلية الحاسبات")]: 1800,
-  [normalizeName("Faculty of Computers and Information")]: 1800,
-  [normalizeName("كلية الهندسة الالكترونية")]: 1900,
-  [normalizeName("كلية الهندسة الإلكترونية")]: 1900,
-  [normalizeName("Faculty of Electronic Engineering")]: 1900,
-  [normalizeName("FEE")]: 1900,
-  [normalizeName("كلية التربية الرياضية")]: 2000,
-  [normalizeName("Faculty of Physical Education")]: 2000,
-  [normalizeName("كلية الاقتصاد المنزلي")]: 2100,
-  [normalizeName("كلية الاقتصاد المنزلى")]: 2100,
-  [normalizeName("Faculty of Home Economics")]: 2100,
-  [normalizeName("Ho")]: 2200,
-  [normalizeName("معهد الكبد القومي")]: 2300,
-  [normalizeName("LIV")]: 2300,
-  [normalizeName("National Liver Institute")]: 2300,
-  [normalizeName("كلية الإعلام")]: 2400,
-  [normalizeName("كلية الاعلام")]: 2400,
-  [normalizeName("Faculty of Mass Communication")]: 2400,
+const getCollegeFacFromApi = (college: any): number | null => {
+  const possibleCodes = [
+    college?.fac,
+    college?.Fac,
+    college?.publicCode,
+    college?.PublicCode,
+    college?.facCode,
+    college?.FacCode,
+    college?.facultyCode,
+    college?.FacultyCode,
+    college?.code,
+    college?.Code,
+  ];
+
+  for (const possibleCode of possibleCodes) {
+    const numericCode = Number(possibleCode);
+
+    if (Number.isFinite(numericCode) && numericCode > 0) {
+      return numericCode;
+    }
+  }
+
+  return null;
+};
+
+const findCollegeByFacultyCode = (
+  colleges: any[],
+  facultyCode: number,
+) => {
+  return colleges.find((college) => {
+    return getCollegeFacFromApi(college) === facultyCode;
+  });
 };
 
 const extractDepartmentCodeFromUrl = (url?: string) => {
@@ -285,9 +255,6 @@ const extractDepartmentCodeFromUrl = (url?: string) => {
   const match = url.match(/\/([^/]+)\/Home\/(?:ar|en)/i);
   return match?.[1]?.toUpperCase() || "";
 };
-
-const getFac = (title: string): number | null =>
-  FAC_MAP[normalizeName(title)] ?? null;
 
 const getSavedLang = (): SavedLang => {
   try {
@@ -302,6 +269,8 @@ const getSavedLangId = () => Number(getSavedLang()?.id) || 1;
 const normalizeApiResponse = (data: any): any[] => {
   if (Array.isArray(data)) return data;
   if (Array.isArray(data?.result)) return data.result;
+  if (Array.isArray(data?.data)) return data.data;
+  if (Array.isArray(data?.data?.result)) return data.data.result;
   return [];
 };
 
@@ -313,23 +282,41 @@ const cleanMenuTitle = (title?: string) =>
 const isExternalMenuUrl = (url?: string) =>
   typeof url === "string" && /^https?:\/\//i.test(url);
 
-const getMenuChildren = (item?: FacultyMenuItem) =>
-  Array.isArray(item?.children)
-    ? item.children
-        .filter((child) => child && typeof child === "object")
-        .filter((child) => cleanMenuTitle(child.title).length > 0)
-        .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0))
-    : [];
+const getMenuChildren = (item?: FacultyMenuItem) => {
+  const children = Array.isArray(item?.children)
+    ? item?.children
+    : Array.isArray(item?.subMenus)
+      ? item?.subMenus
+      : [];
+
+  return children
+    .filter((child) => child && typeof child === "object")
+    .filter((child) => cleanMenuTitle(child.title).length > 0)
+    .sort(
+      (a, b) =>
+        (Number(a.sortOrder ?? a.order) || 0) -
+        (Number(b.sortOrder ?? b.order) || 0),
+    );
+};
 
 const sanitizeFacultyMenuItems = (items: FacultyMenuItem[] = []) => {
   return items
     .filter((item) => item && typeof item === "object")
     .filter((item) => cleanMenuTitle(item.title).length > 0)
-    .map((item) => ({
-      ...item,
-      title: cleanMenuTitle(item.title),
-      children: getMenuChildren(item),
-    }))
+    .map((item) => {
+      const normalizedItem = {
+        ...item,
+        menuId: Number(item.menuId ?? item.id) || 0,
+        parentId: item.parentId ?? null,
+        sortOrder: Number(item.sortOrder ?? item.order) || 0,
+        articleId: item.articleId ?? null,
+        url: item.url || "",
+        title: cleanMenuTitle(item.title),
+        children: getMenuChildren(item),
+      };
+
+      return normalizedItem;
+    })
     .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
 };
 
@@ -1540,8 +1527,12 @@ const FacultyNews: React.FC = () => {
   const [langId, setLangId] = useState<number>(
     Number(location.state?.langId) || getSavedLangId(),
   );
-  const [collegeNameFallback, setCollegeNameFallback] = useState<string>("");
-  const [collegeName, setCollegeName] = useState<string>("");
+  const [collegeNameFallback, setCollegeNameFallback] = useState<string>(
+    String(location.state?.collegeName || location.state?.facultyTitle || ""),
+  );
+  const [collegeName, setCollegeName] = useState<string>(
+    String(location.state?.collegeName || location.state?.facultyTitle || ""),
+  );
   const [collegeLogos, setCollegeLogos] = useState<CollegeLogoItem[]>([]);
   const [collegeLogoUrl, setCollegeLogoUrl] = useState<string>("");
 
@@ -1609,7 +1600,8 @@ const FacultyNews: React.FC = () => {
     let isMounted = true;
 
     const fetchCollegeName = async () => {
-      const currentLangId = getSavedLangId();
+      const currentLangId =
+        Number(location.state?.langId) || getSavedLangId();
       const facultyCode = Number(fac);
 
       setLangId(currentLangId);
@@ -1637,8 +1629,9 @@ const FacultyNews: React.FC = () => {
         const response = await newsService.getColleges(currentLangId);
         const colleges = normalizeApiResponse(response);
 
-        const matchedCollege = colleges.find(
-          (college: any) => getFac(college.title) === facultyCode,
+        const matchedCollege = findCollegeByFacultyCode(
+          colleges,
+          facultyCode,
         );
 
         if (!isMounted) return;
@@ -1659,8 +1652,9 @@ const FacultyNews: React.FC = () => {
         if (currentLangId !== 2) {
           const enResponse = await newsService.getColleges(2);
           const enColleges = normalizeApiResponse(enResponse);
-          const enMatch = enColleges.find(
-            (college: any) => getFac(college.title) === facultyCode,
+          const enMatch = findCollegeByFacultyCode(
+            enColleges,
+            facultyCode,
           );
 
           if (!isMounted) return;

@@ -3,9 +3,6 @@ import axios from "axios";
 
 const facultyApi = axios.create({
   baseURL: "https://stage.menofia.edu.eg:5050/api",
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 const newsService = {
@@ -126,12 +123,12 @@ const newsService = {
     return response.data;
   },
   getSpecialUnitsMenu: async ({ abbr }) => {
-  const response = await facultyApi.get(
-    `/SpecialUnitsMenu/${encodeURIComponent(abbr)}`,
-  );
+    const response = await facultyApi.get(
+      `/SpecialUnitsMenu/${encodeURIComponent(abbr)}`,
+    );
 
-  return response.data;
-},
+    return response.data;
+  },
   getSectorPage: async ({ articleId, lang = 1 }) => {
     const response = await facultyApi.get(`/UnivPresPage/${articleId}`, {
       params: {
@@ -231,6 +228,63 @@ const newsService = {
         PageSize: pageSize,
       },
     });
+
+    return response.data;
+  },
+
+  submitComplain: async ({
+  fullName,
+  email,
+  phone,
+  categoryId,
+  messageText,
+  attachments = [],
+  facultyCode,
+}) => {
+  const formData = new FormData();
+
+  const categoryNumber = Number(categoryId);
+
+  formData.append("FullName", String(fullName || "").trim());
+  formData.append("Email", String(email || "").trim());
+  formData.append("Phone", String(phone || "").trim());
+  formData.append("CategoryId", String(categoryNumber));
+  formData.append("MessageText", String(messageText || "").trim());
+
+  formData.append(
+    "FacultyCode",
+    categoryNumber === 3 ? String(facultyCode || "").trim() : "",
+  );
+
+  if (Array.isArray(attachments) && attachments.length > 0) {
+    attachments.forEach((file) => {
+      formData.append("Attachments", file);
+    });
+  } else {
+    formData.append("Attachments", "string");
+  }
+
+  const response = await facultyApi.post("/Complain/submit", formData, {
+    headers: {
+      accept: "*/*",
+    },
+  });
+
+  return response.data;
+},
+  replyToComplain: async ({ complainId, replyText }) => {
+    const response = await facultyApi.post(
+      `/Complain/reply/${complainId}`,
+      {
+        replyText,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          accept: "*/*",
+        },
+      },
+    );
 
     return response.data;
   },
