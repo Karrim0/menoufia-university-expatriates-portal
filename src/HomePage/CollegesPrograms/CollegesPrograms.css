@@ -117,7 +117,7 @@
 }
 
 /* Center line */
-/*.cp-card::after {
+/* .cp-card::after {
   content: "";
   position: absolute;
   top: 0;
@@ -130,7 +130,7 @@
   transform: translateX(-50%);
   pointer-events: none;
   z-index: 1;
-}*/
+} */
 
 .cp-section.cp-rtl .cp-card {
   flex-direction: row-reverse;
@@ -413,9 +413,9 @@
     flex-direction: row !important;
   }
 
-  /*.cp-card::after {
+  .cp-card::after {
     display: none !important;
-  }*/
+  }
 
   .cp-card:hover {
     transform: translateY(-2px);

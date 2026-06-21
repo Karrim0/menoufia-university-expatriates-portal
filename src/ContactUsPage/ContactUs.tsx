@@ -8,8 +8,7 @@ import {
   ChevronDown,
   Search,
   Check,
-} from "lucide-react";
-import "./ContactUs.css";
+} from "lucide-react";import "./ContactUs.css";
 import { useTranslation } from "react-i18next";
 import api from "../Services/api";
 import newsService from "../Services/newsService";
@@ -20,8 +19,6 @@ const COMPLAINT_CATEGORIES = {
   DEPARTMENTS: 2,
   FACULTIES: 3,
 };
-
-const EXTERNAL_COMPLAINTS_URL = "https://www.shakwa.eg/GCP/Default.aspx";
 
 const getSavedLang = () => {
   try {
@@ -63,24 +60,14 @@ const getApiFac = (item) => {
 };
 
 function ContactUs(props) {
- const savedLang = getSavedLang();
-const { t, i18n } = useTranslation("Contact");
+  const savedLang = getSavedLang();
+  const { t, i18n } = useTranslation("Contact");
 
-const currentLangCode =
-  String(i18n.language || savedLang?.code || "ar")
-    .trim()
-    .toLowerCase()
-    .split("-")[0];
+  const isArabic = savedLang?.code === "ar" || i18n.language === "ar";
 
-const isRTL = currentLangCode === "ar" || currentLangCode === "fa";
-const isArabic = currentLangCode === "ar";
-  
-
-  const tx = (key, fallback, options = {}) => {
-    return t(key, {
-      defaultValue: fallback,
-      ...options,
-    });
+  const tx = (key, fallback) => {
+    const value = t(key);
+    return value === key ? fallback : value;
   };
 
   const [activeTab, setActiveTab] = useState(
@@ -101,9 +88,8 @@ const isArabic = currentLangCode === "ar";
     messageText: "",
     attachments: [],
   });
-
   const [facultySearch, setFacultySearch] = useState("");
-  const [isFacultyDropdownOpen, setIsFacultyDropdownOpen] = useState(false);
+const [isFacultyDropdownOpen, setIsFacultyDropdownOpen] = useState(false);
   const [attachmentInputKey, setAttachmentInputKey] = useState(0);
 
   const [colleges, setColleges] = useState([]);
@@ -125,12 +111,7 @@ const isArabic = currentLangCode === "ar";
   const tabs = [
     { id: "suggestions", label: tx("suggestions", "الاقتراحات") },
     { id: "complaints", label: tx("complaints", "الشكاوى") },
-    {
-  id: "externalComplaints",
-  label: tx("government-complaints", "الشكاوى الحكومية"),
-  externalUrl: EXTERNAL_COMPLAINTS_URL,
-},
-    { id: "ratings", label: tx("ratings", "التقييمات") },
+    { id: "ratings", label: tx("ratings", "التقييم") },
   ];
 
   const selectedCategoryId = Number(complaintData.categoryId);
@@ -168,15 +149,16 @@ const isArabic = currentLangCode === "ar";
             };
           })
           .filter(Boolean)
-          .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title));
+          .sort((a, b) => a.order - b.order || a.fac - b.fac);
 
         setColleges(mappedColleges);
       } catch (error) {
         console.error("Failed to fetch colleges:", error);
         setColleges([]);
-
         toast.error(
-          tx("faculties-load-failed", "تعذر تحميل قائمة الكليات"),
+          isArabic
+            ? "تعذر تحميل قائمة الكليات"
+            : "Failed to load faculties",
         );
       } finally {
         setCollegesLoading(false);
@@ -227,26 +209,24 @@ const isArabic = currentLangCode === "ar";
   };
 
   const handleCategoryChange = (categoryId) => {
-    setComplaintData((prev) => ({
-      ...prev,
-      categoryId: String(categoryId),
-      facultyCode: "",
-    }));
+  setComplaintData((prev) => ({
+    ...prev,
+    categoryId: String(categoryId),
+    facultyCode: "",
+  }));
 
-    setFacultySearch("");
-    setIsFacultyDropdownOpen(false);
-  };
-
+  setFacultySearch("");
+  setIsFacultyDropdownOpen(false);
+};
   const handleFacultySelect = (facultyCode) => {
-    setComplaintData((prev) => ({
-      ...prev,
-      facultyCode: String(facultyCode),
-    }));
+  setComplaintData((prev) => ({
+    ...prev,
+    facultyCode: String(facultyCode),
+  }));
 
-    setFacultySearch("");
-    setIsFacultyDropdownOpen(false);
-  };
-
+  setFacultySearch("");
+  setIsFacultyDropdownOpen(false);
+};
   const handleAttachmentsChange = (e) => {
     const files = Array.from(e.target.files || []);
 
@@ -334,21 +314,20 @@ const isArabic = currentLangCode === "ar";
 
     if (!categoryId) {
       toast.error(
-        tx("complaint-category-required", "من فضلك اختر فئة الشكوى"),
+        isArabic ? "من فضلك اختر فئة الشكوى" : "Please select complaint category",
       );
       return;
     }
 
-    if (
-      categoryId === COMPLAINT_CATEGORIES.FACULTIES &&
-      !complaintData.facultyCode
-    ) {
-      toast.error(tx("faculty-required", "من فضلك اختر الكلية"));
+    if (categoryId === COMPLAINT_CATEGORIES.FACULTIES && !complaintData.facultyCode) {
+      toast.error(
+        isArabic ? "من فضلك اختر الكلية" : "Please select the faculty",
+      );
       return;
     }
 
     if (!fullName) {
-      toast.error(tx("name-required", "من فضلك اكتب الاسم"));
+      toast.error(isArabic ? "من فضلك اكتب الاسم" : "Please enter your name");
       return;
     }
 
@@ -358,7 +337,9 @@ const isArabic = currentLangCode === "ar";
     }
 
     if (!phone) {
-      toast.error(tx("phone-required", "من فضلك اكتب رقم الهاتف"));
+      toast.error(
+        isArabic ? "من فضلك اكتب رقم الهاتف" : "Please enter your phone",
+      );
       return;
     }
 
@@ -384,13 +365,13 @@ const isArabic = currentLangCode === "ar";
       response?.complaintId || response?.result?.complaintId || "";
 
     const successMsg = complaintId
-      ? tx(
-          "complaint-submit-success-with-id",
-          "تم إرسال الشكوى بنجاح. رقم الشكوى: {{complaintId}}",
-          { complaintId },
-        )
+      ? isArabic
+        ? `تم إرسال الشكوى بنجاح. رقم الشكوى: ${complaintId}`
+        : `Complaint submitted successfully. Complaint ID: ${complaintId}`
       : response?.message ||
-        tx("complaint-submit-success", "تم إرسال الشكوى بنجاح");
+        (isArabic
+          ? "تم إرسال الشكوى بنجاح"
+          : "Complaint submitted successfully");
 
     setSubmitMessage(successMsg);
     setSubmitted(true);
@@ -405,8 +386,6 @@ const isArabic = currentLangCode === "ar";
       attachments: [],
     });
 
-    setFacultySearch("");
-    setIsFacultyDropdownOpen(false);
     setAttachmentInputKey((prev) => prev + 1);
 
     toast.success(successMsg);
@@ -518,23 +497,27 @@ const isArabic = currentLangCode === "ar";
   };
 
   const renderComplaintForm = () => {
-    const selectedFileNames = complaintData.attachments
-      ?.map((file) => file.name)
-      .join("، ");
+  const selectedFileNames = complaintData.attachments
+    ?.map((file) => file.name)
+    .join("، ");
 
-    const selectedFaculty = colleges.find(
-      (college) => String(college.fac) === String(complaintData.facultyCode),
-    );
+  const selectedFaculty = colleges.find(
+    (college) => String(college.fac) === String(complaintData.facultyCode),
+  );
 
-    const normalizedFacultySearch = facultySearch.trim().toLowerCase();
+  const normalizedFacultySearch = facultySearch.trim().toLowerCase();
 
-    const filteredColleges = normalizedFacultySearch
-      ? colleges.filter((college) => {
-          const title = String(college.title || "").toLowerCase();
+  const filteredColleges = normalizedFacultySearch
+    ? colleges.filter((college) => {
+        const title = String(college.title || "").toLowerCase();
+        const fac = String(college.fac || "");
 
-          return title.includes(normalizedFacultySearch);
-        })
-      : colleges;
+        return (
+          title.includes(normalizedFacultySearch) ||
+          fac.includes(normalizedFacultySearch)
+        );
+      })
+    : colleges;
 
     return (
       <form
@@ -543,7 +526,7 @@ const isArabic = currentLangCode === "ar";
       >
         <div className="form-group full-row">
           <label>
-            {tx("complaint-category", "الفئة")}{" "}
+            {isArabic ? "الفئة" : "Category"}{" "}
             <span className="required">*</span>
           </label>
 
@@ -559,7 +542,7 @@ const isArabic = currentLangCode === "ar";
                 handleCategoryChange(COMPLAINT_CATEGORIES.SPECIAL_UNITS)
               }
             >
-              {tx("special-units", "وحدات ذات طابع خاص")}
+              {isArabic ? "وحدات ذات طابع خاص" : "Special Units"}
             </button>
 
             <button
@@ -573,7 +556,7 @@ const isArabic = currentLangCode === "ar";
                 handleCategoryChange(COMPLAINT_CATEGORIES.DEPARTMENTS)
               }
             >
-              {tx("general-administration", "الإدارة العامة")}
+              {isArabic ? "الإدارة العامة" : "General Administration"}
             </button>
 
             <button
@@ -587,105 +570,117 @@ const isArabic = currentLangCode === "ar";
                 handleCategoryChange(COMPLAINT_CATEGORIES.FACULTIES)
               }
             >
-              {tx("faculties", "الكليات")}
+              {isArabic ? "الكليات" : "Faculties"}
             </button>
           </div>
         </div>
 
         {isFacultyComplaint && (
-          <div className="form-group full-row">
-            <label>
-              {tx("faculty", "الكلية")} <span className="required">*</span>
-            </label>
+  <div className="form-group full-row">
+    <label>
+      {isArabic ? "الكلية" : "Faculty"}{" "}
+      <span className="required">*</span>
+    </label>
 
-            <div className="faculty-dropdown">
-              <button
-                type="button"
-                className={`faculty-dropdown-trigger ${
-                  isFacultyDropdownOpen ? "open" : ""
-                } ${selectedFaculty ? "has-value" : ""}`}
-                onClick={() => {
-                  if (!collegesLoading) {
-                    setIsFacultyDropdownOpen((prev) => !prev);
-                  }
-                }}
-                disabled={collegesLoading}
-              >
-                <span className="faculty-trigger-content">
-                  <span className="faculty-trigger-title">
-                    {collegesLoading
-                      ? tx("loading-faculties", "جاري تحميل الكليات...")
-                      : selectedFaculty
-                        ? selectedFaculty.title
-                        : tx("select-faculty", "اختر الكلية")}
-                  </span>
-                </span>
+    <div className="faculty-dropdown">
+      <button
+        type="button"
+        className={`faculty-dropdown-trigger ${
+          isFacultyDropdownOpen ? "open" : ""
+        } ${selectedFaculty ? "has-value" : ""}`}
+        onClick={() => {
+          if (!collegesLoading) {
+            setIsFacultyDropdownOpen((prev) => !prev);
+          }
+        }}
+        disabled={collegesLoading}
+      >
+        <span className="faculty-trigger-content">
+          <span className="faculty-trigger-title">
+            {collegesLoading
+              ? isArabic
+                ? "جاري تحميل الكليات..."
+                : "Loading faculties..."
+              : selectedFaculty
+                ? selectedFaculty.title
+                : isArabic
+                  ? "اختر الكلية"
+                  : "Select faculty"}
+          </span>
 
-                <ChevronDown
-                  size={20}
-                  className={`faculty-chevron ${
-                    isFacultyDropdownOpen ? "rotate" : ""
-                  }`}
-                />
-              </button>
+          {selectedFaculty && (
+            <span className="faculty-trigger-code">
+              {isArabic ? "كود" : "Code"}: {selectedFaculty.fac}
+            </span>
+          )}
+        </span>
 
-              {isFacultyDropdownOpen && (
-                <div className="faculty-dropdown-panel">
-                  <div className="faculty-search-box">
-                    <Search size={18} />
-                    <input
-                      type="text"
-                      value={facultySearch}
-                      onChange={(e) => setFacultySearch(e.target.value)}
-                      placeholder={tx(
-                        "faculty-search-placeholder",
-                        "ابحث باسم الكلية...",
-                      )}
-                      autoFocus
-                    />
-                  </div>
+        <ChevronDown
+          size={20}
+          className={`faculty-chevron ${
+            isFacultyDropdownOpen ? "rotate" : ""
+          }`}
+        />
+      </button>
 
-                  <div className="faculty-options-list">
-                    {filteredColleges.length > 0 ? (
-                      filteredColleges.map((college) => {
-                        const isSelected =
-                          String(college.fac) ===
-                          String(complaintData.facultyCode);
-
-                        return (
-                          <button
-                            key={`${college.fac}-${college.id}`}
-                            type="button"
-                            className={`faculty-option ${
-                              isSelected ? "selected" : ""
-                            }`}
-                            onClick={() => handleFacultySelect(college.fac)}
-                          >
-                            <span className="faculty-option-text">
-                              <span className="faculty-option-title">
-                                {college.title}
-                              </span>
-                            </span>
-
-                            {isSelected && <Check size={18} />}
-                          </button>
-                        );
-                      })
-                    ) : (
-                      <div className="faculty-empty-state">
-                        {tx("no-matching-results", "لا توجد نتائج مطابقة")}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
+      {isFacultyDropdownOpen && (
+        <div className="faculty-dropdown-panel">
+          <div className="faculty-search-box">
+            <Search size={18} />
+            <input
+              type="text"
+              value={facultySearch}
+              onChange={(e) => setFacultySearch(e.target.value)}
+              placeholder={
+                isArabic ? "ابحث باسم الكلية..." : "Search faculty..."
+              }
+              autoFocus
+            />
           </div>
-        )}
+
+          <div className="faculty-options-list">
+            {filteredColleges.length > 0 ? (
+              filteredColleges.map((college) => {
+                const isSelected =
+                  String(college.fac) === String(complaintData.facultyCode);
+
+                return (
+                  <button
+                    key={`${college.fac}-${college.id}`}
+                    type="button"
+                    className={`faculty-option ${
+                      isSelected ? "selected" : ""
+                    }`}
+                    onClick={() => handleFacultySelect(college.fac)}
+                  >
+                    <span className="faculty-option-text">
+                      <span className="faculty-option-title">
+                        {college.title}
+                      </span>
+                      <span className="faculty-option-code">
+                        {isArabic ? "كود" : "Code"}: {college.fac}
+                      </span>
+                    </span>
+
+                    {isSelected && <Check size={18} />}
+                  </button>
+                );
+              })
+            ) : (
+              <div className="faculty-empty-state">
+                {isArabic ? "لا توجد نتائج مطابقة" : "No matching results"}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+)}
 
         <div className="form-group">
           <label>
-            {tx("name", "الاسم")} <span className="required">*</span>
+            {isArabic ? "الاسم" : "Name"} <span className="required">*</span>
           </label>
 
           <input
@@ -694,7 +689,7 @@ const isArabic = currentLangCode === "ar";
             value={complaintData.fullName}
             onChange={handleComplaintChange}
             required
-            placeholder={tx("name-placeholder", "أدخل اسمك")}
+            placeholder={isArabic ? "أدخل اسمك" : "Enter your name"}
           />
         </div>
 
@@ -716,7 +711,8 @@ const isArabic = currentLangCode === "ar";
 
         <div className="form-group full-row">
           <label>
-            {tx("phone", "رقم الهاتف")} <span className="required">*</span>
+            {isArabic ? "رقم الهاتف" : "Phone"}{" "}
+            <span className="required">*</span>
           </label>
 
           <input
@@ -725,13 +721,13 @@ const isArabic = currentLangCode === "ar";
             value={complaintData.phone}
             onChange={handleComplaintChange}
             required
-            placeholder={tx("phone-placeholder", "ادخل رقم الهاتف")}
+            placeholder={isArabic ? "ادخل رقم الهاتف" : "Enter phone number"}
           />
         </div>
 
         <div className="form-group full-row">
           <label>
-            {tx("message-text", "نص الرسالة")}{" "}
+            {isArabic ? "نص الرسالة" : "Message text"}{" "}
             <span className="required">*</span>
           </label>
 
@@ -741,10 +737,9 @@ const isArabic = currentLangCode === "ar";
             onChange={handleComplaintChange}
             required
             rows={5}
-            placeholder={tx(
-              "complaint-message-placeholder",
-              "أدخل شكواك هنا...",
-            )}
+            placeholder={
+              isArabic ? "أدخل شكواك هنا..." : "Write your complaint here..."
+            }
           />
         </div>
 
@@ -768,19 +763,18 @@ const isArabic = currentLangCode === "ar";
               </span>
 
               <strong>
-                {tx(
-                  "upload-drop-title",
-                  "اسحب الملف هنا أو اضغط للاختيار",
-                )}
+                {isArabic
+                  ? "اسحب الملف هنا أو اضغط للاختيار"
+                  : "Drag file here or click to choose"}
               </strong>
 
               <span className="upload-actions">
                 <span className="upload-secondary-btn">
-                  {tx("upload-file", "رفع ملف")}
+                  {isArabic ? "رفع ملف" : "Upload file"}
                 </span>
 
                 <span className="upload-primary-btn">
-                  {tx("choose-file", "اختيار ملف")}
+                  {isArabic ? "اختيار ملف" : "Choose file"}
                 </span>
               </span>
 
@@ -821,8 +815,8 @@ const isArabic = currentLangCode === "ar";
     <div>
       <div
         className="contact-page"
-        style={isRTL ? pArStyle : pEnStyle}
-dir={isRTL ? "rtl" : "ltr"}
+        style={isArabic ? pArStyle : pEnStyle}
+        dir={isArabic ? "rtl" : "ltr"}
       >
         <div className="container">
           <div className="contact-wrapper">
@@ -870,7 +864,7 @@ dir={isRTL ? "rtl" : "ltr"}
                         rel="noreferrer"
                         href="https://maps.app.goo.gl/mQuJdCCYEvuoZkQDA"
                       >
-                        {tx("address-value", "Menoufia Governorate, Egypt")}
+                        Menoufia Governorate, Egypt
                       </a>
                     </p>
                   </div>
@@ -881,30 +875,18 @@ dir={isRTL ? "rtl" : "ltr"}
             <div className="main-content">
               <div className="tabs">
                 <nav>
-                  {tabs.map((tab) =>
-                    tab.externalUrl ? (
-                      <a
-                        key={tab.id}
-                        href={tab.externalUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="tab-button tab-link-button"
-                      >
-                        {tab.label}
-                      </a>
-                    ) : (
-                      <button
-                        key={tab.id}
-                        type="button"
-                        onClick={() => handleTabChange(tab.id)}
-                        className={`tab-button ${
-                          activeTab === tab.id ? "active" : ""
-                        }`}
-                      >
-                        {tab.label}
-                      </button>
-                    ),
-                  )}
+                  {tabs.map((tab) => (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => handleTabChange(tab.id)}
+                      className={`tab-button ${
+                        activeTab === tab.id ? "active" : ""
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
                 </nav>
               </div>
 
@@ -915,7 +897,7 @@ dir={isRTL ? "rtl" : "ltr"}
                       tx("suggestions", "الاقتراحات")}
                     {activeTab === "complaints" &&
                       tx("complaints", "الشكاوى")}
-                    {activeTab === "ratings" && tx("ratings", "التقييمات")}
+                    {activeTab === "ratings" && tx("ratings", "التقييم")}
                   </h3>
 
                   <p>
