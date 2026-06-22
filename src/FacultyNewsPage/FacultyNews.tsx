@@ -2635,56 +2635,119 @@ const FacultyNews: React.FC = () => {
             ))}
           </div>
 
-          <div className="faculty-links-footer-bottom">
-            <div className="faculty-footer-contact">
-              <div className="faculty-footer-bottom-title">
-                <span>{isArabic ? "تواصل معنا :" : "Contact us:"}</span>
+          <div className="faculty-links-footer-bottom faculty-footer-second-modern">
+  <div className="faculty-footer-second-pattern faculty-footer-second-pattern-left" />
+  <div className="faculty-footer-second-pattern faculty-footer-second-pattern-right" />
 
-                <span className="faculty-footer-bottom-icon">
-                  <i className="fa-solid fa-phone"></i>
-                </span>
-              </div>
+  <div className="faculty-footer-second-inner">
+    <div className="faculty-footer-second-brand">
+      <div className="faculty-footer-second-brand-text">
+        <h2>{isArabic ? "جامعة المنوفية" : "Menoufia University"}</h2>
+        <p>Menoufia University</p>
+        <span>
+          {isArabic
+            ? "منارة المعرفة في قلب الدلتا"
+            : "Beacon of Knowledge in the Heart of the Delta"}
+        </span>
+      </div>
 
-              <div className="faculty-footer-phones">
-                <span>048-2235690</span>
-                <span className="phone-separator">/</span>
-                <span>048-2222753</span>
-              </div>
+      <img
+        src={logo2}
+        alt="Menoufia University"
+        className="faculty-footer-second-logo"
+      />
+    </div>
 
-              <div className="faculty-footer-social">
-                <a href="#" aria-label="facebook">
-                  <i className="fa-brands fa-facebook-f"></i>
-                </a>
+    <div className="faculty-footer-second-info-card">
+      <div className="faculty-footer-second-info-item">
+        <span className="faculty-footer-second-icon">
+          <i className="fa-regular fa-clock" />
+        </span>
 
-                <a href="#" aria-label="youtube">
-                  <i className="fa-brands fa-youtube"></i>
-                </a>
+        <div>
+          <h3>{isArabic ? "ساعات العمل" : "Working Hours"}</h3>
+          <p>{isArabic ? "من 8 صباحاً - 4 مساءً" : "8 AM - 4 PM"}</p>
+          <small>
+            {isArabic ? "ماعدا العطلات الرسمية" : "Except official holidays"}
+          </small>
+        </div>
+      </div>
 
-                <a href="#" aria-label="twitter">
-                  <i className="fa-brands fa-twitter"></i>
-                </a>
-              </div>
-            </div>
+      <div className="faculty-footer-second-info-item">
+        <span className="faculty-footer-second-icon">
+          <i className="fa-regular fa-envelope" />
+        </span>
 
-            <div className="faculty-footer-logo-area">
-              <img src={logo2} alt="Menoufia University" />
-            </div>
+        <div>
+          <h3>{isArabic ? "البريد الإلكتروني" : "Email"}</h3>
+          <p>info@menofia.edu.eg</p>
+        </div>
+      </div>
 
-            <div className="faculty-footer-address">
-              <div className="faculty-footer-bottom-title">
-                <span>{isArabic ? "عنوان الكلية :" : "Faculty address:"}</span>
+      <div className="faculty-footer-second-info-item">
+        <span className="faculty-footer-second-icon">
+          <i className="fa-solid fa-phone" />
+        </span>
 
-                <span className="faculty-footer-bottom-icon">
-                  <i className="fa-solid fa-location-dot"></i>
-                </span>
-              </div>
+        <div>
+          <h3>{isArabic ? "رقم الهاتف" : "Phone"}</h3>
+          <p>0482222170</p>
+        </div>
+      </div>
 
-              <p>
-                {isArabic
-                  ? "شبين الكوم _ المنوفية _ مصر"
-                  : "Shebin El-Kom _ Menoufia _ Egypt"}
-              </p>
-            </div>
+      <div className="faculty-footer-second-info-item">
+        <span className="faculty-footer-second-icon">
+          <i className="fa-solid fa-location-dot" />
+        </span>
+
+        <div>
+          <h3>{isArabic ? "العنوان" : "Address"}</h3>
+          <p>
+            {isArabic
+              ? "محافظة المنوفية - شبين الكوم"
+              : "Menofia Governorate, Shebin El-Kom"}
+          </p>
+          <small>Menofia Governorate, Egypt</small>
+        </div>
+      </div>
+    </div>
+
+    <div className="faculty-footer-second-bottom-row">
+      <div className="faculty-footer-second-social">
+        <a href="#" aria-label="facebook">
+          <i className="fa-brands fa-facebook-f" />
+        </a>
+
+        <a href="#" aria-label="x-twitter">
+          <i className="fa-brands fa-x-twitter" />
+        </a>
+
+        <a href="#" aria-label="youtube">
+          <i className="fa-brands fa-youtube" />
+        </a>
+
+        <a href="#" aria-label="instagram">
+          <i className="fa-brands fa-instagram" />
+        </a>
+
+        <a href="#" aria-label="linkedin">
+          <i className="fa-brands fa-linkedin-in" />
+        </a>
+      </div>
+
+      <p className="faculty-footer-second-copy">
+        {isArabic
+          ? "© 2024 جامعة المنوفية - جميع الحقوق محفوظة"
+          : "© 2024 Menoufia University - All rights reserved"}
+      </p>
+
+      <div className="faculty-footer-second-links">
+        <a href="#">{isArabic ? "سياسة الخصوصية" : "Privacy Policy"}</a>
+        <a href="#">{isArabic ? "شروط الاستخدام" : "Terms of Use"}</a>
+        <a href="#">{isArabic ? "خريطة الموقع" : "Sitemap"}</a>
+      </div>
+    </div>
+  </div>
           </div>
         </footer>
       )}
