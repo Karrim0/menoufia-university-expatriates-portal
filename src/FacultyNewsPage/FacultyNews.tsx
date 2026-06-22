@@ -32,7 +32,22 @@ import headerBg from "../../src/assets/01.jpg";
 
 const ITEMS_PER_PAGE = 10;
 const DEBOUNCE_DELAY = 500;
+// for nav
+const getFacultyTopMenuLimit = () => {
+  if (typeof window === "undefined") return 8;
 
+  const width = window.innerWidth;
+
+  if (width >= 1500) return 9;
+  if (width >= 1280) return 8;
+  if (width >= 1100) return 7;
+  if (width >= 900) return 6;
+  if (width >= 640) return 5;
+  if (width >= 480) return 4;
+
+  return 3;
+};
+// 
 const TOP_MENU_TITLES = [
   "عن الكلية",
   "إدارة الكلية",
@@ -66,11 +81,7 @@ const FOOTER_GROUP_TITLES = [
   "خدمات الكترونية",
 ];
 
-const FACULTY_FOOTER_ACCENTS = [
-  "#cfa000",
-  "#d48df5",
-  "#58df9c",
-] as const;
+const FACULTY_FOOTER_ACCENTS = ["#cfa000", "#d48df5", "#58df9c"] as const;
 
 type SavedLang = {
   id?: number;
@@ -186,6 +197,9 @@ const normalizeName = (value: string): string =>
     .replace(/[أإآ]/g, "ا")
     .replace(/ة/g, "ه")
     .replace(/ى/g, "ي")
+    .replace(/ؤ/g, "و")
+    .replace(/ئ/g, "ي")
+    .replace(/[ًٌٍَُِّْ]/g, "")
     .replace(/\s+/g, " ")
     .toLowerCase();
 
@@ -240,10 +254,7 @@ const getCollegeFacFromApi = (college: any): number | null => {
   return null;
 };
 
-const findCollegeByFacultyCode = (
-  colleges: any[],
-  facultyCode: number,
-) => {
+const findCollegeByFacultyCode = (colleges: any[], facultyCode: number) => {
   return colleges.find((college) => {
     return getCollegeFacFromApi(college) === facultyCode;
   });
@@ -320,32 +331,43 @@ const sanitizeFacultyMenuItems = (items: FacultyMenuItem[] = []) => {
     .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
 };
 
+const normalizeMenuUrl = (url?: string) => {
+  const value = String(url || "").trim();
+
+  if (!value || value === "#") return "";
+
+  if (/^https?:\/\//i.test(value)) return value;
+
+  if (value.startsWith("/")) {
+    return `https://www.menofia.edu.eg${value}`;
+  }
+
+  return value;
+};
+
 const getFacultyMenuLink = (item: FacultyMenuItem, fac?: string) => {
+  const hasArticleId =
+    item.articleId !== null &&
+    item.articleId !== undefined &&
+    String(item.articleId).trim() !== "";
+
+  if (hasArticleId) {
+    return `/fac/${fac}?articleId=${item.articleId}`;
+  }
+
   const departmentCode = extractDepartmentCodeFromUrl(item.url);
 
   if (departmentCode && fac) {
     return `/fac/${fac}/department/${departmentCode}`;
   }
 
-  if (isExternalMenuUrl(item.url)) return item.url;
+  const menuUrl = normalizeMenuUrl(item.url);
 
-  if (item.articleId !== null && item.articleId !== undefined) {
-    return `/fac/${fac}?articleId=${item.articleId}`;
+  if (menuUrl) {
+    return menuUrl;
   }
 
   return `/fac/${fac}`;
-};
-
-const filterMenuByTitles = (items: FacultyMenuItem[], titles: string[]) => {
-  const allowedTitles = titles.map(normalizeMenuTitle);
-
-  return items
-    .filter((item) => allowedTitles.includes(normalizeMenuTitle(item.title)))
-    .sort(
-      (a, b) =>
-        allowedTitles.indexOf(normalizeMenuTitle(a.title)) -
-        allowedTitles.indexOf(normalizeMenuTitle(b.title)),
-    );
 };
 
 const chunkItems = (items: FacultyMenuItem[], chunksCount: number) => {
@@ -364,33 +386,38 @@ const chunkItems = (items: FacultyMenuItem[], chunksCount: number) => {
 const buildFooterMenuGroups = (
   items: FacultyMenuItem[],
   isArabic: boolean,
+  options: { excludeTopTitles?: boolean } = {},
 ): FooterMenuGroup[] => {
   const cleanItems = sanitizeFacultyMenuItems(items);
 
   const topTitles = TOP_MENU_TITLES.map(normalizeMenuTitle);
   const footerTitles = FOOTER_GROUP_TITLES.map(normalizeMenuTitle);
 
-  const apiGroups = cleanItems
-    .filter((item) => footerTitles.includes(normalizeMenuTitle(item.title)))
-    .slice(0, 3)
-    .map((item) => ({
-      menuId: item.menuId,
-      title: cleanMenuTitle(item.title),
-      children: getMenuChildren(item),
-    }))
-    .filter((group) => group.children.length > 0);
+  if (options.excludeTopTitles) {
+    const apiGroups = cleanItems
+      .filter((item) => footerTitles.includes(normalizeMenuTitle(item.title)))
+      .slice(0, 3)
+      .map((item) => ({
+        menuId: item.menuId,
+        title: cleanMenuTitle(item.title),
+        children: getMenuChildren(item),
+      }))
+      .filter((group) => group.children.length > 0);
 
-  if (apiGroups.length > 0) return apiGroups;
+    if (apiGroups.length > 0) return apiGroups;
+  }
 
-  const remainingItems = cleanItems.filter(
-    (item) => !topTitles.includes(normalizeMenuTitle(item.title)),
-  );
+  const sourceItems = options.excludeTopTitles
+    ? cleanItems.filter(
+        (item) => !topTitles.includes(normalizeMenuTitle(item.title)),
+      )
+    : cleanItems;
 
   const fallbackTitles = isArabic
-    ? ["مواقع هامة", "خدمات أكاديمية", "خدمات إلكترونية"]
-    : ["Important Links", "Academic Services", "Electronic Services"];
+    ? ["روابط الكلية", "خدمات ومعلومات", "روابط إضافية"]
+    : ["Faculty Links", "Services & Info", "More Links"];
 
-  return chunkItems(remainingItems, 3)
+  return chunkItems(sourceItems, 3)
     .map((children, index) => ({
       menuId: `footer-group-${index}`,
       title: fallbackTitles[index],
@@ -408,32 +435,142 @@ const FacultyMenuItemView: React.FC<{
   level?: number;
 }> = ({ item, fac, facultyTitle, level = 0 }) => {
   const [open, setOpen] = useState(false);
+  const [dropDirection, setDropDirection] = useState<"default" | "flip">(
+    "default",
+  );
+
+  const itemRef = useRef<HTMLDivElement | null>(null);
+  const subMenuRef = useRef<HTMLDivElement | null>(null);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const children = getMenuChildren(item);
   const hasChildren = children.length > 0;
   const link = getFacultyMenuLink(item, fac);
   const isExternal = isExternalMenuUrl(link);
+
+  const clearCloseTimer = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+  };
+
+  const updateDropDirection = useCallback(() => {
+    if (!hasChildren || !itemRef.current || typeof window === "undefined") {
+      return;
+    }
+
+    const rect = itemRef.current.getBoundingClientRect();
+    const safeGap = 14;
+    const viewportWidth = window.innerWidth;
+
+    const menuWidth =
+      subMenuRef.current?.offsetWidth || (level === 0 ? 300 : 260);
+
+    if (level === 0) {
+      const defaultLeftEdge = rect.right - menuWidth;
+      const flipRightEdge = rect.left + menuWidth;
+
+      if (defaultLeftEdge < safeGap && flipRightEdge <= viewportWidth - safeGap) {
+        setDropDirection("flip");
+      } else {
+        setDropDirection("default");
+      }
+
+      return;
+    }
+
+    const leftSpace = rect.left - safeGap;
+    const rightSpace = viewportWidth - rect.right - safeGap;
+
+    if (leftSpace < menuWidth && rightSpace > leftSpace) {
+      setDropDirection("flip");
+    } else {
+      setDropDirection("default");
+    }
+  }, [hasChildren, level]);
+
+  const handleMouseEnter = () => {
+    if (!hasChildren) return;
+
+    clearCloseTimer();
+    updateDropDirection();
+    setOpen(true);
+
+    requestAnimationFrame(() => {
+      updateDropDirection();
+    });
+  };
+
+  const handleMouseLeave = () => {
+    if (!hasChildren) return;
+
+    clearCloseTimer();
+
+    closeTimerRef.current = setTimeout(() => {
+      setOpen(false);
+    }, 260);
+  };
 
   const handleToggle = (e: React.MouseEvent) => {
     if (!hasChildren) return;
 
     e.preventDefault();
     e.stopPropagation();
-    setOpen((prev) => !prev);
+
+    clearCloseTimer();
+
+    setOpen((prev) => {
+      const next = !prev;
+
+      if (next) {
+        updateDropDirection();
+
+        requestAnimationFrame(() => {
+          updateDropDirection();
+        });
+      }
+
+      return next;
+    });
   };
+
+  useEffect(() => {
+    if (!open || !hasChildren || typeof window === "undefined") return;
+
+    updateDropDirection();
+
+    window.addEventListener("resize", updateDropDirection);
+    window.addEventListener("scroll", updateDropDirection, true);
+
+    return () => {
+      window.removeEventListener("resize", updateDropDirection);
+      window.removeEventListener("scroll", updateDropDirection, true);
+    };
+  }, [open, hasChildren, updateDropDirection]);
+
+  useEffect(() => {
+    return () => {
+      clearCloseTimer();
+    };
+  }, []);
+
+  const NestedArrow = dropDirection === "flip" ? ChevronRight : ChevronLeft;
 
   const content = (
     <>
       <span>{cleanMenuTitle(item.title)}</span>
+
       {hasChildren &&
         (level === 0 ? (
           <ChevronDown
             size={12}
-            className={`faculty-menu-arrow ${open ? "open" : ""}`}
+            className={`faculty-menu-arrow root-arrow ${open ? "open" : ""}`}
           />
         ) : (
-          <ChevronLeft
+          <NestedArrow
             size={12}
-            className={`faculty-menu-arrow ${open ? "open" : ""}`}
+            className="faculty-menu-arrow nested-arrow"
           />
         ))}
     </>
@@ -441,11 +578,12 @@ const FacultyMenuItemView: React.FC<{
 
   return (
     <div
+      ref={itemRef}
       className={`faculty-menu-item level-${level} ${
         hasChildren ? "has-children" : ""
-      } ${open ? "open" : ""}`}
-      onMouseEnter={() => hasChildren && setOpen(true)}
-      onMouseLeave={() => hasChildren && setOpen(false)}
+      } ${open ? "open" : ""} drop-${dropDirection}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {hasChildren ? (
         <button
@@ -478,7 +616,7 @@ const FacultyMenuItemView: React.FC<{
       )}
 
       {hasChildren && open && (
-        <div className="faculty-sub-menu">
+        <div ref={subMenuRef} className="faculty-sub-menu">
           {children.map((child) => (
             <FacultyMenuItemView
               key={child.menuId}
@@ -668,9 +806,7 @@ const extractHistoricalTimeline = (
   intro: string;
   timeline: HistoricalTimelineItem[];
 } => {
-  const text = stripHtmlToText(html)
-    .replace(/\s+/g, " ")
-    .trim();
+  const text = stripHtmlToText(html).replace(/\s+/g, " ").trim();
 
   if (!text) {
     return {
@@ -698,7 +834,7 @@ const extractHistoricalTimeline = (
       const start = (match.index ?? 0) + year.length;
       const end =
         index < matches.length - 1
-          ? matches[index + 1].index ?? text.length
+          ? (matches[index + 1].index ?? text.length)
           : text.length;
 
       const content = text
@@ -773,7 +909,9 @@ const isStudentAffairsAccordionArticle = (title = "") => {
 };
 
 const isAccordionHeadingText = (value = "") => {
-  const text = String(value || "").replace(/\s+/g, " ").trim();
+  const text = String(value || "")
+    .replace(/\s+/g, " ")
+    .trim();
 
   if (!text || text.length > 180) return false;
 
@@ -782,9 +920,7 @@ const isAccordionHeadingText = (value = "") => {
   );
 };
 
-const extractStudentAffairsAccordion = (
-  html = "",
-): FacultyAccordionItem[] => {
+const extractStudentAffairsAccordion = (html = ""): FacultyAccordionItem[] => {
   const cleanedHtml = removeWordNoise(html);
 
   if (typeof window === "undefined" || !window.DOMParser) {
@@ -819,9 +955,7 @@ const extractStudentAffairsAccordion = (
   };
 
   blockElements.forEach((element) => {
-    const elementText = (element.textContent || "")
-      .replace(/\s+/g, " ")
-      .trim();
+    const elementText = (element.textContent || "").replace(/\s+/g, " ").trim();
 
     const tagName = element.tagName.toLowerCase();
     const isHeadingTag = /^h[1-6]$/.test(tagName);
@@ -862,7 +996,7 @@ const extractStudentAffairsAccordion = (
       const start = match.index ?? 0;
       const nextStart =
         index < matches.length - 1
-          ? matches[index + 1].index ?? plainText.length
+          ? (matches[index + 1].index ?? plainText.length)
           : plainText.length;
 
       const sectionText = plainText.slice(start, nextStart).trim();
@@ -874,9 +1008,7 @@ const extractStudentAffairsAccordion = (
           : sectionText.slice(0, 120).trim();
 
       const content =
-        separatorIndex > 0
-          ? sectionText.slice(separatorIndex + 1).trim()
-          : "";
+        separatorIndex > 0 ? sectionText.slice(separatorIndex + 1).trim() : "";
 
       return {
         title,
@@ -887,7 +1019,138 @@ const extractStudentAffairsAccordion = (
     })
     .filter((item) => item.title);
 };
+type VisionMissionType = "vision" | "mission";
 
+type VisionMissionItem = {
+  type: VisionMissionType;
+  title: string;
+  content: string;
+};
+
+const isVisionMissionArticle = (title = "", html = "") => {
+  const normalizedTitle = normalizeMenuTitle(title);
+  const normalizedContent = normalizeMenuTitle(stripHtmlToText(html));
+
+  return (
+    normalizedTitle.includes("رؤيه") ||
+    normalizedTitle.includes("رؤية") ||
+    normalizedTitle.includes("رساله") ||
+    normalizedTitle.includes("رسالة") ||
+    normalizedTitle.includes("vision") ||
+    normalizedTitle.includes("mission") ||
+    normalizedContent.includes("رؤيه") ||
+    normalizedContent.includes("رؤية") ||
+    normalizedContent.includes("رساله") ||
+    normalizedContent.includes("رسالة") ||
+    normalizedContent.includes("vision") ||
+    normalizedContent.includes("mission")
+  );
+};
+
+const getVisionMissionTitle = (
+  type: VisionMissionType,
+  isArabic: boolean,
+) => {
+  if (type === "vision") return isArabic ? "رؤية الكلية" : "Faculty Vision";
+  return isArabic ? "رسالة الكلية" : "Faculty Mission";
+};
+
+const cleanVisionMissionText = (value = "") => {
+  return String(value || "")
+    .replace(/^(الرؤية|الرؤيه|رؤية الكلية|رؤيه الكليه|vision)\s*[:：\-–—.]?\s*/i, "")
+    .replace(/^(الرسالة|الرساله|رسالة الكلية|رساله الكليه|mission)\s*[:：\-–—.]?\s*/i, "")
+    .replace(/^["“”'«»]+|["“”'«»]+$/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+};
+
+const getMarkerType = (marker = ""): VisionMissionType => {
+  const normalizedMarker = normalizeMenuTitle(marker);
+
+  if (
+    normalizedMarker.includes("رساله") ||
+    normalizedMarker.includes("mission")
+  ) {
+    return "mission";
+  }
+
+  return "vision";
+};
+
+const extractVisionMissionItems = (
+  title = "",
+  html = "",
+  isArabic: boolean,
+): VisionMissionItem[] => {
+  const text = stripHtmlToText(html).replace(/\s+/g, " ").trim();
+  const normalizedTitle = normalizeMenuTitle(title);
+
+  if (!text && !normalizedTitle) return [];
+
+  const markerRegex =
+    /(رؤية\s*الكلية|رؤيه\s*الكليه|الرؤية|الرؤيه|رؤية|رؤيه|رسالة\s*الكلية|رساله\s*الكليه|الرسالة|الرساله|رسالة|رساله|vision|mission)/gi;
+
+  const matches = Array.from(text.matchAll(markerRegex));
+
+  if (matches.length > 0) {
+    const items = matches
+      .map((match, index) => {
+        const marker = match[0];
+        const type = getMarkerType(marker);
+        const start = (match.index ?? 0) + marker.length;
+        const end =
+          index < matches.length - 1
+            ? matches[index + 1].index ?? text.length
+            : text.length;
+
+        const content = cleanVisionMissionText(text.slice(start, end));
+
+        return {
+          type,
+          title: getVisionMissionTitle(type, isArabic),
+          content,
+        };
+      })
+      .filter((item) => item.content.length > 0);
+
+    const uniqueItems = items.filter(
+      (item, index, array) =>
+        array.findIndex((current) => current.type === item.type) === index,
+    );
+
+    if (uniqueItems.length > 0) return uniqueItems;
+  }
+
+  if (
+    normalizedTitle.includes("رؤيه") ||
+    normalizedTitle.includes("رؤية") ||
+    normalizedTitle.includes("vision")
+  ) {
+    return [
+      {
+        type: "vision",
+        title: getVisionMissionTitle("vision", isArabic),
+        content: cleanVisionMissionText(text),
+      },
+    ].filter((item) => item.content.length > 0);
+  }
+
+  if (
+    normalizedTitle.includes("رساله") ||
+    normalizedTitle.includes("رسالة") ||
+    normalizedTitle.includes("mission")
+  ) {
+    return [
+      {
+        type: "mission",
+        title: getVisionMissionTitle("mission", isArabic),
+        content: cleanVisionMissionText(text),
+      },
+    ].filter((item) => item.content.length > 0);
+  }
+
+  return [];
+};
 const getArticleType = (
   article: FacultyArticlePageData,
   parsed: ReturnType<typeof parseArticleContent>,
@@ -912,11 +1175,13 @@ const getArticleType = (
   return "default";
 };
 
+
 const getFileLabel = (extension: string) => {
   const value = extension.toUpperCase();
   if (!value) return "FILE";
   return value;
 };
+
 
 const FacultyArticleRenderer: React.FC<{
   article: FacultyArticlePageData;
@@ -944,13 +1209,75 @@ const FacultyArticleRenderer: React.FC<{
     [article.content],
   );
 
-  const [openAccordionIndex, setOpenAccordionIndex] =
-    useState<number | null>(null);
+  const [openAccordionIndex, setOpenAccordionIndex] = useState<number | null>(
+    null,
+  );
 
   const isHistoricalArticle = isHistoricalOverviewArticle(article.title);
   const isGoalsPage = isGoalsArticle(article.title);
-  const isStudentAffairsAccordion =
-    isStudentAffairsAccordionArticle(article.title);
+  const isStudentAffairsAccordion = isStudentAffairsAccordionArticle(
+    article.title,
+  );
+  const visionMissionItems = useMemo(
+  () => extractVisionMissionItems(article.title, article.content || "", isArabic),
+  [article.title, article.content, isArabic],
+);
+
+const isVisionMissionPage =
+  isVisionMissionArticle(article.title, article.content || "") &&
+  visionMissionItems.length > 0;
+  if (isVisionMissionPage) {
+  const hasBoth = visionMissionItems.length > 1;
+
+  return (
+    <article
+      className={`faculty-vision-mission-card ${
+        hasBoth ? "combined" : "single"
+      }`}
+    >
+      <div className="faculty-vision-mission-page-title">
+        <span className="faculty-vision-mission-title-dot" />
+        <h2>
+          {hasBoth
+            ? isArabic
+              ? "رؤية ورسالة الكلية"
+              : "Faculty Vision & Mission"
+            : visionMissionItems[0]?.title || article.title}
+        </h2>
+      </div>
+
+      <div className="faculty-vision-mission-items">
+        {visionMissionItems.map((item) => (
+          <section
+            key={item.type}
+            className={`faculty-vision-mission-item ${item.type}`}
+          >
+            <div className="faculty-vision-mission-heading">
+              <span className="faculty-vision-mission-icon" aria-hidden="true">
+                <i
+                  className={
+                    item.type === "vision"
+                      ? "fa-regular fa-eye"
+                      : "fa-regular fa-paper-plane"
+                  }
+                />
+              </span>
+
+              <div>
+                <h3>{item.title}</h3>
+                <span className="faculty-vision-mission-heading-line" />
+              </div>
+            </div>
+
+            <div className="faculty-vision-mission-text-box">
+              <p>{item.content}</p>
+            </div>
+          </section>
+        ))}
+      </div>
+    </article>
+  );
+}
 
   if (isHistoricalArticle) {
     return (
@@ -973,9 +1300,7 @@ const FacultyArticleRenderer: React.FC<{
         <div className="faculty-history-body">
           <div className="faculty-history-content">
             {historicalData.intro && (
-              <p className="faculty-history-intro">
-                {historicalData.intro}
-              </p>
+              <p className="faculty-history-intro">{historicalData.intro}</p>
             )}
 
             {historicalData.timeline.length > 0 ? (
@@ -1003,9 +1328,7 @@ const FacultyArticleRenderer: React.FC<{
                   __html:
                     parsed.cleanedHtml ||
                     `<p>${
-                      isArabic
-                        ? "لا يوجد محتوى متاح"
-                        : "No content available"
+                      isArabic ? "لا يوجد محتوى متاح" : "No content available"
                     }</p>`,
                 }}
               />
@@ -1051,9 +1374,7 @@ const FacultyArticleRenderer: React.FC<{
                 __html:
                   parsed.cleanedHtml ||
                   `<p>${
-                    isArabic
-                      ? "لا توجد أهداف متاحة"
-                      : "No goals available"
+                    isArabic ? "لا توجد أهداف متاحة" : "No goals available"
                   }</p>`,
               }}
             />
@@ -1067,10 +1388,7 @@ const FacultyArticleRenderer: React.FC<{
     return (
       <article className="faculty-student-affairs-card">
         <div className="faculty-student-affairs-header">
-          <span
-            className="faculty-student-affairs-icon"
-            aria-hidden="true"
-          >
+          <span className="faculty-student-affairs-icon" aria-hidden="true">
             <i className="fa-regular fa-file-lines" />
           </span>
 
@@ -1153,9 +1471,7 @@ const FacultyArticleRenderer: React.FC<{
                 __html:
                   parsed.cleanedHtml ||
                   `<p>${
-                    isArabic
-                      ? "لا يوجد محتوى متاح"
-                      : "No content available"
+                    isArabic ? "لا يوجد محتوى متاح" : "No content available"
                   }</p>`,
               }}
             />
@@ -1358,22 +1674,23 @@ const FacultyArticlePage: React.FC<{
     article && isHistoricalOverviewArticle(article.title),
   );
 
-  const isGoalsPage = Boolean(
-    article && isGoalsArticle(article.title),
-  );
+  const isGoalsPage = Boolean(article && isGoalsArticle(article.title));
 
-  const isFilePage = Boolean(
-    article && parsedArticle.fileLinks.length > 0,
-  );
+  const isFilePage = Boolean(article && parsedArticle.fileLinks.length > 0);
 
   const isStudentAffairsPage = Boolean(
     article && isStudentAffairsAccordionArticle(article.title),
   );
+  const isVisionMissionPage = Boolean(
+  article && isVisionMissionArticle(article.title, article.content || ""),
+);
 
-  const specialPageClass = isHistoryPage
-    ? "faculty-history-page-section"
-    : isGoalsPage
-      ? "faculty-goals-page-section"
+const specialPageClass = isHistoryPage
+  ? "faculty-history-page-section"
+  : isGoalsPage
+    ? "faculty-goals-page-section"
+    : isVisionMissionPage
+      ? "faculty-vision-mission-page-section"
       : isFilePage
         ? "faculty-pdf-page-section"
         : isStudentAffairsPage
@@ -1414,24 +1731,15 @@ const FacultyArticlePage: React.FC<{
         ) : error ? (
           <div className="faculty-article-card faculty-article-error-card">
             <h2>
-              {isArabic
-                ? "تعذر تحميل المحتوى"
-                : "Could not load content"}
+              {isArabic ? "تعذر تحميل المحتوى" : "Could not load content"}
             </h2>
             <p>{error}</p>
           </div>
         ) : article ? (
-          <FacultyArticleRenderer
-            article={article}
-            isArabic={isArabic}
-          />
+          <FacultyArticleRenderer article={article} isArabic={isArabic} />
         ) : (
           <div className="faculty-article-card faculty-article-error-card">
-            <h2>
-              {isArabic
-                ? "لا يوجد محتوى متاح"
-                : "No content available"}
-            </h2>
+            <h2>{isArabic ? "لا يوجد محتوى متاح" : "No content available"}</h2>
           </div>
         )}
       </div>
@@ -1451,8 +1759,8 @@ const FacultyFooterColumn: React.FC<{
     (item) => cleanMenuTitle(item.title).length > 0,
   );
 
-  const previewItems = cleanChildren.slice(0, 3);
-  const extraItems = cleanChildren.slice(3);
+  const previewItems = cleanChildren.slice(0, 5);
+const extraItems = cleanChildren.slice(5);
   const visibleExtraItems = showAll ? extraItems : [];
 
   return (
@@ -1557,9 +1865,26 @@ const FacultyNews: React.FC = () => {
   const [activeFiltersCount, setActiveFiltersCount] = useState(0);
 
   const [facultyMenu, setFacultyMenu] = useState<FacultyMenuItem[]>([]);
-  const [facultyMenuLoading, setFacultyMenuLoading] = useState(false);
+const [facultyMenuLoading, setFacultyMenuLoading] = useState(false);
+const [facultyTopLimit, setFacultyTopLimit] = useState<number>(() =>
+  getFacultyTopMenuLimit(),
+);
 
+useEffect(() => {
+  if (typeof window === "undefined") return;
 
+  const handleResize = () => {
+    setFacultyTopLimit(getFacultyTopMenuLimit());
+  };
+
+  handleResize();
+
+  window.addEventListener("resize", handleResize);
+
+  return () => {
+    window.removeEventListener("resize", handleResize);
+  };
+}, []);
   const [articlePage, setArticlePage] = useState<FacultyArticlePageData | null>(
     null,
   );
@@ -1569,22 +1894,28 @@ const FacultyNews: React.FC = () => {
   const [notFound, setNotFound] = useState(false);
   const [articleNotFound, setArticleNotFound] = useState(false);
 
-  const topFacultyMenu = useMemo(() => {
-    const matchedMenu = filterMenuByTitles(facultyMenu, TOP_MENU_TITLES);
+  const orderedFacultyMenu = useMemo(() => {
+  return facultyMenu
+    .filter((item) => cleanMenuTitle(item.title).length > 0)
+    .sort(
+      (a, b) =>
+        (Number(a.sortOrder ?? a.order) || 0) -
+        (Number(b.sortOrder ?? b.order) || 0),
+    );
+}, [facultyMenu]);
 
-    if (matchedMenu.length > 0) {
-      return matchedMenu;
-    }
+const topFacultyMenu = useMemo(() => {
+  return orderedFacultyMenu.slice(0, facultyTopLimit);
+}, [orderedFacultyMenu, facultyTopLimit]);
 
-    return facultyMenu
-      .filter((item) => cleanMenuTitle(item.title).length > 0)
-      .slice(0, 10);
-  }, [facultyMenu]);
+const footerFacultyMenu = useMemo(() => {
+  return orderedFacultyMenu.slice(facultyTopLimit);
+}, [orderedFacultyMenu, facultyTopLimit]);
 
-  const footerMenuGroups = useMemo(
-    () => buildFooterMenuGroups(facultyMenu, isArabic),
-    [facultyMenu, isArabic],
-  );
+const footerMenuGroups = useMemo(
+  () => buildFooterMenuGroups(footerFacultyMenu, isArabic),
+  [footerFacultyMenu, isArabic],
+);
 
   useEffect(() => {
     let count = 0;
@@ -1600,8 +1931,7 @@ const FacultyNews: React.FC = () => {
     let isMounted = true;
 
     const fetchCollegeName = async () => {
-      const currentLangId =
-        Number(location.state?.langId) || getSavedLangId();
+      const currentLangId = Number(location.state?.langId) || getSavedLangId();
       const facultyCode = Number(fac);
 
       setLangId(currentLangId);
@@ -1629,10 +1959,7 @@ const FacultyNews: React.FC = () => {
         const response = await newsService.getColleges(currentLangId);
         const colleges = normalizeApiResponse(response);
 
-        const matchedCollege = findCollegeByFacultyCode(
-          colleges,
-          facultyCode,
-        );
+        const matchedCollege = findCollegeByFacultyCode(colleges, facultyCode);
 
         if (!isMounted) return;
 
@@ -1652,10 +1979,7 @@ const FacultyNews: React.FC = () => {
         if (currentLangId !== 2) {
           const enResponse = await newsService.getColleges(2);
           const enColleges = normalizeApiResponse(enResponse);
-          const enMatch = findCollegeByFacultyCode(
-            enColleges,
-            facultyCode,
-          );
+          const enMatch = findCollegeByFacultyCode(enColleges, facultyCode);
 
           if (!isMounted) return;
 
@@ -1761,7 +2085,7 @@ const FacultyNews: React.FC = () => {
         if (!isMounted) return;
 
         const cleanMenu = sanitizeFacultyMenuItems(
-          Array.isArray(response?.result) ? response.result : [],
+          normalizeApiResponse(response),
         );
 
         setFacultyMenu(cleanMenu);
@@ -2136,7 +2460,6 @@ const FacultyNews: React.FC = () => {
   const activeHighlight = highlights[activeHighlightIndex];
   const displayName = collegeName || collegeNameFallback || "...";
 
-
   const paginationNumbers = useMemo<(number | "...")[]>(() => {
     if (totalPages <= 6) {
       return Array.from({ length: totalPages }, (_, index) => index + 1);
@@ -2225,8 +2548,14 @@ const FacultyNews: React.FC = () => {
               {isArabic ? "جاري تحميل القائمة..." : "Loading menu..."}
             </div>
           ) : topFacultyMenu.length > 0 ? (
-            <div className="faculty-menu-bar">
-
+            <div
+  className="faculty-menu-bar"
+  style={
+    {
+      "--faculty-nav-count": Math.max(topFacultyMenu.length, 1),
+    } as React.CSSProperties
+  }
+>
               {topFacultyMenu.map((item) => (
                 <FacultyMenuItemView
                   key={item.menuId}
@@ -2259,15 +2588,14 @@ const FacultyNews: React.FC = () => {
                 <div className="faculty-highlight-slider">
                   <div className="faculty-highlight-image-wrap">
                     <Link
-  to={`/fac/${fac}/highlight/${activeHighlight.id}?lang=${getActiveSearchLangId()}`}
-  state={{
-  highlight: activeHighlight,
-  fac: Number(fac),
-  langId: getActiveSearchLangId(),
-  collegeName: displayName,
-}}
-  className="faculty-highlight-link"
-
+                      to={`/fac/${fac}/highlight/${activeHighlight.id}?lang=${getActiveSearchLangId()}`}
+                      state={{
+                        highlight: activeHighlight,
+                        fac: Number(fac),
+                        langId: getActiveSearchLangId(),
+                        collegeName: displayName,
+                      }}
+                      className="faculty-highlight-link"
                       aria-label={
                         activeHighlight.translationData ||
                         displayName ||
@@ -2689,63 +3017,125 @@ const FacultyNews: React.FC = () => {
                 fac={fac}
                 isArabic={isArabic}
                 accentColor={
-                  FACULTY_FOOTER_ACCENTS[index] ??
-                  FACULTY_FOOTER_ACCENTS[0]
+                  FACULTY_FOOTER_ACCENTS[index] ?? FACULTY_FOOTER_ACCENTS[0]
                 }
               />
             ))}
           </div>
 
-          <div className="faculty-links-footer-bottom">
-            <div className="faculty-footer-contact">
-              <div className="faculty-footer-bottom-title">
-                <span>{isArabic ? "تواصل معنا :" : "Contact us:"}</span>
+          <div className="faculty-links-footer-bottom faculty-footer-second-modern">
+  <div className="faculty-footer-second-pattern faculty-footer-second-pattern-left" />
+  <div className="faculty-footer-second-pattern faculty-footer-second-pattern-right" />
 
-                <span className="faculty-footer-bottom-icon">
-                  <i className="fa-solid fa-phone"></i>
-                </span>
-              </div>
+  <div className="faculty-footer-second-inner">
+    <div className="faculty-footer-second-brand">
+      <div className="faculty-footer-second-brand-text">
+        <h2>{isArabic ? "جامعة المنوفية" : "Menoufia University"}</h2>
+        <p>Menoufia University</p>
+        <span>
+          {isArabic
+            ? "منارة المعرفة في قلب الدلتا"
+            : "Beacon of Knowledge in the Heart of the Delta"}
+        </span>
+      </div>
 
-              <div className="faculty-footer-phones">
-                <span>048-2235690</span>
-                <span className="phone-separator">/</span>
-                <span>048-2222753</span>
-              </div>
+      <img
+        src={logo2}
+        alt="Menoufia University"
+        className="faculty-footer-second-logo"
+      />
+    </div>
 
-              <div className="faculty-footer-social">
-                <a href="#" aria-label="facebook">
-                  <i className="fa-brands fa-facebook-f"></i>
-                </a>
+    <div className="faculty-footer-second-info-card">
+      <div className="faculty-footer-second-info-item">
+        <span className="faculty-footer-second-icon">
+          <i className="fa-regular fa-clock" />
+        </span>
 
-                <a href="#" aria-label="youtube">
-                  <i className="fa-brands fa-youtube"></i>
-                </a>
+        <div>
+          <h3>{isArabic ? "ساعات العمل" : "Working Hours"}</h3>
+          <p>{isArabic ? "من 8 صباحاً - 4 مساءً" : "8 AM - 4 PM"}</p>
+          <small>
+            {isArabic ? "ماعدا العطلات الرسمية" : "Except official holidays"}
+          </small>
+        </div>
+      </div>
 
-                <a href="#" aria-label="twitter">
-                  <i className="fa-brands fa-twitter"></i>
-                </a>
-              </div>
-            </div>
+      <div className="faculty-footer-second-info-item">
+        <span className="faculty-footer-second-icon">
+          <i className="fa-regular fa-envelope" />
+        </span>
 
-            <div className="faculty-footer-logo-area">
-              <img src={logo2} alt="Menoufia University" />
-            </div>
+        <div>
+          <h3>{isArabic ? "البريد الإلكتروني" : "Email"}</h3>
+          <p>info@menofia.edu.eg</p>
+        </div>
+      </div>
 
-            <div className="faculty-footer-address">
-              <div className="faculty-footer-bottom-title">
-                <span>{isArabic ? "عنوان الكلية :" : "Faculty address:"}</span>
+      <div className="faculty-footer-second-info-item">
+        <span className="faculty-footer-second-icon">
+          <i className="fa-solid fa-phone" />
+        </span>
 
-                <span className="faculty-footer-bottom-icon">
-                  <i className="fa-solid fa-location-dot"></i>
-                </span>
-              </div>
+        <div>
+          <h3>{isArabic ? "رقم الهاتف" : "Phone"}</h3>
+          <p>0482222170</p>
+        </div>
+      </div>
 
-              <p>
-                {isArabic
-                  ? "شبين الكوم _ المنوفية _ مصر"
-                  : "Shebin El-Kom _ Menoufia _ Egypt"}
-              </p>
-            </div>
+      <div className="faculty-footer-second-info-item">
+        <span className="faculty-footer-second-icon">
+          <i className="fa-solid fa-location-dot" />
+        </span>
+
+        <div>
+          <h3>{isArabic ? "العنوان" : "Address"}</h3>
+          <p>
+            {isArabic
+              ? "محافظة المنوفية - شبين الكوم"
+              : "Menofia Governorate, Shebin El-Kom"}
+          </p>
+          <small>Menofia Governorate, Egypt</small>
+        </div>
+      </div>
+    </div>
+
+    <div className="faculty-footer-second-bottom-row">
+      <div className="faculty-footer-second-social">
+        <a href="#" aria-label="facebook">
+          <i className="fa-brands fa-facebook-f" />
+        </a>
+
+        <a href="#" aria-label="x-twitter">
+          <i className="fa-brands fa-x-twitter" />
+        </a>
+
+        <a href="#" aria-label="youtube">
+          <i className="fa-brands fa-youtube" />
+        </a>
+
+        <a href="#" aria-label="instagram">
+          <i className="fa-brands fa-instagram" />
+        </a>
+
+        <a href="#" aria-label="linkedin">
+          <i className="fa-brands fa-linkedin-in" />
+        </a>
+      </div>
+
+      <p className="faculty-footer-second-copy">
+        {isArabic
+          ? "© 2024 جامعة المنوفية - جميع الحقوق محفوظة"
+          : "© 2024 Menoufia University - All rights reserved"}
+      </p>
+
+      <div className="faculty-footer-second-links">
+        <a href="#">{isArabic ? "سياسة الخصوصية" : "Privacy Policy"}</a>
+        <a href="#">{isArabic ? "شروط الاستخدام" : "Terms of Use"}</a>
+        <a href="#">{isArabic ? "خريطة الموقع" : "Sitemap"}</a>
+      </div>
+    </div>
+  </div>
           </div>
         </footer>
       )}

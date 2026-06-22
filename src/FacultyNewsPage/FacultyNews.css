@@ -1032,7 +1032,22 @@
   border: 1px dashed color-mix(in srgb, var(--faculty-primary) 20%, transparent);
 }
 
+.faculty-links-footer {
+  width: 100%;
+  background: var(--faculty-footer);
+  color: var(--faculty-white);
+  font-family: "Cairo", sans-serif;
+  overflow: hidden;
 
+  --footer-bg-top: var(--faculty-footer);
+  --footer-bg-bottom: var(--faculty-footer-bottom);
+  --footer-line: color-mix(in srgb, var(--faculty-white) 18%, transparent);
+  --footer-text: color-mix(in srgb, var(--faculty-white) 90%, transparent);
+  --footer-muted: color-mix(in srgb, var(--faculty-white) 72%, transparent);
+  --footer-green: var(--faculty-secondary);
+  --footer-purple: var(--faculty-secondary);
+  --footer-blue: var(--faculty-secondary);
+}
 
 .faculty-links-footer-top {
   width: 100%;
@@ -1830,7 +1845,12 @@
   color: var(--faculty-white);
 }
 
-
+.faculty-article-section {
+  width: 100%;
+  background: var(--faculty-soft-bg) !important;
+  padding: 42px 0 76px;
+  transition: background 0.25s ease;
+}
 
 .faculty-article-wrapper {
   width: min(1360px, calc(100% - 48px));
@@ -2989,7 +3009,9 @@
   line-height: 1.7;
 }
 
-
+.faculty-links-footer {
+  max-width: 100%;
+}
 
 .faculty-page-wrapper .faculty-section-title {
   color: var(--faculty-primary-text) !important;
@@ -3077,7 +3099,7 @@
 .faculty-new-bottom .ft-social-link:hover {
   color: var(--faculty-footer-bottom) !important;
 }
-
+/*  */
 .faculty-page-wrapper .news-pagination {
   background: var(--faculty-pagination-bg) !important;
 }
@@ -3096,6 +3118,9 @@
   background: var(--faculty-pagination-active-bg) !important;
   color: var(--faculty-pagination-active-text) !important;
 }
+.faculty-links-footer {
+  background: var(--faculty-footer-top) !important;
+}
 
 .faculty-links-footer-top {
   background: var(--faculty-footer-top) !important;
@@ -3105,7 +3130,7 @@
 .faculty-links-footer-bottom.faculty-new-bottom {
   background: var(--faculty-footer-bottom) !important;
 }
-
+/* ------------------------------------------- */
 .faculty-page-wrapper .news-hero-content {
   width: min(1600px, calc(100% - 28px));
   margin: 0 auto;
@@ -3129,6 +3154,10 @@
   align-items: center;
   justify-content: center;
 }
+
+/*  */
+/* ===== Faculty layout width override ===== */
+/* ===== Faculty slider/search width like department layout ===== */
 
 .faculty-page-wrapper .faculty-news-hero .news-hero-content {
   width: min(1400px, calc(100% - 48px)) !important;
@@ -3168,7 +3197,7 @@
     border-inline-start: 3px solid var(--faculty-primary) !important;
   }
 }
-
+/* Fix faculty news card portrait images */
 .faculty-page-wrapper .news-card-image {
   grid-area: image;
   width: 100% !important;
@@ -3196,6 +3225,7 @@
   transform: scale(1.015) !important;
 }
 
+/* ===== Faculty mobile pagination and footer polish ===== */
 @media (max-width: 768px) {
   .faculty-page-wrapper .news-pagination {
     width: calc(100% - 24px) !important;
@@ -3449,6 +3479,7 @@
   }
 }
 
+/* ===== Faculty mobile header, nav and slider final pass ===== */
 @media (max-width: 768px) {
   .faculty-top-header {
     min-height: 86px !important;
@@ -3798,6 +3829,7 @@
   }
 }
 
+/* ===== Faculty tiny mobile dropdown and pagination hardening ===== */
 @media (max-width: 768px) {
   .faculty-page-wrapper .news-pagination {
     width: calc(100% - 16px) !important;
@@ -3922,6 +3954,7 @@
   }
 }
 
+/* ===== Faculty footer mobile list alignment like reference ===== */
 @media (max-width: 768px) {
   .faculty-links-footer[dir="rtl"] .faculty-footer-links-list {
     width: min(190px, 100%) !important;
@@ -3954,6 +3987,9 @@
     margin-right: 0 !important;
   }
 }
+/* =========================================
+   Historical Overview Page
+========================================= */
 
 .faculty-history-page-section {
   padding: 30px 0 140px !important;
@@ -4170,6 +4206,7 @@
   background: transparent !important;
 }
 
+/* Tablet */
 @media (max-width: 992px) {
   .faculty-history-page-section {
     padding-bottom: 90px !important;
@@ -4188,6 +4225,7 @@
   }
 }
 
+/* Mobile */
 @media (max-width: 768px) {
   .faculty-history-page-section {
     padding: 24px 0 60px !important;
@@ -4287,6 +4325,9 @@
     line-height: 1.9;
   }
 }
+/* =========================================
+   Faculty Goals Page
+========================================= */
 
 .faculty-goals-page-section {
   padding: 30px 0 130px !important;
@@ -4509,7 +4550,9 @@
     font-size: 12px;
     line-height: 1.9;
   }
-} 
+} /* =========================================================
+   Shared special article pages
+========================================================= */
 
 .faculty-history-page-section,
 .faculty-goals-page-section,
@@ -4550,6 +4593,10 @@
   font-weight: 800 !important;
   line-height: 1.4 !important;
 }
+
+/* =========================================================
+   Historical overview page
+========================================================= */
 
 .faculty-history-card {
   position: relative;
@@ -4731,6 +4778,10 @@
   background: transparent !important;
 }
 
+/* =========================================================
+   Goals page
+========================================================= */
+
 .faculty-goals-card {
   width: 100%;
   min-height: 396px;
@@ -4862,6 +4913,14 @@
   line-height: inherit !important;
   background: transparent !important;
 }
+
+/* =========================================================
+   PDF file page
+========================================================= */
+
+/* =========================================================
+   Faculty file page — Figma match
+========================================================= */
 
 .faculty-pdf-page-section {
   padding: 28px 0 110px !important;
@@ -5149,6 +5208,8 @@
   line-height: 1.8;
 }
 
+/* Tablet */
+
 @media (max-width: 992px) {
   .faculty-pdf-page-section .faculty-article-wrapper {
     width: calc(100% - 40px);
@@ -5174,6 +5235,8 @@
     width: 188px;
   }
 }
+
+/* Mobile */
 
 @media (max-width: 768px) {
   .faculty-pdf-page-section {
@@ -5272,6 +5335,7 @@
     font-size: 12px;
   }
 }
+/* ===== Exact Figma title + white background for file page ===== */
 
 .faculty-page-wrapper .faculty-pdf-page-section {
   background: var(--faculty-white) !important;
@@ -5326,6 +5390,9 @@
   margin-top: 0 !important;
   background: var(--faculty-soft-bg) !important;
 }
+/* =========================================================
+   Student Affairs Accordion Page — Figma match
+========================================================= */
 
 .faculty-page-wrapper .faculty-student-affairs-page-section {
   padding: 30px 0 120px !important;
@@ -5631,6 +5698,11 @@
   }
 }
 
+/* =========================================
+   Faculty footer backgrounds — all palettes
+   Keep this block at the very end of FacultyNews.css
+========================================= */
+
 html[data-palette="palette1"] .faculty-page-wrapper {
   --faculty-footer: #27374d;
   --faculty-footer-top: #27374d;
@@ -5667,6 +5739,7 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   --faculty-footer-bottom: #629b96;
 }
 
+/* Force the faculty footer sections to use the palette-specific colors. */
 html[data-palette] .faculty-page-wrapper .faculty-links-footer,
 html[data-palette] .faculty-page-wrapper .faculty-links-footer-top {
   background: var(--faculty-footer-top) !important;
@@ -5678,6 +5751,11 @@ html[data-palette]
   .faculty-links-footer-bottom.faculty-new-bottom {
   background: var(--faculty-footer-bottom) !important;
 }
+
+/* =========================================
+   Palette 6 Pagination — Figma
+   ضعيه في آخر FacultyNews.css
+========================================= */
 
 html[data-palette="palette6"] .faculty-page-wrapper .news-pagination {
   width: fit-content !important;
@@ -5705,6 +5783,7 @@ html[data-palette="palette6"] .faculty-page-wrapper .news-pagination {
   box-sizing: border-box !important;
 }
 
+/* مجموعة الأرقام والأسهم ناحية الشمال */
 html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-pages {
   order: 1 !important;
 
@@ -5724,6 +5803,7 @@ html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-pages {
   overflow: visible !important;
 }
 
+/* نص الصفحة ناحية اليمين */
 html[data-palette="palette6"] .faculty-page-wrapper .news-page-info {
   order: 2 !important;
 
@@ -5761,6 +5841,7 @@ html[data-palette="palette6"] .faculty-page-wrapper .news-page-info strong {
   font-weight: 800 !important;
 }
 
+/* أرقام الصفحات العادية */
 html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-number {
   width: 34px !important;
   min-width: 34px !important;
@@ -5788,6 +5869,7 @@ html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-number {
   box-sizing: border-box !important;
 }
 
+/* الصفحة النشطة */
 html[data-palette="palette6"]
   .faculty-page-wrapper
   .news-pagination-number.active,
@@ -5800,6 +5882,7 @@ html[data-palette="palette6"]
   opacity: 1 !important;
 }
 
+/* الأسهم */
 html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-arrow {
   width: 34px !important;
   min-width: 34px !important;
@@ -5839,6 +5922,7 @@ html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-arrow svg {
   color: inherit !important;
 }
 
+/* علامة ... */
 html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-dots {
   width: 25px !important;
   min-width: 25px !important;
@@ -5860,6 +5944,7 @@ html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-dots {
   line-height: 1 !important;
 }
 
+/* Hover */
 html[data-palette="palette6"]
   .faculty-page-wrapper
   .news-pagination-number:hover:not(:disabled):not(.active) {
@@ -5875,6 +5960,7 @@ html[data-palette="palette6"]
   color: #ffffff !important;
 }
 
+/* Responsive */
 @media (max-width: 768px) {
   html[data-palette="palette6"] .faculty-page-wrapper .news-pagination {
     width: calc(100% - 20px) !important;
@@ -5935,21 +6021,24 @@ html[data-palette="palette6"]
     gap: 6px !important;
   }
 
-  
+  /* =========================================
+   Palette 6 Pagination — Colors Only
+   لا يغيّر أي مقاسات أو مسافات
+========================================= */
 
   html[data-palette="palette6"] .faculty-page-wrapper .news-pagination {
     background: #ffffff !important;
     box-shadow: none !important;
   }
 
-  
+  /* أرقام الصفحات العادية */
   html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-number {
     background: #ffffff !important;
     color: #432323 !important;
     border-color: #432323 !important;
   }
 
-  
+  /* الصفحة النشطة */
   html[data-palette="palette6"]
     .faculty-page-wrapper
     .news-pagination-number.active,
@@ -5962,14 +6051,14 @@ html[data-palette="palette6"]
     opacity: 1 !important;
   }
 
-  
+  /* الأسهم */
   html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-arrow {
     background: #432323 !important;
     color: #ffffff !important;
     border-color: #432323 !important;
   }
 
-  
+  /* السهم المعطّل */
   html[data-palette="palette6"]
     .faculty-page-wrapper
     .news-pagination-arrow:disabled {
@@ -5978,13 +6067,13 @@ html[data-palette="palette6"]
     opacity: 1 !important;
   }
 
-  
+  /* علامة ... */
   html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-dots {
     background: transparent !important;
     color: #432323 !important;
   }
 
-  
+  /* نص الصفحة 1 من 50 */
   html[data-palette="palette6"] .faculty-page-wrapper .news-page-info {
     background: transparent !important;
     color: #432323 !important;
@@ -5994,7 +6083,7 @@ html[data-palette="palette6"]
     color: #432323 !important;
   }
 
-  
+  /* Hover */
   html[data-palette="palette6"]
     .faculty-page-wrapper
     .news-pagination-number:hover:not(:disabled):not(.active) {
@@ -6010,6 +6099,9 @@ html[data-palette="palette6"]
     color: #ffffff !important;
   }
 }
+/* =========================================
+   Palette 6 Pagination — Figma Sizes Only
+========================================= */
 
 html[data-palette="palette6"] .faculty-page-wrapper .news-pagination {
   width: 950px !important;
@@ -6032,6 +6124,7 @@ html[data-palette="palette6"] .faculty-page-wrapper .news-pagination {
   overflow: hidden !important;
 }
 
+/* مجموعة الأرقام والأسهم */
 html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-pages {
   width: auto !important;
   max-width: none !important;
@@ -6050,6 +6143,7 @@ html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-pages {
   overflow: visible !important;
 }
 
+/* أرقام الصفحات والأسهم */
 html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-number,
 html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-arrow {
   width: 60px !important;
@@ -6066,6 +6160,7 @@ html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-arrow {
   box-sizing: border-box !important;
 }
 
+/* علامة ... */
 html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-dots {
   width: 60px !important;
   min-width: 60px !important;
@@ -6082,6 +6177,7 @@ html[data-palette="palette6"] .faculty-page-wrapper .news-pagination-dots {
   justify-content: center !important;
 }
 
+/* الصفحة 1 من 50 */
 html[data-palette="palette6"] .faculty-page-wrapper .news-page-info {
   width: 200px !important;
   min-width: 200px !important;
@@ -6107,6 +6203,7 @@ html[data-palette="palette6"] .faculty-page-wrapper .news-page-info strong {
   font-size: 26px !important;
 }
 
+/* Tablet */
 @media (max-width: 1100px) {
   html[data-palette="palette6"] .faculty-page-wrapper .news-pagination {
     width: 100% !important;
@@ -6139,6 +6236,7 @@ html[data-palette="palette6"] .faculty-page-wrapper .news-page-info strong {
   }
 }
 
+/* Mobile */
 @media (max-width: 768px) {
   html[data-palette="palette6"] .faculty-page-wrapper .news-pagination {
     width: calc(100% - 24px) !important;
@@ -6200,7 +6298,12 @@ html[data-palette="palette6"] .faculty-page-wrapper .news-page-info strong {
     font-size: 14px !important;
   }
 }
+/* =========================================
+   Pagination Colors Only — Palettes 1 to 5
+   لا يغيّر أي مقاسات
+========================================= */
 
+/* Palette 1 — Navy + Beige */
 html[data-palette="palette1"] .faculty-page-wrapper {
   --pg-bg: #f8fafc;
   --pg-border: #526d82;
@@ -6221,6 +6324,7 @@ html[data-palette="palette1"] .faculty-page-wrapper {
   --pg-shadow: 0 4px 10px rgba(39, 55, 77, 0.08);
 }
 
+/* Palette 2 — Blue Gray */
 html[data-palette="palette2"] .faculty-page-wrapper {
   --pg-bg: #102c57;
   --pg-border: #71809a;
@@ -6241,6 +6345,7 @@ html[data-palette="palette2"] .faculty-page-wrapper {
   --pg-shadow: 0 14px 34px rgba(16, 44, 87, 0.18);
 }
 
+/* Palette 3 — Red + Charcoal */
 html[data-palette="palette3"] .faculty-page-wrapper {
   --pg-bg: #eaeaea;
   --pg-border: #262626;
@@ -6261,6 +6366,7 @@ html[data-palette="palette3"] .faculty-page-wrapper {
   --pg-shadow: none;
 }
 
+/* Palette 4 — Brown + White */
 html[data-palette="palette4"] .faculty-page-wrapper {
   --pg-bg: #ffffff;
   --pg-border: #1f150c;
@@ -6281,6 +6387,7 @@ html[data-palette="palette4"] .faculty-page-wrapper {
   --pg-shadow: none;
 }
 
+/* Palette 5 — Olive */
 html[data-palette="palette5"] .faculty-page-wrapper {
   --pg-bg: #b7c1a9;
   --pg-border: #76885b;
@@ -6301,6 +6408,10 @@ html[data-palette="palette5"] .faculty-page-wrapper {
   --pg-shadow: none;
 }
 
+/* =========================================
+   Apply colors to Palettes 1–5
+========================================= */
+
 :is(
     html[data-palette="palette1"],
     html[data-palette="palette2"],
@@ -6314,6 +6425,7 @@ html[data-palette="palette5"] .faculty-page-wrapper {
   box-shadow: var(--pg-shadow) !important;
 }
 
+/* الأرقام العادية */
 :is(
     html[data-palette="palette1"],
     html[data-palette="palette2"],
@@ -6328,6 +6440,7 @@ html[data-palette="palette5"] .faculty-page-wrapper {
   border-color: var(--pg-border) !important;
 }
 
+/* الرقم النشط */
 :is(
     html[data-palette="palette1"],
     html[data-palette="palette2"],
@@ -6352,6 +6465,7 @@ html[data-palette="palette5"] .faculty-page-wrapper {
   opacity: 1 !important;
 }
 
+/* الأسهم */
 :is(
     html[data-palette="palette1"],
     html[data-palette="palette2"],
@@ -6366,6 +6480,7 @@ html[data-palette="palette5"] .faculty-page-wrapper {
   border-color: var(--pg-arrow-bg) !important;
 }
 
+/* السهم المعطل */
 :is(
     html[data-palette="palette1"],
     html[data-palette="palette2"],
@@ -6380,6 +6495,7 @@ html[data-palette="palette5"] .faculty-page-wrapper {
   opacity: 1 !important;
 }
 
+/* علامة ... */
 :is(
     html[data-palette="palette1"],
     html[data-palette="palette2"],
@@ -6393,6 +6509,7 @@ html[data-palette="palette5"] .faculty-page-wrapper {
   color: var(--pg-number-text) !important;
 }
 
+/* نص الصفحة 1 من 50 */
 :is(
     html[data-palette="palette1"],
     html[data-palette="palette2"],
@@ -6419,6 +6536,7 @@ html[data-palette="palette5"] .faculty-page-wrapper {
   color: var(--pg-info-strong) !important;
 }
 
+/* Hover الأرقام */
 :is(
     html[data-palette="palette1"],
     html[data-palette="palette2"],
@@ -6433,6 +6551,7 @@ html[data-palette="palette5"] .faculty-page-wrapper {
   border-color: var(--pg-border) !important;
 }
 
+/* Hover الأسهم */
 :is(
     html[data-palette="palette1"],
     html[data-palette="palette2"],
@@ -6445,10 +6564,17 @@ html[data-palette="palette5"] .faculty-page-wrapper {
   background: var(--pg-active-bg) !important;
   color: var(--pg-active-text) !important;
 }
+/* =========================================
+   Search colors — Figma
+   Colors only, no size changes
+========================================= */
 
+/* Palette 5 — search wrapper background */
 html[data-palette="palette5"] .faculty-page-wrapper {
   --faculty-search-bg: #909f7a;
 }
+
+/* Filter icon beside search icon — all palettes */
 
 html[data-palette="palette1"] .faculty-page-wrapper {
   --faculty-filter-icon-bg: #102c57;
@@ -6480,16 +6606,19 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   --faculty-filter-icon-color: #e0d9d9;
 }
 
+/* Apply Palette 5 search background */
 html[data-palette="palette5"] .faculty-page-wrapper .news-search-wrapper {
   background: #909f7a !important;
   border-color: #909f7a !important;
 }
 
+/* Apply filter icon colors */
 html[data-palette] .faculty-page-wrapper .news-filter-toggle {
   background: var(--faculty-filter-icon-bg) !important;
   color: var(--faculty-filter-icon-color) !important;
 }
 
+/* Keep the same correct colors on hover and active */
 html[data-palette] .faculty-page-wrapper .news-filter-toggle:hover,
 html[data-palette] .faculty-page-wrapper .news-filter-toggle.active {
   background: var(--faculty-filter-icon-bg) !important;
@@ -6499,7 +6628,12 @@ html[data-palette="palette4"] .faculty-page-wrapper .news-search-wrapper {
   background: #655541 !important;
   border-color: #655541 !important;
 }
+/* =========================================
+   Faculty navbar + header overlay
+   Palettes 3 to 6 — Colors only
+========================================= */
 
+/* Palette 3 */
 html[data-palette="palette3"] .faculty-page-wrapper .faculty-menu-bar {
   background: #840d0d !important;
 }
@@ -6510,6 +6644,7 @@ html[data-palette="palette3"]
   background: rgba(132, 13, 13, 0.8) !important;
 }
 
+/* Palette 4 */
 html[data-palette="palette4"] .faculty-page-wrapper .faculty-menu-bar {
   background: #1f150c !important;
 }
@@ -6520,6 +6655,7 @@ html[data-palette="palette4"]
   background: rgba(0, 0, 0, 0.8) !important;
 }
 
+/* Palette 5 */
 html[data-palette="palette5"] .faculty-page-wrapper .faculty-menu-bar {
   background: #76885b !important;
 }
@@ -6530,6 +6666,7 @@ html[data-palette="palette5"]
   background: rgba(98, 114, 84, 0.85) !important;
 }
 
+/* Palette 6 */
 html[data-palette="palette6"] .faculty-page-wrapper .faculty-menu-bar {
   background: #2f5755 !important;
 }
@@ -6539,38 +6676,48 @@ html[data-palette="palette6"]
   .faculty-top-header-overlay {
   background: rgba(47, 87, 85, 0.8) !important;
 }
-
+/* Palette 4 — Internal navbar */
 html[data-palette="palette4"] .faculty-page-wrapper .faculty-menu-bar {
   background: #1f150c !important;
 }
 
+/* Palette 4 — First section overlay */
 html[data-palette="palette4"]
   .faculty-page-wrapper
   .faculty-top-header-overlay {
   background: rgba(0, 0, 0, 0.8) !important;
 }
-
+/* Palette 5 — Internal navbar */
 html[data-palette="palette5"] .faculty-page-wrapper .faculty-menu-bar {
   background: #76885b !important;
 }
 
+/* Palette 5 — First section overlay */
 html[data-palette="palette5"]
   .faculty-page-wrapper
   .faculty-top-header-overlay {
   background: rgba(98, 114, 84, 0.85) !important;
 }
-
+/* Palette 6 — Internal navbar */
 html[data-palette="palette6"] .faculty-page-wrapper .faculty-menu-bar {
   background: #2f5755 !important;
 }
 
+/* Palette 6 — First section overlay */
 html[data-palette="palette6"]
   .faculty-page-wrapper
   .faculty-top-header-overlay {
   background: rgba(47, 87, 85, 0.8) !important;
 }
 
+/* =========================================================
+   Final Figma Article Pages Restore
+   History / Goals / PDF / Student Affairs / Profile
+========================================================= */
 
+.faculty-page-wrapper .faculty-article-section {
+  font-family: "Cairo", sans-serif !important;
+}
 
 .faculty-page-wrapper .faculty-history-page-section,
 .faculty-page-wrapper .faculty-goals-page-section,
@@ -6623,6 +6770,7 @@ html[data-palette="palette6"]
   display: block !important;
 }
 
+/* History */
 .faculty-page-wrapper .faculty-history-card {
   min-height: 396px !important;
   padding: 28px 34px 36px !important;
@@ -6666,6 +6814,7 @@ html[data-palette="palette6"]
   color: #df7739 !important;
 }
 
+/* Goals */
 .faculty-page-wrapper .faculty-goals-card {
   min-height: 396px !important;
   padding: 28px 34px 38px !important;
@@ -6682,6 +6831,7 @@ html[data-palette="palette6"]
   font-weight: 500 !important;
 }
 
+/* PDF */
 .faculty-page-wrapper .faculty-pdf-page-content {
   width: 100% !important;
 }
@@ -6756,6 +6906,7 @@ html[data-palette="palette6"]
   color: #303d5e !important;
 }
 
+/* Student Affairs Accordion */
 .faculty-page-wrapper .faculty-student-affairs-card {
   width: 100% !important;
   min-height: 650px !important;
@@ -6827,6 +6978,7 @@ html[data-palette="palette6"]
   line-height: 2 !important;
 }
 
+/* Profile text: keep layout, reduce bold from second line */
 .faculty-page-wrapper .faculty-article-profile-content {
   text-align: right !important;
   direction: rtl !important;
@@ -6959,6 +7111,11 @@ html[data-palette="palette6"]
   }
 }
 
+/* =========================================
+   Faculty menu article pages — theme colors fix
+   الصفحات اللي بتتفتح من القوائم
+========================================= */
+
 .faculty-page-wrapper .faculty-article-section,
 .faculty-page-wrapper .faculty-history-page-section,
 .faculty-page-wrapper .faculty-goals-page-section,
@@ -7012,6 +7169,7 @@ html[data-palette="palette6"]
   background: var(--faculty-secondary) !important;
 }
 
+/* HTML content from backend */
 .faculty-page-wrapper .faculty-article-html,
 .faculty-page-wrapper .faculty-article-html p,
 .faculty-page-wrapper .faculty-article-html div,
@@ -7039,6 +7197,7 @@ html[data-palette="palette6"]
   font-weight: 800;
 }
 
+/* Student affairs accordion */
 .faculty-page-wrapper .faculty-student-affairs-item {
   background: var(--faculty-card-bg) !important;
   border-color: color-mix(
@@ -7087,6 +7246,7 @@ html[data-palette="palette6"]
   color: var(--faculty-primary) !important;
 }
 
+/* Goals list */
 .faculty-page-wrapper .faculty-goals-list li {
   background: color-mix(
     in srgb,
@@ -7108,6 +7268,7 @@ html[data-palette="palette6"]
   background: var(--faculty-secondary) !important;
 }
 
+/* File / PDF buttons */
 .faculty-page-wrapper .faculty-file-card,
 .faculty-page-wrapper .faculty-pdf-file-card {
   background: var(--faculty-card-bg) !important;
@@ -7145,6 +7306,10 @@ html[data-palette="palette6"]
   ) !important;
   color: var(--faculty-primary-text) !important;
 }
+/* =========================================================
+   Faculty Second Footer Only — Figma Style
+   Keep faculty-links-footer-top unchanged
+========================================================= */
 
 .faculty-links-footer-bottom.faculty-footer-second-modern {
   position: relative !important;
@@ -7411,6 +7576,7 @@ html[data-palette="palette6"]
   color: var(--faculty-white) !important;
 }
 
+/* LTR */
 .faculty-links-footer[dir="ltr"] .faculty-footer-second-modern {
   direction: ltr !important;
 }
@@ -7438,6 +7604,7 @@ html[data-palette="palette6"]
   border-right: 0;
 }
 
+/* Responsive */
 @media (max-width: 1100px) {
   .faculty-footer-second-inner {
     width: min(100% - 36px, 960px);
@@ -7547,6 +7714,7 @@ html[data-palette="palette6"]
     height: 32px;
   }
 }
+/* ===== Faculty Footer V2 Logo Fix — use natural old footer behavior ===== */
 
 .faculty-page-wrapper .faculty-footer-v2-logo-row {
   gap: 0 !important;
@@ -7562,6 +7730,7 @@ html[data-palette="palette6"]
   display: block !important;
 }
 
+/* لو صورة logo2 نفسها فيها كتابة الجامعة، نخفي الكلام المتكرر اللي إحنا ضايفينه */
 .faculty-page-wrapper .faculty-footer-v2-brand-text {
   display: none !important;
 }
@@ -7571,6 +7740,7 @@ html[data-palette="palette6"]
     width: 210px !important;
   }
 }
+/* ===== Force Faculty Footer Logo to full size ===== */
 
 .faculty-page-wrapper .faculty-footer-v2-logo-row,
 .faculty-page-wrapper .faculty-footer-second-brand,
@@ -7583,6 +7753,7 @@ html[data-palette="palette6"]
   overflow: visible !important;
 }
 
+/* لو شغالة بكلاسات v2 */
 .faculty-page-wrapper .faculty-footer-v2-logo {
   width: 340px !important;
   height: auto !important;
@@ -7594,6 +7765,7 @@ html[data-palette="palette6"]
   transform: none !important;
 }
 
+/* لو شغالة بكلاسات second اللي كنا جربناها */
 .faculty-page-wrapper .faculty-footer-second-logo {
   width: 340px !important;
   height: auto !important;
@@ -7605,6 +7777,7 @@ html[data-palette="palette6"]
   transform: none !important;
 }
 
+/* إلغاء البوكس اللي كان بيزنق اللوجو */
 .faculty-page-wrapper .faculty-footer-v2-logo-row,
 .faculty-page-wrapper .faculty-footer-second-brand {
   display: flex !important;
@@ -7615,6 +7788,7 @@ html[data-palette="palette6"]
   margin-bottom: 18px !important;
 }
 
+/* لو الصورة نفسها فيها كلام جامعة المنوفية، نخفي الكلام المتكرر */
 .faculty-page-wrapper .faculty-footer-v2-brand-text,
 .faculty-page-wrapper .faculty-footer-second-brand-text {
   display: none !important;
@@ -7627,7 +7801,12 @@ html[data-palette="palette6"]
     min-width: 240px !important;
   }
 }
+/* =========================================
+   Faculty Footer V2 Icons Visibility Fix
+   Palettes 4 / 5 / 6 only
+========================================= */
 
+/* Palette 4 */
 html[data-palette="palette4"] .faculty-page-wrapper {
   --footer-v2-icon-bg: rgba(255, 255, 255, 0.11);
   --footer-v2-icon-border: rgba(255, 255, 255, 0.24);
@@ -7639,6 +7818,7 @@ html[data-palette="palette4"] .faculty-page-wrapper {
   --footer-v2-social-hover-color: #1f150c;
 }
 
+/* Palette 5 */
 html[data-palette="palette5"] .faculty-page-wrapper {
   --footer-v2-icon-bg: rgba(255, 255, 255, 0.13);
   --footer-v2-icon-border: rgba(255, 255, 255, 0.28);
@@ -7650,6 +7830,7 @@ html[data-palette="palette5"] .faculty-page-wrapper {
   --footer-v2-social-hover-color: #627254;
 }
 
+/* Palette 6 */
 html[data-palette="palette6"] .faculty-page-wrapper {
   --footer-v2-icon-bg: rgba(255, 255, 255, 0.14);
   --footer-v2-icon-border: rgba(255, 255, 255, 0.3);
@@ -7661,6 +7842,7 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   --footer-v2-social-hover-color: #2f5755;
 }
 
+/* Info card icons */
 html[data-palette="palette4"] .faculty-page-wrapper .faculty-footer-v2-icon,
 html[data-palette="palette5"] .faculty-page-wrapper .faculty-footer-v2-icon,
 html[data-palette="palette6"] .faculty-page-wrapper .faculty-footer-v2-icon,
@@ -7681,6 +7863,7 @@ html[data-palette="palette6"] .faculty-page-wrapper .faculty-footer-second-icon 
   color: var(--footer-v2-icon-color) !important;
 }
 
+/* Social icons */
 html[data-palette="palette4"] .faculty-page-wrapper .faculty-footer-v2-social a,
 html[data-palette="palette5"] .faculty-page-wrapper .faculty-footer-v2-social a,
 html[data-palette="palette6"] .faculty-page-wrapper .faculty-footer-v2-social a,
@@ -7711,6 +7894,17 @@ html[data-palette="palette6"] .faculty-page-wrapper .faculty-footer-second-socia
   color: var(--footer-v2-social-hover-color) !important;
   border-color: var(--footer-v2-social-hover-bg) !important;
 }
+
+/* =========================================================
+   Vision & Mission — Clean Figma Timeline Layout
+   يحافظ على شكل فيجما للرؤية والرسالة:
+   - العنوان والأيقونة خارج بوكس النص
+   - عنوان الرؤية/الرسالة برتقاني
+   - خط رأسي من الأيقونة وخط أفقي داخل على البوكس
+   - شغال لو رؤية فقط / رسالة فقط / الاتنين معًا
+========================================================= */
+
+/* ---------- Palette colors ---------- */
 
 .faculty-page-wrapper {
   --vm-page-bg: var(--faculty-card-bg);
@@ -7810,6 +8004,8 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   --vm-shadow: rgba(47, 87, 85, 0.18);
 }
 
+/* ---------- Page base ---------- */
+
 .faculty-page-wrapper .faculty-vision-mission-page-section {
   width: 100% !important;
   padding: 34px 0 110px !important;
@@ -7825,6 +8021,7 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   margin: 0 auto !important;
 }
 
+/* الكارت الخارجي شفاف، عشان فيجما مفيهاش بوكس كبير حوالين الكل */
 .faculty-page-wrapper .faculty-vision-mission-card,
 .faculty-page-wrapper .faculty-vision-mission-card.single,
 .faculty-page-wrapper .faculty-vision-mission-card.combined {
@@ -7840,6 +8037,8 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   color: var(--vm-main-title) !important;
   direction: rtl !important;
 }
+
+/* ---------- Main title ---------- */
 
 .faculty-page-wrapper .faculty-vision-mission-page-title {
   width: 100% !important;
@@ -7873,11 +8072,14 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   text-align: right !important;
 }
 
+/* في صفحة رؤية فقط / رسالة فقط، نخفي عنوان الصفحة الرئيسي عشان ميتكررش */
 .faculty-page-wrapper
   .faculty-vision-mission-card.single
   .faculty-vision-mission-page-title {
   display: none !important;
 }
+
+/* ---------- Timeline layout ---------- */
 
 .faculty-page-wrapper .faculty-vision-mission-items,
 .faculty-page-wrapper
@@ -7901,6 +8103,7 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   overflow: visible !important;
 }
 
+/* الخط الرأسي بين أيقونات الرؤية والرسالة لما الاتنين موجودين */
 .faculty-page-wrapper
   .faculty-vision-mission-card.combined
   .faculty-vision-mission-items::before {
@@ -7919,6 +8122,8 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   .faculty-vision-mission-items::before {
   display: none !important;
 }
+
+/* ---------- Item ---------- */
 
 .faculty-page-wrapper .faculty-vision-mission-item,
 .faculty-page-wrapper
@@ -7943,6 +8148,7 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   overflow: visible !important;
 }
 
+/* العنوان والأيقونة خارج بوكس النص */
 .faculty-page-wrapper .faculty-vision-mission-heading,
 .faculty-page-wrapper
   .faculty-vision-mission-card.single
@@ -8004,6 +8210,7 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   display: none !important;
 }
 
+/* الأيقونة على خط التايملاين */
 .faculty-page-wrapper .faculty-vision-mission-icon,
 .faculty-page-wrapper
   .faculty-vision-mission-card.single
@@ -8046,6 +8253,7 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   line-height: 1 !important;
 }
 
+/* الخط النازل من الأيقونة */
 .faculty-page-wrapper .faculty-vision-mission-icon::after,
 .faculty-page-wrapper
   .faculty-vision-mission-card.single
@@ -8065,6 +8273,7 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   background: var(--vm-line) !important;
 }
 
+/* النقطة الصغيرة عند نهاية الخط النازل */
 .faculty-page-wrapper .faculty-vision-mission-icon::before,
 .faculty-page-wrapper
   .faculty-vision-mission-card.single
@@ -8084,6 +8293,8 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   transform: translateX(50%) !important;
   background: var(--vm-line) !important;
 }
+
+/* ---------- Text box ---------- */
 
 .faculty-page-wrapper .faculty-vision-mission-text-box,
 .faculty-page-wrapper
@@ -8113,6 +8324,7 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   overflow: visible !important;
 }
 
+/* الخط العرضي من خط الأيقونة لبوكس النص */
 .faculty-page-wrapper .faculty-vision-mission-text-box::before,
 .faculty-page-wrapper
   .faculty-vision-mission-card.single
@@ -8152,6 +8364,8 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   line-height: 1.75 !important;
   text-align: center !important;
 }
+
+/* ---------- Responsive ---------- */
 
 @media (max-width: 992px) {
   .faculty-page-wrapper
@@ -8369,6 +8583,9 @@ html[data-palette="palette6"] .faculty-page-wrapper {
     font-size: 13px !important;
   }
 }
+/* =========================================
+   Faculty One Row Navbar + Overflow Footer
+========================================= */
 
 .faculty-page-wrapper .faculty-menu-section {
   padding: 14px 0 0 !important;
@@ -8516,6 +8733,7 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   max-height: 260px !important;
 }
 
+/* Tablet */
 @media (max-width: 900px) {
   .faculty-page-wrapper .faculty-menu-wrapper {
     width: min(100% - 24px, 100%) !important;
@@ -8539,6 +8757,7 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   }
 }
 
+/* Mobile */
 @media (max-width: 560px) {
   .faculty-page-wrapper .faculty-menu-section {
     padding-top: 10px !important;
@@ -8577,6 +8796,10 @@ html[data-palette="palette6"] .faculty-page-wrapper {
     min-width: min(250px, calc(100vw - 24px)) !important;
   }
 }
+/* =========================================================
+   Final fix: smart nested dropdown direction
+   لازم يبقى آخر CSS في الملف عشان يكسب أي override قديم
+========================================================= */
 
 .faculty-page-wrapper,
 .faculty-page-wrapper .faculty-menu-section,
@@ -8601,6 +8824,7 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   position: relative !important;
 }
 
+/* أول دروب ليست */
 .faculty-page-wrapper .faculty-menu-item.level-0 > .faculty-sub-menu {
   position: absolute !important;
   top: 100% !important;
@@ -8613,6 +8837,7 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   max-width: min(360px, calc(100vw - 28px)) !important;
 }
 
+/* لو أول دروب ليست قربت من طرف الشاشة */
 .faculty-page-wrapper
   .faculty-menu-item.level-0.drop-flip
   > .faculty-sub-menu {
@@ -8620,6 +8845,7 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   left: 0 !important;
 }
 
+/* الدروب ليست الداخلية العادية: تفتح ناحية الشمال في RTL */
 .faculty-page-wrapper .faculty-sub-menu .faculty-sub-menu,
 .faculty-page-wrapper
   .faculty-sub-menu
@@ -8637,6 +8863,7 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   max-width: min(360px, calc(100vw - 28px)) !important;
 }
 
+/* لما مفيش مساحة ناحية الشمال: افتح ناحية اليمين */
 .faculty-page-wrapper
   .faculty-sub-menu
   .faculty-menu-item.drop-flip
@@ -8645,6 +8872,7 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   left: 100% !important;
 }
 
+/* شكل العناصر جوا الدروب */
 .faculty-page-wrapper .faculty-sub-menu .faculty-menu-link {
   width: 100% !important;
   height: auto !important;
@@ -8655,6 +8883,7 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   white-space: nowrap !important;
 }
 
+/* موبايل: خلي القوايم تفتح تحت بعض مش جنب بعض */
 @media (max-width: 768px) {
   .faculty-page-wrapper .faculty-menu-bar {
     overflow-x: auto !important;
@@ -8692,7 +8921,7 @@ html[data-palette="palette6"] .faculty-page-wrapper {
   .faculty-page-wrapper .faculty-sub-menu .faculty-menu-link {
     white-space: normal !important;
   }
-}
+}/* Fix nested dropdown background */
 .faculty-page-wrapper .faculty-sub-menu,
 .faculty-page-wrapper .faculty-sub-menu .faculty-sub-menu {
   background: var(--faculty-white, #fff) !important;
@@ -8718,905 +8947,4 @@ html[data-palette="palette6"] .faculty-page-wrapper {
 .faculty-page-wrapper .faculty-sub-menu .faculty-menu-item.open > .faculty-menu-link {
   background: var(--faculty-soft-bg) !important;
   color: var(--faculty-primary) !important;
-}
-
-.faculty-menu-shell {
-  width: 100%;
-  min-height: 52px;
-  padding: 6px 10px;
-
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  position: relative;
-  overflow: visible;
-
-  background: color-mix(
-    in srgb,
-    var(--theme-primary) 88%,
-    var(--theme-secondary)
-  );
-  border: 1px solid color-mix(in srgb, var(--theme-card) 24%, transparent);
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.22);
-}
-
-.faculty-menu-shell .faculty-menu-bar {
-  flex: 1;
-  min-width: 0;
-
-  display: grid;
-  grid-template-columns: repeat(var(--faculty-nav-count, 7), minmax(0, 1fr));
-  align-items: center;
-  gap: 4px;
-
-  padding: 0 !important;
-  margin: 0 !important;
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-}
-
-.faculty-menu-page-btn {
-  width: 28px;
-  min-width: 28px;
-  height: 28px;
-
-  border: 1px solid rgba(255, 255, 255, 0.48);
-  border-radius: 8px;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  cursor: pointer;
-  color: var(--theme-primary-text);
-  background: rgba(255, 255, 255, 0.08);
-
-  box-shadow: none;
-
-  transition:
-    background-color 0.22s ease,
-    border-color 0.22s ease,
-    transform 0.22s ease,
-    opacity 0.22s ease;
-}
-
-.faculty-menu-page-btn:not(:disabled):hover {
-  transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.72);
-}
-
-.faculty-menu-page-btn:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-.faculty-menu-page-btn svg {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-}
-
-.faculty-menu-shell .faculty-menu-item {
-  min-width: 0;
-}
-
-.faculty-menu-shell .faculty-menu-link {
-  width: 100%;
-  min-height: 38px;
-
-  justify-content: center;
-  gap: 6px;
-
-  padding: 0 6px;
-  border-radius: 6px;
-
-  color: var(--theme-primary-text);
-  background: transparent;
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.faculty-menu-shell .faculty-menu-link:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.faculty-menu-shell .faculty-sub-menu {
-  z-index: 100;
-}
-
-.faculty-menu-section,
-.faculty-menu-wrapper,
-.faculty-menu-shell {
-  overflow: visible;
-}
-
-@media (max-width: 768px) {
-  .faculty-menu-shell {
-    min-height: 48px;
-    padding: 6px 8px;
-    gap: 6px;
-  }
-
-  .faculty-menu-page-btn {
-    width: 27px;
-    min-width: 27px;
-    height: 27px;
-  }
-
-  .faculty-menu-shell .faculty-menu-bar {
-    gap: 3px;
-  }
-
-  .faculty-menu-shell .faculty-menu-link {
-    min-height: 36px;
-    padding: 0 5px;
-    font-size: 13px;
-  }
-}
-
-@media (max-width: 480px) {
-  .faculty-menu-shell {
-    padding: 5px 6px;
-    gap: 5px;
-  }
-
-  .faculty-menu-page-btn {
-    width: 26px;
-    min-width: 26px;
-    height: 26px;
-  }
-
-  .faculty-menu-shell .faculty-menu-link {
-    font-size: 12px;
-  }
-}
-
-.faculty-menu-section,
-.faculty-menu-wrapper,
-.faculty-menu-shell {
-  overflow: visible !important;
-}
-
-.faculty-menu-shell {
-  width: 100%;
-  min-height: 52px;
-  padding: 6px 10px !important;
-
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 8px !important;
-
-  position: relative !important;
-
-  background: color-mix(
-    in srgb,
-    var(--theme-primary) 88%,
-    var(--theme-secondary)
-  ) !important;
-  border: 1px solid color-mix(in srgb, var(--theme-card) 24%, transparent) !important;
-  border-radius: 8px !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.22) !important;
-}
-
-.faculty-menu-shell .faculty-menu-bar {
-  flex: 1 1 auto !important;
-  min-width: 0 !important;
-
-  display: grid !important;
-  grid-template-columns: repeat(var(--faculty-nav-count, 7), minmax(0, 1fr)) !important;
-  align-items: center !important;
-  gap: 4px !important;
-
-  padding: 0 !important;
-  margin: 0 !important;
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
-.faculty-menu-page-btn {
-  position: static !important;
-  inset: auto !important;
-  transform: none !important;
-  translate: none !important;
-
-  width: 28px !important;
-  min-width: 28px !important;
-  height: 28px !important;
-  margin: 0 !important;
-  padding: 0 !important;
-
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  border: 1px solid rgba(255, 255, 255, 0.48) !important;
-  border-radius: 8px !important;
-
-  color: var(--theme-primary-text) !important;
-  background: rgba(255, 255, 255, 0.08) !important;
-  box-shadow: none !important;
-  cursor: pointer !important;
-
-  transition:
-    background-color 0.22s ease,
-    border-color 0.22s ease,
-    opacity 0.22s ease !important;
-}
-
-.faculty-menu-page-btn:not(:disabled):hover {
-  background: rgba(255, 255, 255, 0.16) !important;
-  border-color: rgba(255, 255, 255, 0.72) !important;
-}
-
-.faculty-menu-page-btn:disabled {
-  opacity: 0.45 !important;
-  cursor: not-allowed !important;
-}
-
-.faculty-menu-page-btn svg {
-  width: 16px !important;
-  height: 16px !important;
-  flex-shrink: 0 !important;
-}
-
-.faculty-menu-shell .faculty-menu-item {
-  min-width: 0 !important;
-}
-
-.faculty-menu-shell .faculty-menu-link {
-  width: 100% !important;
-  min-height: 38px !important;
-  padding: 0 6px !important;
-
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 6px !important;
-
-  color: var(--theme-primary-text) !important;
-  background: transparent !important;
-  border-radius: 6px !important;
-
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-}
-
-.faculty-menu-shell .faculty-menu-link:hover,
-.faculty-menu-shell .faculty-menu-item.open > .faculty-menu-link {
-  background: rgba(255, 255, 255, 0.1) !important;
-}
-
-.faculty-menu-shell .faculty-sub-menu {
-  z-index: 1000 !important;
-}
-
-@media (max-width: 768px) {
-  .faculty-menu-shell {
-    min-height: 48px;
-    padding: 6px 8px !important;
-    gap: 6px !important;
-  }
-
-  .faculty-menu-page-btn {
-    width: 27px !important;
-    min-width: 27px !important;
-    height: 27px !important;
-  }
-
-  .faculty-menu-shell .faculty-menu-bar {
-    gap: 3px !important;
-  }
-
-  .faculty-menu-shell .faculty-menu-link {
-    min-height: 36px !important;
-    padding: 0 5px !important;
-    font-size: 13px !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .faculty-menu-shell {
-    padding: 5px 6px !important;
-    gap: 5px !important;
-  }
-
-  .faculty-menu-page-btn {
-    width: 26px !important;
-    min-width: 26px !important;
-    height: 26px !important;
-  }
-
-  .faculty-menu-shell .faculty-menu-link {
-    font-size: 12px !important;
-  }
-}
-
-.faculty-menu-section,
-.faculty-menu-wrapper,
-.faculty-menu-shell,
-.faculty-menu-bar,
-.faculty-menu-item,
-.faculty-sub-menu {
-  overflow: visible !important;
-}
-
-.faculty-menu-shell {
-  width: 100% !important;
-  min-height: 49px !important;
-  padding: 0 12px !important;
-  display: flex !important;
-  align-items: stretch !important;
-  gap: 0 !important;
-  position: relative !important;
-  background: var(--faculty-primary) !important;
-  border: 0 !important;
-  border-radius: 6px !important;
-  box-shadow: 0 6px 14px color-mix(in srgb, var(--faculty-primary) 18%, transparent) !important;
-}
-
-.faculty-menu-shell .faculty-menu-bar {
-  flex: 1 1 auto !important;
-  min-width: 0 !important;
-  min-height: 49px !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  display: grid !important;
-  grid-template-columns: repeat(var(--faculty-nav-count, 7), minmax(0, 1fr)) !important;
-  align-items: stretch !important;
-  gap: 0 !important;
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
-.faculty-menu-page-btn {
-  width: 38px !important;
-  min-width: 38px !important;
-  height: auto !important;
-  min-height: 49px !important;
-  align-self: stretch !important;
-  padding: 0 !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  outline: 0 !important;
-  background: transparent !important;
-  color: var(--faculty-white) !important;
-  box-shadow: none !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  cursor: pointer !important;
-  opacity: 1 !important;
-  transition: opacity 0.2s ease, color 0.2s ease !important;
-}
-
-.faculty-menu-page-btn:not(:disabled):hover,
-.faculty-menu-page-btn:not(:disabled):focus-visible {
-  background: transparent !important;
-  border: 0 !important;
-  color: var(--faculty-white) !important;
-  transform: none !important;
-  opacity: 0.82 !important;
-}
-
-.faculty-menu-page-btn:disabled {
-  background: transparent !important;
-  border: 0 !important;
-  color: var(--faculty-white) !important;
-  opacity: 0.32 !important;
-  cursor: not-allowed !important;
-}
-
-.faculty-menu-page-btn svg {
-  width: 17px !important;
-  height: 17px !important;
-  flex-shrink: 0 !important;
-}
-
-.faculty-menu-shell .faculty-menu-item.level-0 {
-  min-height: 49px !important;
-}
-
-.faculty-menu-shell .faculty-menu-link {
-  width: 100% !important;
-  height: 49px !important;
-  min-height: 49px !important;
-  padding: 0 8px !important;
-  background: transparent !important;
-  color: var(--faculty-white) !important;
-  border-radius: 0 !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-}
-
-.faculty-menu-shell .faculty-menu-link:hover,
-.faculty-menu-shell .faculty-menu-item.open > .faculty-menu-link {
-  background: color-mix(in srgb, var(--faculty-white) 10%, transparent) !important;
-  color: var(--faculty-white) !important;
-}
-
-.faculty-menu-shell .faculty-sub-menu .faculty-menu-link {
-  height: auto !important;
-  min-height: 40px !important;
-  padding: 10px 16px !important;
-  border-radius: 0 !important;
-  color: var(--faculty-primary) !important;
-  background: var(--faculty-white) !important;
-}
-
-.faculty-menu-shell .faculty-sub-menu .faculty-menu-link:hover,
-.faculty-menu-shell .faculty-sub-menu .faculty-menu-item.open > .faculty-menu-link {
-  background: var(--faculty-soft-bg) !important;
-  color: var(--faculty-primary) !important;
-}
-
-.faculty-menu-shell .faculty-sub-menu {
-  z-index: 10000 !important;
-}
-
-@media (max-width: 768px) {
-  .faculty-menu-shell {
-    min-height: 46px !important;
-    padding: 0 8px !important;
-  }
-
-  .faculty-menu-shell .faculty-menu-bar {
-    min-height: 46px !important;
-  }
-
-  .faculty-menu-page-btn {
-    width: 34px !important;
-    min-width: 34px !important;
-    min-height: 46px !important;
-  }
-
-  .faculty-menu-shell .faculty-menu-link {
-    height: 46px !important;
-    min-height: 46px !important;
-    padding: 0 6px !important;
-    font-size: 12px !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .faculty-menu-shell {
-    min-height: 44px !important;
-    padding: 0 6px !important;
-  }
-
-  .faculty-menu-shell .faculty-menu-bar {
-    min-height: 44px !important;
-  }
-
-  .faculty-menu-page-btn {
-    width: 30px !important;
-    min-width: 30px !important;
-    min-height: 44px !important;
-  }
-
-  .faculty-menu-page-btn svg {
-    width: 15px !important;
-    height: 15px !important;
-  }
-
-  .faculty-menu-shell .faculty-menu-link {
-    height: 44px !important;
-    min-height: 44px !important;
-    padding: 0 4px !important;
-    font-size: 11px !important;
-  }
-}
-/* =========================================
-   Navbar: simple flexibility + nav buttons radius
-========================================= */
-
-/* الحاوية اللي شايلة زرار السابق + الناف + زرار التالي */
-.faculty-menu-shell,
-.department-menu-shell {
-  width: 100% !important;
-  display: flex !important;
-  align-items: stretch !important;
-  gap: 8px !important;
-}
-
-/* الناف نفسها تاخد المساحة اللي بين الزرارين */
-.faculty-menu-bar,
-.department-menu-bar {
-  flex: 1 1 auto !important;
-  min-width: 0 !important;
-
-  display: flex !important;
-  align-items: stretch !important;
-  justify-content: space-between !important;
-  gap: 0 !important;
-}
-
-/* لما العدد قليل، العناصر تتمدد وتقسم الويدث بينهم */
-.faculty-menu-item.level-0,
-.department-menu-item.level-0 {
-  flex: 1 1 0 !important;
-  min-width: 0 !important;
-}
-
-/* الكلام الطويل يبقى سطرين بس، من غير ما نعمل شكل أوفر */
-.faculty-menu-item.level-0 > .faculty-menu-link,
-.department-menu-item.level-0 > .department-menu-link {
-  width: 100% !important;
-  padding-inline: 10px !important;
-  text-align: center !important;
-  white-space: normal !important;
-}
-
-.faculty-menu-item.level-0 > .faculty-menu-link span,
-.department-menu-item.level-0 > .department-menu-link span {
-  max-width: 100%;
-  display: -webkit-box !important;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: normal !important;
-  line-height: 1.35 !important;
-}
-
-/* زرارين السابق والتالي فقط */
-.faculty-menu-page-btn,
-.department-menu-page-btn {
-  width: 42px !important;
-  min-width: 42px !important;
-  height: auto !important;
-  min-height: 49px !important;
-
-  border: 1px solid
-    color-mix(in srgb, var(--theme-card) 35%, transparent) !important;
-
-  border-radius: 8px !important;
-
-  background: color-mix(
-    in srgb,
-    var(--theme-card) 6%,
-    transparent
-  ) !important;
-
-  color: var(--theme-card) !important;
-
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  box-shadow: none !important;
-  cursor: pointer;
-
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    opacity 0.2s ease;
-}
-
-.faculty-menu-page-btn:hover:not(:disabled),
-.department-menu-page-btn:hover:not(:disabled) {
-  background: color-mix(
-    in srgb,
-    var(--theme-card) 10%,
-    transparent
-  ) !important;
-
-  border-color: color-mix(
-    in srgb,
-    var(--theme-card) 60%,
-    transparent
-  ) !important;
-}
-
-.faculty-menu-page-btn:disabled,
-.department-menu-page-btn:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-
-
-/* =========================================
-   Faculty Inner Navbar Final Fix
-========================================= */
-
-.faculty-page-wrapper .faculty-menu-wrapper {
-  width: min(1400px, calc(100% - 48px)) !important;
-  max-width: 1400px !important;
-  margin: 0 auto !important;
-  padding: 0 !important;
-}
-
-.faculty-page-wrapper .faculty-menu-shell {
-  width: 100% !important;
-  min-height: 49px !important;
-  padding: 0 10px !important;
-
-  display: flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-
-  position: relative !important;
-  overflow: visible !important;
-
-  background: var(--faculty-primary) !important;
-  border-radius: 6px !important;
-  box-shadow: 0 6px 14px
-    color-mix(in srgb, var(--faculty-primary) 18%, transparent) !important;
-}
-
-/* الناف نفسها */
-.faculty-page-wrapper .faculty-menu-shell .faculty-menu-bar {
-  flex: 1 1 auto !important;
-  min-width: 0 !important;
-  width: 100% !important;
-  min-height: 49px !important;
-
-  padding: 0 !important;
-  margin: 0 !important;
-
-  display: grid !important;
-  grid-template-columns: repeat(var(--faculty-nav-count, 1), minmax(0, 1fr)) !important;
-  align-items: stretch !important;
-  justify-content: stretch !important;
-  gap: 0 !important;
-
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  overflow: visible !important;
-}
-
-/* كل item ياخد نصيبه في الويدث */
-.faculty-page-wrapper .faculty-menu-shell .faculty-menu-item.level-0 {
-  width: 100% !important;
-  min-width: 0 !important;
-  min-height: 49px !important;
-  flex: initial !important;
-}
-
-/* اللينك الرئيسي */
-.faculty-page-wrapper .faculty-menu-shell .faculty-menu-item.level-0 > .faculty-menu-link {
-  width: 100% !important;
-  height: 49px !important;
-  min-height: 49px !important;
-  padding: 0 10px !important;
-
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 6px !important;
-
-  background: transparent !important;
-  color: var(--faculty-white) !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-
-  font-family: "Cairo", sans-serif !important;
-  font-size: 13px !important;
-  font-weight: 700 !important;
-  line-height: 1.25 !important;
-  text-align: center !important;
-
-  white-space: normal !important;
-  overflow: hidden !important;
-}
-
-/* الكلمة الطويلة: سطرين بس بشكل بروفيشنال */
-.faculty-page-wrapper .faculty-menu-shell .faculty-menu-item.level-0 > .faculty-menu-link span {
-  min-width: 0 !important;
-  max-width: 100% !important;
-
-  display: -webkit-box !important;
-  -webkit-line-clamp: 2 !important;
-  -webkit-box-orient: vertical !important;
-
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  overflow-wrap: anywhere !important;
-  word-break: break-word !important;
-}
-
-/* السهم يفضل ثابت جنب الكلام */
-.faculty-page-wrapper .faculty-menu-shell .faculty-menu-arrow {
-  flex-shrink: 0 !important;
-}
-
-/* hover */
-.faculty-page-wrapper .faculty-menu-shell .faculty-menu-item.level-0 > .faculty-menu-link:hover,
-.faculty-page-wrapper .faculty-menu-shell .faculty-menu-item.level-0.open > .faculty-menu-link {
-  background: color-mix(in srgb, var(--faculty-white) 10%, transparent) !important;
-  color: var(--faculty-white) !important;
-}
-
-/* زرارين السابق والتالي */
-.faculty-page-wrapper .faculty-menu-page-btn {
-  width: 32px !important;
-  height: 32px !important;
-  min-width: 32px !important;
-  min-height: 32px !important;
-
-  padding: 0 !important;
-  margin: 0 !important;
-  align-self: center !important;
-
-  border: 1px solid color-mix(in srgb, var(--faculty-white) 70%, transparent) !important;
-  border-radius: 11px !important;
-
-  background: color-mix(in srgb, var(--faculty-white) 4%, transparent) !important;
-  color: var(--faculty-white) !important;
-  box-shadow: none !important;
-  outline: 0 !important;
-
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  cursor: pointer !important;
-
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    opacity 0.2s ease,
-    transform 0.2s ease !important;
-}
-
-.faculty-page-wrapper .faculty-menu-page-btn:not(:disabled):hover {
-  opacity: 1 !important;
-  transform: translateY(-1px) !important;
-  background: color-mix(in srgb, var(--faculty-white) 10%, transparent) !important;
-  border-color: var(--faculty-white) !important;
-}
-
-.faculty-page-wrapper .faculty-menu-page-btn:disabled {
-  opacity: 0.42 !important;
-  cursor: not-allowed !important;
-}
-
-.faculty-page-wrapper .faculty-menu-page-btn svg {
-  width: 16px !important;
-  height: 16px !important;
-  flex-shrink: 0 !important;
-}
-
-/* القوائم المنسدلة */
-.faculty-page-wrapper .faculty-menu-shell .faculty-sub-menu {
-  z-index: 10000 !important;
-}
-
-.faculty-page-wrapper .faculty-menu-shell .faculty-sub-menu .faculty-menu-link {
-  height: auto !important;
-  min-height: 40px !important;
-  padding: 10px 16px !important;
-
-  justify-content: space-between !important;
-
-  color: var(--faculty-primary) !important;
-  background: var(--faculty-white) !important;
-
-  white-space: normal !important;
-  text-align: right !important;
-  overflow: visible !important;
-}
-
-.faculty-page-wrapper .faculty-menu-shell .faculty-sub-menu .faculty-menu-link:hover,
-.faculty-page-wrapper .faculty-menu-shell .faculty-sub-menu .faculty-menu-item.open > .faculty-menu-link {
-  background: var(--faculty-soft-bg) !important;
-  color: var(--faculty-primary) !important;
-}
-
-/* مهم عشان الدروب داون متتقصش */
-.faculty-page-wrapper .faculty-menu-section,
-.faculty-page-wrapper .faculty-menu-wrapper,
-.faculty-page-wrapper .faculty-menu-shell,
-.faculty-page-wrapper .faculty-menu-bar,
-.faculty-page-wrapper .faculty-menu-item,
-.faculty-page-wrapper .faculty-sub-menu {
-  overflow: visible !important;
-}
-
-@media (max-width: 992px) {
-  .faculty-page-wrapper .faculty-menu-wrapper {
-    width: min(100%, calc(100% - 28px)) !important;
-  }
-
-  .faculty-page-wrapper .faculty-menu-shell {
-    min-height: 46px !important;
-    padding: 0 8px !important;
-    gap: 6px !important;
-  }
-
-  .faculty-page-wrapper .faculty-menu-shell .faculty-menu-bar {
-    min-height: 46px !important;
-  }
-
-  .faculty-page-wrapper .faculty-menu-page-btn {
-    width: 30px !important;
-    height: 30px !important;
-    min-width: 30px !important;
-    min-height: 30px !important;
-    border-radius: 10px !important;
-  }
-
-  .faculty-page-wrapper .faculty-menu-shell .faculty-menu-item.level-0 > .faculty-menu-link {
-    height: 46px !important;
-    min-height: 46px !important;
-    padding-inline: 7px !important;
-    font-size: 11.5px !important;
-  }
-}
-
-@media (max-width: 640px) {
-  .faculty-page-wrapper .faculty-menu-wrapper {
-    width: min(100%, calc(100% - 20px)) !important;
-  }
-
-  .faculty-page-wrapper .faculty-menu-shell {
-    min-height: 42px !important;
-    padding: 0 6px !important;
-    gap: 5px !important;
-  }
-
-  .faculty-page-wrapper .faculty-menu-shell .faculty-menu-bar {
-    min-height: 42px !important;
-  }
-
-  .faculty-page-wrapper .faculty-menu-page-btn {
-    width: 28px !important;
-    height: 28px !important;
-    min-width: 28px !important;
-    min-height: 28px !important;
-    border-radius: 9px !important;
-  }
-
-  .faculty-page-wrapper .faculty-menu-page-btn svg {
-    width: 15px !important;
-    height: 15px !important;
-  }
-
-  .faculty-page-wrapper .faculty-menu-shell .faculty-menu-item.level-0 > .faculty-menu-link {
-    height: 42px !important;
-    min-height: 42px !important;
-    padding-inline: 5px !important;
-    font-size: 10.5px !important;
-  }
-}
-
-@media (max-width: 430px) {
-  .faculty-page-wrapper .faculty-menu-shell {
-    min-height: 38px !important;
-  }
-
-  .faculty-page-wrapper .faculty-menu-shell .faculty-menu-bar {
-    min-height: 38px !important;
-  }
-
-  .faculty-page-wrapper .faculty-menu-page-btn {
-    width: 26px !important;
-    height: 26px !important;
-    min-width: 26px !important;
-    min-height: 26px !important;
-    border-radius: 8px !important;
-  }
-
-  .faculty-page-wrapper .faculty-menu-shell .faculty-menu-item.level-0 > .faculty-menu-link {
-    height: 38px !important;
-    min-height: 38px !important;
-    font-size: 10px !important;
-  }
 }
