@@ -377,20 +377,27 @@
   position: absolute;
   top: 100%;
   right: 0;
+  left: auto;
   z-index: 9999;
+
   min-width: 230px;
   width: max-content;
-  max-width: 360px;
+  max-width: min(360px, calc(100vw - 28px));
+
   padding: 8px 0;
   background: var(--faculty-white);
   border: 1px solid color-mix(in srgb, var(--faculty-primary) 14%, transparent);
   border-radius: 8px;
   box-shadow: 0 16px 36px
     color-mix(in srgb, var(--faculty-dark) 18%, transparent);
+
   display: flex;
   flex-direction: column;
 }
-
+.faculty-menu-item.level-0.drop-flip > .faculty-sub-menu {
+  right: auto;
+  left: 0;
+}
 .faculty-sub-menu .faculty-menu-item {
   position: relative;
   width: 100%;
@@ -419,11 +426,25 @@
 }
 
 .faculty-sub-menu .faculty-sub-menu {
+  position: absolute;
   top: 0;
   right: 100%;
+  left: auto;
   z-index: 10000;
+
+  min-width: 230px;
+  width: max-content;
+  max-width: min(360px, calc(100vw - 28px));
+}
+.faculty-sub-menu .faculty-menu-item.drop-flip > .faculty-sub-menu {
+  right: auto;
+  left: 100%;
 }
 
+.faculty-sub-menu .faculty-menu-item.drop-default > .faculty-sub-menu {
+  right: 100%;
+  left: auto;
+}
 .faculty-menu-section,
 .faculty-menu-wrapper,
 .faculty-menu-bar,
@@ -3164,47 +3185,6 @@
   width: min(1400px, calc(100% - 48px)) !important;
   max-width: 1400px !important;
   margin: 0 auto !important;
-}
-/* ===== Nested dropdown opens beside parent dropdown ===== */
-
-.faculty-menu-section,
-.faculty-menu-wrapper,
-.faculty-menu-bar,
-.faculty-menu-item,
-.faculty-sub-menu {
-  overflow: visible !important;
-}
-
-.faculty-menu-item {
-  position: relative !important;
-}
-
-/* أول دروب ليست */
-.faculty-menu-item.level-0 > .faculty-sub-menu {
-  top: 100% !important;
-  right: 0 !important;
-}
-
-.faculty-sub-menu .faculty-sub-menu {
-  position: absolute !important;
-  top: 0 !important;
-  right: 100% !important;
-  left: auto !important;
-  margin-right: 0 !important;
-  z-index: 10000 !important;
-}
-
-.faculty-sub-menu .faculty-menu-item.has-children {
-  position: relative !important;
-}
-
-.faculty-sub-menu .faculty-menu-link {
-  justify-content: space-between !important;
-  width: 100% !important;
-}
-
-.faculty-sub-menu .faculty-menu-arrow {
-  flex-shrink: 0;
 }
 
 @media (max-width: 768px) {
@@ -7913,4 +7893,1058 @@ html[data-palette="palette6"] .faculty-page-wrapper .faculty-footer-second-socia
   background: var(--footer-v2-social-hover-bg) !important;
   color: var(--footer-v2-social-hover-color) !important;
   border-color: var(--footer-v2-social-hover-bg) !important;
+}
+
+/* =========================================================
+   Vision & Mission — Clean Figma Timeline Layout
+   يحافظ على شكل فيجما للرؤية والرسالة:
+   - العنوان والأيقونة خارج بوكس النص
+   - عنوان الرؤية/الرسالة برتقاني
+   - خط رأسي من الأيقونة وخط أفقي داخل على البوكس
+   - شغال لو رؤية فقط / رسالة فقط / الاتنين معًا
+========================================================= */
+
+/* ---------- Palette colors ---------- */
+
+.faculty-page-wrapper {
+  --vm-page-bg: var(--faculty-card-bg);
+  --vm-main-title: var(--faculty-primary);
+  --vm-main-dot: var(--faculty-secondary);
+  --vm-item-title: var(--faculty-secondary);
+  --vm-icon-bg: var(--faculty-primary);
+  --vm-icon-color: var(--faculty-white);
+  --vm-box-bg: color-mix(in srgb, var(--faculty-soft-bg) 76%, var(--faculty-card-bg));
+  --vm-box-text: var(--faculty-primary-text);
+  --vm-box-border: color-mix(in srgb, var(--faculty-primary) 13%, transparent);
+  --vm-line: color-mix(in srgb, var(--faculty-primary) 54%, transparent);
+  --vm-shadow: color-mix(in srgb, var(--faculty-primary) 14%, transparent);
+}
+
+html[data-palette="palette1"] .faculty-page-wrapper {
+  --vm-page-bg: #ffffff;
+  --vm-main-title: #303d5e;
+  --vm-main-dot: #f66b15;
+  --vm-item-title: #b95519;
+  --vm-icon-bg: #303d5e;
+  --vm-icon-color: #ffffff;
+  --vm-box-bg: #f4f6f9;
+  --vm-box-text: #303d5e;
+  --vm-box-border: #d9dee7;
+  --vm-line: rgba(48, 61, 94, 0.58);
+  --vm-shadow: rgba(48, 61, 94, 0.18);
+}
+
+html[data-palette="palette2"] .faculty-page-wrapper {
+  --vm-page-bg: #f8f0e5;
+  --vm-main-title: #102c57;
+  --vm-main-dot: #c9853f;
+  --vm-item-title: #b56a22;
+  --vm-icon-bg: #102c57;
+  --vm-icon-color: #ffffff;
+  --vm-box-bg: #fffaf3;
+  --vm-box-text: #102c57;
+  --vm-box-border: rgba(16, 44, 87, 0.18);
+  --vm-line: rgba(16, 44, 87, 0.58);
+  --vm-shadow: rgba(16, 44, 87, 0.16);
+}
+
+html[data-palette="palette3"] .faculty-page-wrapper {
+  --vm-page-bg: #ffffff;
+  --vm-main-title: #840d0d;
+  --vm-main-dot: #d46b2c;
+  --vm-item-title: #b34f18;
+  --vm-icon-bg: #840d0d;
+  --vm-icon-color: #ffffff;
+  --vm-box-bg: #f7f7f7;
+  --vm-box-text: #262626;
+  --vm-box-border: rgba(132, 13, 13, 0.18);
+  --vm-line: rgba(132, 13, 13, 0.55);
+  --vm-shadow: rgba(132, 13, 13, 0.15);
+}
+
+html[data-palette="palette4"] .faculty-page-wrapper {
+  --vm-page-bg: #f7f5ef;
+  --vm-main-title: #1f150c;
+  --vm-main-dot: #b66b2b;
+  --vm-item-title: #a65319;
+  --vm-icon-bg: #1f150c;
+  --vm-icon-color: #ffffff;
+  --vm-box-bg: #ffffff;
+  --vm-box-text: #1f150c;
+  --vm-box-border: rgba(31, 21, 12, 0.18);
+  --vm-line: rgba(31, 21, 12, 0.55);
+  --vm-shadow: rgba(31, 21, 12, 0.16);
+}
+
+html[data-palette="palette5"] .faculty-page-wrapper {
+  --vm-page-bg: #f6f8f1;
+  --vm-main-title: #627254;
+  --vm-main-dot: #d29b1f;
+  --vm-item-title: #a86a12;
+  --vm-icon-bg: #627254;
+  --vm-icon-color: #ffffff;
+  --vm-box-bg: #ffffff;
+  --vm-box-text: #283522;
+  --vm-box-border: rgba(98, 114, 84, 0.22);
+  --vm-line: rgba(98, 114, 84, 0.58);
+  --vm-shadow: rgba(98, 114, 84, 0.17);
+}
+
+html[data-palette="palette6"] .faculty-page-wrapper {
+  --vm-page-bg: #eef7f6;
+  --vm-main-title: #2f5755;
+  --vm-main-dot: #c68a1d;
+  --vm-item-title: #a86a12;
+  --vm-icon-bg: #2f5755;
+  --vm-icon-color: #ffffff;
+  --vm-box-bg: #ffffff;
+  --vm-box-text: #203b39;
+  --vm-box-border: rgba(47, 87, 85, 0.22);
+  --vm-line: rgba(47, 87, 85, 0.58);
+  --vm-shadow: rgba(47, 87, 85, 0.18);
+}
+
+/* ---------- Page base ---------- */
+
+.faculty-page-wrapper .faculty-vision-mission-page-section {
+  width: 100% !important;
+  padding: 34px 0 110px !important;
+  background: var(--vm-page-bg) !important;
+  color: var(--vm-main-title) !important;
+  font-family: "Cairo", sans-serif !important;
+}
+
+.faculty-page-wrapper
+  .faculty-vision-mission-page-section
+  .faculty-article-wrapper {
+  width: min(950px, calc(100% - 48px)) !important;
+  margin: 0 auto !important;
+}
+
+/* الكارت الخارجي شفاف، عشان فيجما مفيهاش بوكس كبير حوالين الكل */
+.faculty-page-wrapper .faculty-vision-mission-card,
+.faculty-page-wrapper .faculty-vision-mission-card.single,
+.faculty-page-wrapper .faculty-vision-mission-card.combined {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  color: var(--vm-main-title) !important;
+  direction: rtl !important;
+}
+
+/* ---------- Main title ---------- */
+
+.faculty-page-wrapper .faculty-vision-mission-page-title {
+  width: 100% !important;
+  margin: 0 0 30px !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 14px !important;
+
+  direction: rtl !important;
+}
+
+.faculty-page-wrapper .faculty-vision-mission-title-dot {
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  border-radius: 50% !important;
+  background: var(--vm-main-dot) !important;
+  box-shadow: none !important;
+}
+
+.faculty-page-wrapper .faculty-vision-mission-page-title h2 {
+  margin: 0 !important;
+  color: var(--vm-main-title) !important;
+  font-family: "Cairo", sans-serif !important;
+  font-size: 30px !important;
+  font-weight: 800 !important;
+  line-height: 1.35 !important;
+  text-align: right !important;
+}
+
+/* في صفحة رؤية فقط / رسالة فقط، نخفي عنوان الصفحة الرئيسي عشان ميتكررش */
+.faculty-page-wrapper
+  .faculty-vision-mission-card.single
+  .faculty-vision-mission-page-title {
+  display: none !important;
+}
+
+/* ---------- Timeline layout ---------- */
+
+.faculty-page-wrapper .faculty-vision-mission-items,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.single
+  .faculty-vision-mission-items,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.combined
+  .faculty-vision-mission-items {
+  position: relative !important;
+  width: min(820px, 100%) !important;
+  margin: 0 auto !important;
+  padding-right: 110px !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 66px !important;
+
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+/* الخط الرأسي بين أيقونات الرؤية والرسالة لما الاتنين موجودين */
+.faculty-page-wrapper
+  .faculty-vision-mission-card.combined
+  .faculty-vision-mission-items::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 72px !important;
+  bottom: 72px !important;
+  right: 36px !important;
+  width: 1.5px !important;
+  display: block !important;
+  background: var(--vm-line) !important;
+}
+
+.faculty-page-wrapper
+  .faculty-vision-mission-card.single
+  .faculty-vision-mission-items::before {
+  display: none !important;
+}
+
+/* ---------- Item ---------- */
+
+.faculty-page-wrapper .faculty-vision-mission-item,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.single
+  .faculty-vision-mission-item,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.combined
+  .faculty-vision-mission-item {
+  position: relative !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+/* العنوان والأيقونة خارج بوكس النص */
+.faculty-page-wrapper .faculty-vision-mission-heading,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.single
+  .faculty-vision-mission-heading,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.combined
+  .faculty-vision-mission-heading {
+  position: relative !important;
+  min-height: 72px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 18px !important;
+
+  direction: rtl !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.faculty-page-wrapper .faculty-vision-mission-heading div,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.single
+  .faculty-vision-mission-heading
+  div,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.combined
+  .faculty-vision-mission-heading
+  div {
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.faculty-page-wrapper .faculty-vision-mission-heading h3,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.single
+  .faculty-vision-mission-heading
+  h3,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.combined
+  .faculty-vision-mission-heading
+  h3 {
+  margin: 0 !important;
+  color: var(--vm-item-title) !important;
+  font-family: "Cairo", sans-serif !important;
+  font-size: 27px !important;
+  font-weight: 800 !important;
+  line-height: 1.35 !important;
+  text-align: right !important;
+}
+
+.faculty-page-wrapper .faculty-vision-mission-heading-line {
+  display: none !important;
+}
+
+/* الأيقونة على خط التايملاين */
+.faculty-page-wrapper .faculty-vision-mission-icon,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.single
+  .faculty-vision-mission-icon,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.combined
+  .faculty-vision-mission-icon {
+  position: absolute !important;
+  top: 0 !important;
+  right: -110px !important;
+  z-index: 4 !important;
+
+  width: 72px !important;
+  height: 72px !important;
+  min-width: 72px !important;
+
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: var(--vm-icon-bg) !important;
+  color: var(--vm-icon-color) !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  box-shadow: 0 12px 25px var(--vm-shadow) !important;
+}
+
+.faculty-page-wrapper .faculty-vision-mission-icon i,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.single
+  .faculty-vision-mission-icon
+  i,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.combined
+  .faculty-vision-mission-icon
+  i {
+  color: inherit !important;
+  font-size: 32px !important;
+  line-height: 1 !important;
+}
+
+/* الخط النازل من الأيقونة */
+.faculty-page-wrapper .faculty-vision-mission-icon::after,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.single
+  .faculty-vision-mission-icon::after,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.combined
+  .faculty-vision-mission-icon::after {
+  content: "" !important;
+  position: absolute !important;
+  top: 72px !important;
+  right: 50% !important;
+
+  width: 1.5px !important;
+  height: 44px !important;
+
+  transform: translateX(50%) !important;
+  background: var(--vm-line) !important;
+}
+
+/* النقطة الصغيرة عند نهاية الخط النازل */
+.faculty-page-wrapper .faculty-vision-mission-icon::before,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.single
+  .faculty-vision-mission-icon::before,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.combined
+  .faculty-vision-mission-icon::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 114px !important;
+  right: 50% !important;
+
+  width: 5px !important;
+  height: 5px !important;
+
+  border-radius: 50% !important;
+  transform: translateX(50%) !important;
+  background: var(--vm-line) !important;
+}
+
+/* ---------- Text box ---------- */
+
+.faculty-page-wrapper .faculty-vision-mission-text-box,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.single
+  .faculty-vision-mission-text-box,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.combined
+  .faculty-vision-mission-text-box {
+  position: relative !important;
+  width: min(640px, 100%) !important;
+  min-height: 104px !important;
+
+  margin: -8px 0 0 auto !important;
+  padding: 24px 34px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  background: var(--vm-box-bg) !important;
+  border: 1px solid var(--vm-box-border) !important;
+  border-radius: 10px !important;
+  box-shadow:
+    0 2px 5px var(--vm-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65) !important;
+
+  overflow: visible !important;
+}
+
+/* الخط العرضي من خط الأيقونة لبوكس النص */
+.faculty-page-wrapper .faculty-vision-mission-text-box::before,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.single
+  .faculty-vision-mission-text-box::before,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.combined
+  .faculty-vision-mission-text-box::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 50% !important;
+  right: -74px !important;
+
+  width: 74px !important;
+  height: 1.5px !important;
+
+  transform: translateY(-50%) !important;
+  background: var(--vm-line) !important;
+}
+
+.faculty-page-wrapper .faculty-vision-mission-text-box p,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.single
+  .faculty-vision-mission-text-box
+  p,
+.faculty-page-wrapper
+  .faculty-vision-mission-card.combined
+  .faculty-vision-mission-text-box
+  p {
+  width: 100% !important;
+  margin: 0 !important;
+
+  color: var(--vm-box-text) !important;
+  background: transparent !important;
+  font-family: "Cairo", sans-serif !important;
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  line-height: 1.75 !important;
+  text-align: center !important;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 992px) {
+  .faculty-page-wrapper
+    .faculty-vision-mission-page-section
+    .faculty-article-wrapper {
+    width: calc(100% - 40px) !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-page-title h2 {
+    font-size: 26px !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-items,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.single
+    .faculty-vision-mission-items,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.combined
+    .faculty-vision-mission-items {
+    width: min(760px, 100%) !important;
+    padding-right: 96px !important;
+    gap: 52px !important;
+  }
+
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.combined
+    .faculty-vision-mission-items::before {
+    right: 32px !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-icon,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.single
+    .faculty-vision-mission-icon,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.combined
+    .faculty-vision-mission-icon {
+    right: -96px !important;
+    width: 64px !important;
+    height: 64px !important;
+    min-width: 64px !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-icon::after {
+    top: 64px !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-icon::before {
+    top: 106px !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-text-box::before,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.single
+    .faculty-vision-mission-text-box::before,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.combined
+    .faculty-vision-mission-text-box::before {
+    right: -64px !important;
+    width: 64px !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-heading h3 {
+    font-size: 24px !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-text-box p {
+    font-size: 18px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .faculty-page-wrapper .faculty-vision-mission-page-section {
+    padding: 24px 0 64px !important;
+  }
+
+  .faculty-page-wrapper
+    .faculty-vision-mission-page-section
+    .faculty-article-wrapper {
+    width: calc(100% - 24px) !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-page-title {
+    margin-bottom: 24px !important;
+    gap: 10px !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-title-dot {
+    width: 13px !important;
+    height: 13px !important;
+    min-width: 13px !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-page-title h2 {
+    font-size: 21px !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-items,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.single
+    .faculty-vision-mission-items,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.combined
+    .faculty-vision-mission-items {
+    width: 100% !important;
+    padding-right: 0 !important;
+    gap: 32px !important;
+  }
+
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.combined
+    .faculty-vision-mission-items::before,
+  .faculty-page-wrapper .faculty-vision-mission-icon::before,
+  .faculty-page-wrapper .faculty-vision-mission-icon::after,
+  .faculty-page-wrapper .faculty-vision-mission-text-box::before {
+    display: none !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-heading,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.single
+    .faculty-vision-mission-heading,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.combined
+    .faculty-vision-mission-heading {
+    min-height: auto !important;
+    gap: 12px !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-icon,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.single
+    .faculty-vision-mission-icon,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.combined
+    .faculty-vision-mission-icon {
+    position: static !important;
+    width: 50px !important;
+    height: 50px !important;
+    min-width: 50px !important;
+    border-radius: 50% !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-icon i {
+    font-size: 22px !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-heading h3,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.single
+    .faculty-vision-mission-heading
+    h3,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.combined
+    .faculty-vision-mission-heading
+    h3 {
+    font-size: 21px !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-text-box,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.single
+    .faculty-vision-mission-text-box,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.combined
+    .faculty-vision-mission-text-box {
+    width: 100% !important;
+    min-height: auto !important;
+    margin: 0 !important;
+    padding: 18px 16px !important;
+    border-radius: 11px !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-text-box p,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.single
+    .faculty-vision-mission-text-box
+    p,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.combined
+    .faculty-vision-mission-text-box
+    p {
+    font-size: 14px !important;
+    line-height: 1.9 !important;
+    text-align: right !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .faculty-page-wrapper .faculty-vision-mission-page-title h2 {
+    font-size: 18px !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-icon,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.single
+    .faculty-vision-mission-icon,
+  .faculty-page-wrapper
+    .faculty-vision-mission-card.combined
+    .faculty-vision-mission-icon {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-icon i {
+    font-size: 19px !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-heading h3 {
+    font-size: 18px !important;
+  }
+
+  .faculty-page-wrapper .faculty-vision-mission-text-box p {
+    font-size: 13px !important;
+  }
+}
+/* =========================================
+   Faculty One Row Navbar + Overflow Footer
+========================================= */
+
+.faculty-page-wrapper .faculty-menu-section {
+  padding: 14px 0 0 !important;
+  background: var(--faculty-soft-bg) !important;
+  z-index: 120 !important;
+}
+
+.faculty-page-wrapper .faculty-menu-wrapper {
+  width: min(1400px, calc(100% - 32px)) !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+.faculty-page-wrapper .faculty-menu-bar {
+  width: 100% !important;
+  min-height: 54px !important;
+  padding: 0 10px !important;
+
+  display: grid !important;
+  grid-template-columns: repeat(var(--faculty-nav-count, 8), minmax(0, 1fr)) !important;
+  align-items: stretch !important;
+
+  gap: 0 !important;
+  flex-wrap: nowrap !important;
+
+  direction: rtl !important;
+  background: var(--faculty-primary) !important;
+  border-radius: 14px !important;
+
+  box-shadow:
+    0 14px 30px color-mix(in srgb, var(--faculty-primary) 14%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--faculty-white) 12%, transparent) !important;
+
+  overflow: visible !important;
+}
+
+.faculty-page-wrapper .faculty-menu-item.level-0 {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 54px !important;
+  flex: none !important;
+}
+
+.faculty-page-wrapper .faculty-menu-item.level-0 > .faculty-menu-link {
+  width: 100% !important;
+}
+
+.faculty-page-wrapper .faculty-menu-link {
+  width: 100% !important;
+  height: 54px !important;
+  min-height: 54px !important;
+  padding: 0 clamp(8px, 0.8vw, 16px) !important;
+
+  justify-content: center !important;
+  gap: 7px !important;
+
+  color: var(--faculty-white) !important;
+  font-size: clamp(11px, 0.9vw, 14px) !important;
+  font-weight: 800 !important;
+  line-height: 1.2 !important;
+
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+
+  border-radius: 0 !important;
+}
+
+.faculty-page-wrapper .faculty-menu-link span {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.faculty-page-wrapper .faculty-menu-link:hover,
+.faculty-page-wrapper .faculty-menu-item.open > .faculty-menu-link {
+  background: color-mix(in srgb, var(--faculty-white) 12%, transparent) !important;
+}
+
+.faculty-page-wrapper .faculty-menu-item.level-0:not(:last-child)::after {
+  top: 15px !important;
+  bottom: 15px !important;
+  left: 0 !important;
+  background: color-mix(in srgb, var(--faculty-white) 18%, transparent) !important;
+}
+
+.faculty-page-wrapper .faculty-menu-item.level-0 > .faculty-sub-menu {
+  top: calc(100% + 8px) !important;
+  right: 0 !important;
+  min-width: 245px !important;
+  max-width: min(380px, calc(100vw - 28px)) !important;
+
+  border-radius: 14px !important;
+  padding: 8px !important;
+
+  background: var(--faculty-white) !important;
+  box-shadow:
+    0 22px 44px color-mix(in srgb, var(--faculty-dark) 18%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--faculty-primary) 10%, transparent) !important;
+}
+
+.faculty-page-wrapper .faculty-sub-menu .faculty-menu-link {
+  height: auto !important;
+  min-height: 42px !important;
+  padding: 10px 14px !important;
+
+  justify-content: space-between !important;
+  border-radius: 10px !important;
+
+  color: var(--faculty-primary) !important;
+  background: transparent !important;
+
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+}
+
+.faculty-page-wrapper .faculty-sub-menu .faculty-menu-link span {
+  overflow: visible !important;
+  text-overflow: unset !important;
+  white-space: normal !important;
+}
+
+.faculty-sub-menu .faculty-menu-link:hover,
+.faculty-sub-menu .faculty-menu-item.open > .faculty-menu-link {
+  background: var(--faculty-soft-bg) !important;
+  color: var(--faculty-primary) !important;
+}
+.faculty-menu-arrow.root-arrow.open {
+  transform: rotate(180deg);
+}
+
+.faculty-menu-arrow.nested-arrow {
+  transform: none !important;
+}
+.faculty-page-wrapper .faculty-footer-links-scroll {
+  max-height: 138px !important;
+}
+
+.faculty-page-wrapper .faculty-footer-column.expanded .faculty-footer-links-scroll {
+  max-height: 260px !important;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .faculty-page-wrapper .faculty-menu-wrapper {
+    width: min(100% - 24px, 100%) !important;
+  }
+
+  .faculty-page-wrapper .faculty-menu-bar {
+    min-height: 50px !important;
+    padding: 0 8px !important;
+    border-radius: 12px !important;
+  }
+
+  .faculty-page-wrapper .faculty-menu-item.level-0 {
+    min-height: 50px !important;
+  }
+
+  .faculty-page-wrapper .faculty-menu-link {
+    height: 50px !important;
+    min-height: 50px !important;
+    padding: 0 8px !important;
+    font-size: 12px !important;
+  }
+}
+
+/* Mobile */
+@media (max-width: 560px) {
+  .faculty-page-wrapper .faculty-menu-section {
+    padding-top: 10px !important;
+  }
+
+  .faculty-page-wrapper .faculty-menu-wrapper {
+    width: calc(100% - 20px) !important;
+  }
+
+  .faculty-page-wrapper .faculty-menu-bar {
+    min-height: 46px !important;
+    padding: 0 6px !important;
+    border-radius: 11px !important;
+  }
+
+  .faculty-page-wrapper .faculty-menu-item.level-0 {
+    min-height: 46px !important;
+  }
+
+  .faculty-page-wrapper .faculty-menu-link {
+    height: 46px !important;
+    min-height: 46px !important;
+    padding: 0 6px !important;
+    gap: 4px !important;
+    font-size: 11px !important;
+  }
+
+  .faculty-page-wrapper .faculty-menu-arrow {
+    width: 11px !important;
+    height: 11px !important;
+  }
+
+  .faculty-page-wrapper .faculty-menu-item.level-0 > .faculty-sub-menu {
+    right: 50% !important;
+    transform: translateX(50%) !important;
+    min-width: min(250px, calc(100vw - 24px)) !important;
+  }
+}
+/* =========================================================
+   Final fix: smart nested dropdown direction
+   لازم يبقى آخر CSS في الملف عشان يكسب أي override قديم
+========================================================= */
+
+.faculty-page-wrapper,
+.faculty-page-wrapper .faculty-menu-section,
+.faculty-page-wrapper .faculty-menu-wrapper,
+.faculty-page-wrapper .faculty-menu-bar,
+.faculty-page-wrapper .faculty-menu-item,
+.faculty-page-wrapper .faculty-sub-menu {
+  overflow: visible !important;
+}
+
+.faculty-page-wrapper .faculty-menu-section {
+  position: relative !important;
+  z-index: 999 !important;
+}
+
+.faculty-page-wrapper .faculty-menu-bar {
+  position: relative !important;
+  z-index: 1000 !important;
+}
+
+.faculty-page-wrapper .faculty-menu-item {
+  position: relative !important;
+}
+
+/* أول دروب ليست */
+.faculty-page-wrapper .faculty-menu-item.level-0 > .faculty-sub-menu {
+  position: absolute !important;
+  top: 100% !important;
+  right: 0 !important;
+  left: auto !important;
+  z-index: 99999 !important;
+
+  min-width: 230px !important;
+  width: max-content !important;
+  max-width: min(360px, calc(100vw - 28px)) !important;
+}
+
+/* لو أول دروب ليست قربت من طرف الشاشة */
+.faculty-page-wrapper
+  .faculty-menu-item.level-0.drop-flip
+  > .faculty-sub-menu {
+  right: auto !important;
+  left: 0 !important;
+}
+
+/* الدروب ليست الداخلية العادية: تفتح ناحية الشمال في RTL */
+.faculty-page-wrapper .faculty-sub-menu .faculty-sub-menu,
+.faculty-page-wrapper
+  .faculty-sub-menu
+  .faculty-menu-item.drop-default
+  > .faculty-sub-menu {
+  position: absolute !important;
+  top: 0 !important;
+  right: 100% !important;
+  left: auto !important;
+  margin: 0 !important;
+  z-index: 100000 !important;
+
+  min-width: 230px !important;
+  width: max-content !important;
+  max-width: min(360px, calc(100vw - 28px)) !important;
+}
+
+/* لما مفيش مساحة ناحية الشمال: افتح ناحية اليمين */
+.faculty-page-wrapper
+  .faculty-sub-menu
+  .faculty-menu-item.drop-flip
+  > .faculty-sub-menu {
+  right: auto !important;
+  left: 100% !important;
+}
+
+/* شكل العناصر جوا الدروب */
+.faculty-page-wrapper .faculty-sub-menu .faculty-menu-link {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 40px !important;
+  padding: 10px 16px !important;
+  justify-content: space-between !important;
+  gap: 18px !important;
+  white-space: nowrap !important;
+}
+
+/* موبايل: خلي القوايم تفتح تحت بعض مش جنب بعض */
+@media (max-width: 768px) {
+  .faculty-page-wrapper .faculty-menu-bar {
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+  }
+
+  .faculty-page-wrapper .faculty-menu-item.level-0 > .faculty-sub-menu {
+    position: absolute !important;
+    top: 100% !important;
+    right: 0 !important;
+    left: auto !important;
+    width: min(320px, calc(100vw - 28px)) !important;
+    max-width: min(320px, calc(100vw - 28px)) !important;
+  }
+
+  .faculty-page-wrapper .faculty-sub-menu .faculty-sub-menu,
+  .faculty-page-wrapper
+    .faculty-sub-menu
+    .faculty-menu-item.drop-default
+    > .faculty-sub-menu,
+  .faculty-page-wrapper
+    .faculty-sub-menu
+    .faculty-menu-item.drop-flip
+    > .faculty-sub-menu {
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 6px 0 0 !important;
+    box-shadow: none !important;
+    border-radius: 8px !important;
+    border-inline-start: 3px solid var(--faculty-primary) !important;
+  }
+
+  .faculty-page-wrapper .faculty-sub-menu .faculty-menu-link {
+    white-space: normal !important;
+  }
+}/* Fix nested dropdown background */
+.faculty-page-wrapper .faculty-sub-menu,
+.faculty-page-wrapper .faculty-sub-menu .faculty-sub-menu {
+  background: var(--faculty-white, #fff) !important;
+  border: 1px solid color-mix(in srgb, var(--faculty-primary) 14%, transparent) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 16px 36px
+    color-mix(in srgb, var(--faculty-dark) 18%, transparent) !important;
+  padding: 8px 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.faculty-page-wrapper .faculty-sub-menu {
+  background-color: var(--theme-card, #fff) !important;
+}
+
+.faculty-page-wrapper .faculty-sub-menu .faculty-menu-link {
+  background: var(--faculty-white, #fff) !important;
+  color: var(--faculty-primary) !important;
+}
+
+.faculty-page-wrapper .faculty-sub-menu .faculty-menu-link:hover,
+.faculty-page-wrapper .faculty-sub-menu .faculty-menu-item.open > .faculty-menu-link {
+  background: var(--faculty-soft-bg) !important;
+  color: var(--faculty-primary) !important;
 }
