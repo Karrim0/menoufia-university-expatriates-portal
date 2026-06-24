@@ -129,6 +129,15 @@ const newsService = {
 
     return response.data;
   },
+    getStudentMenu: async ({ lang = 1 }) => {
+  const response = await facultyApi.get("/StudentMenu", {
+    params: {
+      lang,
+    },
+  });
+
+  return response.data;
+},
   getSectorPage: async ({ articleId, lang = 1 }) => {
     const response = await facultyApi.get(`/UnivPresPage/${articleId}`, {
       params: {
@@ -288,6 +297,13 @@ const newsService = {
 
     return response.data;
   },
+  getSpecialUnitsMenuByLang: async ({ langId = 1 }) => {
+  const response = await api.get(
+    `/UniversityMenu/special-units/menu/${langId}`,
+  );
+
+  return response.data;
+},
 };
 
 export default newsService;

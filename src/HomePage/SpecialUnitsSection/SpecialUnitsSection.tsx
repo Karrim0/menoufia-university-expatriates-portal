@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { ChevronDown, ExternalLink } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import newsService from "../../Services/newsService";
 import "./SpecialUnitsSection.css";
 
@@ -24,6 +25,32 @@ type SpecialUnitsSectionProps = {
 };
 
 const DEFAULT_ARTICLE_ID = 66343;
+
+const RTL_LANGS = ["ar", "fa"];
+
+const LANGUAGE_ID_BY_CODE: Record<string, number> = {
+  ar: 1,
+  en: 2,
+  fr: 3,
+  ja: 23,
+  de: 24,
+  tr: 25,
+  fa: 26,
+  ru: 27,
+  ch: 28,
+  it: 29,
+};
+
+const getBaseLanguage = (language: string) => {
+  return String(language || "ar")
+    .toLowerCase()
+    .split("-")[0];
+};
+
+const getLanguageId = (language: string) => {
+  const baseLanguage = getBaseLanguage(language);
+  return LANGUAGE_ID_BY_CODE[baseLanguage] || 1;
+};
 
 const cleanText = (value: string) => {
   const textarea = document.createElement("textarea");
@@ -78,10 +105,15 @@ const extractUnitsFromHtml = (html: string): SpecialUnit[] => {
 
 const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
   articleId = DEFAULT_ARTICLE_ID,
-  lang = 1,
+  lang,
   defaultOpen = false,
 }) => {
   const navigate = useNavigate();
+  const { i18n, t } = useTranslation();
+
+  const currentLanguage = getBaseLanguage(i18n.language);
+  const resolvedLang = lang ?? getLanguageId(i18n.language);
+  const isRtl = RTL_LANGS.includes(currentLanguage);
 
   const [article, setArticle] = useState<SpecialUnitsArticle | null>(null);
   const [isOpen, setIsOpen] = useState(defaultOpen);
@@ -96,7 +128,7 @@ const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
       try {
         const response = await newsService.getSectorPage({
           articleId,
-          lang,
+          lang: resolvedLang,
         });
 
         if (!isMounted) return;
@@ -120,7 +152,7 @@ const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
     return () => {
       isMounted = false;
     };
-  }, [articleId, lang]);
+  }, [articleId, resolvedLang]);
 
   const units = useMemo(() => {
     return extractUnitsFromHtml(article?.content || "");
@@ -151,7 +183,10 @@ const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
   const shouldShowBody = loading || isOpen;
 
   return (
-    <section className="special-units-section" dir="rtl">
+    <section
+      className={`special-units-section ${isRtl ? "is-rtl" : "is-ltr"}`}
+      dir={isRtl ? "rtl" : "ltr"}
+    >
       <button
         type="button"
         className={`special-units-header ${isOpen ? "open" : ""}`}
@@ -167,7 +202,12 @@ const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
           <span className="special-units-dot" />
 
           <span className="special-units-title">
-            {article?.title || "الوحدات ذات الطابع الخاص"}
+            {article?.title ||
+              t("specialUnits.title", {
+                defaultValue: isRtl
+                  ? "الوحدات ذات الطابع الخاص"
+                  : "Special Units",
+              })}
           </span>
         </span>
 
@@ -181,7 +221,14 @@ const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
       {shouldShowBody && (
         <div className="special-units-body">
           {loading ? (
-            <div className="special-units-grid" aria-label="جاري تحميل الوحدات">
+            <div
+              className="special-units-grid"
+              aria-label={t("specialUnits.loading", {
+                defaultValue: isRtl
+                  ? "جاري تحميل الوحدات"
+                  : "Loading special units",
+              })}
+            >
               {Array.from({ length: 12 }).map((_, index) => (
                 <div
                   key={`special-unit-skeleton-${index}`}
@@ -203,7 +250,12 @@ const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
                     className="special-unit-card"
                     onClick={() => handleUnitClick(unit)}
                     disabled={!canOpenUnit}
-                    aria-label={`فتح ${unit.title}`}
+                    aria-label={t("specialUnits.openUnit", {
+                      unitTitle: unit.title,
+                      defaultValue: isRtl
+                        ? `فتح ${unit.title}`
+                        : `Open ${unit.title}`,
+                    })}
                   >
                     <ExternalLink size={22} strokeWidth={2.5} />
 
