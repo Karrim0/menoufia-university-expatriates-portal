@@ -199,74 +199,90 @@
   },
 
   "footerModern": {
-    "copyrights": "Menoufia University — All rights reserved",
-    "sections": {
-      "community": {
-        "title": "Community yan Units",
-        "links": {
-          "convoys": "University Convoys",
-          "notary": "Notary Services",
-          "specialServices": "Special Services",
-          "crisisManagement": "Crisis Management",
-          "complaints": "Suggestions yan Complaints",
-          "importantSites": "Important Sites",
-          "more": "更多"
-        }
-      },
-      "campusLife": {
-        "title": "Campus Life yan Services",
-        "links": {
-          "youthCare": "Youth Care",
-          "militaryEducation": "Military Education Centers",
-          "universityCities": "University Dormitories",
-          "takaful": "Takaful",
-          "healthCare": "Health Care",
-          "staffInsurance": "Staff Insurance Fund"
-        }
-      },
-      "researchDevelopment": {
-        "title": "Research yan Development",
-        "links": {
-          "measurementCenter": "Measurement and Evaluation Center",
-          "excellenceCenters": "Centers of Excellence",
-          "isoCourses": "ISO Quality Courses",
-          "researchEthics": "Research Ethics",
-          "erj": "ERJ Journal"
-        }
-      },
-      "digitalTransformation": {
-        "title": "Digital Transformation yan E-Services",
-        "links": {
-          "digitalSystems": "Information Systems and Digital Transformation",
-          "eLearningCenter": "E-Learning Center",
-          "digitalLibrary": "Digital Library",
-          "engineeringLibrary": "Engineering Digital Library",
-          "governmentComplaints": "Government Complaints"
-        }
-      },
-      "programsEducation": {
-        "title": "Programs yan Education",
-        "links": {
-          "commercePrograms": "Faculty of Commerce Programs",
-          "openLegalEducation": "Open Legal Education",
-          "blendedArts": "Blended Education - Arts",
-          "integratedMedicine": "Integrated Medicine Program",
-          "electricalComputers": "Electrical Engineering and Computers"
-        }
-      },
-      "academicServices": {
-        "title": "Academic Services",
-        "links": {
-          "expatriates": "International Students",
-          "staffServices": "Faculty Staff Services",
-          "undergraduateServices": "Undergraduate Student Services",
-          "postgraduateServices": "Postgraduate Student Services",
-          "postgraduateRegistration": "Postgraduate Registration",
-          "candidateCollege": "Candidate College Inquiry"
-        }
+  "copyrights": "米努夫大学 — 版权所有",
+  "more": "显示更多",
+  "less": "显示更少",
+  "sections": {
+    "community": {
+      "title": "社区与单位",
+      "links": {
+        "convoys": "大学服务车队",
+        "notary": "公证服务",
+        "specialServices": "特殊服务",
+        "crisisManagement": "危机管理",
+        "complaints": "建议与投诉",
+        "importantSites": "重要网站",
+        "more": "更多"
+      }
+    },
+    "campusLife": {
+      "title": "校园生活与服务",
+      "links": {
+        "youthCare": "青年关怀",
+        "militaryEducation": "军事教育中心",
+        "universityCities": "大学宿舍",
+        "takaful": "互助基金",
+        "healthCare": "医疗保健",
+        "staffInsurance": "员工保险基金"
+      }
+    },
+    "researchDevelopment": {
+      "title": "科研与发展",
+      "links": {
+        "measurementCenter": "测量与评估中心",
+        "excellenceCenters": "卓越中心",
+        "isoCourses": "ISO质量课程",
+        "researchEthics": "科研伦理",
+        "erj": "ERJ期刊"
+      }
+    },
+    "digitalTransformation": {
+      "title": "数字化转型与电子服务",
+      "links": {
+        "digitalSystems": "信息系统与数字化转型",
+        "eLearningCenter": "电子学习中心",
+        "digitalLibrary": "数字图书馆",
+        "engineeringLibrary": "工程数字图书馆",
+        "governmentComplaints": "政府投诉"
+      }
+    },
+    "programsEducation": {
+      "title": "课程与教育",
+      "links": {
+        "commercePrograms": "商学院课程",
+        "openLegalEducation": "开放法律教育",
+        "blendedArts": "混合教育 - 文学院",
+        "integratedMedicine": "综合医学课程",
+        "electricalComputers": "电气工程与计算机"
+      }
+    },
+    "academicServices": {
+      "title": "学术服务",
+      "links": {
+        "expatriates": "国际学生",
+        "staffServices": "教职员工服务",
+        "undergraduateServices": "本科生服务",
+        "postgraduateServices": "研究生服务",
+        "postgraduateRegistration": "研究生注册",
+        "candidateCollege": "候选学院查询"
       }
     }
   },
+  "bottom": {
+    "locationTitle": "我们的位置",
+    "locationLine1": "米努夫省 - 舍宾库姆",
+    "locationLine2": "埃及米努夫省",
+    "contactTitle": "联系我们",
+    "workingHours": "工作时间：上午8点 - 下午4点",
+    "emailTitle": "电子邮件",
+    "followUs": "关注我们",
+    "copyright": "米努夫大学 - 版权所有 {{year}}",
+    "privacyPolicy": "隐私政策",
+    "termsOfUse": "使用条款",
+    "siteMap": "网站地图",
+    "logoAlt": "米努夫大学"
+  }
+},
 
   "details": {
     "latest": "Mås nuebu na notisia",

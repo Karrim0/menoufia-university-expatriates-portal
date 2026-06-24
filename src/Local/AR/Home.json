@@ -206,74 +206,90 @@
   },
 
   "footerModern": {
-    "copyrights": "جامعة المنوفية — جميع الحقوق محفوظة",
-    "sections": {
-      "community": {
-        "title": "المجتمع والوحدات",
-        "links": {
-          "convoys": "القوافل الجامعية",
-          "notary": "خدمات الشهر العقارى",
-          "specialServices": "الخدمات الخاصة",
-          "crisisManagement": "إدارة الازمات",
-          "complaints": "المقترحات والشكاوى",
-          "importantSites": "مواقع هامة",
-          "more": "المزيد"
-        }
-      },
-      "campusLife": {
-        "title": "الحياة الجامعية والخدمات",
-        "links": {
-          "youthCare": "رعاية الشباب",
-          "militaryEducation": "مراكز العسكرية",
-          "universityCities": "المدن الجامعية",
-          "takaful": "التكافل",
-          "healthCare": "الرعاية الصحية",
-          "staffInsurance": "صندوق تأمين العاملين"
-        }
-      },
-      "researchDevelopment": {
-        "title": "البحث العلمى والتطوير",
-        "links": {
-          "measurementCenter": "مركز القياس والتقويم",
-          "excellenceCenters": "مراكز التميز",
-          "isoCourses": "دورات الجودة ISO",
-          "researchEthics": "اخلاقيات البحث العلمى",
-          "erj": "مجلة ERJ"
-        }
-      },
-      "digitalTransformation": {
-        "title": "التحول الرقمى والخدمات الالكترونية",
-        "links": {
-          "digitalSystems": "نظم المعلومات والتحول الرقمى",
-          "eLearningCenter": "مركز التعليم الالكترونى",
-          "digitalLibrary": "المكتبة الرقمية",
-          "engineeringLibrary": "مكتبة هندسة الرقمية",
-          "governmentComplaints": "الشكاوى الحكومية"
-        }
-      },
-      "programsEducation": {
-        "title": "البرامج والتعليم",
-        "links": {
-          "commercePrograms": "برامج كلية التجارة",
-          "openLegalEducation": "التعليم القانونى المفتوح",
-          "blendedArts": "التعليم المدمج (اداب)",
-          "integratedMedicine": "برنامج الطب التكاملى",
-          "electricalComputers": "هندسة كهربائية وحاسبات"
-        }
-      },
-      "academicServices": {
-        "title": "الخدمات الأكاديمية",
-        "links": {
-          "expatriates": "الوافدين",
-          "staffServices": "خدمات أعضاء هيئة التدريس",
-          "undergraduateServices": "خدمات طلاب البكالوريوس",
-          "postgraduateServices": "خدمات طلاب الدراسات العليا",
-          "postgraduateRegistration": "التسجيل للدراسات العليا",
-          "candidateCollege": "استعلام الكلية المرشح لها"
-        }
+  "copyrights": "جامعة المنوفية — جميع الحقوق محفوظة",
+  "more": "عرض المزيد",
+  "less": "عرض أقل",
+  "sections": {
+    "community": {
+      "title": "المجتمع والوحدات",
+      "links": {
+        "convoys": "القوافل الجامعية",
+        "notary": "خدمات الشهر العقاري",
+        "specialServices": "الخدمات الخاصة",
+        "crisisManagement": "إدارة الأزمات",
+        "complaints": "المقترحات والشكاوى",
+        "importantSites": "مواقع هامة",
+        "more": "المزيد"
+      }
+    },
+    "campusLife": {
+      "title": "الحياة الجامعية والخدمات",
+      "links": {
+        "youthCare": "رعاية الشباب",
+        "militaryEducation": "مراكز التربية العسكرية",
+        "universityCities": "المدن الجامعية",
+        "takaful": "التكافل",
+        "healthCare": "الرعاية الصحية",
+        "staffInsurance": "صندوق تأمين العاملين"
+      }
+    },
+    "researchDevelopment": {
+      "title": "البحث العلمي والتطوير",
+      "links": {
+        "measurementCenter": "مركز القياس والتقويم",
+        "excellenceCenters": "مراكز التميز",
+        "isoCourses": "دورات الجودة ISO",
+        "researchEthics": "أخلاقيات البحث العلمي",
+        "erj": "مجلة ERJ"
+      }
+    },
+    "digitalTransformation": {
+      "title": "التحول الرقمي والخدمات الإلكترونية",
+      "links": {
+        "digitalSystems": "نظم المعلومات والتحول الرقمي",
+        "eLearningCenter": "مركز التعليم الإلكتروني",
+        "digitalLibrary": "المكتبة الرقمية",
+        "engineeringLibrary": "مكتبة الهندسة الرقمية",
+        "governmentComplaints": "الشكاوى الحكومية"
+      }
+    },
+    "programsEducation": {
+      "title": "البرامج والتعليم",
+      "links": {
+        "commercePrograms": "برامج كلية التجارة",
+        "openLegalEducation": "التعليم القانوني المفتوح",
+        "blendedArts": "التعليم المدمج - الآداب",
+        "integratedMedicine": "برنامج الطب التكاملي",
+        "electricalComputers": "الهندسة الكهربائية والحاسبات"
+      }
+    },
+    "academicServices": {
+      "title": "الخدمات الأكاديمية",
+      "links": {
+        "expatriates": "الوافدين",
+        "staffServices": "خدمات أعضاء هيئة التدريس",
+        "undergraduateServices": "خدمات طلاب البكالوريوس",
+        "postgraduateServices": "خدمات طلاب الدراسات العليا",
+        "postgraduateRegistration": "التسجيل للدراسات العليا",
+        "candidateCollege": "استعلام الكلية المرشح لها"
       }
     }
   },
+  "bottom": {
+    "locationTitle": "موقعنا",
+    "locationLine1": "محافظة المنوفية - شبين الكوم",
+    "locationLine2": "محافظة المنوفية، مصر",
+    "contactTitle": "تواصل معنا",
+    "workingHours": "ساعات العمل: من 8 صباحًا - 4 مساءً",
+    "emailTitle": "البريد الإلكتروني",
+    "followUs": "تابعنا على",
+    "copyright": "جامعة المنوفية - جميع الحقوق محفوظة {{year}}",
+    "privacyPolicy": "سياسة الخصوصية",
+    "termsOfUse": "شروط الاستخدام",
+    "siteMap": "خريطة الموقع",
+    "logoAlt": "جامعة المنوفية"
+  }
+},
 
   "details": {
     "latest": "آخر الأخبار",

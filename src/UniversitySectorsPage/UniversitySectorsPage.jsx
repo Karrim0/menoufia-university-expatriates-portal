@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { ChevronDown, ChevronLeft, FileText } from "lucide-react";
+import { ChevronDown, ChevronLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import newsService from "../Services/newsService";
 import SectorsNews from "../SectorsNewsPage/SectorsNews";
@@ -71,15 +71,6 @@ const normalizeTitle = (title = "") =>
     .replace(/\s+/g, "")
     .toLowerCase();
 
-const stripHtmlToText = (html = "") => {
-  if (!html) return "";
-
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(String(html || ""), "text/html");
-
-  return cleanText(doc.body.textContent || "");
-};
-
 const isExternalUrl = (url = "") => /^https?:\/\//i.test(String(url || ""));
 
 const hasArticleId = (item) =>
@@ -128,7 +119,7 @@ const buildFixedMenu = (menu, isArabic) => {
     const normalizedTitles = tab.titles.map(normalizeTitle);
 
     const matched = cleanMenu.find((item) =>
-      normalizedTitles.includes(normalizeTitle(item.title)),
+      normalizedTitles.includes(normalizeTitle(item.title))
     );
 
     if (!matched) {
@@ -147,183 +138,6 @@ const buildFixedMenu = (menu, isArabic) => {
       children: getChildren(matched),
     };
   });
-};
-
-const isVisionMissionArticle = (title = "", html = "") => {
-  const normalizedTitle = normalizeTitle(title);
-  const normalizedContent = normalizeTitle(stripHtmlToText(html));
-
-  return (
-    normalizedTitle.includes("رؤيه") ||
-    normalizedTitle.includes("رؤية") ||
-    normalizedTitle.includes("رساله") ||
-    normalizedTitle.includes("رسالة") ||
-    normalizedTitle.includes("vision") ||
-    normalizedTitle.includes("mission") ||
-    normalizedContent.includes("رؤيه") ||
-    normalizedContent.includes("رؤية") ||
-    normalizedContent.includes("رساله") ||
-    normalizedContent.includes("رسالة") ||
-    normalizedContent.includes("vision") ||
-    normalizedContent.includes("mission")
-  );
-};
-
-const getVisionMissionType = (marker = "") => {
-  const normalizedMarker = normalizeTitle(marker);
-
-  if (
-    normalizedMarker.includes("رساله") ||
-    normalizedMarker.includes("رسالة") ||
-    normalizedMarker.includes("mission")
-  ) {
-    return "mission";
-  }
-
-  return "vision";
-};
-
-const getVisionMissionTitle = (type, isArabic) => {
-  if (type === "mission") return isArabic ? "الرسالة" : "Mission";
-  return isArabic ? "الرؤية" : "Vision";
-};
-
-const cleanVisionMissionText = (value = "") => {
-  return cleanText(value)
-    .replace(/^[:：\-–—.،\s]+/g, "")
-    .replace(/^["“”'«»]+|["“”'«»]+$/g, "")
-    .trim();
-};
-
-const extractVisionMissionItems = (title = "", html = "", isArabic = true) => {
-  const text = stripHtmlToText(html);
-  const normalizedTitle = normalizeTitle(title);
-
-  if (!text && !normalizedTitle) return [];
-
-  const markerRegex =
-    /(الرؤية|الرؤيه|رؤية|رؤيه|الرسالة|الرساله|رسالة|رساله|vision|mission)/gi;
-
-  const matches = Array.from(text.matchAll(markerRegex));
-
-  if (matches.length > 0) {
-    const items = matches
-      .map((match, index) => {
-        const marker = match[0];
-        const type = getVisionMissionType(marker);
-        const start = (match.index || 0) + marker.length;
-        const end =
-          index < matches.length - 1
-            ? matches[index + 1].index || text.length
-            : text.length;
-
-        return {
-          type,
-          title: getVisionMissionTitle(type, isArabic),
-          content: cleanVisionMissionText(text.slice(start, end)),
-        };
-      })
-      .filter((item) => item.content.length > 0);
-
-    const uniqueItems = [];
-
-    items.forEach((item) => {
-      if (!uniqueItems.some((current) => current.type === item.type)) {
-        uniqueItems.push(item);
-      }
-    });
-
-    if (uniqueItems.length > 0) return uniqueItems;
-  }
-
-  const content = cleanVisionMissionText(text);
-
-  if (
-    normalizedTitle.includes("رؤيه") ||
-    normalizedTitle.includes("رؤية") ||
-    normalizedTitle.includes("vision")
-  ) {
-    return content
-      ? [
-          {
-            type: "vision",
-            title: getVisionMissionTitle("vision", isArabic),
-            content,
-          },
-        ]
-      : [];
-  }
-
-  if (
-    normalizedTitle.includes("رساله") ||
-    normalizedTitle.includes("رسالة") ||
-    normalizedTitle.includes("mission")
-  ) {
-    return content
-      ? [
-          {
-            type: "mission",
-            title: getVisionMissionTitle("mission", isArabic),
-            content,
-          },
-        ]
-      : [];
-  }
-
-  return [];
-};
-
-const extractRegularArticleParts = (html = "", isArabic = true) => {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(String(html || ""), "text/html");
-  const body = doc.body;
-
-  let sectionTitle = "";
-
-  const firstHeading = body.querySelector("h1, h2, h3, h4, h5, h6");
-
-  if (firstHeading) {
-    sectionTitle = cleanText(firstHeading.textContent || "");
-    firstHeading.remove();
-  } else {
-    const headingCandidates = Array.from(
-      body.querySelectorAll("p, div, span, strong, b"),
-    );
-
-    const firstSmallHeading = headingCandidates.find((node) => {
-      const text = cleanText(node.textContent || "");
-      const hasLongChildren = Array.from(node.children || []).some(
-        (child) => cleanText(child.textContent || "").length > 45,
-      );
-
-      return (
-        text.length > 0 &&
-        text.length <= 45 &&
-        !hasLongChildren &&
-        !/[.،؛؟!]/.test(text)
-      );
-    });
-
-    if (firstSmallHeading) {
-      sectionTitle = cleanText(firstSmallHeading.textContent || "");
-      firstSmallHeading.remove();
-    }
-  }
-
-  const hasListItems = body.querySelectorAll("li").length > 0;
-
-  if (!sectionTitle && hasListItems) {
-    sectionTitle = isArabic ? "الاختصاصات" : "Responsibilities";
-  }
-
-  if (!sectionTitle) {
-    sectionTitle = isArabic ? "التفاصيل" : "Details";
-  }
-
-  return {
-    sectionTitle,
-    bodyHtml: body.innerHTML.trim(),
-  };
 };
 
 const SectorMenuItem = ({ item, keyword, level = 0 }) => {
@@ -417,7 +231,6 @@ const SectorMenuItem = ({ item, keyword, level = 0 }) => {
             type="button"
             className="usp-menu-arrow-btn"
             onClick={toggleDropdown}
-            aria-label="toggle menu"
           >
             {arrow}
           </button>
@@ -440,81 +253,8 @@ const SectorMenuItem = ({ item, keyword, level = 0 }) => {
   );
 };
 
-const VisionMissionRenderer = ({ article, isArabic }) => {
-  const items = useMemo(
-    () =>
-      extractVisionMissionItems(article.title, article.content || "", isArabic),
-    [article.title, article.content, isArabic],
-  );
-
-  const hasBoth = items.length > 1;
-
-  return (
-    <section
-      className={`usp-vm-section ${hasBoth ? "combined" : "single"}`}
-      dir={isArabic ? "rtl" : "ltr"}
-    >
-      <div className="usp-vm-wrapper">
-        <div className="usp-vm-main-title">
-          <span />
-          <h2>
-            {hasBoth
-              ? isArabic
-                ? "الرؤية والرسالة"
-                : "Vision & Mission"
-              : items[0]?.title || article.title}
-          </h2>
-        </div>
-
-        <div className="usp-vm-list">
-          {items.map((item) => (
-            <div className={`usp-vm-item ${item.type}`} key={item.type}>
-              <div className="usp-vm-head">
-                <div className="usp-vm-icon">
-                  <i
-                    className={
-                      item.type === "vision"
-                        ? "fa-regular fa-eye"
-                        : "fa-regular fa-paper-plane"
-                    }
-                  />
-                </div>
-
-                <h3>{item.title}</h3>
-              </div>
-
-              <div className="usp-vm-box">
-                <p>{item.content}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
 const ArticleRenderer = ({ article, isArabic }) => {
   if (!article) return null;
-
-  const visionMissionItems = extractVisionMissionItems(
-    article.title,
-    article.content || "",
-    isArabic,
-  );
-
-  const isVisionMission =
-    isVisionMissionArticle(article.title, article.content || "") &&
-    visionMissionItems.length > 0;
-
-  if (isVisionMission) {
-    return <VisionMissionRenderer article={article} isArabic={isArabic} />;
-  }
-
-  const { sectionTitle, bodyHtml } = extractRegularArticleParts(
-    article.content || "",
-    isArabic,
-  );
 
   return (
     <section className="usp-article-section" dir={isArabic ? "rtl" : "ltr"}>
@@ -523,20 +263,10 @@ const ArticleRenderer = ({ article, isArabic }) => {
         <h2>{article.title}</h2>
       </div>
 
-      <div className="usp-article-rich-card">
-        <div className="usp-article-rich-head">
-          <div className="usp-article-rich-icon">
-            <FileText size={30} strokeWidth={2.2} />
-          </div>
-
-          <h3>{sectionTitle}</h3>
-        </div>
-
-        <div
-          className="usp-article-rich-body"
-          dangerouslySetInnerHTML={{ __html: bodyHtml || article.content || "" }}
-        />
-      </div>
+      <div
+        className="usp-article-card"
+        dangerouslySetInnerHTML={{ __html: article.content || "" }}
+      />
     </section>
   );
 };
@@ -590,7 +320,7 @@ const UniversitySectorsPage = () => {
         if (!mounted) return;
 
         setMenu(
-          cleanMenuTree(Array.isArray(response?.result) ? response.result : []),
+          cleanMenuTree(Array.isArray(response?.result) ? response.result : [])
         );
       } catch (error) {
         console.error("Failed to fetch university sector menu:", error);

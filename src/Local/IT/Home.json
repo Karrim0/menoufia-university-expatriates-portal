@@ -199,74 +199,90 @@
   },
 
   "footerModern": {
-    "copyrights": "Università di Menoufia — Tutti i diritti riservati",
-    "sections": {
-      "community": {
-        "title": "Comunità",
-        "links": {
-          "convoys": "Convogli universitari",
-          "notary": "Servizi notarili",
-          "specialServices": "Servizi speciali",
-          "crisisManagement": "Gestione crisi",
-          "complaints": "Suggerimenti e reclami",
-          "importantSites": "Siti importanti",
-          "more": "Altro"
-        }
-      },
-      "campusLife": {
-        "title": "Vita campus",
-        "links": {
-          "youthCare": "Assistenza studenti",
-          "militaryEducation": "Formazione militare",
-          "universityCities": "Residenze",
-          "takaful": "Takaful",
-          "healthCare": "Sanità",
-          "staffInsurance": "Assicurazione staff"
-        }
-      },
-      "researchDevelopment": {
-        "title": "Ricerca",
-        "links": {
-          "measurementCenter": "Misurazione e valutazione",
-          "excellenceCenters": "Centri eccellenza",
-          "isoCourses": "Corsi ISO",
-          "researchEthics": "Etica ricerca",
-          "erj": "Rivista ERJ"
-        }
-      },
-      "digitalTransformation": {
-        "title": "Digitale",
-        "links": {
-          "digitalSystems": "Sistemi informativi",
-          "eLearningCenter": "E-learning",
-          "digitalLibrary": "Biblioteca digitale",
-          "engineeringLibrary": "Biblioteca ingegneria",
-          "governmentComplaints": "Reclami governativi"
-        }
-      },
-      "programsEducation": {
-        "title": "Programmi",
-        "links": {
-          "commercePrograms": "Programmi commercio",
-          "openLegalEducation": "Diritto aperto",
-          "blendedArts": "Arti blended",
-          "integratedMedicine": "Medicina integrata",
-          "electricalComputers": "Elettrica e computer"
-        }
-      },
-      "academicServices": {
-        "title": "Servizi accademici",
-        "links": {
-          "expatriates": "Internazionali",
-          "staffServices": "Servizi docenti",
-          "undergraduateServices": "Laurea",
-          "postgraduateServices": "Post-laurea",
-          "postgraduateRegistration": "Iscrizione PG",
-          "candidateCollege": "Facoltà assegnata"
-        }
+  "copyrights": "Università di Menoufia — Tutti i diritti riservati",
+  "more": "Mostra altro",
+  "less": "Mostra meno",
+  "sections": {
+    "community": {
+      "title": "Comunità e Unità",
+      "links": {
+        "convoys": "Convogli universitari",
+        "notary": "Servizi notarili",
+        "specialServices": "Servizi speciali",
+        "crisisManagement": "Gestione delle crisi",
+        "complaints": "Suggerimenti e reclami",
+        "importantSites": "Siti importanti",
+        "more": "Altro"
+      }
+    },
+    "campusLife": {
+      "title": "Vita universitaria e servizi",
+      "links": {
+        "youthCare": "Assistenza giovanile",
+        "militaryEducation": "Centri di educazione militare",
+        "universityCities": "Residenze universitarie",
+        "takaful": "Takaful",
+        "healthCare": "Assistenza sanitaria",
+        "staffInsurance": "Fondo assicurativo del personale"
+      }
+    },
+    "researchDevelopment": {
+      "title": "Ricerca e sviluppo",
+      "links": {
+        "measurementCenter": "Centro di misurazione e valutazione",
+        "excellenceCenters": "Centri di eccellenza",
+        "isoCourses": "Corsi di qualità ISO",
+        "researchEthics": "Etica della ricerca",
+        "erj": "Rivista ERJ"
+      }
+    },
+    "digitalTransformation": {
+      "title": "Trasformazione digitale e servizi elettronici",
+      "links": {
+        "digitalSystems": "Sistemi informativi e trasformazione digitale",
+        "eLearningCenter": "Centro di e-learning",
+        "digitalLibrary": "Biblioteca digitale",
+        "engineeringLibrary": "Biblioteca digitale di ingegneria",
+        "governmentComplaints": "Reclami governativi"
+      }
+    },
+    "programsEducation": {
+      "title": "Programmi e istruzione",
+      "links": {
+        "commercePrograms": "Programmi della Facoltà di Commercio",
+        "openLegalEducation": "Istruzione giuridica aperta",
+        "blendedArts": "Istruzione mista - Lettere",
+        "integratedMedicine": "Programma di medicina integrata",
+        "electricalComputers": "Ingegneria elettrica e informatica"
+      }
+    },
+    "academicServices": {
+      "title": "Servizi accademici",
+      "links": {
+        "expatriates": "Studenti internazionali",
+        "staffServices": "Servizi per il personale docente",
+        "undergraduateServices": "Servizi per studenti universitari",
+        "postgraduateServices": "Servizi per studenti post-laurea",
+        "postgraduateRegistration": "Registrazione post-laurea",
+        "candidateCollege": "Richiesta sulla facoltà assegnata"
       }
     }
   },
+  "bottom": {
+    "locationTitle": "La nostra sede",
+    "locationLine1": "Governatorato di Menoufia - Shebin El-Kom",
+    "locationLine2": "Governatorato di Menoufia, Egitto",
+    "contactTitle": "Contattaci",
+    "workingHours": "Orario di lavoro: 8:00 - 16:00",
+    "emailTitle": "Email",
+    "followUs": "Seguici",
+    "copyright": "Università di Menoufia - Tutti i diritti riservati {{year}}",
+    "privacyPolicy": "Informativa sulla privacy",
+    "termsOfUse": "Termini di utilizzo",
+    "siteMap": "Mappa del sito",
+    "logoAlt": "Università di Menoufia"
+  }
+},
 
   "details": {
     "latest": "Ultime notizie",

@@ -20,7 +20,33 @@
     "address": "العنوان",
     "suggestions-done": "تم إرسال اقتراحك بنجاح. شكراً لتواصلك معنا!",
     "complaints-done": "تم إرسال شكواك بنجاح. سنتواصل معك قريباً!",
-    "ratings-done": "تم إرسال تقييمك بنجاح. نشكرك على وقتك!"
-
+    "ratings-done": "تم إرسال تقييمك بنجاح. نشكرك على وقتك!",
+    "external-complaints": "الشكاوى هنا",
+  "complaint-category": "الفئة",
+  "special-units": "وحدات ذات طابع خاص",
+  "general-administration": "الإدارة العامة",
+  "faculties": "الكليات",
+  "faculty": "الكلية",
+  "loading-faculties": "جاري تحميل الكليات...",
+  "select-faculty": "اختر الكلية",
+  "faculty-search-placeholder": "ابحث باسم الكلية...",
+  "no-matching-results": "لا توجد نتائج مطابقة",
+  "faculties-load-failed": "تعذر تحميل قائمة الكليات",
+  "complaint-category-required": "من فضلك اختر فئة الشكوى",
+  "faculty-required": "من فضلك اختر الكلية",
+  "name": "الاسم",
+  "name-placeholder": "أدخل اسمك",
+  "name-required": "من فضلك اكتب الاسم",
+  "phone-placeholder": "ادخل رقم الهاتف",
+  "phone-required": "من فضلك اكتب رقم الهاتف",
+  "message-text": "نص الرسالة",
+  "complaint-message-placeholder": "أدخل شكواك هنا...",
+  "upload-drop-title": "اسحب الملف هنا أو اضغط للاختيار",
+  "upload-file": "رفع ملف",
+  "choose-file": "اختيار ملف",
+  "complaint-submit-success": "تم إرسال الشكوى بنجاح",
+  "complaint-submit-success-with-id": "تم إرسال الشكوى بنجاح. رقم الشكوى: {{complaintId}}",
+  "address-value": "محافظة المنوفية، مصر"
+,"government-complaints": "الشكاوى الحكومية"
   }
   

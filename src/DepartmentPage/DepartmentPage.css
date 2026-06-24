@@ -255,10 +255,10 @@
 }
 
 .department-menu-wrapper {
-  width: 100% !important;
-  max-width: none !important;
-  margin: 0 !important;
-  padding: 0 14px !important;
+  width: min(1400px, calc(100% - 48px)) !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
 }
 
 .department-menu-loading {
@@ -2177,8 +2177,8 @@
   top: 0;
   right: 100%;
 }
-/*  */
-/* ===== Department slider arrows ===== */
+
+
 
 .department-highlight-image-wrap {
   position: relative;
@@ -2226,12 +2226,12 @@
     color-mix(in srgb, var(--department-primary) 28%, transparent);
 }
 
-/* الزر اللي على يمين السلايدر */
+
 .department-slider-control-prev {
   right: 24px;
 }
 
-/* الزر اللي على شمال السلايدر */
+
 .department-slider-control-next {
   left: 24px;
 }
@@ -2271,7 +2271,7 @@
     left: 12px;
   }
 }
-/* ===== Fix department slider arrows click layer ===== */
+
 
 .department-highlight-image-wrap {
   position: relative !important;
@@ -2351,7 +2351,7 @@
   .department-slider-control i {
     font-size: 15px;
   }
-} /* ===== Fix highlight details arrow ===== */
+} 
 
 .department-highlight-arrow {
   width: 80px !important;
@@ -2407,7 +2407,7 @@
   }
 }
 
-/* ===== Department mobile final responsive pass ===== */
+
 @media (max-width: 768px) {
   .department-top-header {
     min-height: 86px !important;
@@ -2862,7 +2862,7 @@
   }
 }
 
-/* Keep department pagination horizontal on narrow screens */
+
 @media (max-width: 768px) {
   .department-page-wrapper .news-pagination {
     display: flex !important;
@@ -2871,5 +2871,432 @@
     justify-content: center !important;
     width: fit-content !important;
     max-width: calc(100% - 24px) !important;
+  }
+}
+
+.department-menu-shell {
+  width: 100%;
+  min-height: 49px;
+  padding: 0 10px;
+  border-radius: 6px;
+  background: var(--department-primary) !important;
+  box-shadow: 0 6px 14px color-mix(in srgb, var(--department-primary) 18%, transparent);
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  overflow: visible !important;
+}
+
+.department-menu-shell .department-menu-bar {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  display: grid !important;
+  grid-template-columns: repeat(var(--department-nav-count, 7), minmax(0, 1fr));
+  align-items: stretch;
+  justify-content: stretch;
+  gap: 0;
+  overflow: visible !important;
+}
+
+.department-menu-shell .department-menu-item.level-0 {
+  min-width: 0;
+  flex: initial;
+}
+
+.department-menu-page-btn {
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  min-height: 34px !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  border: 1px solid color-mix(in srgb, var(--department-white) 45%, transparent) !important;
+  border-radius: 30% !important;
+
+  background: transparent !important;
+  color: var(--department-white) !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  box-shadow: none !important;
+  outline: none !important;
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.department-menu-page-btn:not(:disabled):hover {
+  background: color-mix(in srgb, var(--department-white) 10%, transparent) !important;
+  border-color: color-mix(in srgb, var(--department-white) 75%, transparent) !important;
+  transform: translateY(-1px);
+}
+
+.department-menu-page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.department-menu-page-btn svg {
+  width: 16px !important;
+  height: 16px !important;
+  stroke-width: 2.2;
+}
+
+.department-menu-page-btn:not(:disabled):hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.department-menu-page-btn:disabled {
+  opacity: 0.34;
+  cursor: not-allowed;
+}
+
+.department-menu-page-btn svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+.department-menu-shell .department-menu-link {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.department-menu-section,
+.department-menu-wrapper,
+.department-menu-shell,
+.department-menu-bar,
+.department-menu-item,
+.department-sub-menu {
+  overflow: visible !important;
+}
+
+.department-footer-links-scroll {
+  width: 100%;
+  max-height: 94px;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.department-footer-column.expanded .department-footer-links-scroll {
+  max-height: 190px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--department-col-accent) transparent;
+}
+
+.department-footer-column.expanded .department-footer-links-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.department-footer-column.expanded .department-footer-links-scroll::-webkit-scrollbar-thumb {
+  background: var(--department-col-accent);
+  border-radius: 999px;
+}
+
+.department-footer-more-btn {
+  width: 74px;
+  height: 34px;
+  margin-top: 11px;
+  padding: 0 12px;
+  border: 1px solid color-mix(in srgb, var(--department-white) 14%, transparent);
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--department-white) 4%, transparent);
+  color: var(--department-col-accent);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.department-footer-more-btn:hover {
+  background: color-mix(in srgb, var(--department-white) 8%, transparent);
+  border-color: var(--department-col-accent);
+}
+
+.department-links-footer-inner:empty {
+  display: none;
+}
+
+@media (max-width: 992px) {
+  .department-menu-shell {
+    min-height: 46px;
+    padding: 0 8px;
+    gap: 4px;
+  }
+
+  .department-menu-shell .department-menu-bar {
+    overflow: visible !important;
+  }
+
+  .department-menu-page-btn {
+    width: 30px;
+    min-width: 30px;
+    min-height: 46px;
+  }
+}
+
+@media (max-width: 640px) {
+  .department-menu-shell {
+    min-height: 42px;
+    padding: 0 6px;
+    gap: 3px;
+  }
+
+  .department-menu-page-btn {
+    width: 28px;
+    min-width: 28px;
+    min-height: 42px;
+  }
+
+  .department-menu-page-btn svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .department-menu-shell .department-menu-link {
+    height: 42px !important;
+    min-height: 42px !important;
+    padding-inline: 6px !important;
+    font-size: 10.5px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .department-menu-shell {
+    min-height: 38px;
+  }
+
+  .department-menu-page-btn {
+    width: 26px;
+    min-width: 26px;
+    min-height: 38px;
+  }
+
+  .department-menu-shell .department-menu-link {
+    height: 38px !important;
+    min-height: 38px !important;
+    font-size: 10px !important;
+  }
+}
+/* ================================
+   Department Inner Navbar Fix
+================================ */
+
+.department-menu-shell {
+  width: 100%;
+  min-height: 49px;
+  padding: 0 10px;
+  border-radius: 6px;
+  background: var(--department-primary) !important;
+  box-shadow: 0 6px 14px
+    color-mix(in srgb, var(--department-primary) 18%, transparent);
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  overflow: visible !important;
+}
+
+.department-menu-shell .department-menu-bar {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100% !important;
+
+  padding: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+
+  display: grid !important;
+  grid-template-columns: repeat(var(--department-nav-count, 1), minmax(0, 1fr));
+  align-items: stretch;
+  justify-content: stretch;
+
+  gap: 0;
+  overflow: visible !important;
+}
+
+.department-menu-shell .department-menu-item.level-0 {
+  min-width: 0;
+  width: 100%;
+  flex: initial;
+}
+
+.department-menu-shell .department-menu-item.level-0 > .department-menu-link {
+  width: 100%;
+  min-width: 0;
+
+  padding-inline: 10px !important;
+
+  white-space: normal !important;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.department-menu-shell .department-menu-item.level-0 > .department-menu-link span {
+  min-width: 0;
+  max-width: 100%;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.department-menu-shell .department-menu-item.level-0 > .department-menu-link .department-menu-arrow {
+  flex-shrink: 0;
+}
+
+.department-menu-page-btn {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+
+  padding: 0;
+  align-self: center;
+
+  border: 1px solid color-mix(in srgb, var(--department-white) 70%, transparent) !important;
+  outline: 0;
+  border-radius: 11px;
+
+  background: color-mix(in srgb, var(--department-white) 4%, transparent) !important;
+  color: var(--department-white) !important;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.department-menu-page-btn:not(:disabled):hover {
+  opacity: 1;
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--department-white) 10%, transparent) !important;
+  border-color: var(--department-white) !important;
+}
+
+.department-menu-page-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.department-menu-page-btn svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+.department-menu-section,
+.department-menu-wrapper,
+.department-menu-shell,
+.department-menu-bar,
+.department-menu-item,
+.department-sub-menu {
+  overflow: visible !important;
+}
+
+@media (max-width: 992px) {
+  .department-menu-shell {
+    min-height: 46px;
+    padding: 0 8px;
+    gap: 6px;
+  }
+
+  .department-menu-page-btn {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    border-radius: 10px;
+  }
+
+  .department-menu-shell .department-menu-item.level-0 > .department-menu-link {
+    height: 46px !important;
+    min-height: 46px !important;
+    padding-inline: 8px !important;
+    font-size: 11.5px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .department-menu-shell {
+    min-height: 42px;
+    padding: 0 6px;
+    gap: 5px;
+  }
+
+  .department-menu-page-btn {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    min-height: 28px;
+    border-radius: 9px;
+  }
+
+  .department-menu-page-btn svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .department-menu-shell .department-menu-item.level-0 > .department-menu-link {
+    height: 42px !important;
+    min-height: 42px !important;
+    padding-inline: 6px !important;
+    font-size: 10.5px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .department-menu-shell {
+    min-height: 38px;
+  }
+
+  .department-menu-page-btn {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    min-height: 26px;
+    border-radius: 8px;
+  }
+
+  .department-menu-shell .department-menu-item.level-0 > .department-menu-link {
+    height: 38px !important;
+    min-height: 38px !important;
+    font-size: 10px !important;
   }
 }

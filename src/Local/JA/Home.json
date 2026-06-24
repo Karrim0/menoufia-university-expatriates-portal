@@ -199,74 +199,90 @@
   },
 
   "footerModern": {
-    "copyrights": "メヌーフィア大学 — All rights reserved",
-    "sections": {
-      "community": {
-        "title": "地域・部局",
-        "links": {
-          "convoys": "大学支援隊",
-          "notary": "公証サービス",
-          "specialServices": "特別サービス",
-          "crisisManagement": "危機管理",
-          "complaints": "提案・苦情",
-          "importantSites": "重要サイト",
-          "more": "もっと見る"
-        }
-      },
-      "campusLife": {
-        "title": "学生生活",
-        "links": {
-          "youthCare": "学生支援",
-          "militaryEducation": "軍事教育",
-          "universityCities": "学生寮",
-          "takaful": "タカフル",
-          "healthCare": "医療",
-          "staffInsurance": "職員保険"
-        }
-      },
-      "researchDevelopment": {
-        "title": "研究",
-        "links": {
-          "measurementCenter": "評価センター",
-          "excellenceCenters": "卓越センター",
-          "isoCourses": "ISO講座",
-          "researchEthics": "研究倫理",
-          "erj": "ERJ誌"
-        }
-      },
-      "digitalTransformation": {
-        "title": "デジタル",
-        "links": {
-          "digitalSystems": "情報システム",
-          "eLearningCenter": "Eラーニング",
-          "digitalLibrary": "電子図書館",
-          "engineeringLibrary": "工学図書館",
-          "governmentComplaints": "政府苦情"
-        }
-      },
-      "programsEducation": {
-        "title": "教育",
-        "links": {
-          "commercePrograms": "商学プログラム",
-          "openLegalEducation": "公開法学教育",
-          "blendedArts": "混合型人文学",
-          "integratedMedicine": "統合医療",
-          "electricalComputers": "電気・情報"
-        }
-      },
-      "academicServices": {
-        "title": "学務サービス",
-        "links": {
-          "expatriates": "留学生",
-          "staffServices": "教員サービス",
-          "undergraduateServices": "学部サービス",
-          "postgraduateServices": "大学院サービス",
-          "postgraduateRegistration": "大学院登録",
-          "candidateCollege": "配属学部確認"
-        }
+  "copyrights": "メヌーフィーヤ大学 — 全著作権所有",
+  "more": "もっと見る",
+  "less": "表示を減らす",
+  "sections": {
+    "community": {
+      "title": "地域社会と部門",
+      "links": {
+        "convoys": "大学キャラバン",
+        "notary": "公証サービス",
+        "specialServices": "特別サービス",
+        "crisisManagement": "危機管理",
+        "complaints": "提案と苦情",
+        "importantSites": "重要なサイト",
+        "more": "もっと見る"
+      }
+    },
+    "campusLife": {
+      "title": "キャンパスライフとサービス",
+      "links": {
+        "youthCare": "青少年支援",
+        "militaryEducation": "軍事教育センター",
+        "universityCities": "大学寮",
+        "takaful": "タカフル",
+        "healthCare": "医療サービス",
+        "staffInsurance": "職員保険基金"
+      }
+    },
+    "researchDevelopment": {
+      "title": "研究と開発",
+      "links": {
+        "measurementCenter": "測定・評価センター",
+        "excellenceCenters": "卓越センター",
+        "isoCourses": "ISO品質コース",
+        "researchEthics": "研究倫理",
+        "erj": "ERJジャーナル"
+      }
+    },
+    "digitalTransformation": {
+      "title": "デジタル変革と電子サービス",
+      "links": {
+        "digitalSystems": "情報システムとデジタル変革",
+        "eLearningCenter": "eラーニングセンター",
+        "digitalLibrary": "デジタル図書館",
+        "engineeringLibrary": "工学デジタル図書館",
+        "governmentComplaints": "政府への苦情"
+      }
+    },
+    "programsEducation": {
+      "title": "プログラムと教育",
+      "links": {
+        "commercePrograms": "商学部プログラム",
+        "openLegalEducation": "公開法学教育",
+        "blendedArts": "ブレンド教育 - 文学部",
+        "integratedMedicine": "統合医療プログラム",
+        "electricalComputers": "電気工学とコンピューター"
+      }
+    },
+    "academicServices": {
+      "title": "学術サービス",
+      "links": {
+        "expatriates": "留学生",
+        "staffServices": "教職員サービス",
+        "undergraduateServices": "学部生サービス",
+        "postgraduateServices": "大学院生サービス",
+        "postgraduateRegistration": "大学院登録",
+        "candidateCollege": "推薦学部の照会"
       }
     }
   },
+  "bottom": {
+    "locationTitle": "所在地",
+    "locationLine1": "メヌーフィーヤ県 - シビン・エル・コム",
+    "locationLine2": "メヌーフィーヤ県、エジプト",
+    "contactTitle": "お問い合わせ",
+    "workingHours": "勤務時間：午前8時 - 午後4時",
+    "emailTitle": "メール",
+    "followUs": "フォローする",
+    "copyright": "メヌーフィーヤ大学 - 全著作権所有 {{year}}",
+    "privacyPolicy": "プライバシーポリシー",
+    "termsOfUse": "利用規約",
+    "siteMap": "サイトマップ",
+    "logoAlt": "メヌーフィーヤ大学"
+  }
+},
 
   "details": {
     "latest": "最新ニュース",

@@ -199,74 +199,90 @@
   },
 
   "footerModern": {
-    "copyrights": "Menoufia Üniversitesi — Tüm hakları saklıdır",
-    "sections": {
-      "community": {
-        "title": "Toplum",
-        "links": {
-          "convoys": "Üniversite Konvoyları",
-          "notary": "Noter Hizmetleri",
-          "specialServices": "Özel Hizmetler",
-          "crisisManagement": "Kriz Yönetimi",
-          "complaints": "Öneri ve Şikayetler",
-          "importantSites": "Önemli Siteler",
-          "more": "Daha fazla"
-        }
-      },
-      "campusLife": {
-        "title": "Kampüs Yaşamı",
-        "links": {
-          "youthCare": "Öğrenci Desteği",
-          "militaryEducation": "Askeri Eğitim",
-          "universityCities": "Yurtlar",
-          "takaful": "Takaful",
-          "healthCare": "Sağlık",
-          "staffInsurance": "Personel Sigortası"
-        }
-      },
-      "researchDevelopment": {
-        "title": "Araştırma",
-        "links": {
-          "measurementCenter": "Ölçme Merkezi",
-          "excellenceCenters": "Mükemmeliyet Merkezleri",
-          "isoCourses": "ISO Kursları",
-          "researchEthics": "Araştırma Etiği",
-          "erj": "ERJ Dergisi"
-        }
-      },
-      "digitalTransformation": {
-        "title": "Dijital",
-        "links": {
-          "digitalSystems": "Bilgi Sistemleri",
-          "eLearningCenter": "E-öğrenme",
-          "digitalLibrary": "Dijital Kütüphane",
-          "engineeringLibrary": "Mühendislik Kütüphanesi",
-          "governmentComplaints": "Kamu Şikayetleri"
-        }
-      },
-      "programsEducation": {
-        "title": "Programlar",
-        "links": {
-          "commercePrograms": "Ticaret Programları",
-          "openLegalEducation": "Açık Hukuk Eğitimi",
-          "blendedArts": "Blended Arts",
-          "integratedMedicine": "Entegre Tıp",
-          "electricalComputers": "Elektrik ve Bilgisayar"
-        }
-      },
-      "academicServices": {
-        "title": "Akademik Hizmetler",
-        "links": {
-          "expatriates": "Uluslararası",
-          "staffServices": "Akademisyen Hizmetleri",
-          "undergraduateServices": "Lisans",
-          "postgraduateServices": "Lisansüstü",
-          "postgraduateRegistration": "Lisansüstü Kayıt",
-          "candidateCollege": "Aday Fakülte"
-        }
+  "copyrights": "Menufiye Üniversitesi — Tüm hakları saklıdır",
+  "more": "Daha fazla göster",
+  "less": "Daha az göster",
+  "sections": {
+    "community": {
+      "title": "Toplum ve Birimler",
+      "links": {
+        "convoys": "Üniversite Konvoyları",
+        "notary": "Noter Hizmetleri",
+        "specialServices": "Özel Hizmetler",
+        "crisisManagement": "Kriz Yönetimi",
+        "complaints": "Öneriler ve Şikayetler",
+        "importantSites": "Önemli Siteler",
+        "more": "Daha fazla"
+      }
+    },
+    "campusLife": {
+      "title": "Kampüs Yaşamı ve Hizmetler",
+      "links": {
+        "youthCare": "Gençlik Hizmetleri",
+        "militaryEducation": "Askeri Eğitim Merkezleri",
+        "universityCities": "Üniversite Yurtları",
+        "takaful": "Takaful",
+        "healthCare": "Sağlık Hizmetleri",
+        "staffInsurance": "Personel Sigorta Fonu"
+      }
+    },
+    "researchDevelopment": {
+      "title": "Araştırma ve Geliştirme",
+      "links": {
+        "measurementCenter": "Ölçme ve Değerlendirme Merkezi",
+        "excellenceCenters": "Mükemmeliyet Merkezleri",
+        "isoCourses": "ISO Kalite Kursları",
+        "researchEthics": "Araştırma Etiği",
+        "erj": "ERJ Dergisi"
+      }
+    },
+    "digitalTransformation": {
+      "title": "Dijital Dönüşüm ve E-Hizmetler",
+      "links": {
+        "digitalSystems": "Bilgi Sistemleri ve Dijital Dönüşüm",
+        "eLearningCenter": "E-Öğrenme Merkezi",
+        "digitalLibrary": "Dijital Kütüphane",
+        "engineeringLibrary": "Mühendislik Dijital Kütüphanesi",
+        "governmentComplaints": "Resmi Şikayetler"
+      }
+    },
+    "programsEducation": {
+      "title": "Programlar ve Eğitim",
+      "links": {
+        "commercePrograms": "Ticaret Fakültesi Programları",
+        "openLegalEducation": "Açık Hukuk Eğitimi",
+        "blendedArts": "Karma Eğitim - Edebiyat",
+        "integratedMedicine": "Entegre Tıp Programı",
+        "electricalComputers": "Elektrik Mühendisliği ve Bilgisayarlar"
+      }
+    },
+    "academicServices": {
+      "title": "Akademik Hizmetler",
+      "links": {
+        "expatriates": "Uluslararası Öğrenciler",
+        "staffServices": "Akademik Personel Hizmetleri",
+        "undergraduateServices": "Lisans Öğrenci Hizmetleri",
+        "postgraduateServices": "Lisansüstü Öğrenci Hizmetleri",
+        "postgraduateRegistration": "Lisansüstü Kayıt",
+        "candidateCollege": "Aday Fakülte Sorgulama"
       }
     }
   },
+  "bottom": {
+    "locationTitle": "Konumumuz",
+    "locationLine1": "Menufiye Valiliği - Şibin el-Kom",
+    "locationLine2": "Menufiye Valiliği, Mısır",
+    "contactTitle": "Bize Ulaşın",
+    "workingHours": "Çalışma saatleri: 08:00 - 16:00",
+    "emailTitle": "E-posta",
+    "followUs": "Bizi takip edin",
+    "copyright": "Menufiye Üniversitesi - Tüm hakları saklıdır {{year}}",
+    "privacyPolicy": "Gizlilik Politikası",
+    "termsOfUse": "Kullanım Şartları",
+    "siteMap": "Site Haritası",
+    "logoAlt": "Menufiye Üniversitesi"
+  }
+},
 
   "details": {
     "latest": "Son haberler",

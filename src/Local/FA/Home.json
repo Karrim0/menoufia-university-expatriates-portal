@@ -199,74 +199,90 @@
   },
 
   "footerModern": {
-    "copyrights": "دانشگاه منوفیه — تمام حقوق محفوظ است",
-    "sections": {
-      "community": {
-        "title": "جامعه و واحدها",
-        "links": {
-          "convoys": "کاروان‌های دانشگاه",
-          "notary": "خدمات دفترخانه",
-          "specialServices": "خدمات ویژه",
-          "crisisManagement": "مدیریت بحران",
-          "complaints": "پیشنهادها و شکایات",
-          "importantSites": "سایت‌های مهم",
-          "more": "بیشتر"
-        }
-      },
-      "campusLife": {
-        "title": "زندگی دانشگاهی",
-        "links": {
-          "youthCare": "حمایت دانشجویی",
-          "militaryEducation": "آموزش نظامی",
-          "universityCities": "خوابگاه‌ها",
-          "takaful": "تکافل",
-          "healthCare": "مراقبت درمانی",
-          "staffInsurance": "بیمه کارکنان"
-        }
-      },
-      "researchDevelopment": {
-        "title": "پژوهش و توسعه",
-        "links": {
-          "measurementCenter": "مرکز سنجش",
-          "excellenceCenters": "مراکز برتری",
-          "isoCourses": "دوره‌های ISO",
-          "researchEthics": "اخلاق پژوهش",
-          "erj": "مجله ERJ"
-        }
-      },
-      "digitalTransformation": {
-        "title": "تحول دیجیتال",
-        "links": {
-          "digitalSystems": "سامانه‌های اطلاعاتی",
-          "eLearningCenter": "آموزش الکترونیکی",
-          "digitalLibrary": "کتابخانه دیجیتال",
-          "engineeringLibrary": "کتابخانه مهندسی",
-          "governmentComplaints": "شکایات دولتی"
-        }
-      },
-      "programsEducation": {
-        "title": "برنامه‌ها و آموزش",
-        "links": {
-          "commercePrograms": "برنامه‌های تجارت",
-          "openLegalEducation": "آموزش حقوق آزاد",
-          "blendedArts": "آموزش ترکیبی هنر",
-          "integratedMedicine": "پزشکی یکپارچه",
-          "electricalComputers": "برق و کامپیوتر"
-        }
-      },
-      "academicServices": {
-        "title": "خدمات آموزشی",
-        "links": {
-          "expatriates": "دانشجویان بین‌المللی",
-          "staffServices": "خدمات اساتید",
-          "undergraduateServices": "خدمات کارشناسی",
-          "postgraduateServices": "خدمات تحصیلات تکمیلی",
-          "postgraduateRegistration": "ثبت‌نام تحصیلات تکمیلی",
-          "candidateCollege": "استعلام دانشکده"
-        }
+  "copyrights": "دانشگاه منوفیه — همه حقوق محفوظ است",
+  "more": "نمایش بیشتر",
+  "less": "نمایش کمتر",
+  "sections": {
+    "community": {
+      "title": "جامعه و واحدها",
+      "links": {
+        "convoys": "کاروان‌های دانشگاهی",
+        "notary": "خدمات دفتر اسناد رسمی",
+        "specialServices": "خدمات ویژه",
+        "crisisManagement": "مدیریت بحران",
+        "complaints": "پیشنهادها و شکایات",
+        "importantSites": "سایت‌های مهم",
+        "more": "بیشتر"
+      }
+    },
+    "campusLife": {
+      "title": "زندگی دانشگاهی و خدمات",
+      "links": {
+        "youthCare": "مراقبت از جوانان",
+        "militaryEducation": "مراکز آموزش نظامی",
+        "universityCities": "خوابگاه‌های دانشگاهی",
+        "takaful": "تکافل",
+        "healthCare": "مراقبت‌های بهداشتی",
+        "staffInsurance": "صندوق بیمه کارکنان"
+      }
+    },
+    "researchDevelopment": {
+      "title": "پژوهش و توسعه",
+      "links": {
+        "measurementCenter": "مرکز سنجش و ارزیابی",
+        "excellenceCenters": "مراکز تعالی",
+        "isoCourses": "دوره‌های کیفیت ISO",
+        "researchEthics": "اخلاق پژوهش",
+        "erj": "مجله ERJ"
+      }
+    },
+    "digitalTransformation": {
+      "title": "تحول دیجیتال و خدمات الکترونیکی",
+      "links": {
+        "digitalSystems": "سیستم‌های اطلاعاتی و تحول دیجیتال",
+        "eLearningCenter": "مرکز آموزش الکترونیکی",
+        "digitalLibrary": "کتابخانه دیجیتال",
+        "engineeringLibrary": "کتابخانه دیجیتال مهندسی",
+        "governmentComplaints": "شکایات دولتی"
+      }
+    },
+    "programsEducation": {
+      "title": "برنامه‌ها و آموزش",
+      "links": {
+        "commercePrograms": "برنامه‌های دانشکده بازرگانی",
+        "openLegalEducation": "آموزش حقوقی آزاد",
+        "blendedArts": "آموزش ترکیبی - ادبیات",
+        "integratedMedicine": "برنامه پزشکی یکپارچه",
+        "electricalComputers": "مهندسی برق و کامپیوتر"
+      }
+    },
+    "academicServices": {
+      "title": "خدمات دانشگاهی",
+      "links": {
+        "expatriates": "دانشجویان بین‌المللی",
+        "staffServices": "خدمات اعضای هیئت علمی",
+        "undergraduateServices": "خدمات دانشجویان کارشناسی",
+        "postgraduateServices": "خدمات دانشجویان تحصیلات تکمیلی",
+        "postgraduateRegistration": "ثبت‌نام تحصیلات تکمیلی",
+        "candidateCollege": "استعلام دانشکده پیشنهادی"
       }
     }
   },
+  "bottom": {
+    "locationTitle": "موقعیت ما",
+    "locationLine1": "استان منوفیه - شبین الکوم",
+    "locationLine2": "استان منوفیه، مصر",
+    "contactTitle": "تماس با ما",
+    "workingHours": "ساعات کاری: ۸ صبح تا ۴ عصر",
+    "emailTitle": "ایمیل",
+    "followUs": "ما را دنبال کنید",
+    "copyright": "دانشگاه منوفیه - همه حقوق محفوظ است {{year}}",
+    "privacyPolicy": "سیاست حفظ حریم خصوصی",
+    "termsOfUse": "شرایط استفاده",
+    "siteMap": "نقشه سایت",
+    "logoAlt": "دانشگاه منوفیه"
+  }
+},
 
   "details": {
     "latest": "آخرین اخبار",

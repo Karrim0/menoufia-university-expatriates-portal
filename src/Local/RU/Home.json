@@ -199,74 +199,90 @@
   },
 
   "footerModern": {
-    "copyrights": "Университет Менуфия — все права защищены",
-    "sections": {
-      "community": {
-        "title": "Сообщество",
-        "links": {
-          "convoys": "Университетские выезды",
-          "notary": "Нотариальные услуги",
-          "specialServices": "Спецуслуги",
-          "crisisManagement": "Кризис-менеджмент",
-          "complaints": "Предложения и жалобы",
-          "importantSites": "Важные сайты",
-          "more": "Подробнее"
-        }
-      },
-      "campusLife": {
-        "title": "Кампус",
-        "links": {
-          "youthCare": "Студ. поддержка",
-          "militaryEducation": "Военная подготовка",
-          "universityCities": "Общежития",
-          "takaful": "Такафул",
-          "healthCare": "Здравоохранение",
-          "staffInsurance": "Страхование сотрудников"
-        }
-      },
-      "researchDevelopment": {
-        "title": "Наука",
-        "links": {
-          "measurementCenter": "Оценочный центр",
-          "excellenceCenters": "Центры excellence",
-          "isoCourses": "Курсы ISO",
-          "researchEthics": "Этика науки",
-          "erj": "Журнал ERJ"
-        }
-      },
-      "digitalTransformation": {
-        "title": "Цифровые сервисы",
-        "links": {
-          "digitalSystems": "Инфосистемы",
-          "eLearningCenter": "E-learning",
-          "digitalLibrary": "Электронная библиотека",
-          "engineeringLibrary": "Инженерная библиотека",
-          "governmentComplaints": "Гос. жалобы"
-        }
-      },
-      "programsEducation": {
-        "title": "Программы",
-        "links": {
-          "commercePrograms": "Программы торговли",
-          "openLegalEducation": "Открытое право",
-          "blendedArts": "Blended Arts",
-          "integratedMedicine": "Интегр. медицина",
-          "electricalComputers": "Электрика и ИТ"
-        }
-      },
-      "academicServices": {
-        "title": "Акад. услуги",
-        "links": {
-          "expatriates": "Иностранные студенты",
-          "staffServices": "Услуги преподавателей",
-          "undergraduateServices": "Бакалавриат",
-          "postgraduateServices": "Аспирантура",
-          "postgraduateRegistration": "Регистрация PG",
-          "candidateCollege": "Назначенный факультет"
-        }
+  "copyrights": "Университет Минуфии — Все права защищены",
+  "more": "Показать больше",
+  "less": "Показать меньше",
+  "sections": {
+    "community": {
+      "title": "Сообщество и подразделения",
+      "links": {
+        "convoys": "Университетские караваны",
+        "notary": "Нотариальные услуги",
+        "specialServices": "Специальные услуги",
+        "crisisManagement": "Управление кризисами",
+        "complaints": "Предложения и жалобы",
+        "importantSites": "Важные сайты",
+        "more": "Больше"
+      }
+    },
+    "campusLife": {
+      "title": "Университетская жизнь и услуги",
+      "links": {
+        "youthCare": "Работа с молодежью",
+        "militaryEducation": "Центры военного образования",
+        "universityCities": "Университетские общежития",
+        "takaful": "Такафул",
+        "healthCare": "Медицинское обслуживание",
+        "staffInsurance": "Фонд страхования сотрудников"
+      }
+    },
+    "researchDevelopment": {
+      "title": "Исследования и развитие",
+      "links": {
+        "measurementCenter": "Центр измерения и оценки",
+        "excellenceCenters": "Центры передового опыта",
+        "isoCourses": "Курсы качества ISO",
+        "researchEthics": "Этика научных исследований",
+        "erj": "Журнал ERJ"
+      }
+    },
+    "digitalTransformation": {
+      "title": "Цифровая трансформация и электронные услуги",
+      "links": {
+        "digitalSystems": "Информационные системы и цифровая трансформация",
+        "eLearningCenter": "Центр электронного обучения",
+        "digitalLibrary": "Цифровая библиотека",
+        "engineeringLibrary": "Цифровая инженерная библиотека",
+        "governmentComplaints": "Государственные жалобы"
+      }
+    },
+    "programsEducation": {
+      "title": "Программы и образование",
+      "links": {
+        "commercePrograms": "Программы факультета коммерции",
+        "openLegalEducation": "Открытое юридическое образование",
+        "blendedArts": "Смешанное обучение - факультет искусств",
+        "integratedMedicine": "Программа интегрированной медицины",
+        "electricalComputers": "Электротехника и компьютеры"
+      }
+    },
+    "academicServices": {
+      "title": "Академические услуги",
+      "links": {
+        "expatriates": "Иностранные студенты",
+        "staffServices": "Услуги для преподавателей",
+        "undergraduateServices": "Услуги для студентов бакалавриата",
+        "postgraduateServices": "Услуги для аспирантов",
+        "postgraduateRegistration": "Регистрация в аспирантуру",
+        "candidateCollege": "Запрос о назначенном факультете"
       }
     }
   },
+  "bottom": {
+    "locationTitle": "Наше местоположение",
+    "locationLine1": "Губернаторство Минуфия - Шибин-эль-Ком",
+    "locationLine2": "Губернаторство Минуфия, Египет",
+    "contactTitle": "Свяжитесь с нами",
+    "workingHours": "Рабочие часы: 8:00 - 16:00",
+    "emailTitle": "Эл. почта",
+    "followUs": "Подписывайтесь на нас",
+    "copyright": "Университет Минуфии - Все права защищены {{year}}",
+    "privacyPolicy": "Политика конфиденциальности",
+    "termsOfUse": "Условия использования",
+    "siteMap": "Карта сайта",
+    "logoAlt": "Университет Минуфии"
+  }
+},
 
   "details": {
     "latest": "Последние новости",

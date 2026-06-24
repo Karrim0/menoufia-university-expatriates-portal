@@ -21,5 +21,32 @@
     "suggestions-done": "Votre suggestion a été envoyée avec succès. Merci de nous avoir contacté !",
     "complaints-done": "Votre réclamation a été envoyée avec succès. Nous vous contacterons bientôt !",
     "ratings-done": "Votre évaluation a été envoyée avec succès. Merci de votre temps !"
-  }
+  
+  ,
+"external-complaints": "Réclamations ici",
+  "complaint-category": "Catégorie",
+  "special-units": "Unités spéciales",
+  "general-administration": "Administration générale",
+  "faculties": "Facultés",
+  "faculty": "Faculté",
+  "loading-faculties": "Chargement des facultés...",
+  "select-faculty": "Sélectionner une faculté",
+  "faculty-search-placeholder": "Rechercher par nom de faculté...",
+  "no-matching-results": "Aucun résultat correspondant",
+  "faculties-load-failed": "Échec du chargement des facultés",
+  "complaint-category-required": "Veuillez sélectionner la catégorie de réclamation",
+  "faculty-required": "Veuillez sélectionner la faculté",
+  "name": "Nom",
+  "name-placeholder": "Entrez votre nom",
+  "name-required": "Veuillez entrer votre nom",
+  "phone-placeholder": "Entrez le numéro de téléphone",
+  "phone-required": "Veuillez entrer votre numéro de téléphone",
+  "message-text": "Texte du message",
+  "complaint-message-placeholder": "Écrivez votre réclamation ici...",
+  "upload-drop-title": "Glissez le fichier ici ou cliquez pour choisir",
+  "upload-file": "Téléverser un fichier",
+  "choose-file": "Choisir un fichier",
+  "complaint-submit-success": "Réclamation envoyée avec succès",
+  "complaint-submit-success-with-id": "Réclamation envoyée avec succès. Numéro de réclamation : {{complaintId}}",
+  "address-value": "Gouvernorat de Menoufia, Égypte","government-complaints": "Réclamations gouvernementales"}
   

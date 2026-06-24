@@ -21,5 +21,32 @@
     "suggestions-done": "Ihr Vorschlag wurde erfolgreich übermittelt. Vielen Dank für Ihre Kontaktaufnahme!",
     "complaints-done": "Ihre Beschwerde wurde erfolgreich übermittelt. Wir werden uns in Kürze bei Ihnen melden!",
     "ratings-done": "Ihre Bewertung wurde erfolgreich übermittelt. Vielen Dank für Ihre Zeit!"
-  }
+  
+  ,
+"external-complaints": "Beschwerden hier",
+  "complaint-category": "Kategorie",
+  "special-units": "Sondereinheiten",
+  "general-administration": "Allgemeine Verwaltung",
+  "faculties": "Fakultäten",
+  "faculty": "Fakultät",
+  "loading-faculties": "Fakultäten werden geladen...",
+  "select-faculty": "Fakultät auswählen",
+  "faculty-search-placeholder": "Nach Fakultätsname suchen...",
+  "no-matching-results": "Keine passenden Ergebnisse",
+  "faculties-load-failed": "Fakultäten konnten nicht geladen werden",
+  "complaint-category-required": "Bitte wählen Sie eine Beschwerdekategorie",
+  "faculty-required": "Bitte wählen Sie die Fakultät",
+  "name": "Name",
+  "name-placeholder": "Geben Sie Ihren Namen ein",
+  "name-required": "Bitte geben Sie Ihren Namen ein",
+  "phone-placeholder": "Telefonnummer eingeben",
+  "phone-required": "Bitte geben Sie Ihre Telefonnummer ein",
+  "message-text": "Nachrichtentext",
+  "complaint-message-placeholder": "Schreiben Sie hier Ihre Beschwerde...",
+  "upload-drop-title": "Datei hierher ziehen oder klicken zum Auswählen",
+  "upload-file": "Datei hochladen",
+  "choose-file": "Datei auswählen",
+  "complaint-submit-success": "Beschwerde erfolgreich gesendet",
+  "complaint-submit-success-with-id": "Beschwerde erfolgreich gesendet. Beschwerde-ID: {{complaintId}}",
+  "address-value": "Gouvernement Menoufia, Ägypten","government-complaints": "Regierungsbeschwerden"}
   

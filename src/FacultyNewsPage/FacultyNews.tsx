@@ -25,52 +25,186 @@ import { SmartImage } from "../utils/imageHelper";
 import "../NewsPage/News.css";
 import "../NewsPage/News.filter.css";
 import "./FacultyNews.css";
-
+import FacultyFooter from "../Shared/FacultyFooter/FacultyFooter";
 import logo from "../../src/assets/logo.jpg";
 import logo2 from "../../src/assets/MNF_logo.png";
 import headerBg from "../../src/assets/01.jpg";
 
 const ITEMS_PER_PAGE = 10;
 const DEBOUNCE_DELAY = 500;
+const getFacultyTopMenuLimit = () => {
+  if (typeof window === "undefined") return 8;
 
-const TOP_MENU_TITLES = [
-  "عن الكلية",
-  "إدارة الكلية",
-  "ادارة الكلية",
-  "قطاعات الكلية",
-  "أقسام الكلية",
-  "اقسام الكلية",
-  "أقسام الكليه",
-  "اقسام الكليه",
-  "الطلاب",
-  "أعضاء هيئة التدريس",
-  "اعضاء هيئة التدريس",
-  "اعضاء هيئه التدريس",
-  "الجهاز الإداري",
-  "الجهاز الاداري",
-  "الجهازالإداري",
-  "الجهازالاداري",
-  "الأبحاث والأنشطة العلمية",
-  "الابحاث والانشطه العلميه",
-  "البحوث والأنشطة العلمية",
-  "البحوث والانشطة العلمية",
-  "الطلاب الوافدين",
-  "وحدات ومراكز",
-];
+  const width = window.innerWidth;
+
+  if (width >= 1500) return 9;
+  if (width >= 1280) return 8;
+  if (width >= 1100) return 7;
+  if (width >= 900) return 6;
+  if (width >= 640) return 5;
+  if (width >= 480) return 4;
+
+  return 3;
+};
+
+const FACULTY_NAV_PRIORITY_GROUPS = [
+  {
+    key: "about",
+    aliases: [
+      "عن الكلية",
+      "عن الكليه",
+      "نبذة عن الكلية",
+      "نبذه عن الكليه",
+      "حول الكلية",
+      "حول الكليه",
+      "about faculty",
+      "about college",
+      "about the faculty",
+      "faculty overview",
+      "college overview",
+      "overview",
+      "à propos de la faculté",
+      "a propos de la faculte",
+      "fakülte hakkında",
+      "fakulte hakkinda",
+      "sobre la facultad",
+    ],
+  },
+  {
+    key: "administration",
+    aliases: [
+      "إدارة الكلية",
+      "ادارة الكلية",
+      "إدارة الكليه",
+      "ادارة الكليه",
+      "ادارة",
+      "الإدارة",
+      "الادارة",
+      "college administration",
+      "faculty administration",
+      "administration",
+      "management",
+      "verwaltung",
+      "yönetim",
+      "yonetim",
+      "administración",
+      "administration de la faculté",
+    ],
+  },
+  {
+    key: "sectors",
+    aliases: [
+      "قطاعات الكلية",
+      "قطاعات الكليه",
+      "قطاعات",
+      "faculty sectors",
+      "college sectors",
+      "sectors",
+      "secteurs",
+      "sektörler",
+      "sektorler",
+      "sectores",
+    ],
+  },
+  {
+    key: "departments",
+    aliases: [
+      "أقسام الكلية",
+      "اقسام الكلية",
+      "أقسام الكليه",
+      "اقسام الكليه",
+      "الأقسام العلمية",
+      "الاقسام العلمية",
+      "الأقسام",
+      "الاقسام",
+      "departments",
+      "academic departments",
+      "faculty departments",
+      "college departments",
+      "départements",
+      "departements",
+      "bölümler",
+      "bolumler",
+      "departamentos",
+    ],
+  },
+  {
+    key: "students",
+    aliases: [
+      "الطلاب",
+      "شؤون الطلاب",
+      "شئون الطلاب",
+      "شؤون التعليم والطلاب",
+      "شئون التعليم والطلاب",
+      "students",
+      "student affairs",
+      "education and student affairs",
+      "étudiants",
+      "etudiants",
+      "öğrenciler",
+      "ogrenciler",
+      "estudiantes",
+    ],
+  },
+  {
+    key: "facultyMembers",
+    aliases: [
+      "أعضاء هيئة التدريس",
+      "اعضاء هيئة التدريس",
+      "اعضاء هيئه التدريس",
+      "هيئة التدريس",
+      "هيئه التدريس",
+      "faculty members",
+      "teaching staff",
+      "academic staff",
+      "staff members",
+      "corps enseignant",
+      "akademik personel",
+      "personal académico",
+    ],
+  },
+  {
+    key: "administrativeStaff",
+    aliases: [
+      "الجهاز الإداري",
+      "الجهاز الاداري",
+      "الجهاز الإدارى",
+      "الجهاز الادارى",
+      "الجهازالإداري",
+      "الجهازالاداري",
+      "الإداريون",
+      "الاداريون",
+      "administrative staff",
+      "admin staff",
+      "administrative body",
+      "administrative apparatus",
+      "personnel administratif",
+      "idari personel",
+      "personal administrativo",
+    ],
+  },
+] as const;
+
+const TOP_MENU_TITLES = FACULTY_NAV_PRIORITY_GROUPS.flatMap(
+  (group) => group.aliases,
+);
 
 const FOOTER_GROUP_TITLES = [
   "مواقع هامة",
+  "مواقع مهمة",
+  "روابط هامة",
+  "روابط مهمة",
   "خدمات أكاديمية",
   "خدمات اكاديمية",
   "خدمات إلكترونية",
   "خدمات الكترونية",
+  "important links",
+  "useful links",
+  "academic services",
+  "electronic services",
+  "e-services",
 ];
 
-const FACULTY_FOOTER_ACCENTS = [
-  "#cfa000",
-  "#d48df5",
-  "#58df9c",
-] as const;
 
 type SavedLang = {
   id?: number;
@@ -154,31 +288,64 @@ const LANGUAGE_IDS = {
   ru: 27,
   ch: 28,
   it: 29,
+} as const;
+
+type LanguageCode = keyof typeof LANGUAGE_IDS;
+
+const RTL_LANGUAGE_CODES = new Set<LanguageCode>(["ar", "fa"]);
+
+const normalizeLanguageCode = (code?: string): LanguageCode | "" => {
+  const normalizedCode = String(code || "")
+    .trim()
+    .toLowerCase()
+    .split("-")[0];
+
+  return normalizedCode in LANGUAGE_IDS ? (normalizedCode as LanguageCode) : "";
+};
+
+const getCurrentLanguageCode = (i18nLanguage?: string): LanguageCode => {
+  const i18nCode = normalizeLanguageCode(i18nLanguage);
+
+  if (i18nCode) return i18nCode;
+
+  const savedLang = getSavedLang();
+  const savedCode = normalizeLanguageCode(savedLang?.code);
+
+  if (savedCode) return savedCode;
+
+  const savedId = Number(savedLang?.id);
+  const matchedCodeById = Object.entries(LANGUAGE_IDS).find(
+    ([, id]) => id === savedId,
+  )?.[0] as LanguageCode | undefined;
+
+  return matchedCodeById || "ar";
+};
+
+const getLanguageIdByCode = (code: LanguageCode) => LANGUAGE_IDS[code] || 1;
+
+const getLocaleByLangCode = (code: LanguageCode) => {
+  const locales: Record<LanguageCode, string> = {
+    ar: "ar-EG",
+    en: "en-US",
+    fr: "fr-FR",
+    ja: "ja-JP",
+    de: "de-DE",
+    tr: "tr-TR",
+    fa: "fa-IR",
+    ru: "ru-RU",
+    ch: "en-US",
+    it: "it-IT",
+  };
+
+  return locales[code] || "en-US";
 };
 
 const DATE_FILTERS = [
-  { value: 0, labelAr: "كل الأخبار", labelEn: "All News" },
-  { value: 2, labelAr: "اليوم", labelEn: "Today" },
-  { value: 3, labelAr: "آخر أسبوع", labelEn: "Last Week" },
-  { value: 4, labelAr: "آخر شهر", labelEn: "Last Month" },
+  { value: 0, labelKey: "allNews" },
+  { value: 2, labelKey: "today" },
+  { value: 3, labelKey: "lastWeek" },
+  { value: 4, labelKey: "lastMonth" },
 ];
-
-const detectSearchLanguageId = (text: string, fallbackLangId: number) => {
-  const value = text.trim();
-
-  if (!value) return fallbackLangId;
-  if (/[پچژگک‌ی]/.test(value)) return LANGUAGE_IDS.fa;
-  if (/[\u0600-\u06FF]/.test(value)) return LANGUAGE_IDS.ar;
-  if (/[\u0400-\u04FF]/.test(value)) return LANGUAGE_IDS.ru;
-  if (/[\u3040-\u30FF\u31F0-\u31FF]/.test(value)) return LANGUAGE_IDS.ja;
-  if (/[\u4E00-\u9FFF]/.test(value)) return LANGUAGE_IDS.ch;
-  if (/[çğıöşüÇĞİÖŞÜ]/.test(value)) return LANGUAGE_IDS.tr;
-  if (/[äöüßÄÖÜ]/.test(value)) return LANGUAGE_IDS.de;
-  if (/[âæçêëîïôœûüÿÂÆÇÊËÎÏÔŒÛÜŸ]/.test(value)) return LANGUAGE_IDS.fr;
-  if (/[àèéìíîòóùúÀÈÉÌÍÎÒÓÙÚ]/.test(value)) return LANGUAGE_IDS.it;
-
-  return LANGUAGE_IDS.en;
-};
 
 const normalizeName = (value: string): string =>
   String(value || "")
@@ -186,11 +353,70 @@ const normalizeName = (value: string): string =>
     .replace(/[أإآ]/g, "ا")
     .replace(/ة/g, "ه")
     .replace(/ى/g, "ي")
+    .replace(/ؤ/g, "و")
+    .replace(/ئ/g, "ي")
+    .replace(/[ًٌٍَُِّْ]/g, "")
     .replace(/\s+/g, " ")
     .toLowerCase();
 
 const normalizeMenuTitle = (title?: string): string =>
   normalizeName(String(title || ""));
+
+const normalizeMenuSearchText = (value?: string) =>
+  normalizeMenuTitle(value)
+    .replace(/[ـ]/g, "")
+    .replace(/[^\p{L}\p{N}\s]/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+const doesMenuTitleMatchAlias = (title: string, alias: string) => {
+  const normalizedTitle = normalizeMenuSearchText(title);
+  const normalizedAlias = normalizeMenuSearchText(alias);
+
+  if (!normalizedTitle || !normalizedAlias) return false;
+  if (normalizedTitle === normalizedAlias) return true;
+
+  const aliasWords = normalizedAlias.split(" ").filter(Boolean);
+
+  if (aliasWords.length < 2) return false;
+
+  return (
+    normalizedTitle.includes(normalizedAlias) ||
+    normalizedAlias.includes(normalizedTitle)
+  );
+};
+
+const getFacultyMenuPriority = (item: FacultyMenuItem) => {
+  const title = cleanMenuTitle(item.title);
+
+  const matchedPriorityIndex = FACULTY_NAV_PRIORITY_GROUPS.findIndex((group) =>
+    group.aliases.some((alias) => doesMenuTitleMatchAlias(title, alias)),
+  );
+
+  return matchedPriorityIndex === -1
+    ? FACULTY_NAV_PRIORITY_GROUPS.length + 100
+    : matchedPriorityIndex;
+};
+
+const sortFacultyMenuForTopNav = (items: FacultyMenuItem[] = []) => {
+  return sanitizeFacultyMenuItems(items)
+    .map((item, originalIndex) => ({
+      item,
+      originalIndex,
+      priority: getFacultyMenuPriority(item),
+    }))
+    .sort((a, b) => {
+      if (a.priority !== b.priority) return a.priority - b.priority;
+
+      const orderA = Number(a.item.sortOrder ?? a.item.order) || 0;
+      const orderB = Number(b.item.sortOrder ?? b.item.order) || 0;
+
+      if (orderA !== orderB) return orderA - orderB;
+
+      return a.originalIndex - b.originalIndex;
+    })
+    .map(({ item }) => item);
+};
 
 const isValidLogoUrl = (url?: string) => {
   const value = String(url || "").trim();
@@ -213,6 +439,37 @@ const getCollegeLogoByName = (
   );
 
   return isValidLogoUrl(matchedLogo?.logoUrl) ? matchedLogo?.logoUrl || "" : "";
+};
+
+const getCollegeLogoForCollege = (
+  college: any,
+  logos: CollegeLogoItem[],
+  fallbackTitle = "",
+) => {
+  const possibleIds = [
+    college?.id,
+    college?.menuId,
+    college?.collegeId,
+    college?.CollegeId,
+  ];
+
+  for (const possibleId of possibleIds) {
+    const numericId = Number(possibleId);
+
+    if (!Number.isFinite(numericId) || numericId <= 0) continue;
+
+    const matchedLogoById = logos.find(
+      (item) => Number(item.id) === numericId && isValidLogoUrl(item.logoUrl),
+    );
+
+    if (matchedLogoById?.logoUrl) return matchedLogoById.logoUrl;
+  }
+
+  const titleLogo = getCollegeLogoByName(college?.title || fallbackTitle, logos);
+
+  if (titleLogo) return titleLogo;
+
+  return getCollegeLogoByName(fallbackTitle, logos);
 };
 
 const getCollegeFacFromApi = (college: any): number | null => {
@@ -240,20 +497,57 @@ const getCollegeFacFromApi = (college: any): number | null => {
   return null;
 };
 
-const findCollegeByFacultyCode = (
-  colleges: any[],
-  facultyCode: number,
-) => {
+const findCollegeByFacultyCode = (colleges: any[], facultyCode: number) => {
   return colleges.find((college) => {
     return getCollegeFacFromApi(college) === facultyCode;
   });
 };
 
 const extractDepartmentCodeFromUrl = (url?: string) => {
-  if (!url) return "";
+  const value = String(url || "").trim();
 
-  const match = url.match(/\/([^/]+)\/Home\/(?:ar|en)/i);
-  return match?.[1]?.toUpperCase() || "";
+  if (!value || value === "#") return "";
+
+  const twoLevelMatch = value.match(/\/[^/]+\/([^/]+)\/Home(?:\/|$)/i);
+
+  if (twoLevelMatch?.[1]) {
+    return twoLevelMatch[1].toUpperCase();
+  }
+
+  const oneLevelMatch = value.match(/\/([^/]+)\/Home(?:\/|$)/i);
+
+  if (oneLevelMatch?.[1]) {
+    const code = oneLevelMatch[1].toUpperCase();
+
+    if (!["COM", "SCI", "AGR", "MED", "EDU", "ART", "LAW"].includes(code)) {
+      return code;
+    }
+  }
+
+  return "";
+};
+
+
+const extractArticleIdFromMenuUrl = (url?: string): number | null => {
+  const value = String(url || "").trim();
+
+  if (!value || value === "#") return null;
+
+  const viewMatch = value.match(/\/view\/(\d+)(?:\/|$|\?)/i);
+
+  if (viewMatch?.[1]) {
+    const articleId = Number(viewMatch[1]);
+    return Number.isFinite(articleId) && articleId > 0 ? articleId : null;
+  }
+
+  const queryMatch = value.match(/[?&](?:articleId|id)=(\d+)/i);
+
+  if (queryMatch?.[1]) {
+    const articleId = Number(queryMatch[1]);
+    return Number.isFinite(articleId) && articleId > 0 ? articleId : null;
+  }
+
+  return null;
 };
 
 const getSavedLang = (): SavedLang => {
@@ -263,8 +557,6 @@ const getSavedLang = (): SavedLang => {
     return {};
   }
 };
-
-const getSavedLangId = () => Number(getSavedLang()?.id) || 1;
 
 const normalizeApiResponse = (data: any): any[] => {
   if (Array.isArray(data)) return data;
@@ -320,6 +612,20 @@ const sanitizeFacultyMenuItems = (items: FacultyMenuItem[] = []) => {
     .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
 };
 
+const normalizeMenuUrl = (url?: string) => {
+  const value = String(url || "").trim();
+
+  if (!value || value === "#") return "";
+
+  if (/^https?:\/\//i.test(value)) return value;
+
+  if (value.startsWith("/")) {
+    return `https://www.menofia.edu.eg${value}`;
+  }
+
+  return value;
+};
+
 const getFacultyMenuLink = (item: FacultyMenuItem, fac?: string) => {
   const departmentCode = extractDepartmentCodeFromUrl(item.url);
 
@@ -327,25 +633,30 @@ const getFacultyMenuLink = (item: FacultyMenuItem, fac?: string) => {
     return `/fac/${fac}/department/${departmentCode}`;
   }
 
-  if (isExternalMenuUrl(item.url)) return item.url;
+  const responseArticleId =
+    item.articleId !== null &&
+    item.articleId !== undefined &&
+    String(item.articleId).trim() !== ""
+      ? Number(item.articleId)
+      : null;
 
-  if (item.articleId !== null && item.articleId !== undefined) {
-    return `/fac/${fac}?articleId=${item.articleId}`;
+  if (responseArticleId && fac) {
+    return `/fac/${fac}?articleId=${responseArticleId}`;
+  }
+
+  const extractedArticleId = extractArticleIdFromMenuUrl(item.url);
+
+  if (extractedArticleId && fac) {
+    return `/fac/${fac}?articleId=${extractedArticleId}`;
+  }
+
+  const menuUrl = normalizeMenuUrl(item.url);
+
+  if (menuUrl) {
+    return menuUrl;
   }
 
   return `/fac/${fac}`;
-};
-
-const filterMenuByTitles = (items: FacultyMenuItem[], titles: string[]) => {
-  const allowedTitles = titles.map(normalizeMenuTitle);
-
-  return items
-    .filter((item) => allowedTitles.includes(normalizeMenuTitle(item.title)))
-    .sort(
-      (a, b) =>
-        allowedTitles.indexOf(normalizeMenuTitle(a.title)) -
-        allowedTitles.indexOf(normalizeMenuTitle(b.title)),
-    );
 };
 
 const chunkItems = (items: FacultyMenuItem[], chunksCount: number) => {
@@ -364,14 +675,16 @@ const chunkItems = (items: FacultyMenuItem[], chunksCount: number) => {
 const buildFooterMenuGroups = (
   items: FacultyMenuItem[],
   isArabic: boolean,
+  options: { onlyFooterGroups?: boolean; excludeTopTitles?: boolean } = {},
 ): FooterMenuGroup[] => {
   const cleanItems = sanitizeFacultyMenuItems(items);
-
-  const topTitles = TOP_MENU_TITLES.map(normalizeMenuTitle);
-  const footerTitles = FOOTER_GROUP_TITLES.map(normalizeMenuTitle);
+  const topTitles = TOP_MENU_TITLES.map(normalizeMenuSearchText);
+  const footerTitles = FOOTER_GROUP_TITLES.map(normalizeMenuSearchText);
 
   const apiGroups = cleanItems
-    .filter((item) => footerTitles.includes(normalizeMenuTitle(item.title)))
+    .filter((item) =>
+      footerTitles.includes(normalizeMenuSearchText(item.title)),
+    )
     .slice(0, 3)
     .map((item) => ({
       menuId: item.menuId,
@@ -382,15 +695,19 @@ const buildFooterMenuGroups = (
 
   if (apiGroups.length > 0) return apiGroups;
 
-  const remainingItems = cleanItems.filter(
-    (item) => !topTitles.includes(normalizeMenuTitle(item.title)),
-  );
+  if (options.onlyFooterGroups) return [];
+
+  const sourceItems = options.excludeTopTitles
+    ? cleanItems.filter(
+        (item) => !topTitles.includes(normalizeMenuSearchText(item.title)),
+      )
+    : cleanItems;
 
   const fallbackTitles = isArabic
-    ? ["مواقع هامة", "خدمات أكاديمية", "خدمات إلكترونية"]
-    : ["Important Links", "Academic Services", "Electronic Services"];
+    ? ["روابط الكلية", "خدمات ومعلومات", "روابط إضافية"]
+    : ["Faculty Links", "Services & Info", "More Links"];
 
-  return chunkItems(remainingItems, 3)
+  return chunkItems(sourceItems, 3)
     .map((children, index) => ({
       menuId: `footer-group-${index}`,
       title: fallbackTitles[index],
@@ -401,6 +718,81 @@ const buildFooterMenuGroups = (
     .filter((group) => group.children.length > 0);
 };
 
+const chunkMenuItemsBySize = <T,>(items: T[], size: number) => {
+  const safeSize = Math.max(1, size || 1);
+  const rows: T[][] = [];
+
+  for (let index = 0; index < items.length; index += safeSize) {
+    rows.push(items.slice(index, index + safeSize));
+  }
+
+  return rows;
+};
+
+const useFacultyMenuRows = (items: FacultyMenuItem[]) => {
+  const [itemsPerRow, setItemsPerRow] = useState<number>(() =>
+    getFacultyTopMenuLimit(),
+  );
+  const [activeRowIndex, setActiveRowIndex] = useState(0);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleResize = () => {
+      setItemsPerRow(getFacultyTopMenuLimit());
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const rows = useMemo(
+    () => chunkMenuItemsBySize(items, itemsPerRow),
+    [items, itemsPerRow],
+  );
+
+  useEffect(() => {
+    setActiveRowIndex(0);
+  }, [items.length, itemsPerRow]);
+
+  useEffect(() => {
+    setActiveRowIndex((current) =>
+      Math.min(current, Math.max(rows.length - 1, 0)),
+    );
+  }, [rows.length]);
+
+  const safeActiveRowIndex = Math.min(
+    activeRowIndex,
+    Math.max(rows.length - 1, 0),
+  );
+
+  const goNext = useCallback(() => {
+    setActiveRowIndex((current) =>
+      Math.min(current + 1, Math.max(rows.length - 1, 0)),
+    );
+  }, [rows.length]);
+
+  const goPrevious = useCallback(() => {
+    setActiveRowIndex((current) => Math.max(current - 1, 0));
+  }, []);
+
+  return {
+    itemsPerRow,
+    rows,
+    activeRowIndex: safeActiveRowIndex,
+    currentRow: rows[safeActiveRowIndex] || [],
+    canGoNext: safeActiveRowIndex < rows.length - 1,
+    canGoPrevious: safeActiveRowIndex > 0,
+    goNext,
+    goPrevious,
+  };
+};
+
 const FacultyMenuItemView: React.FC<{
   item: FacultyMenuItem;
   fac?: string;
@@ -408,32 +800,142 @@ const FacultyMenuItemView: React.FC<{
   level?: number;
 }> = ({ item, fac, facultyTitle, level = 0 }) => {
   const [open, setOpen] = useState(false);
+  const [dropDirection, setDropDirection] = useState<"default" | "flip">(
+    "default",
+  );
+
+  const itemRef = useRef<HTMLDivElement | null>(null);
+  const subMenuRef = useRef<HTMLDivElement | null>(null);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const children = getMenuChildren(item);
   const hasChildren = children.length > 0;
   const link = getFacultyMenuLink(item, fac);
   const isExternal = isExternalMenuUrl(link);
+
+  const clearCloseTimer = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+  };
+
+  const updateDropDirection = useCallback(() => {
+    if (!hasChildren || !itemRef.current || typeof window === "undefined") {
+      return;
+    }
+
+    const rect = itemRef.current.getBoundingClientRect();
+    const safeGap = 14;
+    const viewportWidth = window.innerWidth;
+
+    const menuWidth =
+      subMenuRef.current?.offsetWidth || (level === 0 ? 300 : 260);
+
+    if (level === 0) {
+      const defaultLeftEdge = rect.right - menuWidth;
+      const flipRightEdge = rect.left + menuWidth;
+
+      if (defaultLeftEdge < safeGap && flipRightEdge <= viewportWidth - safeGap) {
+        setDropDirection("flip");
+      } else {
+        setDropDirection("default");
+      }
+
+      return;
+    }
+
+    const leftSpace = rect.left - safeGap;
+    const rightSpace = viewportWidth - rect.right - safeGap;
+
+    if (leftSpace < menuWidth && rightSpace > leftSpace) {
+      setDropDirection("flip");
+    } else {
+      setDropDirection("default");
+    }
+  }, [hasChildren, level]);
+
+  const handleMouseEnter = () => {
+    if (!hasChildren) return;
+
+    clearCloseTimer();
+    updateDropDirection();
+    setOpen(true);
+
+    requestAnimationFrame(() => {
+      updateDropDirection();
+    });
+  };
+
+  const handleMouseLeave = () => {
+    if (!hasChildren) return;
+
+    clearCloseTimer();
+
+    closeTimerRef.current = setTimeout(() => {
+      setOpen(false);
+    }, 260);
+  };
 
   const handleToggle = (e: React.MouseEvent) => {
     if (!hasChildren) return;
 
     e.preventDefault();
     e.stopPropagation();
-    setOpen((prev) => !prev);
+
+    clearCloseTimer();
+
+    setOpen((prev) => {
+      const next = !prev;
+
+      if (next) {
+        updateDropDirection();
+
+        requestAnimationFrame(() => {
+          updateDropDirection();
+        });
+      }
+
+      return next;
+    });
   };
+
+  useEffect(() => {
+    if (!open || !hasChildren || typeof window === "undefined") return;
+
+    updateDropDirection();
+
+    window.addEventListener("resize", updateDropDirection);
+    window.addEventListener("scroll", updateDropDirection, true);
+
+    return () => {
+      window.removeEventListener("resize", updateDropDirection);
+      window.removeEventListener("scroll", updateDropDirection, true);
+    };
+  }, [open, hasChildren, updateDropDirection]);
+
+  useEffect(() => {
+    return () => {
+      clearCloseTimer();
+    };
+  }, []);
+
+  const NestedArrow = dropDirection === "flip" ? ChevronRight : ChevronLeft;
 
   const content = (
     <>
       <span>{cleanMenuTitle(item.title)}</span>
+
       {hasChildren &&
         (level === 0 ? (
           <ChevronDown
             size={12}
-            className={`faculty-menu-arrow ${open ? "open" : ""}`}
+            className={`faculty-menu-arrow root-arrow ${open ? "open" : ""}`}
           />
         ) : (
-          <ChevronLeft
+          <NestedArrow
             size={12}
-            className={`faculty-menu-arrow ${open ? "open" : ""}`}
+            className="faculty-menu-arrow nested-arrow"
           />
         ))}
     </>
@@ -441,11 +943,12 @@ const FacultyMenuItemView: React.FC<{
 
   return (
     <div
+      ref={itemRef}
       className={`faculty-menu-item level-${level} ${
         hasChildren ? "has-children" : ""
-      } ${open ? "open" : ""}`}
-      onMouseEnter={() => hasChildren && setOpen(true)}
-      onMouseLeave={() => hasChildren && setOpen(false)}
+      } ${open ? "open" : ""} drop-${dropDirection}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {hasChildren ? (
         <button
@@ -478,7 +981,7 @@ const FacultyMenuItemView: React.FC<{
       )}
 
       {hasChildren && open && (
-        <div className="faculty-sub-menu">
+        <div ref={subMenuRef} className="faculty-sub-menu">
           {children.map((child) => (
             <FacultyMenuItemView
               key={child.menuId}
@@ -494,39 +997,6 @@ const FacultyMenuItemView: React.FC<{
   );
 };
 
-const FacultyFooterLink: React.FC<{
-  item: FacultyMenuItem;
-  fac?: string;
-}> = ({ item, fac }) => {
-  const link = getFacultyMenuLink(item, fac);
-  const isExternal = isExternalMenuUrl(link);
-
-  const content = (
-    <>
-      <span>{cleanMenuTitle(item.title)}</span>
-      <i className="fa-solid fa-arrow-up" aria-hidden="true" />
-    </>
-  );
-
-  if (isExternal) {
-    return (
-      <a
-        href={link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="faculty-footer-link"
-      >
-        {content}
-      </a>
-    );
-  }
-
-  return (
-    <Link to={link} className="faculty-footer-link">
-      {content}
-    </Link>
-  );
-};
 
 const getUrlExtension = (url = "") => {
   const cleanUrl = String(url).split("?")[0].split("#")[0];
@@ -668,9 +1138,7 @@ const extractHistoricalTimeline = (
   intro: string;
   timeline: HistoricalTimelineItem[];
 } => {
-  const text = stripHtmlToText(html)
-    .replace(/\s+/g, " ")
-    .trim();
+  const text = stripHtmlToText(html).replace(/\s+/g, " ").trim();
 
   if (!text) {
     return {
@@ -698,7 +1166,7 @@ const extractHistoricalTimeline = (
       const start = (match.index ?? 0) + year.length;
       const end =
         index < matches.length - 1
-          ? matches[index + 1].index ?? text.length
+          ? (matches[index + 1].index ?? text.length)
           : text.length;
 
       const content = text
@@ -773,7 +1241,9 @@ const isStudentAffairsAccordionArticle = (title = "") => {
 };
 
 const isAccordionHeadingText = (value = "") => {
-  const text = String(value || "").replace(/\s+/g, " ").trim();
+  const text = String(value || "")
+    .replace(/\s+/g, " ")
+    .trim();
 
   if (!text || text.length > 180) return false;
 
@@ -784,6 +1254,7 @@ const isAccordionHeadingText = (value = "") => {
 
 const extractStudentAffairsAccordion = (
   html = "",
+  noExtraContentText = "No extra content available for this item.",
 ): FacultyAccordionItem[] => {
   const cleanedHtml = removeWordNoise(html);
 
@@ -811,7 +1282,7 @@ const extractStudentAffairsAccordion = (
       title: currentTitle,
       contentHtml:
         currentContent.join("").trim() ||
-        `<p>لا يوجد محتوى إضافي لهذا البند.</p>`,
+        `<p>${noExtraContentText}</p>`,
     });
 
     currentTitle = "";
@@ -819,9 +1290,7 @@ const extractStudentAffairsAccordion = (
   };
 
   blockElements.forEach((element) => {
-    const elementText = (element.textContent || "")
-      .replace(/\s+/g, " ")
-      .trim();
+    const elementText = (element.textContent || "").replace(/\s+/g, " ").trim();
 
     const tagName = element.tagName.toLowerCase();
     const isHeadingTag = /^h[1-6]$/.test(tagName);
@@ -862,7 +1331,7 @@ const extractStudentAffairsAccordion = (
       const start = match.index ?? 0;
       const nextStart =
         index < matches.length - 1
-          ? matches[index + 1].index ?? plainText.length
+          ? (matches[index + 1].index ?? plainText.length)
           : plainText.length;
 
       const sectionText = plainText.slice(start, nextStart).trim();
@@ -874,20 +1343,146 @@ const extractStudentAffairsAccordion = (
           : sectionText.slice(0, 120).trim();
 
       const content =
-        separatorIndex > 0
-          ? sectionText.slice(separatorIndex + 1).trim()
-          : "";
+        separatorIndex > 0 ? sectionText.slice(separatorIndex + 1).trim() : "";
 
       return {
         title,
         contentHtml: content
           ? `<p>${content}</p>`
-          : `<p>لا يوجد محتوى إضافي لهذا البند.</p>`,
+          : `<p>${noExtraContentText}</p>`,
       };
     })
     .filter((item) => item.title);
 };
+type VisionMissionType = "vision" | "mission";
 
+type VisionMissionItem = {
+  type: VisionMissionType;
+  title: string;
+  content: string;
+};
+
+const isVisionMissionArticle = (title = "", html = "") => {
+  const normalizedTitle = normalizeMenuTitle(title);
+  const normalizedContent = normalizeMenuTitle(stripHtmlToText(html));
+
+  return (
+    normalizedTitle.includes("رؤيه") ||
+    normalizedTitle.includes("رؤية") ||
+    normalizedTitle.includes("رساله") ||
+    normalizedTitle.includes("رسالة") ||
+    normalizedTitle.includes("vision") ||
+    normalizedTitle.includes("mission") ||
+    normalizedContent.includes("رؤيه") ||
+    normalizedContent.includes("رؤية") ||
+    normalizedContent.includes("رساله") ||
+    normalizedContent.includes("رسالة") ||
+    normalizedContent.includes("vision") ||
+    normalizedContent.includes("mission")
+  );
+};
+
+const getVisionMissionTitle = (
+  type: VisionMissionType,
+  _isArabic: boolean,
+) => type;
+
+const cleanVisionMissionText = (value = "") => {
+  return String(value || "")
+    .replace(/^(الرؤية|الرؤيه|رؤية الكلية|رؤيه الكليه|vision)\s*[:：\-–—.]?\s*/i, "")
+    .replace(/^(الرسالة|الرساله|رسالة الكلية|رساله الكليه|mission)\s*[:：\-–—.]?\s*/i, "")
+    .replace(/^["“”'«»]+|["“”'«»]+$/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+};
+
+const getMarkerType = (marker = ""): VisionMissionType => {
+  const normalizedMarker = normalizeMenuTitle(marker);
+
+  if (
+    normalizedMarker.includes("رساله") ||
+    normalizedMarker.includes("mission")
+  ) {
+    return "mission";
+  }
+
+  return "vision";
+};
+
+const extractVisionMissionItems = (
+  title = "",
+  html = "",
+  isArabic: boolean,
+): VisionMissionItem[] => {
+  const text = stripHtmlToText(html).replace(/\s+/g, " ").trim();
+  const normalizedTitle = normalizeMenuTitle(title);
+
+  if (!text && !normalizedTitle) return [];
+
+  const markerRegex =
+    /(رؤية\s*الكلية|رؤيه\s*الكليه|الرؤية|الرؤيه|رؤية|رؤيه|رسالة\s*الكلية|رساله\s*الكليه|الرسالة|الرساله|رسالة|رساله|vision|mission)/gi;
+
+  const matches = Array.from(text.matchAll(markerRegex));
+
+  if (matches.length > 0) {
+    const items = matches
+      .map((match, index) => {
+        const marker = match[0];
+        const type = getMarkerType(marker);
+        const start = (match.index ?? 0) + marker.length;
+        const end =
+          index < matches.length - 1
+            ? matches[index + 1].index ?? text.length
+            : text.length;
+
+        const content = cleanVisionMissionText(text.slice(start, end));
+
+        return {
+          type,
+          title: getVisionMissionTitle(type, isArabic),
+          content,
+        };
+      })
+      .filter((item) => item.content.length > 0);
+
+    const uniqueItems = items.filter(
+      (item, index, array) =>
+        array.findIndex((current) => current.type === item.type) === index,
+    );
+
+    if (uniqueItems.length > 0) return uniqueItems;
+  }
+
+  if (
+    normalizedTitle.includes("رؤيه") ||
+    normalizedTitle.includes("رؤية") ||
+    normalizedTitle.includes("vision")
+  ) {
+    return [
+      {
+        type: "vision",
+        title: getVisionMissionTitle("vision", isArabic),
+        content: cleanVisionMissionText(text),
+      },
+    ].filter((item) => item.content.length > 0);
+  }
+
+  if (
+    normalizedTitle.includes("رساله") ||
+    normalizedTitle.includes("رسالة") ||
+    normalizedTitle.includes("mission")
+  ) {
+    return [
+      {
+        type: "mission",
+        title: getVisionMissionTitle("mission", isArabic),
+        content: cleanVisionMissionText(text),
+      },
+    ].filter((item) => item.content.length > 0);
+  }
+
+  return [];
+};
 const getArticleType = (
   article: FacultyArticlePageData,
   parsed: ReturnType<typeof parseArticleContent>,
@@ -922,6 +1517,8 @@ const FacultyArticleRenderer: React.FC<{
   article: FacultyArticlePageData;
   isArabic: boolean;
 }> = ({ article, isArabic }) => {
+  const { t } = useTranslation("FacultyNews");
+
   const parsed = useMemo(
     () => parseArticleContent(article.content || ""),
     [article.content],
@@ -940,17 +1537,87 @@ const FacultyArticleRenderer: React.FC<{
   );
 
   const accordionItems = useMemo(
-    () => extractStudentAffairsAccordion(article.content || ""),
-    [article.content],
+    () => extractStudentAffairsAccordion(article.content || "", t("noExtraContent")),
+    [article.content, t],
   );
 
-  const [openAccordionIndex, setOpenAccordionIndex] =
-    useState<number | null>(null);
+  const [openAccordionIndex, setOpenAccordionIndex] = useState<number | null>(
+    null,
+  );
 
   const isHistoricalArticle = isHistoricalOverviewArticle(article.title);
   const isGoalsPage = isGoalsArticle(article.title);
-  const isStudentAffairsAccordion =
-    isStudentAffairsAccordionArticle(article.title);
+  const isStudentAffairsAccordion = isStudentAffairsAccordionArticle(
+    article.title,
+  );
+  const visionMissionItems = useMemo(
+  () => extractVisionMissionItems(article.title, article.content || "", isArabic),
+  [article.title, article.content, isArabic],
+);
+
+const isVisionMissionPage =
+  isVisionMissionArticle(article.title, article.content || "") &&
+  visionMissionItems.length > 0;
+  if (isVisionMissionPage) {
+  const hasBoth = visionMissionItems.length > 1;
+
+  return (
+    <article
+      className={`faculty-vision-mission-card ${
+        hasBoth ? "combined" : "single"
+      }`}
+    >
+      <div className="faculty-vision-mission-page-title">
+        <span className="faculty-vision-mission-title-dot" />
+        <h2>
+          {hasBoth
+            ? t("facultyVisionMission")
+            : visionMissionItems[0]?.type === "vision"
+              ? t("facultyVision")
+              : visionMissionItems[0]?.type === "mission"
+                ? t("facultyMission")
+                : visionMissionItems[0]?.title || article.title}
+        </h2>
+      </div>
+
+      <div className="faculty-vision-mission-items">
+        {visionMissionItems.map((item) => (
+          <section
+            key={item.type}
+            className={`faculty-vision-mission-item ${item.type}`}
+          >
+            <div className="faculty-vision-mission-heading">
+              <span className="faculty-vision-mission-icon" aria-hidden="true">
+                <i
+                  className={
+                    item.type === "vision"
+                      ? "fa-regular fa-eye"
+                      : "fa-regular fa-paper-plane"
+                  }
+                />
+              </span>
+
+              <div>
+                <h3>
+                  {item.type === "vision"
+                    ? t("facultyVision")
+                    : item.type === "mission"
+                      ? t("facultyMission")
+                      : item.title}
+                </h3>
+                <span className="faculty-vision-mission-heading-line" />
+              </div>
+            </div>
+
+            <div className="faculty-vision-mission-text-box">
+              <p>{item.content}</p>
+            </div>
+          </section>
+        ))}
+      </div>
+    </article>
+  );
+}
 
   if (isHistoricalArticle) {
     return (
@@ -962,9 +1629,7 @@ const FacultyArticleRenderer: React.FC<{
 
           <div className="faculty-history-heading">
             <h2>
-              {isArabic
-                ? "نبذة تاريخية عن الكلية"
-                : article.title || "Historical Overview"}
+              {article.title || t("historicalOverview")}
             </h2>
             <span className="faculty-history-heading-line" />
           </div>
@@ -973,9 +1638,7 @@ const FacultyArticleRenderer: React.FC<{
         <div className="faculty-history-body">
           <div className="faculty-history-content">
             {historicalData.intro && (
-              <p className="faculty-history-intro">
-                {historicalData.intro}
-              </p>
+              <p className="faculty-history-intro">{historicalData.intro}</p>
             )}
 
             {historicalData.timeline.length > 0 ? (
@@ -1003,9 +1666,7 @@ const FacultyArticleRenderer: React.FC<{
                   __html:
                     parsed.cleanedHtml ||
                     `<p>${
-                      isArabic
-                        ? "لا يوجد محتوى متاح"
-                        : "No content available"
+                      t("noContent")
                     }</p>`,
                 }}
               />
@@ -1026,9 +1687,7 @@ const FacultyArticleRenderer: React.FC<{
 
           <div className="faculty-goals-heading">
             <h2>
-              {isArabic
-                ? "الأهداف الخاصة بالكلية"
-                : article.title || "Faculty Goals"}
+              {article.title || t("facultyGoals")}
             </h2>
             <span className="faculty-goals-heading-line" />
           </div>
@@ -1051,9 +1710,7 @@ const FacultyArticleRenderer: React.FC<{
                 __html:
                   parsed.cleanedHtml ||
                   `<p>${
-                    isArabic
-                      ? "لا توجد أهداف متاحة"
-                      : "No goals available"
+                    t("noGoals")
                   }</p>`,
               }}
             />
@@ -1067,10 +1724,7 @@ const FacultyArticleRenderer: React.FC<{
     return (
       <article className="faculty-student-affairs-card">
         <div className="faculty-student-affairs-header">
-          <span
-            className="faculty-student-affairs-icon"
-            aria-hidden="true"
-          >
+          <span className="faculty-student-affairs-icon" aria-hidden="true">
             <i className="fa-regular fa-file-lines" />
           </span>
 
@@ -1153,9 +1807,7 @@ const FacultyArticleRenderer: React.FC<{
                 __html:
                   parsed.cleanedHtml ||
                   `<p>${
-                    isArabic
-                      ? "لا يوجد محتوى متاح"
-                      : "No content available"
+                    t("noContent")
                   }</p>`,
               }}
             />
@@ -1179,9 +1831,7 @@ const FacultyArticleRenderer: React.FC<{
 
         <div className="faculty-article-video-wrap">
           <video controls src={video.href} className="faculty-article-video">
-            {isArabic
-              ? "المتصفح لا يدعم تشغيل الفيديو."
-              : "Your browser does not support video playback."}
+            {t("videoNotSupported")}
           </video>
         </div>
 
@@ -1191,7 +1841,7 @@ const FacultyArticleRenderer: React.FC<{
           rel="noopener noreferrer"
           className="faculty-article-main-action"
         >
-          {isArabic ? "فتح الفيديو" : "Open video"}
+          {t("openVideo")}
         </a>
       </article>
     );
@@ -1233,7 +1883,7 @@ const FacultyArticleRenderer: React.FC<{
             </div>
 
             <div className="faculty-pdf-type">
-              <span>{isArabic ? "نوع الملف :" : "File type:"}</span>
+              <span>{t("fileType")}</span>
               <strong>{fileLabel}</strong>
               <i className="fa-regular fa-file-lines" aria-hidden="true" />
             </div>
@@ -1246,7 +1896,7 @@ const FacultyArticleRenderer: React.FC<{
                 className="faculty-pdf-view-button"
               >
                 <i className="fa-regular fa-eye" aria-hidden="true" />
-                <span>{isArabic ? "عرض الملف" : "View file"}</span>
+                <span>{t("viewFile")}</span>
               </a>
 
               <a
@@ -1255,7 +1905,7 @@ const FacultyArticleRenderer: React.FC<{
                 className="faculty-pdf-download-button"
               >
                 <i className="fa-solid fa-download" aria-hidden="true" />
-                <span>{isArabic ? "تحميل الملف" : "Download file"}</span>
+                <span>{t("downloadFile")}</span>
               </a>
             </div>
           </div>
@@ -1264,9 +1914,7 @@ const FacultyArticleRenderer: React.FC<{
         <div className="faculty-pdf-note">
           <i className="fa-solid fa-circle-info" aria-hidden="true" />
           <p>
-            {isArabic
-              ? 'لعرض محتوى الملف يرجى الضغط على زر "عرض الملف".'
-              : 'To view the file content, click "View file".'}
+            {t("pdfNote")}
           </p>
         </div>
       </div>
@@ -1335,7 +1983,7 @@ const FacultyArticleRenderer: React.FC<{
         dangerouslySetInnerHTML={{
           __html:
             parsed.cleanedHtml ||
-            `<p>${isArabic ? "لا يوجد محتوى متاح" : "No content available"}</p>`,
+            `<p>${t("noContent")}</p>`,
         }}
       />
     </article>
@@ -1349,6 +1997,8 @@ const FacultyArticlePage: React.FC<{
   isRTL: boolean;
   fac?: string;
 }> = ({ article, loading, error, isArabic, isRTL }) => {
+  const { t } = useTranslation("FacultyNews");
+
   const parsedArticle = useMemo(
     () => parseArticleContent(article?.content || ""),
     [article?.content],
@@ -1358,22 +2008,23 @@ const FacultyArticlePage: React.FC<{
     article && isHistoricalOverviewArticle(article.title),
   );
 
-  const isGoalsPage = Boolean(
-    article && isGoalsArticle(article.title),
-  );
+  const isGoalsPage = Boolean(article && isGoalsArticle(article.title));
 
-  const isFilePage = Boolean(
-    article && parsedArticle.fileLinks.length > 0,
-  );
+  const isFilePage = Boolean(article && parsedArticle.fileLinks.length > 0);
 
   const isStudentAffairsPage = Boolean(
     article && isStudentAffairsAccordionArticle(article.title),
   );
+  const isVisionMissionPage = Boolean(
+  article && isVisionMissionArticle(article.title, article.content || ""),
+);
 
-  const specialPageClass = isHistoryPage
-    ? "faculty-history-page-section"
-    : isGoalsPage
-      ? "faculty-goals-page-section"
+const specialPageClass = isHistoryPage
+  ? "faculty-history-page-section"
+  : isGoalsPage
+    ? "faculty-goals-page-section"
+    : isVisionMissionPage
+      ? "faculty-vision-mission-page-section"
       : isFilePage
         ? "faculty-pdf-page-section"
         : isStudentAffairsPage
@@ -1399,7 +2050,7 @@ const FacultyArticlePage: React.FC<{
             <span className="faculty-section-dot" />
             <h1 className="faculty-section-title">
               {article?.title ||
-                (isArabic ? "محتوى الكلية" : "Faculty Content")}
+                t("facultyContent")}
             </h1>
           </div>
         )}
@@ -1414,24 +2065,15 @@ const FacultyArticlePage: React.FC<{
         ) : error ? (
           <div className="faculty-article-card faculty-article-error-card">
             <h2>
-              {isArabic
-                ? "تعذر تحميل المحتوى"
-                : "Could not load content"}
+              {t("couldNotLoadContent")}
             </h2>
             <p>{error}</p>
           </div>
         ) : article ? (
-          <FacultyArticleRenderer
-            article={article}
-            isArabic={isArabic}
-          />
+          <FacultyArticleRenderer article={article} isArabic={isArabic} />
         ) : (
           <div className="faculty-article-card faculty-article-error-card">
-            <h2>
-              {isArabic
-                ? "لا يوجد محتوى متاح"
-                : "No content available"}
-            </h2>
+            <h2>{t("noContent")}</h2>
           </div>
         )}
       </div>
@@ -1439,75 +2081,26 @@ const FacultyArticlePage: React.FC<{
   );
 };
 
-const FacultyFooterColumn: React.FC<{
-  group: FooterMenuGroup;
-  fac?: string;
-  isArabic: boolean;
-  accentColor: string;
-}> = ({ group, fac, isArabic, accentColor }) => {
-  const [showAll, setShowAll] = useState(false);
-
-  const cleanChildren = group.children.filter(
-    (item) => cleanMenuTitle(item.title).length > 0,
-  );
-
-  const previewItems = cleanChildren.slice(0, 3);
-  const extraItems = cleanChildren.slice(3);
-  const visibleExtraItems = showAll ? extraItems : [];
-
-  return (
-    <div
-      className={`faculty-footer-column ${showAll ? "expanded" : ""}`}
-      style={
-        {
-          "--col-accent": accentColor,
-        } as React.CSSProperties
-      }
-    >
-      <h3>{cleanMenuTitle(group.title)}</h3>
-
-      <div className="faculty-footer-links-scroll">
-        <div className="faculty-footer-links-list">
-          {previewItems.map((item) => (
-            <FacultyFooterLink key={item.menuId} item={item} fac={fac} />
-          ))}
-
-          {visibleExtraItems.map((item) => (
-            <FacultyFooterLink key={item.menuId} item={item} fac={fac} />
-          ))}
-        </div>
-      </div>
-
-      {extraItems.length > 0 && (
-        <button
-          type="button"
-          className="faculty-footer-more-btn"
-          onClick={() => setShowAll((prev) => !prev)}
-        >
-          <span>
-            {showAll
-              ? isArabic
-                ? "عرض أقل"
-                : "Show less"
-              : isArabic
-                ? "عرض المزيد"
-                : "Show more"}
-          </span>
-        </button>
-      )}
-    </div>
-  );
-};
-
 const FacultyNews: React.FC = () => {
   const { fac } = useParams<{ fac: string }>();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation("FacultyNews");
 
-  const savedLang = getSavedLang();
-  const isArabic = savedLang?.code === "ar" || i18n.language === "ar";
-  const isRTL = isArabic;
+  const currentLangCode = useMemo(
+    () => getCurrentLanguageCode(i18n.language),
+    [i18n.language],
+  );
+  const langId = useMemo(
+    () => getLanguageIdByCode(currentLangCode),
+    [currentLangCode],
+  );
+  const currentLocale = useMemo(
+    () => getLocaleByLangCode(currentLangCode),
+    [currentLangCode],
+  );
+  const isArabic = currentLangCode === "ar";
+  const isRTL = RTL_LANGUAGE_CODES.has(currentLangCode);
 
   const articleIdParam = searchParams.get("articleId");
   const invalidArticleId = Boolean(
@@ -1524,15 +2117,13 @@ const FacultyNews: React.FC = () => {
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isFirstSearchRender = useRef(true);
 
-  const [langId, setLangId] = useState<number>(
-    Number(location.state?.langId) || getSavedLangId(),
-  );
   const [collegeNameFallback, setCollegeNameFallback] = useState<string>(
     String(location.state?.collegeName || location.state?.facultyTitle || ""),
   );
   const [collegeName, setCollegeName] = useState<string>(
     String(location.state?.collegeName || location.state?.facultyTitle || ""),
   );
+  const [collegeData, setCollegeData] = useState<any | null>(null);
   const [collegeLogos, setCollegeLogos] = useState<CollegeLogoItem[]>([]);
   const [collegeLogoUrl, setCollegeLogoUrl] = useState<string>("");
 
@@ -1557,9 +2148,7 @@ const FacultyNews: React.FC = () => {
   const [activeFiltersCount, setActiveFiltersCount] = useState(0);
 
   const [facultyMenu, setFacultyMenu] = useState<FacultyMenuItem[]>([]);
-  const [facultyMenuLoading, setFacultyMenuLoading] = useState(false);
-
-
+const [facultyMenuLoading, setFacultyMenuLoading] = useState(false);
   const [articlePage, setArticlePage] = useState<FacultyArticlePageData | null>(
     null,
   );
@@ -1569,22 +2158,25 @@ const FacultyNews: React.FC = () => {
   const [notFound, setNotFound] = useState(false);
   const [articleNotFound, setArticleNotFound] = useState(false);
 
-  const topFacultyMenu = useMemo(() => {
-    const matchedMenu = filterMenuByTitles(facultyMenu, TOP_MENU_TITLES);
+  const orderedFacultyMenu = useMemo(() => {
+  return sortFacultyMenuForTopNav(facultyMenu);
+}, [facultyMenu]);
 
-    if (matchedMenu.length > 0) {
-      return matchedMenu;
-    }
+const {
+  currentRow: visibleFacultyMenu,
+  canGoNext: canGoNextFacultyMenuRow,
+  canGoPrevious: canGoPreviousFacultyMenuRow,
+  goNext: handleNextFacultyMenuRow,
+  goPrevious: handlePreviousFacultyMenuRow,
+} = useFacultyMenuRows(orderedFacultyMenu);
 
-    return facultyMenu
-      .filter((item) => cleanMenuTitle(item.title).length > 0)
-      .slice(0, 10);
-  }, [facultyMenu]);
-
-  const footerMenuGroups = useMemo(
-    () => buildFooterMenuGroups(facultyMenu, isArabic),
-    [facultyMenu, isArabic],
-  );
+const footerMenuGroups = useMemo(
+  () =>
+    buildFooterMenuGroups(orderedFacultyMenu, isArabic, {
+      onlyFooterGroups: true,
+    }),
+  [orderedFacultyMenu, isArabic],
+);
 
   useEffect(() => {
     let count = 0;
@@ -1600,11 +2192,9 @@ const FacultyNews: React.FC = () => {
     let isMounted = true;
 
     const fetchCollegeName = async () => {
-      const currentLangId =
-        Number(location.state?.langId) || getSavedLangId();
+      const currentLangId = Number(langId) || 1;
       const facultyCode = Number(fac);
 
-      setLangId(currentLangId);
       setPageIndex(1);
       setSearch("");
       setSearchInput("");
@@ -1618,6 +2208,7 @@ const FacultyNews: React.FC = () => {
       if (!fac || !facultyCode || !/^\d+$/.test(String(fac))) {
         setCollegeName("");
         setCollegeNameFallback("");
+        setCollegeData(null);
         setNotFound(true);
         setLoading(false);
         setHighlightsLoading(false);
@@ -1629,16 +2220,20 @@ const FacultyNews: React.FC = () => {
         const response = await newsService.getColleges(currentLangId);
         const colleges = normalizeApiResponse(response);
 
-        const matchedCollege = findCollegeByFacultyCode(
-          colleges,
-          facultyCode,
-        );
+        let matchedCollege = findCollegeByFacultyCode(colleges, facultyCode);
+
+        if (!matchedCollege && currentLangId !== 1) {
+          const fallbackResponse = await newsService.getColleges(1);
+          const fallbackColleges = normalizeApiResponse(fallbackResponse);
+          matchedCollege = findCollegeByFacultyCode(fallbackColleges, facultyCode);
+        }
 
         if (!isMounted) return;
 
         if (!matchedCollege) {
           setCollegeName("");
           setCollegeNameFallback("");
+          setCollegeData(null);
           setNotFound(true);
           setLoading(false);
           setHighlightsLoading(false);
@@ -1647,23 +2242,17 @@ const FacultyNews: React.FC = () => {
         }
 
         setNotFound(false);
+        setCollegeData(matchedCollege);
         setCollegeName(matchedCollege.title || "");
 
         if (currentLangId !== 2) {
           const enResponse = await newsService.getColleges(2);
           const enColleges = normalizeApiResponse(enResponse);
-          const enMatch = findCollegeByFacultyCode(
-            enColleges,
-            facultyCode,
-          );
+          const enMatch = findCollegeByFacultyCode(enColleges, facultyCode);
 
           if (!isMounted) return;
 
-          if (enMatch?.title) {
-            setCollegeNameFallback(enMatch.title);
-          } else {
-            setCollegeNameFallback(matchedCollege.title || "");
-          }
+          setCollegeNameFallback(enMatch?.title || matchedCollege.title || "");
         } else {
           setCollegeNameFallback(matchedCollege.title || "");
         }
@@ -1673,6 +2262,7 @@ const FacultyNews: React.FC = () => {
         if (isMounted) {
           setCollegeName("");
           setCollegeNameFallback("");
+          setCollegeData(null);
           setNotFound(true);
           setLoading(false);
           setHighlightsLoading(false);
@@ -1686,26 +2276,45 @@ const FacultyNews: React.FC = () => {
     return () => {
       isMounted = false;
     };
-  }, [fac, i18n.language]);
+  }, [fac, langId]);
 
   useEffect(() => {
     let isMounted = true;
 
     const fetchCollegeLogos = async () => {
-      const currentLangId = getSavedLangId();
+      const currentLangId = Number(langId) || 1;
+      const logoLangIds = Array.from(new Set([currentLangId, 1]));
 
       try {
-        const response = await newsService.getCollegesLogos({
-          langId: currentLangId,
-          pageIndex: 1,
-          pageSize: 100,
-        });
+        const responses = await Promise.allSettled(
+          logoLangIds.map((logoLangId) =>
+            newsService.getCollegesLogos({
+              langId: logoLangId,
+              pageIndex: 1,
+              pageSize: 500,
+            }),
+          ),
+        );
 
         if (!isMounted) return;
 
-        const logos = Array.isArray(response?.result) ? response.result : [];
+        const logos = responses.flatMap((response) => {
+          if (response.status !== "fulfilled") return [];
 
-        setCollegeLogos(logos);
+          return Array.isArray(response.value?.result)
+            ? response.value.result
+            : [];
+        });
+
+        const uniqueLogos = Array.from(
+          new Map(
+            logos
+              .filter((item) => item && isValidLogoUrl(item.logoUrl))
+              .map((item) => [String(item.id || item.title), item]),
+          ).values(),
+        );
+
+        setCollegeLogos(uniqueLogos);
       } catch (error) {
         console.error("Failed to fetch colleges logos:", error);
 
@@ -1720,23 +2329,24 @@ const FacultyNews: React.FC = () => {
     return () => {
       isMounted = false;
     };
-  }, [i18n.language]);
+  }, [langId]);
 
   useEffect(() => {
     const currentCollegeName = collegeName || collegeNameFallback;
 
-    if (!currentCollegeName || collegeLogos.length === 0) {
+    if ((!collegeData && !currentCollegeName) || collegeLogos.length === 0) {
       setCollegeLogoUrl("");
       return;
     }
 
-    const matchedLogoUrl = getCollegeLogoByName(
-      currentCollegeName,
+    const matchedLogoUrl = getCollegeLogoForCollege(
+      collegeData,
       collegeLogos,
+      currentCollegeName,
     );
 
     setCollegeLogoUrl(matchedLogoUrl || "");
-  }, [collegeName, collegeNameFallback, collegeLogos]);
+  }, [collegeData, collegeName, collegeNameFallback, collegeLogos]);
 
   useEffect(() => {
     let isMounted = true;
@@ -1761,7 +2371,7 @@ const FacultyNews: React.FC = () => {
         if (!isMounted) return;
 
         const cleanMenu = sanitizeFacultyMenuItems(
-          Array.isArray(response?.result) ? response.result : [],
+          normalizeApiResponse(response),
         );
 
         setFacultyMenu(cleanMenu);
@@ -1856,11 +2466,11 @@ const FacultyNews: React.FC = () => {
   }, [articleId, langId, invalidArticleId, notFound]);
 
   const getSearchLangId = useCallback(
-    (term: string) => (term.trim() ? 1 : Number(langId)),
+    (_term: string) => Number(langId) || 1,
     [langId],
   );
 
-  const getActiveSearchLangId = () => (search.trim() ? 1 : Number(langId));
+  const getActiveSearchLangId = () => Number(langId) || 1;
 
   const fetchHighlights = useCallback(async () => {
     const facultyCode = Number(fac);
@@ -2109,7 +2719,7 @@ const FacultyNews: React.FC = () => {
   const formatDate = (dateStr: string) => {
     if (!dateStr) return "";
 
-    return new Date(dateStr).toLocaleDateString(isArabic ? "ar-EG" : "en-US", {
+    return new Date(dateStr).toLocaleDateString(currentLocale, {
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -2135,7 +2745,6 @@ const FacultyNews: React.FC = () => {
 
   const activeHighlight = highlights[activeHighlightIndex];
   const displayName = collegeName || collegeNameFallback || "...";
-
 
   const paginationNumbers = useMemo<(number | "...")[]>(() => {
     if (totalPages <= 6) {
@@ -2187,11 +2796,11 @@ const FacultyNews: React.FC = () => {
             type="button"
             className="faculty-back-btn"
             onClick={() => window.history.back()}
-            aria-label="back"
+            aria-label={t("backToUniversity")}
           >
             <i className="fa-solid fa-chevron-right"></i>
             <span>
-              {isArabic ? "الرجوع الى موقع الجامعة" : "Back to University"}
+              {t("backToUniversity")}
             </span>
           </button>
 
@@ -2199,7 +2808,7 @@ const FacultyNews: React.FC = () => {
             <div className="faculty-top-brand-text">
               <h2 className="faculty-top-college-name">{displayName}</h2>
               <p className="faculty-top-university-name">
-                {isArabic ? "جامعة المنوفية" : "Menoufia University"}
+                {t("universityName")}
               </p>
             </div>
 
@@ -2222,19 +2831,51 @@ const FacultyNews: React.FC = () => {
         <div className="faculty-menu-wrapper">
           {facultyMenuLoading ? (
             <div className="faculty-menu-loading">
-              {isArabic ? "جاري تحميل القائمة..." : "Loading menu..."}
+              {t("loadingMenu")}
             </div>
-          ) : topFacultyMenu.length > 0 ? (
-            <div className="faculty-menu-bar">
+          ) : visibleFacultyMenu.length > 0 ? (
+            <div className="faculty-menu-shell">
+              <button
+                type="button"
+                className="faculty-menu-page-btn faculty-menu-page-btn-prev"
+                onClick={handlePreviousFacultyMenuRow}
+                disabled={!canGoPreviousFacultyMenuRow}
+                aria-label={t("previousMenuRow")}
+              >
+                {isRTL ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+              </button>
 
-              {topFacultyMenu.map((item) => (
-                <FacultyMenuItemView
-                  key={item.menuId}
-                  item={item}
-                  fac={fac}
-                  facultyTitle={displayName}
-                />
-              ))}
+              <div
+  className="faculty-menu-bar"
+  style={
+    {
+      "--faculty-nav-count": Math.max(
+        visibleFacultyMenu.length,
+        1,
+      ),
+    } as React.CSSProperties
+  }
+>
+  {visibleFacultyMenu.map((item) => (
+    <FacultyMenuItemView
+      key={item.menuId}
+      item={item}
+      fac={fac}
+      facultyTitle={displayName}
+    />
+  ))}
+</div>
+
+              <button
+                type="button"
+                className="faculty-menu-page-btn faculty-menu-page-btn-next"
+                onClick={handleNextFacultyMenuRow}
+                disabled={!canGoNextFacultyMenuRow}
+                aria-label={t("nextMenuRow")}
+              >
+                {isRTL ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
+              </button>
+
             </div>
           ) : null}
         </div>
@@ -2259,15 +2900,14 @@ const FacultyNews: React.FC = () => {
                 <div className="faculty-highlight-slider">
                   <div className="faculty-highlight-image-wrap">
                     <Link
-  to={`/fac/${fac}/highlight/${activeHighlight.id}?lang=${getActiveSearchLangId()}`}
-  state={{
-  highlight: activeHighlight,
-  fac: Number(fac),
-  langId: getActiveSearchLangId(),
-  collegeName: displayName,
-}}
-  className="faculty-highlight-link"
-
+                      to={`/fac/${fac}/highlight/${activeHighlight.id}?lang=${getActiveSearchLangId()}`}
+                      state={{
+                        highlight: activeHighlight,
+                        fac: Number(fac),
+                        langId: getActiveSearchLangId(),
+                        collegeName: displayName,
+                      }}
+                      className="faculty-highlight-link"
                       aria-label={
                         activeHighlight.translationData ||
                         displayName ||
@@ -2303,7 +2943,7 @@ const FacultyNews: React.FC = () => {
                           type="button"
                           className="faculty-highlight-nav faculty-highlight-prev"
                           onClick={handlePrevHighlight}
-                          aria-label="previous highlight"
+                          aria-label={t("previousHighlight")}
                         >
                           <ChevronLeft size={26} strokeWidth={2.6} />
                         </button>
@@ -2312,7 +2952,7 @@ const FacultyNews: React.FC = () => {
                           type="button"
                           className="faculty-highlight-nav faculty-highlight-next"
                           onClick={handleNextHighlight}
-                          aria-label="next highlight"
+                          aria-label={t("nextHighlight")}
                         >
                           <ChevronRight size={26} strokeWidth={2.6} />
                         </button>
@@ -2329,7 +2969,7 @@ const FacultyNews: React.FC = () => {
                               index === activeHighlightIndex ? "active" : ""
                             }`}
                             onClick={() => setActiveHighlightIndex(index)}
-                            aria-label={`go to highlight ${index + 1}`}
+                            aria-label={t("goToHighlight", { number: index + 1 })}
                           />
                         ))}
                       </div>
@@ -2344,7 +2984,7 @@ const FacultyNews: React.FC = () => {
                     type="button"
                     className="news-search-icon-btn"
                     onClick={handleManualSearch}
-                    aria-label="search"
+                    aria-label={t("search")}
                   >
                     <i className="fa-solid fa-magnifying-glass"></i>
                   </button>
@@ -2354,11 +2994,7 @@ const FacultyNews: React.FC = () => {
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleManualSearch()}
-                    placeholder={
-                      isArabic
-                        ? "ابحث في أخبار الكلية..."
-                        : "Search faculty news..."
-                    }
+                    placeholder={t("searchFacultyNews")}
                   />
 
                   {searchInput && (
@@ -2366,7 +3002,7 @@ const FacultyNews: React.FC = () => {
                       type="button"
                       className="news-clear-btn"
                       onClick={handleClearSearch}
-                      aria-label="clear search"
+                      aria-label={t("clearSearch")}
                     >
                       <X size={18} />
                     </button>
@@ -2378,7 +3014,7 @@ const FacultyNews: React.FC = () => {
                       showFilters ? "active" : ""
                     } ${activeFiltersCount > 0 ? "has-filters" : ""}`}
                     onClick={() => setShowFilters((prev) => !prev)}
-                    aria-label="toggle filters"
+                    aria-label={t("toggleFilters")}
                   >
                     <i className="fa-solid fa-sliders"></i>
                     {activeFiltersCount > 0 && (
@@ -2392,7 +3028,7 @@ const FacultyNews: React.FC = () => {
                 >
                   <div
                     className="filter-panel-inner"
-                    dir={isArabic ? "rtl" : "ltr"}
+                    dir={isRTL ? "rtl" : "ltr"}
                   >
                     <div className="filter-panell-body">
                       <div
@@ -2401,12 +3037,12 @@ const FacultyNews: React.FC = () => {
                       >
                         <span className="filterr-labell">
                           <Calendar size={13} />
-                          {isArabic ? "نطاق مخصص" : "Custom Range"}
+                          {t("customRange")}
                         </span>
 
                         <div className="filter-date-inputs">
                           <div className="date-input-wrap">
-                            <label>{isArabic ? "من" : "From"}</label>
+                            <label>{t("from")}</label>
                             <input
                               type="date"
                               value={fromDate}
@@ -2418,7 +3054,7 @@ const FacultyNews: React.FC = () => {
                           <span className="date-separator">—</span>
 
                           <div className="date-input-wrap">
-                            <label>{isArabic ? "إلى" : "To"}</label>
+                            <label>{t("to")}</label>
                             <input
                               type="date"
                               value={toDate}
@@ -2432,7 +3068,7 @@ const FacultyNews: React.FC = () => {
                       <div className="filter-section" style={{ width: "100%" }}>
                         <span className="filter-labell">
                           <Calendar size={13} />
-                          {isArabic ? "فلتر سريع" : "Quick Filter"}
+                          {t("quickFilter")}
                         </span>
 
                         <div className="filter-chips">
@@ -2454,7 +3090,7 @@ const FacultyNews: React.FC = () => {
                                 handleApplyDateFilter(filter.value)
                               }
                             >
-                              {isArabic ? filter.labelAr : filter.labelEn}
+                              {t(filter.labelKey)}
                             </button>
                           ))}
                         </div>
@@ -2469,7 +3105,7 @@ const FacultyNews: React.FC = () => {
                           onClick={handleClearAllFilters}
                         >
                           <X size={12} />
-                          {isArabic ? "مسح الفلاتر" : "Clear Filters"}
+                          {t("clearFilters")}
                         </button>
                       </div>
                     )}
@@ -2481,13 +3117,11 @@ const FacultyNews: React.FC = () => {
                 <div className="news-active-filters">
                   {dateFilter !== 0 && (
                     <span className="active-tag">
-                      {isArabic
-                        ? DATE_FILTERS.find(
-                            (filter) => filter.value === dateFilter,
-                          )?.labelAr
-                        : DATE_FILTERS.find(
-                            (filter) => filter.value === dateFilter,
-                          )?.labelEn}
+                      {t(
+                        DATE_FILTERS.find(
+                          (filter) => filter.value === dateFilter,
+                        )?.labelKey || "allNews",
+                      )}
 
                       <button onClick={() => setDateFilter(0)}>
                         <X size={11} />
@@ -2497,7 +3131,7 @@ const FacultyNews: React.FC = () => {
 
                   {fromDate && (
                     <span className="active-tag">
-                      {isArabic ? "من: " : "From: "}
+                      {t("fromWithColon")}
                       {fromDate}
                       <button onClick={() => setFromDate("")}>
                         <X size={11} />
@@ -2507,7 +3141,7 @@ const FacultyNews: React.FC = () => {
 
                   {toDate && (
                     <span className="active-tag">
-                      {isArabic ? "إلى: " : "To: "}
+                      {t("toWithColon")}
                       {toDate}
                       <button onClick={() => setToDate("")}>
                         <X size={11} />
@@ -2519,7 +3153,7 @@ const FacultyNews: React.FC = () => {
 
               {search && (
                 <div className="news-search-status">
-                  <span>{isArabic ? "نتائج البحث عن" : "Results for"}</span>
+                  <span>{t("resultsFor")}</span>
                   <strong>{search}</strong>
                 </div>
               )}
@@ -2534,7 +3168,7 @@ const FacultyNews: React.FC = () => {
               >
                 <span className="faculty-section-dot" />
                 <h2 className="faculty-section-title">
-                  {isArabic ? "أخبار وفعاليات" : "News & Events"}
+                  {t("newsAndEvents")}
                 </h2>
               </div>
 
@@ -2556,7 +3190,7 @@ const FacultyNews: React.FC = () => {
                 </div>
               ) : news.length === 0 ? (
                 <div className="news-no-results">
-                  <h2>{isArabic ? "لا توجد نتائج" : "No results found"}</h2>
+                  <h2>{t("noResults")}</h2>
                 </div>
               ) : (
                 <div className="news-cards-grid">
@@ -2616,7 +3250,7 @@ const FacultyNews: React.FC = () => {
                         setPageIndex((prev) => Math.max(1, prev - 1))
                       }
                       disabled={!movePrevious || loading}
-                      aria-label="Previous page"
+                      aria-label={t("previousPage")}
                     >
                       <i className="fa-solid fa-chevron-left" />
                     </button>
@@ -2653,24 +3287,17 @@ const FacultyNews: React.FC = () => {
                       className="news-pagination-arrow"
                       onClick={() => setPageIndex((prev) => prev + 1)}
                       disabled={!moveNext || loading}
-                      aria-label="Next page"
+                      aria-label={t("nextPage")}
                     >
                       <i className="fa-solid fa-chevron-right" />
                     </button>
                   </div>
 
                   <div className="news-page-info">
-                    {isArabic ? (
-                      <>
-                        الصفحة <strong>{pageIndex}</strong> من{" "}
-                        <strong>{totalPages}</strong>
-                      </>
-                    ) : (
-                      <>
-                        Page <strong>{pageIndex}</strong> of{" "}
-                        <strong>{totalPages}</strong>
-                      </>
-                    )}
+                    <>
+                      {t("page")} <strong>{pageIndex}</strong> {t("of")}{" "}
+                      <strong>{totalPages}</strong>
+                    </>
                   </div>
                 </div>
               )}
@@ -2679,76 +3306,12 @@ const FacultyNews: React.FC = () => {
         </>
       )}
 
-      {footerMenuGroups.length > 0 && (
-        <footer className="faculty-links-footer" dir={isRTL ? "rtl" : "ltr"}>
-          <div className="faculty-links-footer-top">
-            {footerMenuGroups.slice(0, 3).map((group, index) => (
-              <FacultyFooterColumn
-                key={group.menuId}
-                group={group}
-                fac={fac}
-                isArabic={isArabic}
-                accentColor={
-                  FACULTY_FOOTER_ACCENTS[index] ??
-                  FACULTY_FOOTER_ACCENTS[0]
-                }
-              />
-            ))}
-          </div>
-
-          <div className="faculty-links-footer-bottom">
-            <div className="faculty-footer-contact">
-              <div className="faculty-footer-bottom-title">
-                <span>{isArabic ? "تواصل معنا :" : "Contact us:"}</span>
-
-                <span className="faculty-footer-bottom-icon">
-                  <i className="fa-solid fa-phone"></i>
-                </span>
-              </div>
-
-              <div className="faculty-footer-phones">
-                <span>048-2235690</span>
-                <span className="phone-separator">/</span>
-                <span>048-2222753</span>
-              </div>
-
-              <div className="faculty-footer-social">
-                <a href="#" aria-label="facebook">
-                  <i className="fa-brands fa-facebook-f"></i>
-                </a>
-
-                <a href="#" aria-label="youtube">
-                  <i className="fa-brands fa-youtube"></i>
-                </a>
-
-                <a href="#" aria-label="twitter">
-                  <i className="fa-brands fa-twitter"></i>
-                </a>
-              </div>
-            </div>
-
-            <div className="faculty-footer-logo-area">
-              <img src={logo2} alt="Menoufia University" />
-            </div>
-
-            <div className="faculty-footer-address">
-              <div className="faculty-footer-bottom-title">
-                <span>{isArabic ? "عنوان الكلية :" : "Faculty address:"}</span>
-
-                <span className="faculty-footer-bottom-icon">
-                  <i className="fa-solid fa-location-dot"></i>
-                </span>
-              </div>
-
-              <p>
-                {isArabic
-                  ? "شبين الكوم _ المنوفية _ مصر"
-                  : "Shebin El-Kom _ Menoufia _ Egypt"}
-              </p>
-            </div>
-          </div>
-        </footer>
-      )}
+      <FacultyFooter
+  footerMenuGroups={footerMenuGroups}
+  isRTL={isRTL}
+  logo2={logo2}
+  getItemLink={(item) => getFacultyMenuLink(item as FacultyMenuItem, fac)}
+/>
     </div>
   );
 };

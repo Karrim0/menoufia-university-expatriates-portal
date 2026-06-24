@@ -50,8 +50,7 @@
   padding: 2rem 1rem;
   background: var(--contact-bg);
   color: var(--contact-primary-text);
-  direction: rtl;
-  transition:
+direction: inherit;  transition:
     background-color 0.25s ease,
     color 0.25s ease;
 }
@@ -554,6 +553,7 @@
     color 0.2s ease,
     transform 0.2s ease,
     box-shadow 0.2s ease;
+    padding: 0 18px;
 }
 
 .contact-page .complaint-category-btn:hover {
@@ -1277,4 +1277,10 @@
   .contact-page .faculty-options-list {
     max-height: 220px;
   }
+}.contact-page .tab-link-button {
+  text-decoration: none;
+}
+
+.contact-page .tab-link-button:hover {
+  text-decoration: none;
 }

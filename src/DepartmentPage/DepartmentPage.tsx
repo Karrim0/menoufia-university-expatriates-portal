@@ -5,19 +5,8 @@ import React, {
   useRef,
   useState,
 } from "react";
-import {
-  Link,
-  useLocation,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
-import {
-  Calendar,
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  X,
-} from "lucide-react";
+import { Link, useLocation, useParams, useSearchParams } from "react-router-dom";
+import { Calendar, ChevronDown, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import newsService from "../Services/newsService";
@@ -26,7 +15,7 @@ import ErrorPage from "../ErrorPage/ErrorPage";
 import "../NewsPage/News.css";
 import "../NewsPage/News.filter.css";
 import "./DepartmentPage.css";
-
+import FacultyFooter from "../Shared/FacultyFooter/FacultyFooter";
 import logo from "../../src/assets/logo.jpg";
 import logo2 from "../../src/assets/MNF_logo.png";
 import headerBg from "../../src/assets/01.jpg";
@@ -34,14 +23,58 @@ import headerBg from "../../src/assets/01.jpg";
 const ITEMS_PER_PAGE = 10;
 const DEBOUNCE_DELAY = 500;
 
+const LANGUAGE_IDS = {
+  ar: 1,
+  en: 2,
+  fr: 3,
+  ja: 23,
+  de: 24,
+  tr: 25,
+  fa: 26,
+  ru: 27,
+  ch: 28,
+  it: 29,
+} as const;
+
+type LanguageCode = keyof typeof LANGUAGE_IDS;
+
+const RTL_LANGUAGE_CODES = new Set<LanguageCode>(["ar", "fa"]);
+
+const DATE_FILTERS = [
+  { value: 0, key: "allNews", fallback: "All News" },
+  { value: 2, key: "today", fallback: "Today" },
+  { value: 3, key: "lastWeek", fallback: "Last Week" },
+  { value: 4, key: "lastMonth", fallback: "Last Month" },
+];
+
+const FOOTER_GROUP_TITLES = [
+  "مواقع هامة",
+  "مواقع مهمة",
+  "روابط هامة",
+  "روابط مهمة",
+  "خدمات أكاديمية",
+  "خدمات اكاديمية",
+  "خدمات إلكترونية",
+  "خدمات الكترونية",
+  "important links",
+  "useful links",
+  "academic services",
+  "electronic services",
+  "e-services",
+];
+
+
 type MenuItem = {
+  id?: number;
   menuId: number;
   parentId: number | null;
   sortOrder: number;
+  order?: number;
   title: string;
   articleId: number | null;
   url: string;
   children: MenuItem[];
+  subMenus?: MenuItem[];
 };
 
 type NewsItem = {
@@ -77,16 +110,37 @@ type ArticlePage = {
   imageDescription?: string | null;
 };
 
-const DEPARTMENT_NAV_LIMIT = 7;
+type SavedLang = {
+  id?: number;
+  code?: string;
+  name?: string;
+  flag?: string;
+};
 
-const DATE_FILTERS = [
-  { value: 0, labelAr: "كل الأخبار", labelEn: "All News" },
-  { value: 2, labelAr: "اليوم", labelEn: "Today" },
-  { value: 3, labelAr: "آخر أسبوع", labelEn: "Last Week" },
-  { value: 4, labelAr: "آخر شهر", labelEn: "Last Month" },
-];
+type FooterMenuGroup = {
+  menuId: number | string;
+  title: string;
+  children: MenuItem[];
+};
 
-const getSavedLang = () => {
+type TranslationFn = (key: string, options?: Record<string, unknown>) => string;
+
+const getDepartmentTopMenuLimit = () => {
+  if (typeof window === "undefined") return 8;
+
+  const width = window.innerWidth;
+
+  if (width >= 1500) return 9;
+  if (width >= 1280) return 8;
+  if (width >= 1100) return 7;
+  if (width >= 900) return 6;
+  if (width >= 640) return 5;
+  if (width >= 480) return 4;
+
+  return 3;
+};
+
+const getSavedLang = (): SavedLang => {
   try {
     return JSON.parse(localStorage.getItem("lang") || "{}");
   } catch {
@@ -94,147 +148,218 @@ const getSavedLang = () => {
   }
 };
 
-const getSavedLangId = () => Number(getSavedLang()?.id) || 1;
+const normalizeLanguageCode = (code?: string): LanguageCode | "" => {
+  const normalizedCode = String(code || "")
+    .trim()
+    .toLowerCase()
+    .split("-")[0];
+
+  return normalizedCode in LANGUAGE_IDS ? (normalizedCode as LanguageCode) : "";
+};
+
+const getCurrentLanguageCode = (i18nLanguage?: string): LanguageCode => {
+  const i18nCode = normalizeLanguageCode(i18nLanguage);
+
+  if (i18nCode) return i18nCode;
+
+  const savedLang = getSavedLang();
+  const savedCode = normalizeLanguageCode(savedLang?.code);
+
+  if (savedCode) return savedCode;
+
+  const savedId = Number(savedLang?.id);
+  const matchedCodeById = Object.entries(LANGUAGE_IDS).find(([, id]) => id === savedId)?.[0] as LanguageCode | undefined;
+
+  return matchedCodeById || "ar";
+};
+
+const getLanguageIdByCode = (code: LanguageCode) => LANGUAGE_IDS[code] || 1;
+
+const getLocaleByLangCode = (code: LanguageCode) => {
+  const locales: Record<LanguageCode, string> = {
+    ar: "ar-EG",
+    en: "en-US",
+    fr: "fr-FR",
+    ja: "ja-JP",
+    de: "de-DE",
+    tr: "tr-TR",
+    fa: "fa-IR",
+    ru: "ru-RU",
+    ch: "en-US",
+    it: "it-IT",
+  };
+
+  return locales[code] || "en-US";
+};
+
+const normalizeApiResponse = (data: any): any[] => {
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data?.result)) return data.result;
+  if (Array.isArray(data?.data)) return data.data;
+  if (Array.isArray(data?.data?.result)) return data.data.result;
+  return [];
+};
 
 const cleanTitle = (value?: string) =>
   String(value || "")
     .replace(/\s+/g, " ")
     .trim();
 
-const normalizeCollegeName = (value?: string) =>
+const normalizeText = (value?: string) =>
   String(value || "")
     .trim()
     .replace(/[أإآ]/g, "ا")
     .replace(/ة/g, "ه")
     .replace(/ى/g, "ي")
+    .replace(/ؤ/g, "و")
+    .replace(/ئ/g, "ي")
+    .replace(/[ًٌٍَُِّْ]/g, "")
+    .replace(/[ـ]/g, "")
+    .replace(/[^\p{L}\p{N}\s]/gu, " ")
     .replace(/\s+/g, " ")
-    .toLowerCase();
+    .toLowerCase()
+    .trim();
 
-const FAC_MAP: Record<string, number> = {
-  [normalizeCollegeName("كلية العلوم")]: 100,
-  [normalizeCollegeName("كلية علوم")]: 100,
-  [normalizeCollegeName("Faculty of Science")]: 100,
-  [normalizeCollegeName("كلية الطب")]: 200,
-  [normalizeCollegeName("Faculty of Medicine")]: 200,
-  [normalizeCollegeName("كلية الزراعة")]: 300,
-  [normalizeCollegeName("كليه الزراعه")]: 300,
-  [normalizeCollegeName("Faculty of Agriculture")]: 300,
-  [normalizeCollegeName("كلية الهندسة")]: 400,
-  [normalizeCollegeName("كليه الهندسه")]: 400,
-  [normalizeCollegeName("Faculty of Engineering")]: 400,
-  [normalizeCollegeName("كلية التجارة")]: 500,
-  [normalizeCollegeName("كليه التجاره")]: 500,
-  [normalizeCollegeName("Faculty of Commerce")]: 500,
-  [normalizeCollegeName("كلية الحقوق")]: 600,
-  [normalizeCollegeName("Faculty of Law")]: 600,
-  [normalizeCollegeName("كلية طب الأسنان")]: 700,
-  [normalizeCollegeName("كلية طب الاسنان")]: 700,
-  [normalizeCollegeName("Faculty of Dentistry")]: 700,
-  [normalizeCollegeName("كلية التمريض")]: 800,
-  [normalizeCollegeName("Faculty of Nursing")]: 800,
-  [normalizeCollegeName("كلية الصيدلة")]: 900,
-  [normalizeCollegeName("كليه الصيدله")]: 900,
-  [normalizeCollegeName("Faculty of Pharmacy")]: 900,
-  [normalizeCollegeName("كلية الطب البيطري")]: 1000,
-  [normalizeCollegeName("كلية الطب البيطرى")]: 1000,
-  [normalizeCollegeName("Faculty of Veterinary Medicine")]: 1000,
-  [normalizeCollegeName("كلية الذكاء الاصطناعي")]: 1100,
-  [normalizeCollegeName("Faculty of Artificial Intelligence")]: 1100,
-  [normalizeCollegeName("كلية الآداب")]: 1200,
-  [normalizeCollegeName("كلية الاداب")]: 1200,
-  [normalizeCollegeName("Faculty of Arts")]: 1200,
-  [normalizeCollegeName("كلية العلوم التطبيقية")]: 1300,
-  [normalizeCollegeName("كلية العلوم الطبية التطبيقية")]: 1300,
-  [normalizeCollegeName("Faculty of Applied Health Sciences Technology")]: 1300,
-  [normalizeCollegeName("كلية التربية للطفولة المبكرة")]: 1400,
-  [normalizeCollegeName("كلية تربية الطفولة المبكره")]: 1400,
-  [normalizeCollegeName("Faculty of Early Childhood Education")]: 1400,
-  [normalizeCollegeName("كلية التربية")]: 1500,
-  [normalizeCollegeName("كلية تربية")]: 1500,
-  [normalizeCollegeName("Faculty of Education")]: 1500,
-  [normalizeCollegeName("كلية التربية النوعية")]: 1600,
-  [normalizeCollegeName("Faculty of Specific Education")]: 1600,
-  [normalizeCollegeName("كلية الفنون الجميلة")]: 1700,
-  [normalizeCollegeName("Faculty of Fine Arts")]: 1700,
-  [normalizeCollegeName("كلية الحاسبات والمعلومات")]: 1800,
-  [normalizeCollegeName("كلية الحاسبات")]: 1800,
-  [normalizeCollegeName("Faculty of Computers and Information")]: 1800,
-  [normalizeCollegeName("كلية الهندسة الالكترونية")]: 1900,
-  [normalizeCollegeName("كلية الهندسة الإلكترونية")]: 1900,
-  [normalizeCollegeName("Faculty of Electronic Engineering")]: 1900,
-  [normalizeCollegeName("FEE")]: 1900,
-  [normalizeCollegeName("كلية التربية الرياضية")]: 2000,
-  [normalizeCollegeName("Faculty of Physical Education")]: 2000,
-  [normalizeCollegeName("كلية الاقتصاد المنزلي")]: 2100,
-  [normalizeCollegeName("كلية الاقتصاد المنزلى")]: 2100,
-  [normalizeCollegeName("Faculty of Home Economics")]: 2100,
-  [normalizeCollegeName("Ho")]: 2200,
-  [normalizeCollegeName("معهد الكبد القومي")]: 2300,
-  [normalizeCollegeName("LIV")]: 2300,
-  [normalizeCollegeName("National Liver Institute")]: 2300,
-  [normalizeCollegeName("كلية الإعلام")]: 2400,
-  [normalizeCollegeName("كلية الاعلام")]: 2400,
-  [normalizeCollegeName("Faculty of Mass Communication")]: 2400,
+const getMenuChildren = (item?: MenuItem) => {
+  const children = Array.isArray(item?.children)
+    ? item?.children
+    : Array.isArray(item?.subMenus)
+      ? item?.subMenus
+      : [];
+
+  return children
+    .filter((child) => child && typeof child === "object")
+    .filter((child) => cleanTitle(child.title).length > 0)
+    .map(normalizeMenuItem)
+    .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
 };
 
-const getFacCodeFromCollegeTitle = (title?: string) =>
-  FAC_MAP[normalizeCollegeName(title)] ?? null;
+const normalizeMenuItem = (item: any): MenuItem => ({
+  ...item,
+  menuId: Number(item?.menuId ?? item?.id) || 0,
+  parentId: item?.parentId ?? null,
+  sortOrder: Number(item?.sortOrder ?? item?.order) || 0,
+  articleId: item?.articleId ?? null,
+  url: String(item?.url || ""),
+  title: cleanTitle(item?.title),
+  children: Array.isArray(item?.children)
+    ? item.children
+        .filter((child: any) => child && typeof child === "object")
+        .filter((child: any) => cleanTitle(child.title).length > 0)
+        .map(normalizeMenuItem)
+        .sort((a: MenuItem, b: MenuItem) => (a.sortOrder || 0) - (b.sortOrder || 0))
+    : Array.isArray(item?.subMenus)
+      ? item.subMenus
+          .filter((child: any) => child && typeof child === "object")
+          .filter((child: any) => cleanTitle(child.title).length > 0)
+          .map(normalizeMenuItem)
+          .sort((a: MenuItem, b: MenuItem) => (a.sortOrder || 0) - (b.sortOrder || 0))
+      : [],
+});
+
+const sanitizeDepartmentMenuItems = (items: MenuItem[] = []) => {
+  return items
+    .filter((item) => item && typeof item === "object")
+    .filter((item) => cleanTitle(item.title).length > 0)
+    .map(normalizeMenuItem)
+    .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
+};
 
 const isValidLogoUrl = (url?: string) => {
   const value = String(url || "").trim();
 
-  return (
-    value.length > 0 &&
-    value !== "YOUR_LOGO_URL_HERE" &&
-    /^https?:\/\//i.test(value)
-  );
+  return value.length > 0 && value !== "YOUR_LOGO_URL_HERE" && /^https?:\/\//i.test(value);
 };
 
-const getCollegeLogoByFacCode = ({
-  facCode,
-  logos,
-  facultyTitle,
-}: {
-  facCode: number;
-  logos: CollegeLogoItem[];
-  facultyTitle?: string;
-}) => {
-  const validLogos = logos.filter(
-    (item) =>
-      getFacCodeFromCollegeTitle(item.title) === facCode &&
-      isValidLogoUrl(item.logoUrl),
-  );
+const getCollegeFacFromApi = (college: any): number | null => {
+  const possibleCodes = [
+    college?.fac,
+    college?.Fac,
+    college?.publicCode,
+    college?.PublicCode,
+    college?.facCode,
+    college?.FacCode,
+    college?.facultyCode,
+    college?.FacultyCode,
+    college?.code,
+    college?.Code,
+  ];
 
-  if (validLogos.length === 0) return "";
+  for (const possibleCode of possibleCodes) {
+    const numericCode = Number(possibleCode);
 
-  const normalizedFacultyTitle = normalizeCollegeName(facultyTitle);
+    if (Number.isFinite(numericCode) && numericCode > 0) {
+      return numericCode;
+    }
+  }
 
-  const exactTitleMatch = validLogos.find(
-    (item) => normalizeCollegeName(item.title) === normalizedFacultyTitle,
-  );
-
-  return exactTitleMatch?.logoUrl || validLogos[0]?.logoUrl || "";
+  return null;
 };
 
-const isExternalUrl = (url?: string) =>
-  typeof url === "string" && /^https?:\/\//i.test(url);
+const findCollegeByFacultyCode = (colleges: any[], facultyCode: number) => {
+  return colleges.find((college) => getCollegeFacFromApi(college) === facultyCode);
+};
 
-const getChildren = (item?: MenuItem) =>
-  Array.isArray(item?.children)
-    ? item.children
-        .filter((child) => child && typeof child === "object")
-        .filter((child) => cleanTitle(child.title).length > 0)
-        .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0))
-    : [];
+const getCollegeLogoByName = (collegeTitle: string, logos: CollegeLogoItem[]) => {
+  const normalizedTitle = normalizeText(collegeTitle);
 
-const chunkItems = (items: MenuItem[], chunksCount: number) => {
-  const chunks: MenuItem[][] = Array.from({ length: chunksCount }, () => []);
+  const matchedLogo = logos.find((item) => normalizeText(item.title) === normalizedTitle);
 
-  items.forEach((item, index) => {
-    chunks[index % chunksCount].push(item);
-  });
+  return isValidLogoUrl(matchedLogo?.logoUrl) ? matchedLogo?.logoUrl || "" : "";
+};
 
-  return chunks;
+const getCollegeLogoForCollege = (college: any, logos: CollegeLogoItem[], fallbackTitle = "") => {
+  const possibleIds = [college?.id, college?.menuId, college?.collegeId, college?.CollegeId];
+
+  for (const possibleId of possibleIds) {
+    const numericId = Number(possibleId);
+
+    if (!Number.isFinite(numericId) || numericId <= 0) continue;
+
+    const matchedLogoById = logos.find((item) => Number(item.id) === numericId && isValidLogoUrl(item.logoUrl));
+
+    if (matchedLogoById?.logoUrl) return matchedLogoById.logoUrl;
+  }
+
+  const titleLogo = getCollegeLogoByName(college?.title || fallbackTitle, logos);
+
+  if (titleLogo) return titleLogo;
+
+  return getCollegeLogoByName(fallbackTitle, logos);
+};
+
+const isExternalUrl = (url?: string) => typeof url === "string" && /^https?:\/\//i.test(url);
+
+const normalizeMenuUrl = (url?: string) => {
+  const value = String(url || "").trim();
+
+  if (!value || value === "#") return "";
+  if (/^https?:\/\//i.test(value)) return value;
+  if (value.startsWith("/")) return `https://www.menofia.edu.eg${value}`;
+
+  return value;
+};
+
+const extractArticleIdFromUrl = (url?: string): number | null => {
+  const value = String(url || "").trim();
+
+  if (!value || value === "#") return null;
+
+  const viewMatch = value.match(/\/view\/(\d+)(?:\/|$|\?)/i);
+
+  if (viewMatch?.[1]) {
+    const articleId = Number(viewMatch[1]);
+    return Number.isFinite(articleId) && articleId > 0 ? articleId : null;
+  }
+
+  const queryMatch = value.match(/[?&](?:articleId|id)=(\d+)/i);
+
+  if (queryMatch?.[1]) {
+    const articleId = Number(queryMatch[1]);
+    return Number.isFinite(articleId) && articleId > 0 ? articleId : null;
+  }
+
+  return null;
 };
 
 const getDepartmentMenuLink = ({
@@ -246,44 +371,136 @@ const getDepartmentMenuLink = ({
   fac?: string;
   departmentCode?: string;
 }) => {
-  if (isExternalUrl(item.url)) return item.url;
+  const responseArticleId =
+    item.articleId !== null && item.articleId !== undefined && String(item.articleId).trim() !== ""
+      ? Number(item.articleId)
+      : null;
 
-  const params = new URLSearchParams();
+  const extractedArticleId = extractArticleIdFromUrl(item.url);
+  const finalArticleId = responseArticleId || extractedArticleId;
 
-  if (item.articleId !== null && item.articleId !== undefined) {
-    params.set("articleId", String(item.articleId));
+  if (finalArticleId && fac && departmentCode) {
+    return `/fac/${fac}/department/${departmentCode}?articleId=${finalArticleId}`;
   }
 
-  const query = params.toString();
+  const menuUrl = normalizeMenuUrl(item.url);
 
-  return `/fac/${fac}/department/${departmentCode}${query ? `?${query}` : ""}`;
+  if (menuUrl) return menuUrl;
+
+  return `/fac/${fac}/department/${departmentCode}`;
+};
+
+const buildFooterMenuGroups = (items: MenuItem[]): FooterMenuGroup[] => {
+  const cleanItems = sanitizeDepartmentMenuItems(items);
+  const footerTitles = FOOTER_GROUP_TITLES.map(normalizeText);
+
+  return cleanItems
+    .filter((item) => footerTitles.includes(normalizeText(item.title)))
+    .slice(0, 3)
+    .map((item) => ({
+      menuId: item.menuId,
+      title: cleanTitle(item.title),
+      children: getMenuChildren(item),
+    }))
+    .filter((group) => group.children.length > 0);
+};
+
+const chunkMenuItemsBySize = <T,>(items: T[], size: number) => {
+  const safeSize = Math.max(1, size || 1);
+  const rows: T[][] = [];
+
+  for (let index = 0; index < items.length; index += safeSize) {
+    rows.push(items.slice(index, index + safeSize));
+  }
+
+  return rows;
+};
+
+const useDepartmentMenuRows = (items: MenuItem[]) => {
+  const [itemsPerRow, setItemsPerRow] = useState<number>(() => getDepartmentTopMenuLimit());
+  const [activeRowIndex, setActiveRowIndex] = useState(0);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleResize = () => {
+      setItemsPerRow(getDepartmentTopMenuLimit());
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const rows = useMemo(() => chunkMenuItemsBySize(items, itemsPerRow), [items, itemsPerRow]);
+
+  useEffect(() => {
+    setActiveRowIndex(0);
+  }, [items.length, itemsPerRow]);
+
+  useEffect(() => {
+    setActiveRowIndex((current) => Math.min(current, Math.max(rows.length - 1, 0)));
+  }, [rows.length]);
+
+  const safeActiveRowIndex = Math.min(activeRowIndex, Math.max(rows.length - 1, 0));
+
+  const goNext = useCallback(() => {
+    setActiveRowIndex((current) => Math.min(current + 1, Math.max(rows.length - 1, 0)));
+  }, [rows.length]);
+
+  const goPrevious = useCallback(() => {
+    setActiveRowIndex((current) => Math.max(current - 1, 0));
+  }, []);
+
+  return {
+    itemsPerRow,
+    rows,
+    activeRowIndex: safeActiveRowIndex,
+    currentRow: rows[safeActiveRowIndex] || [],
+    canGoNext: safeActiveRowIndex < rows.length - 1,
+    canGoPrevious: safeActiveRowIndex > 0,
+    goNext,
+    goPrevious,
+  };
+};
+
+const normalizeContentUrl = (url = "") => {
+  const value = String(url || "").trim();
+
+  if (!value) return "";
+  if (/^https?:\/\//i.test(value)) return value;
+  if (value.startsWith("/")) return `https://www.menofia.edu.eg${value}`;
+  if (/^(PrtlFiles|uploads)\//i.test(value)) return `https://www.menofia.edu.eg/${value}`;
+
+  return value;
 };
 
 const extractFirstUrl = (html = "") => {
   const hrefMatch = html.match(/href=["']([^"']+)["']/i);
   const srcMatch = html.match(/src=["']([^"']+)["']/i);
 
-  return hrefMatch?.[1] || srcMatch?.[1] || "";
+  return normalizeContentUrl(hrefMatch?.[1] || srcMatch?.[1] || "");
 };
 
 const getFileExtension = (url = "") => {
-  const clean = url.split("?")[0].toLowerCase();
+  const clean = String(url || "").split("?")[0].split("#")[0].toLowerCase();
   const match = clean.match(/\.([a-z0-9]+)$/);
 
   return match?.[1] || "";
 };
 
 const stripHtml = (html = "") =>
-  html
+  String(html || "")
     .replace(/<style[\s\S]*?<\/style>/gi, "")
+    .replace(/<script[\s\S]*?<\/script>/gi, "")
     .replace(/<!--[\s\S]*?-->/g, "")
     .replace(/<[^>]*>/g, " ")
     .replace(/&nbsp;/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 
-const getGoogleViewerUrl = (url: string) =>
-  `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(url)}`;
+const getGoogleViewerUrl = (url: string) => `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(url)}`;
 
 const DepartmentMenuItem: React.FC<{
   item: MenuItem;
@@ -292,86 +509,137 @@ const DepartmentMenuItem: React.FC<{
   facultyTitle?: string;
   departmentTitle?: string;
   level?: number;
-}> = ({
-  item,
-  fac,
-  departmentCode,
-  facultyTitle,
-  departmentTitle,
-  level = 0,
-}) => {
+}> = ({ item, fac, departmentCode, facultyTitle, departmentTitle, level = 0 }) => {
   const [open, setOpen] = useState(false);
+  const [dropDirection, setDropDirection] = useState<"default" | "flip">("default");
 
-  const children = getChildren(item);
+  const itemRef = useRef<HTMLDivElement | null>(null);
+  const subMenuRef = useRef<HTMLDivElement | null>(null);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const children = getMenuChildren(item);
   const hasChildren = children.length > 0;
-
-  const link = getDepartmentMenuLink({
-    item,
-    fac,
-    departmentCode,
-  });
-
+  const link = getDepartmentMenuLink({ item, fac, departmentCode });
   const external = isExternalUrl(link);
+
+  const clearCloseTimer = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+  };
+
+  const updateDropDirection = useCallback(() => {
+    if (!hasChildren || !itemRef.current || typeof window === "undefined") return;
+
+    const rect = itemRef.current.getBoundingClientRect();
+    const safeGap = 14;
+    const viewportWidth = window.innerWidth;
+    const menuWidth = subMenuRef.current?.offsetWidth || (level === 0 ? 300 : 260);
+
+    if (level === 0) {
+      const defaultLeftEdge = rect.right - menuWidth;
+      const flipRightEdge = rect.left + menuWidth;
+
+      if (defaultLeftEdge < safeGap && flipRightEdge <= viewportWidth - safeGap) {
+        setDropDirection("flip");
+      } else {
+        setDropDirection("default");
+      }
+
+      return;
+    }
+
+    const leftSpace = rect.left - safeGap;
+    const rightSpace = viewportWidth - rect.right - safeGap;
+
+    setDropDirection(leftSpace < menuWidth && rightSpace > leftSpace ? "flip" : "default");
+  }, [hasChildren, level]);
+
+  const handleMouseEnter = () => {
+    if (!hasChildren) return;
+
+    clearCloseTimer();
+    updateDropDirection();
+    setOpen(true);
+
+    requestAnimationFrame(updateDropDirection);
+  };
+
+  const handleMouseLeave = () => {
+    if (!hasChildren) return;
+
+    clearCloseTimer();
+    closeTimerRef.current = setTimeout(() => setOpen(false), 260);
+  };
 
   const handleToggle = (e: React.MouseEvent) => {
     if (!hasChildren) return;
 
     e.preventDefault();
     e.stopPropagation();
-    setOpen((prev) => !prev);
+    clearCloseTimer();
+
+    setOpen((prev) => {
+      const next = !prev;
+
+      if (next) {
+        updateDropDirection();
+        requestAnimationFrame(updateDropDirection);
+      }
+
+      return next;
+    });
   };
+
+  useEffect(() => {
+    if (!open || !hasChildren || typeof window === "undefined") return;
+
+    updateDropDirection();
+    window.addEventListener("resize", updateDropDirection);
+    window.addEventListener("scroll", updateDropDirection, true);
+
+    return () => {
+      window.removeEventListener("resize", updateDropDirection);
+      window.removeEventListener("scroll", updateDropDirection, true);
+    };
+  }, [open, hasChildren, updateDropDirection]);
+
+  useEffect(() => () => clearCloseTimer(), []);
+
+  const NestedArrow = dropDirection === "flip" ? ChevronRight : ChevronLeft;
 
   const content = (
     <>
       <span>{cleanTitle(item.title)}</span>
-
       {hasChildren &&
         (level === 0 ? (
-          <ChevronDown
-            size={12}
-            className={`department-menu-arrow ${open ? "open" : ""}`}
-          />
+          <ChevronDown size={12} className={`department-menu-arrow ${open ? "open" : ""}`} />
         ) : (
-          <ChevronLeft
-            size={12}
-            className={`department-menu-arrow ${open ? "open" : ""}`}
-          />
+          <NestedArrow size={12} className="department-menu-arrow" />
         ))}
     </>
   );
 
   return (
     <div
-      className={`department-menu-item level-${level} ${
-        hasChildren ? "has-children" : ""
-      } ${open ? "open" : ""}`}
-      onMouseEnter={() => hasChildren && setOpen(true)}
-      onMouseLeave={() => hasChildren && setOpen(false)}
+      ref={itemRef}
+      className={`department-menu-item level-${level} ${hasChildren ? "has-children" : ""} ${open ? "open" : ""} drop-${dropDirection}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {hasChildren ? (
-        <button
-          type="button"
-          className="department-menu-link"
-          onClick={handleToggle}
-        >
+        <button type="button" className="department-menu-link" onClick={handleToggle}>
           {content}
         </button>
       ) : external ? (
-        <a
-          href={link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="department-menu-link"
-        >
+        <a href={link} target="_blank" rel="noopener noreferrer" className="department-menu-link">
           {content}
         </a>
       ) : (
         <Link
           to={link}
-          state={{
-            facultyTitle,
-            departmentTitle,
-          }}
+          state={{ facultyTitle, departmentTitle }}
           className="department-menu-link"
         >
           {content}
@@ -379,7 +647,7 @@ const DepartmentMenuItem: React.FC<{
       )}
 
       {hasChildren && open && (
-        <div className="department-sub-menu">
+        <div ref={subMenuRef} className="department-sub-menu">
           {children.map((child) => (
             <DepartmentMenuItem
               key={child.menuId}
@@ -397,6 +665,10 @@ const DepartmentMenuItem: React.FC<{
   );
 };
 
+
+
+
+
 const ArticleTitle: React.FC<{ title: string }> = ({ title }) => {
   return (
     <div className="department-section-heading">
@@ -408,26 +680,23 @@ const ArticleTitle: React.FC<{ title: string }> = ({ title }) => {
 
 const ArticleRenderer: React.FC<{
   article: ArticlePage;
-  isArabic: boolean;
-}> = ({ article, isArabic }) => {
+  isRTL: boolean;
+  t: TranslationFn;
+}> = ({ article, isRTL, t }) => {
   const content = article.content || "";
   const firstUrl = extractFirstUrl(content);
   const fileExtension = getFileExtension(firstUrl);
-  const isFile = ["pdf", "doc", "docx", "xls", "xlsx"].includes(fileExtension);
-  const isVideo = ["mp4", "webm", "ogg"].includes(fileExtension);
+  const isFile = ["pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx"].includes(fileExtension);
+  const isVideo = ["mp4", "webm", "ogg", "mov"].includes(fileExtension);
   const hasImage = /<img/i.test(content);
   const plainText = stripHtml(content);
   const isImageOnly = hasImage && plainText.length < 80;
 
   if (isFile && firstUrl) {
-    const viewerUrl =
-      fileExtension === "pdf" ? firstUrl : getGoogleViewerUrl(firstUrl);
+    const viewerUrl = fileExtension === "pdf" ? firstUrl : getGoogleViewerUrl(firstUrl);
 
     return (
-      <section
-        className="department-article-section"
-        dir={isArabic ? "rtl" : "ltr"}
-      >
+      <section className="department-article-section" dir={isRTL ? "rtl" : "ltr"}>
         <ArticleTitle title={article.title} />
 
         <div className="department-file-card">
@@ -439,24 +708,18 @@ const ArticleRenderer: React.FC<{
             <h3>{article.title}</h3>
 
             <p>
-              {isArabic ? "نوع الملف : " : "File type: "}
-              <strong>{fileExtension.toUpperCase()}</strong>
+              {t("fileType", { defaultValue: "File type:" })} <strong>{fileExtension.toUpperCase()}</strong>
             </p>
 
             <div className="department-file-actions">
-              <a
-                href={viewerUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="file-view-btn"
-              >
+              <a href={viewerUrl} target="_blank" rel="noopener noreferrer" className="file-view-btn">
                 <i className="fa-regular fa-eye" />
-                {isArabic ? "عرض الملف" : "View file"}
+                {t("viewFile", { defaultValue: "View file" })}
               </a>
 
               <a href={firstUrl} download className="file-download-btn">
                 <i className="fa-solid fa-download" />
-                {isArabic ? "تحميل الملف" : "Download"}
+                {t("downloadFile", { defaultValue: "Download file" })}
               </a>
             </div>
           </div>
@@ -464,9 +727,7 @@ const ArticleRenderer: React.FC<{
 
         <div className="department-file-note">
           <i className="fa-solid fa-circle-info" />
-          {isArabic
-            ? "لعرض محتوى الملف يرجى الضغط على زر عرض الملف."
-            : "To view the file content, click View file."}
+          {t("fileNote", { defaultValue: "To view the file content, click View file." })}
         </div>
       </section>
     );
@@ -474,10 +735,7 @@ const ArticleRenderer: React.FC<{
 
   if (isVideo && firstUrl) {
     return (
-      <section
-        className="department-article-section"
-        dir={isArabic ? "rtl" : "ltr"}
-      >
+      <section className="department-article-section" dir={isRTL ? "rtl" : "ltr"}>
         <ArticleTitle title={article.title} />
 
         <div className="department-article-card">
@@ -485,11 +743,12 @@ const ArticleRenderer: React.FC<{
             <div className="department-document-icon">
               <i className="fa-regular fa-file-lines" />
             </div>
-
             <h3>{article.title}</h3>
           </div>
 
-          <video className="department-video" controls src={firstUrl} />
+          <video className="department-video" controls src={firstUrl}>
+            {t("videoNotSupported", { defaultValue: "Your browser does not support video playback." })}
+          </video>
         </div>
       </section>
     );
@@ -497,25 +756,16 @@ const ArticleRenderer: React.FC<{
 
   if (isImageOnly) {
     return (
-      <section
-        className="department-article-section"
-        dir={isArabic ? "rtl" : "ltr"}
-      >
+      <section className="department-article-section" dir={isRTL ? "rtl" : "ltr"}>
         <ArticleTitle title={article.title} />
 
-        <div
-          className="department-article-card department-image-article"
-          dangerouslySetInnerHTML={{ __html: content }}
-        />
+        <div className="department-article-card department-image-article" dangerouslySetInnerHTML={{ __html: content }} />
       </section>
     );
   }
 
   return (
-    <section
-      className="department-article-section"
-      dir={isArabic ? "rtl" : "ltr"}
-    >
+    <section className="department-article-section" dir={isRTL ? "rtl" : "ltr"}>
       <ArticleTitle title={article.title} />
 
       <div className="department-article-card">
@@ -523,13 +773,14 @@ const ArticleRenderer: React.FC<{
           <div className="department-document-icon">
             <i className="fa-regular fa-file-lines" />
           </div>
-
           <h3>{article.title}</h3>
         </div>
 
         <div
           className="department-article-html"
-          dangerouslySetInnerHTML={{ __html: content }}
+          dangerouslySetInnerHTML={{
+            __html: content || `<p>${t("noContent", { defaultValue: "No content available" })}</p>`,
+          }}
         />
       </div>
     </section>
@@ -544,37 +795,32 @@ const DepartmentPage: React.FC = () => {
 
   const [searchParams] = useSearchParams();
   const location = useLocation();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation("DepartmentPage");
 
-  const savedLang = getSavedLang();
-  const isArabic = savedLang?.code === "ar" || i18n.language === "ar";
-  const isRTL = isArabic;
+  const currentLangCode = useMemo(() => getCurrentLanguageCode(i18n.language), [i18n.language]);
+  const langId = useMemo(() => getLanguageIdByCode(currentLangCode), [currentLangCode]);
+  const currentLocale = useMemo(() => getLocaleByLangCode(currentLangCode), [currentLangCode]);
+  const isRTL = RTL_LANGUAGE_CODES.has(currentLangCode);
 
-  const articleId = searchParams.get("articleId");
-  const langId = getSavedLangId();
+  const articleIdParam = searchParams.get("articleId");
+  const invalidArticleId = Boolean(articleIdParam && !/^\d+$/.test(articleIdParam));
+  const articleId = articleIdParam && /^\d+$/.test(articleIdParam) ? Number(articleIdParam) : null;
+
+  const isRouteShapeValid = Boolean(fac && /^\d+$/.test(String(fac)) && departmentCode);
 
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isFirstSearchRender = useRef(true);
 
-  const facultyName = useMemo(() => {
-    const stateFacultyTitle = location.state?.facultyTitle;
-
-    if (stateFacultyTitle) {
-      return stateFacultyTitle;
-    }
-
-    return "";
-  }, [location.state]);
-
+  const [collegeName, setCollegeName] = useState<string>(String(location.state?.facultyTitle || location.state?.collegeName || ""));
+  const [collegeData, setCollegeData] = useState<any | null>(null);
   const [collegeLogoUrl, setCollegeLogoUrl] = useState("");
+  const [collegeLogos, setCollegeLogos] = useState<CollegeLogoItem[]>([]);
 
   const [departmentMenu, setDepartmentMenu] = useState<MenuItem[]>([]);
   const [departmentMenuLoading, setDepartmentMenuLoading] = useState(false);
 
   const [article, setArticle] = useState<ArticlePage | null>(null);
   const [articleLoading, setArticleLoading] = useState(false);
-
-  const [notFound, setNotFound] = useState(false);
   const [articleNotFound, setArticleNotFound] = useState(false);
 
   const [news, setNews] = useState<NewsItem[]>([]);
@@ -599,86 +845,26 @@ const DepartmentPage: React.FC = () => {
   const departmentName = useMemo(() => {
     const stateDepartmentTitle = location.state?.departmentTitle;
 
-    if (stateDepartmentTitle) {
-      return stateDepartmentTitle;
-    }
+    if (stateDepartmentTitle) return String(stateDepartmentTitle);
 
-    return departmentCode || "";
-  }, [location.state, departmentCode]);
+    const matchingMenuTitle = departmentMenu.find((item) => normalizeText(item.url).includes(normalizeText(String(departmentCode || ""))))?.title;
 
-  const visibleDepartmentMenu = useMemo(() => {
-    return departmentMenu
-      .filter((item) => cleanTitle(item.title).length > 0)
-      .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
-  }, [departmentMenu]);
+    return matchingMenuTitle || departmentCode || "";
+  }, [location.state, departmentCode, departmentMenu]);
 
-  const departmentTopMenu = useMemo(() => {
-    return visibleDepartmentMenu.slice(0, DEPARTMENT_NAV_LIMIT);
-  }, [visibleDepartmentMenu]);
+  const visibleDepartmentMenu = useMemo(() => sanitizeDepartmentMenuItems(departmentMenu), [departmentMenu]);
 
-  const departmentFooterItems = useMemo(() => {
-    const restTopItems = visibleDepartmentMenu.slice(DEPARTMENT_NAV_LIMIT);
-    const childrenFromTopItems = visibleDepartmentMenu.flatMap((item) =>
-      getChildren(item),
-    );
+  const {
+    currentRow: visibleDepartmentMenuRow,
+    canGoNext: canGoNextDepartmentMenuRow,
+    canGoPrevious: canGoPreviousDepartmentMenuRow,
+    goNext: handleNextDepartmentMenuRow,
+    goPrevious: handlePreviousDepartmentMenuRow,
+    
+  } = useDepartmentMenuRows(visibleDepartmentMenu);
 
-    const allFooterItems = [...restTopItems, ...childrenFromTopItems]
-      .filter((item) => cleanTitle(item.title).length > 0)
-      .filter(
-        (item, index, array) =>
-          array.findIndex((current) => current.menuId === item.menuId) ===
-          index,
-      );
+  const footerMenuGroups = useMemo(() => buildFooterMenuGroups(visibleDepartmentMenu), [visibleDepartmentMenu]);
 
-    return chunkItems(allFooterItems, 3);
-  }, [visibleDepartmentMenu]);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const fetchCollegeLogo = async () => {
-      const facultyCode = Number(fac);
-
-      if (!facultyCode) {
-        setCollegeLogoUrl("");
-        return;
-      }
-
-      try {
-        const response = await newsService.getCollegesLogos({
-          langId,
-          pageIndex: 1,
-          pageSize: 100,
-        });
-
-        if (!isMounted) return;
-
-        const logos: CollegeLogoItem[] = Array.isArray(response?.result)
-          ? response.result
-          : [];
-
-        const matchedLogoUrl = getCollegeLogoByFacCode({
-          facCode: facultyCode,
-          logos,
-          facultyTitle: facultyName,
-        });
-
-        setCollegeLogoUrl(matchedLogoUrl);
-      } catch (error) {
-        console.error("Failed to fetch department college logo:", error);
-
-        if (isMounted) {
-          setCollegeLogoUrl("");
-        }
-      }
-    };
-
-    fetchCollegeLogo();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [fac, langId, facultyName]);
   useEffect(() => {
     let count = 0;
 
@@ -692,18 +878,129 @@ const DepartmentPage: React.FC = () => {
   useEffect(() => {
     let isMounted = true;
 
+    const fetchCollegeData = async () => {
+      const facultyCode = Number(fac);
+
+      setPageIndex(1);
+      setSearch("");
+      setSearchInput("");
+      setDateFilter(0);
+      setFromDate("");
+      setToDate("");
+      setActiveHighlightIndex(0);
+      setArticleNotFound(false);
+
+      if (!facultyCode || !isRouteShapeValid) {
+        setCollegeName("");
+        setCollegeData(null);
+        setLoading(false);
+        setHighlightsLoading(false);
+        setDepartmentMenuLoading(false);
+        return;
+      }
+
+      try {
+        const response = await newsService.getColleges(langId);
+        const colleges = normalizeApiResponse(response);
+        let matchedCollege = findCollegeByFacultyCode(colleges, facultyCode);
+
+        if (!matchedCollege && langId !== 1) {
+          const fallbackResponse = await newsService.getColleges(1);
+          const fallbackColleges = normalizeApiResponse(fallbackResponse);
+          matchedCollege = findCollegeByFacultyCode(fallbackColleges, facultyCode);
+        }
+
+        if (!isMounted) return;
+
+        setCollegeData(matchedCollege || null);
+        setCollegeName(matchedCollege?.title || String(location.state?.facultyTitle || location.state?.collegeName || ""));
+      } catch (error) {
+        console.error("Failed to fetch department college data:", error);
+
+        if (isMounted) {
+          setCollegeData(null);
+          setCollegeName(String(location.state?.facultyTitle || location.state?.collegeName || ""));
+        }
+      }
+    };
+
+    fetchCollegeData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [fac, isRouteShapeValid, langId, location.state]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchCollegeLogos = async () => {
+      const logoLangIds = Array.from(new Set([langId, 1]));
+
+      try {
+        const responses = await Promise.allSettled(
+          logoLangIds.map((logoLangId) =>
+            newsService.getCollegesLogos({
+              langId: logoLangId,
+              pageIndex: 1,
+              pageSize: 500,
+            }),
+          ),
+        );
+
+        if (!isMounted) return;
+
+        const logos = responses.flatMap((response) => {
+          if (response.status !== "fulfilled") return [];
+          return Array.isArray(response.value?.result) ? response.value.result : [];
+        });
+
+        const uniqueLogos = Array.from(
+          new Map(
+            logos
+              .filter((item) => item && isValidLogoUrl(item.logoUrl))
+              .map((item) => [String(item.id || item.title), item]),
+          ).values(),
+        );
+
+        setCollegeLogos(uniqueLogos);
+      } catch (error) {
+        console.error("Failed to fetch department college logos:", error);
+
+        if (isMounted) setCollegeLogos([]);
+      }
+    };
+
+    fetchCollegeLogos();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [langId]);
+
+  useEffect(() => {
+    if ((!collegeData && !collegeName) || collegeLogos.length === 0) {
+      setCollegeLogoUrl("");
+      return;
+    }
+
+    const matchedLogoUrl = getCollegeLogoForCollege(collegeData, collegeLogos, collegeName);
+    setCollegeLogoUrl(matchedLogoUrl || "");
+  }, [collegeData, collegeName, collegeLogos]);
+
+  useEffect(() => {
+    let isMounted = true;
+
     const fetchDepartmentMenu = async () => {
       const facultyCode = Number(fac);
 
-      if (!fac || !departmentCode || !facultyCode) {
+      if (!facultyCode || !departmentCode || !isRouteShapeValid) {
         setDepartmentMenu([]);
-        setNotFound(true);
         setDepartmentMenuLoading(false);
         return;
       }
 
       setDepartmentMenuLoading(true);
-      setNotFound(false);
 
       try {
         const response = await newsService.getDepartmentMenu({
@@ -712,28 +1009,27 @@ const DepartmentPage: React.FC = () => {
           lang: langId,
         });
 
+        let result = normalizeApiResponse(response);
+
+        if (result.length === 0 && langId !== 1) {
+          const fallbackResponse = await newsService.getDepartmentMenu({
+            facultyCode,
+            departmentCode,
+            lang: 1,
+          });
+
+          result = normalizeApiResponse(fallbackResponse);
+        }
+
         if (!isMounted) return;
 
-        const result = Array.isArray(response?.result) ? response.result : [];
-
-        setDepartmentMenu(result);
-
-        if (result.length === 0) {
-          setNotFound(true);
-        } else {
-          setNotFound(false);
-        }
-      } catch (error: any) {
+        setDepartmentMenu(sanitizeDepartmentMenuItems(result as MenuItem[]));
+      } catch (error) {
         console.error("Failed to fetch department menu:", error);
 
-        if (isMounted) {
-          setDepartmentMenu([]);
-          setNotFound(true);
-        }
+        if (isMounted) setDepartmentMenu([]);
       } finally {
-        if (isMounted) {
-          setDepartmentMenuLoading(false);
-        }
+        if (isMounted) setDepartmentMenuLoading(false);
       }
     };
 
@@ -742,23 +1038,22 @@ const DepartmentPage: React.FC = () => {
     return () => {
       isMounted = false;
     };
-  }, [fac, departmentCode, langId]);
+  }, [fac, departmentCode, isRouteShapeValid, langId]);
 
   useEffect(() => {
     let isMounted = true;
 
     const fetchArticle = async () => {
-      if (!articleId) {
+      if (invalidArticleId) {
         setArticle(null);
-        setArticleNotFound(false);
+        setArticleNotFound(true);
+        setArticleLoading(false);
         return;
       }
 
-      const numericArticleId = Number(articleId);
-
-      if (!numericArticleId) {
+      if (!articleId) {
         setArticle(null);
-        setArticleNotFound(true);
+        setArticleNotFound(false);
         setArticleLoading(false);
         return;
       }
@@ -768,7 +1063,7 @@ const DepartmentPage: React.FC = () => {
 
       try {
         const response = await newsService.getSectorPage({
-          articleId: numericArticleId,
+          articleId,
           lang: langId,
         });
 
@@ -776,22 +1071,15 @@ const DepartmentPage: React.FC = () => {
 
         if (response?.result) {
           setArticle(response.result);
-          setArticleNotFound(false);
         } else {
           setArticle(null);
-          setArticleNotFound(true);
         }
-      } catch (error: any) {
+      } catch (error) {
         console.error("Failed to fetch department article:", error);
 
-        if (isMounted) {
-          setArticle(null);
-          setArticleNotFound(true);
-        }
+        if (isMounted) setArticle(null);
       } finally {
-        if (isMounted) {
-          setArticleLoading(false);
-        }
+        if (isMounted) setArticleLoading(false);
       }
     };
 
@@ -800,10 +1088,10 @@ const DepartmentPage: React.FC = () => {
     return () => {
       isMounted = false;
     };
-  }, [articleId, langId]);
+  }, [articleId, invalidArticleId, langId]);
 
   const fetchHighlights = useCallback(async () => {
-    if (!fac || !departmentCode || notFound) {
+    if (!fac || !departmentCode || !isRouteShapeValid) {
       setHighlights([]);
       setActiveHighlightIndex(0);
       setHighlightsLoading(false);
@@ -822,9 +1110,7 @@ const DepartmentPage: React.FC = () => {
         search: "",
       });
 
-      const result: HighlightItem[] = Array.isArray(data?.result)
-        ? data.result
-        : [];
+      const result: HighlightItem[] = Array.isArray(data?.result) ? data.result : [];
 
       setHighlights(result);
       setActiveHighlightIndex(0);
@@ -835,10 +1121,14 @@ const DepartmentPage: React.FC = () => {
     } finally {
       setHighlightsLoading(false);
     }
-  }, [fac, departmentCode, langId, notFound]);
+  }, [fac, departmentCode, langId, isRouteShapeValid]);
 
   const fetchNews = useCallback(async () => {
-    if (!fac || !departmentCode || notFound) return;
+    if (!fac || !departmentCode || !isRouteShapeValid) {
+      setLoading(false);
+      setNews([]);
+      return;
+    }
 
     setLoading(true);
 
@@ -868,35 +1158,21 @@ const DepartmentPage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [
-    fac,
-    departmentCode,
-    langId,
-    pageIndex,
-    search,
-    dateFilter,
-    fromDate,
-    toDate,
-    notFound,
-  ]);
+  }, [fac, departmentCode, isRouteShapeValid, langId, pageIndex, search, dateFilter, fromDate, toDate]);
 
   useEffect(() => {
     fetchHighlights();
   }, [fetchHighlights]);
 
   useEffect(() => {
-    if (!articleId) {
-      fetchNews();
-    }
+    if (!articleId) fetchNews();
   }, [fetchNews, articleId]);
 
   useEffect(() => {
     if (highlights.length <= 1) return;
 
     const timer = setInterval(() => {
-      setActiveHighlightIndex((prev) =>
-        prev === highlights.length - 1 ? 0 : prev + 1,
-      );
+      setActiveHighlightIndex((prev) => (prev === highlights.length - 1 ? 0 : prev + 1));
     }, 5000);
 
     return () => clearInterval(timer);
@@ -908,9 +1184,7 @@ const DepartmentPage: React.FC = () => {
       return;
     }
 
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-    }
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
 
     debounceTimerRef.current = setTimeout(() => {
       setPageIndex(1);
@@ -918,25 +1192,19 @@ const DepartmentPage: React.FC = () => {
     }, DEBOUNCE_DELAY);
 
     return () => {
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
+      if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
     };
   }, [searchInput]);
 
   const handleManualSearch = () => {
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-    }
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
 
     setPageIndex(1);
     setSearch(searchInput.trim());
   };
 
   const handleClearSearch = () => {
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-    }
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
 
     setSearchInput("");
     setSearch("");
@@ -957,9 +1225,7 @@ const DepartmentPage: React.FC = () => {
   const handleFromDate = (value: string) => {
     setFromDate(value);
 
-    if (value) {
-      setDateFilter(0);
-    }
+    if (value) setDateFilter(0);
 
     setPageIndex(1);
   };
@@ -967,9 +1233,7 @@ const DepartmentPage: React.FC = () => {
   const handleToDate = (value: string) => {
     setToDate(value);
 
-    if (value) {
-      setDateFilter(0);
-    }
+    if (value) setDateFilter(0);
 
     setPageIndex(1);
   };
@@ -984,23 +1248,19 @@ const DepartmentPage: React.FC = () => {
   const handleNextHighlight = () => {
     if (highlights.length <= 1) return;
 
-    setActiveHighlightIndex((prev) =>
-      prev === highlights.length - 1 ? 0 : prev + 1,
-    );
+    setActiveHighlightIndex((prev) => (prev === highlights.length - 1 ? 0 : prev + 1));
   };
 
   const handlePrevHighlight = () => {
     if (highlights.length <= 1) return;
 
-    setActiveHighlightIndex((prev) =>
-      prev === 0 ? highlights.length - 1 : prev - 1,
-    );
+    setActiveHighlightIndex((prev) => (prev === 0 ? highlights.length - 1 : prev - 1));
   };
 
   const formatDate = (dateStr: string) => {
     if (!dateStr) return "";
 
-    return new Date(dateStr).toLocaleDateString(isArabic ? "ar-EG" : "en-US", {
+    return new Date(dateStr).toLocaleDateString(currentLocale, {
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -1009,51 +1269,36 @@ const DepartmentPage: React.FC = () => {
 
   const activeHighlight = highlights[activeHighlightIndex];
 
-  if (notFound || articleNotFound) {
+  if (!isRouteShapeValid || articleNotFound) {
     return <ErrorPage />;
   }
 
   return (
     <div className="department-page-wrapper">
-      <header
-        className="department-top-header"
-        style={{ backgroundImage: `url(${headerBg})` }}
-        dir="rtl"
-      >
+      <header className="department-top-header" style={{ backgroundImage: `url(${headerBg})` }} dir="rtl">
         <div className="department-top-header-overlay" />
 
         <div className="department-top-header-inner">
-          <button
-            type="button"
-            className="department-back-btn"
-            onClick={() => window.location.assign("/")}
-          >
+          <button type="button" className="department-back-btn" onClick={() => window.location.assign("/")}>
             <i className="fa-solid fa-chevron-right" />
-            <span>
-              {isArabic ? "الرجوع الى موقع الجامعة" : "Back to University"}
-            </span>
+            <span>{t("backToUniversity", { defaultValue: "Back to University" })}</span>
           </button>
 
           <Link
             to={`/fac/${fac}`}
-            state={{
-              facultyTitle: facultyName,
-              langId,
-            }}
+            state={{ facultyTitle: collegeName, langId }}
             className="department-top-brand"
-            aria-label={
-              isArabic ? "الرجوع لصفحة الكلية" : "Back to faculty page"
-            }
+            aria-label={t("backToFacultyPage", { defaultValue: "Back to faculty page" })}
           >
             <div className="department-top-brand-text">
-              <h2>{facultyName}</h2>
+              <h2>{collegeName || t("faculty", { defaultValue: "Faculty" })}</h2>
               <p>{departmentName || departmentCode}</p>
             </div>
 
             <div className="department-top-logo-wrap">
               <img
                 src={collegeLogoUrl || logo}
-                alt={facultyName || "faculty logo"}
+                alt={collegeName || t("facultyLogo", { defaultValue: "Faculty logo" })}
                 onError={(e) => {
                   e.currentTarget.src = logo;
                 }}
@@ -1066,21 +1311,48 @@ const DepartmentPage: React.FC = () => {
       <section className="department-menu-section" dir={isRTL ? "rtl" : "ltr"}>
         <div className="department-menu-wrapper">
           {departmentMenuLoading ? (
-            <div className="department-menu-loading">
-              {isArabic ? "جاري تحميل القائمة..." : "Loading menu..."}
-            </div>
-          ) : departmentTopMenu.length > 0 ? (
-            <div className="department-menu-bar">
-              {departmentTopMenu.map((item) => (
-                <DepartmentMenuItem
-                  key={item.menuId}
-                  item={item}
-                  fac={fac}
-                  departmentCode={departmentCode}
-                  facultyTitle={facultyName}
-                  departmentTitle={departmentName}
-                />
-              ))}
+            <div className="department-menu-loading">{t("loadingMenu", { defaultValue: "Loading menu..." })}</div>
+          ) : visibleDepartmentMenu.length > 0 ? (
+            <div className="department-menu-shell">
+              <button
+                type="button"
+                className="department-menu-page-btn"
+                onClick={handlePreviousDepartmentMenuRow}
+                disabled={!canGoPreviousDepartmentMenuRow}
+                aria-label={t("previousMenuRow", { defaultValue: "Previous menu row" })}
+              >
+                {isRTL ? <ChevronRight size={17} /> : <ChevronLeft size={17} />}
+              </button>
+
+              <div
+  className="department-menu-bar"
+  style={
+    {
+      "--department-nav-count": Math.max(visibleDepartmentMenuRow.length, 1),
+    } as React.CSSProperties
+  }
+>
+                {visibleDepartmentMenuRow.map((item) => (
+                  <DepartmentMenuItem
+                    key={item.menuId}
+                    item={item}
+                    fac={fac}
+                    departmentCode={departmentCode}
+                    facultyTitle={collegeName}
+                    departmentTitle={departmentName}
+                  />
+                ))}
+              </div>
+
+              <button
+                type="button"
+                className="department-menu-page-btn"
+                onClick={handleNextDepartmentMenuRow}
+                disabled={!canGoNextDepartmentMenuRow}
+                aria-label={t("nextMenuRow", { defaultValue: "Next menu row" })}
+              >
+                {isRTL ? <ChevronLeft size={17} /> : <ChevronRight size={17} />}
+              </button>
             </div>
           ) : null}
         </div>
@@ -1089,15 +1361,11 @@ const DepartmentPage: React.FC = () => {
       {articleId ? (
         <main className="department-article-main">
           {articleLoading ? (
-            <div className="department-article-loading">
-              {isArabic ? "جاري تحميل الصفحة..." : "Loading page..."}
-            </div>
+            <div className="department-article-loading">{t("loadingPage", { defaultValue: "Loading page..." })}</div>
           ) : article ? (
-            <ArticleRenderer article={article} isArabic={isArabic} />
+            <ArticleRenderer article={article} isRTL={isRTL} t={t} />
           ) : (
-            <div className="department-empty-state">
-              {isArabic ? "لا يوجد محتوى متاح" : "No content available"}
-            </div>
+            <div className="department-empty-state">{t("noContent", { defaultValue: "No content available" })}</div>
           )}
         </main>
       ) : (
@@ -1117,7 +1385,7 @@ const DepartmentPage: React.FC = () => {
                         fac: Number(fac),
                         departmentCode,
                         langId,
-                        collegeName: facultyName,
+                        collegeName,
                         departmentName,
                       }}
                       className="department-highlight-link"
@@ -1132,7 +1400,6 @@ const DepartmentPage: React.FC = () => {
 
                       <div className="department-highlight-content">
                         <h2>{activeHighlight.translationData}</h2>
-
                         <span className="department-highlight-arrow">
                           <i className="fa-solid fa-arrow-up department-highlight-arrow-icon" />
                         </span>
@@ -1149,12 +1416,9 @@ const DepartmentPage: React.FC = () => {
                             e.stopPropagation();
                             handleNextHighlight();
                           }}
-                          aria-label={isArabic ? "الخبر التالي" : "Next news"}
+                          aria-label={t("nextHighlight", { defaultValue: "Next highlight" })}
                         >
-                          <i
-                            className="fa-solid fa-chevron-right"
-                            aria-hidden="true"
-                          />
+                          <i className="fa-solid fa-chevron-right" aria-hidden="true" />
                         </button>
 
                         <button
@@ -1165,14 +1429,9 @@ const DepartmentPage: React.FC = () => {
                             e.stopPropagation();
                             handlePrevHighlight();
                           }}
-                          aria-label={
-                            isArabic ? "الخبر السابق" : "Previous news"
-                          }
+                          aria-label={t("previousHighlight", { defaultValue: "Previous highlight" })}
                         >
-                          <i
-                            className="fa-solid fa-chevron-left"
-                            aria-hidden="true"
-                          />
+                          <i className="fa-solid fa-chevron-left" aria-hidden="true" />
                         </button>
 
                         <div className="department-highlight-dots">
@@ -1180,15 +1439,16 @@ const DepartmentPage: React.FC = () => {
                             <button
                               key={item.id || index}
                               type="button"
-                              className={`department-highlight-dot ${
-                                index === activeHighlightIndex ? "active" : ""
-                              }`}
+                              className={`department-highlight-dot ${index === activeHighlightIndex ? "active" : ""}`}
                               onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
                                 setActiveHighlightIndex(index);
                               }}
-                              aria-label={`go to highlight ${index + 1}`}
+                              aria-label={t("goToHighlight", {
+                                defaultValue: "Go to highlight {{number}}",
+                                number: index + 1,
+                              })}
                             />
                           ))}
                         </div>
@@ -1204,6 +1464,7 @@ const DepartmentPage: React.FC = () => {
                     type="button"
                     className="news-search-icon-btn"
                     onClick={handleManualSearch}
+                    aria-label={t("search", { defaultValue: "Search" })}
                   >
                     <i className="fa-solid fa-magnifying-glass" />
                   </button>
@@ -1213,11 +1474,7 @@ const DepartmentPage: React.FC = () => {
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleManualSearch()}
-                    placeholder={
-                      isArabic
-                        ? "ابحث في أخبار القسم..."
-                        : "Search department news..."
-                    }
+                    placeholder={t("searchDepartmentNews", { defaultValue: "Search department news..." })}
                   />
 
                   {searchInput && (
@@ -1225,6 +1482,7 @@ const DepartmentPage: React.FC = () => {
                       type="button"
                       className="news-clear-btn"
                       onClick={handleClearSearch}
+                      aria-label={t("clearSearch", { defaultValue: "Clear search" })}
                     >
                       <X size={18} />
                     </button>
@@ -1232,59 +1490,36 @@ const DepartmentPage: React.FC = () => {
 
                   <button
                     type="button"
-                    className={`news-filter-toggle ${
-                      showFilters ? "active" : ""
-                    } ${activeFiltersCount > 0 ? "has-filters" : ""}`}
+                    className={`news-filter-toggle ${showFilters ? "active" : ""} ${activeFiltersCount > 0 ? "has-filters" : ""}`}
                     onClick={() => setShowFilters((prev) => !prev)}
+                    aria-label={t("toggleFilters", { defaultValue: "Toggle filters" })}
                   >
                     <i className="fa-solid fa-sliders" />
 
-                    {activeFiltersCount > 0 && (
-                      <span className="filter-badge">{activeFiltersCount}</span>
-                    )}
+                    {activeFiltersCount > 0 && <span className="filter-badge">{activeFiltersCount}</span>}
                   </button>
                 </div>
 
-                <div
-                  className={`news-filterr-panel ${showFilters ? "open" : ""}`}
-                >
-                  <div
-                    className="filter-panel-inner"
-                    dir={isArabic ? "rtl" : "ltr"}
-                  >
+                <div className={`news-filterr-panel ${showFilters ? "open" : ""}`}>
+                  <div className="filter-panel-inner" dir={isRTL ? "rtl" : "ltr"}>
                     <div className="filter-panell-body">
-                      <div
-                        className="filter-section filterr-dates"
-                        style={{ width: "100%" }}
-                      >
+                      <div className="filter-section filterr-dates" style={{ width: "100%" }}>
                         <span className="filterr-labell">
                           <Calendar size={13} />
-                          {isArabic ? "نطاق مخصص" : "Custom Range"}
+                          {t("customRange", { defaultValue: "Custom Range" })}
                         </span>
 
                         <div className="filter-date-inputs">
                           <div className="date-input-wrap">
-                            <label>{isArabic ? "من" : "From"}</label>
-
-                            <input
-                              type="date"
-                              value={fromDate}
-                              onChange={(e) => handleFromDate(e.target.value)}
-                              max={toDate || undefined}
-                            />
+                            <label>{t("from", { defaultValue: "From" })}</label>
+                            <input type="date" value={fromDate} onChange={(e) => handleFromDate(e.target.value)} max={toDate || undefined} />
                           </div>
 
                           <span className="date-separator">—</span>
 
                           <div className="date-input-wrap">
-                            <label>{isArabic ? "إلى" : "To"}</label>
-
-                            <input
-                              type="date"
-                              value={toDate}
-                              onChange={(e) => handleToDate(e.target.value)}
-                              min={fromDate || undefined}
-                            />
+                            <label>{t("to", { defaultValue: "To" })}</label>
+                            <input type="date" value={toDate} onChange={(e) => handleToDate(e.target.value)} min={fromDate || undefined} />
                           </div>
                         </div>
                       </div>
@@ -1292,7 +1527,7 @@ const DepartmentPage: React.FC = () => {
                       <div className="filter-section" style={{ width: "100%" }}>
                         <span className="filter-labell">
                           <Calendar size={13} />
-                          {isArabic ? "فلتر سريع" : "Quick Filter"}
+                          {t("quickFilter", { defaultValue: "Quick Filter" })}
                         </span>
 
                         <div className="filter-chips">
@@ -1301,20 +1536,14 @@ const DepartmentPage: React.FC = () => {
                               key={filter.value}
                               type="button"
                               className={`filter-chip ${
-                                (filter.value === 0 &&
-                                  dateFilter === 0 &&
-                                  !fromDate &&
-                                  !toDate) ||
-                                (filter.value !== 0 &&
-                                  dateFilter === filter.value)
+                                (filter.value === 0 && dateFilter === 0 && !fromDate && !toDate) ||
+                                (filter.value !== 0 && dateFilter === filter.value)
                                   ? "chip-active"
                                   : ""
                               }`}
-                              onClick={() =>
-                                handleApplyDateFilter(filter.value)
-                              }
+                              onClick={() => handleApplyDateFilter(filter.value)}
                             >
-                              {isArabic ? filter.labelAr : filter.labelEn}
+                              {t(filter.key, { defaultValue: filter.fallback })}
                             </button>
                           ))}
                         </div>
@@ -1323,13 +1552,9 @@ const DepartmentPage: React.FC = () => {
 
                     {activeFiltersCount > 0 && (
                       <div className="filter-panel-footer">
-                        <button
-                          type="button"
-                          className="filter-clear-all"
-                          onClick={handleClearAllFilters}
-                        >
+                        <button type="button" className="filter-clear-all" onClick={handleClearAllFilters}>
                           <X size={12} />
-                          {isArabic ? "مسح الفلاتر" : "Clear Filters"}
+                          {t("clearFilters", { defaultValue: "Clear Filters" })}
                         </button>
                       </div>
                     )}
@@ -1339,14 +1564,11 @@ const DepartmentPage: React.FC = () => {
             </div>
           </section>
 
-          <section
-            className="department-news-content"
-            dir={isRTL ? "rtl" : "ltr"}
-          >
+          <section className="department-news-content" dir={isRTL ? "rtl" : "ltr"}>
             <div className="department-content-wrapper">
               <div className="department-section-heading">
                 <span className="department-section-dot" />
-                <h2>{isArabic ? "أخبار القسم" : "Department News"}</h2>
+                <h2>{t("departmentNews", { defaultValue: "Department News" })}</h2>
               </div>
 
               {loading ? (
@@ -1359,7 +1581,6 @@ const DepartmentPage: React.FC = () => {
                         <div className="skeleton skeleton-line short" />
                         <div className="skeleton skeleton-date" />
                       </div>
-
                       <div className="news-card-image">
                         <div className="skeleton skeleton-image" />
                       </div>
@@ -1368,11 +1589,7 @@ const DepartmentPage: React.FC = () => {
                 </div>
               ) : news.length === 0 ? (
                 <div className="news-no-results">
-                  <h2>
-                    {isArabic
-                      ? "لا توجد أخبار لهذا القسم"
-                      : "No department news found"}
-                  </h2>
+                  <h2>{t("noDepartmentNews", { defaultValue: "No department news found" })}</h2>
                 </div>
               ) : (
                 <div className="news-cards-grid">
@@ -1390,26 +1607,13 @@ const DepartmentPage: React.FC = () => {
                         className="news-card-link"
                       >
                         <div className="news-card-text">
-                          <h3 className="news-card-title">
-                            {item.title?.slice(0, 95)}
-                          </h3>
-
-                          <p className="news-card-description">
-                            {(item.source || item.body || "").slice(0, 120)}
-                          </p>
-
-                          <span className="news-card-date">
-                            {formatDate(item.currentDate || item.date)}
-                          </span>
+                          <h3 className="news-card-title">{item.title?.slice(0, 95)}</h3>
+                          <p className="news-card-description">{(item.source || item.body || "").slice(0, 120)}</p>
+                          <span className="news-card-date">{formatDate(item.currentDate || item.date)}</span>
                         </div>
 
                         <div className="news-card-image">
-                          <SmartImage
-                            src={item.image}
-                            alt={
-                              item.imageAlt || item.title || "Department news"
-                            }
-                          />
+                          <SmartImage src={item.image} alt={item.imageAlt || item.title || t("departmentNewsAlt", { defaultValue: "Department news" })} />
                         </div>
 
                         <div className="news-card-arrow">
@@ -1425,20 +1629,20 @@ const DepartmentPage: React.FC = () => {
                 <div className="news-pagination">
                   <button
                     className="news-pagination-arrow"
-                    onClick={() => setPageIndex((prev) => prev - 1)}
+                    onClick={() => setPageIndex((prev) => Math.max(prev - 1, 1))}
                     disabled={!movePrevious || loading}
+                    aria-label={t("previousPage", { defaultValue: "Previous page" })}
                   >
                     <i className="fa-solid fa-chevron-left" />
                   </button>
 
-                  <div className="news-pagination-number active">
-                    {pageIndex}
-                  </div>
+                  <div className="news-pagination-number active">{pageIndex}</div>
 
                   <button
                     className="news-pagination-arrow"
                     onClick={() => setPageIndex((prev) => prev + 1)}
                     disabled={!moveNext || loading}
+                    aria-label={t("nextPage", { defaultValue: "Next page" })}
                   >
                     <i className="fa-solid fa-chevron-right" />
                   </button>
@@ -1449,128 +1653,18 @@ const DepartmentPage: React.FC = () => {
         </>
       )}
 
-      {departmentFooterItems.some((group) => group.length > 0) && (
-        <footer className="department-links-footer" dir={isRTL ? "rtl" : "ltr"}>
-          <div className="department-links-footer-inner">
-            {departmentFooterItems.map((group, index) => {
-              if (group.length === 0) return null;
-
-              const titles = isArabic
-                ? ["روابط القسم", "خدمات القسم", "محتوى إضافي"]
-                : ["Department Links", "Department Services", "More Content"];
-
-              return (
-                <div
-                  className="department-footer-column"
-                  key={`department-footer-${index}`}
-                >
-                  <h3>
-                    <span>{titles[index]}</span>
-                  </h3>
-
-                  <div className="department-footer-links">
-                    {group.slice(0, 5).map((item) => {
-                      const link = getDepartmentMenuLink({
-                        item,
-                        fac,
-                        departmentCode,
-                      });
-
-                      const external = isExternalUrl(link);
-
-                      const content = (
-                        <>
-                          <span>{cleanTitle(item.title)}</span>
-                          <i
-                            className="fa-solid fa-arrow-up"
-                            aria-hidden="true"
-                          />
-                        </>
-                      );
-
-                      return external ? (
-                        <a
-                          key={item.menuId}
-                          href={link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="department-footer-link"
-                        >
-                          {content}
-                        </a>
-                      ) : (
-                        <Link
-                          key={item.menuId}
-                          to={link}
-                          state={{
-                            facultyTitle: facultyName,
-                            departmentTitle: departmentName,
-                          }}
-                          className="department-footer-link"
-                        >
-                          {content}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="department-footer-bottom">
-            <div className="department-footer-contact">
-              <div className="department-footer-bottom-title">
-                <span>{isArabic ? "تواصل معنا :" : "Contact us:"}</span>
-
-                <span className="department-footer-bottom-icon">
-                  <i className="fa-solid fa-phone"></i>
-                </span>
-              </div>
-
-              <div className="department-footer-phones">
-                <span>048-2235690</span>
-                <span className="department-phone-separator">/</span>
-                <span>048-2222753</span>
-              </div>
-
-              <div className="department-footer-social">
-                <a href="#" aria-label="facebook">
-                  <i className="fa-brands fa-facebook-f"></i>
-                </a>
-
-                <a href="#" aria-label="youtube">
-                  <i className="fa-brands fa-youtube"></i>
-                </a>
-
-                <a href="#" aria-label="twitter">
-                  <i className="fa-brands fa-twitter"></i>
-                </a>
-              </div>
-            </div>
-
-            <div className="department-footer-brand">
-              <img src={logo2} alt="Menoufia University" />
-            </div>
-
-            <div className="department-footer-address">
-              <div className="department-footer-bottom-title">
-                <span>{isArabic ? "عنوان الكلية :" : "Faculty address:"}</span>
-
-                <span className="department-footer-bottom-icon">
-                  <i className="fa-solid fa-location-dot"></i>
-                </span>
-              </div>
-
-              <p>
-                {isArabic
-                  ? "شبين الكوم _ المنوفية _ مصر"
-                  : "Shebin El-Kom _ Menoufia _ Egypt"}
-              </p>
-            </div>
-          </div>
-        </footer>
-      )}
+      <FacultyFooter
+  footerMenuGroups={footerMenuGroups}
+  isRTL={isRTL}
+  logo2={logo2}
+  getItemLink={(item) =>
+    getDepartmentMenuLink({
+      item: item as MenuItem,
+      fac,
+      departmentCode,
+    })
+  }
+/>
     </div>
   );
 };

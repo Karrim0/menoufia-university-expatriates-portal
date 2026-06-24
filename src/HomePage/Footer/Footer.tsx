@@ -15,23 +15,83 @@ type FooterSection = {
   links: FooterLink[];
 };
 
+type SocialLink = {
+  label: string;
+  href: string;
+  icon: string;
+};
+
 const VISIBLE_LINKS_COUNT = 4;
+
+const SUPPORTED_LANGS = ["ar", "en", "fr", "de", "tr", "fa", "ru", "ch", "it", "ja"];
+
+const SOCIAL_LINKS: SocialLink[] = [
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/MenoufiaUniversity",
+    icon: "fa-brands fa-facebook-f",
+  },
+  {
+    label: "YouTube",
+    href: "https://www.youtube.com/channel/UCcoPxoor5XEnac34BwEI_9w",
+    icon: "fa-brands fa-youtube",
+  },
+  {
+    label: "X",
+    href: "https://x.com/mediamenoufiaun?lang=ar",
+    icon: "fa-brands fa-x-twitter",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://eg.linkedin.com/school/menofia-university/",
+    icon: "fa-brands fa-linkedin-in",
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/menoufiauniversity/",
+    icon: "fa-brands fa-instagram",
+  },
+];
 
 const Footer: React.FC = () => {
   const { i18n, t } = useTranslation();
 
-  const isRTL = i18n.dir() === "rtl";
+  const currentLangCode = String(i18n.resolvedLanguage || i18n.language || "en")
+    .trim()
+    .toLowerCase()
+    .split("-")[0];
+
+  const safeLangCode = SUPPORTED_LANGS.includes(currentLangCode)
+    ? currentLangCode
+    : "en";
+
+  const isRTL = safeLangCode === "ar" || safeLangCode === "fa";
   const currentYear = new Date().getFullYear();
 
   const [openColumns, setOpenColumns] = useState<Record<number, boolean>>({});
 
-  const moreLabel = t("footerModern.more", {
-    defaultValue: isRTL ? "عرض المزيد" : "Show more",
-  });
+  const tx = (key: string, fallback: string, options = {}) =>
+    t(key, {
+      defaultValue: fallback,
+      ...options,
+    });
 
-  const lessLabel = t("footerModern.less", {
-    defaultValue: isRTL ? "عرض أقل" : "Show less",
-  });
+  const localizeUrl = (url: string) => {
+    return url.replace(
+      /\/(ar|en|fr|de|tr|fa|ru|ch|it|ja)(?=\/?$|[?#])/i,
+      `/${safeLangCode}`,
+    );
+  };
+
+  const moreLabel = tx(
+    "footerModern.more",
+    isRTL ? "عرض المزيد" : "Show more",
+  );
+
+  const lessLabel = tx(
+    "footerModern.less",
+    isRTL ? "عرض أقل" : "Show less",
+  );
 
   const sections: FooterSection[] = [
     {
@@ -103,13 +163,13 @@ const Footer: React.FC = () => {
       links: [
         {
           label: t(
-            "footerModern.sections.researchDevelopment.links.measurementCenter"
+            "footerModern.sections.researchDevelopment.links.measurementCenter",
           ),
           href: "https://mu.menofia.edu.eg/CenEv/SectorsHome/ar",
         },
         {
           label: t(
-            "footerModern.sections.researchDevelopment.links.excellenceCenters"
+            "footerModern.sections.researchDevelopment.links.excellenceCenters",
           ),
           href: "https://www.menofia.edu.eg/View/63344/ar",
         },
@@ -119,7 +179,7 @@ const Footer: React.FC = () => {
         },
         {
           label: t(
-            "footerModern.sections.researchDevelopment.links.researchEthics"
+            "footerModern.sections.researchDevelopment.links.researchEthics",
           ),
           href: "https://mu.menofia.edu.eg/sci/IACUC/Home/ar",
         },
@@ -136,31 +196,31 @@ const Footer: React.FC = () => {
       links: [
         {
           label: t(
-            "footerModern.sections.digitalTransformation.links.digitalSystems"
+            "footerModern.sections.digitalTransformation.links.digitalSystems",
           ),
           href: "https://services.menofia.education/dtfc/Account/Login",
         },
         {
           label: t(
-            "footerModern.sections.digitalTransformation.links.eLearningCenter"
+            "footerModern.sections.digitalTransformation.links.eLearningCenter",
           ),
           href: "https://melc.menofia.edu.eg/",
         },
         {
           label: t(
-            "footerModern.sections.digitalTransformation.links.digitalLibrary"
+            "footerModern.sections.digitalTransformation.links.digitalLibrary",
           ),
           href: "https://mu.menofia.edu.eg/library/LibraryHome/ar",
         },
         {
           label: t(
-            "footerModern.sections.digitalTransformation.links.engineeringLibrary"
+            "footerModern.sections.digitalTransformation.links.engineeringLibrary",
           ),
           href: "https://www.menofia.edu.eg/View/129655/ar",
         },
         {
           label: t(
-            "footerModern.sections.digitalTransformation.links.governmentComplaints"
+            "footerModern.sections.digitalTransformation.links.governmentComplaints",
           ),
           href: "https://www.shakwa.eg/GCP/Default.aspx",
         },
@@ -173,13 +233,13 @@ const Footer: React.FC = () => {
       links: [
         {
           label: t(
-            "footerModern.sections.programsEducation.links.commercePrograms"
+            "footerModern.sections.programsEducation.links.commercePrograms",
           ),
           href: "https://www.menofia.edu.eg/View/12737/ar",
         },
         {
           label: t(
-            "footerModern.sections.programsEducation.links.openLegalEducation"
+            "footerModern.sections.programsEducation.links.openLegalEducation",
           ),
           href: "https://www.menofia.edu.eg/View/12738/ar",
         },
@@ -189,13 +249,13 @@ const Footer: React.FC = () => {
         },
         {
           label: t(
-            "footerModern.sections.programsEducation.links.integratedMedicine"
+            "footerModern.sections.programsEducation.links.integratedMedicine",
           ),
           href: "https://www.menofia.edu.eg/View/69836/ar",
         },
         {
           label: t(
-            "footerModern.sections.programsEducation.links.electricalComputers"
+            "footerModern.sections.programsEducation.links.electricalComputers",
           ),
           href: "https://www.menofia.edu.eg/View/12740/ar",
         },
@@ -216,25 +276,25 @@ const Footer: React.FC = () => {
         },
         {
           label: t(
-            "footerModern.sections.academicServices.links.undergraduateServices"
+            "footerModern.sections.academicServices.links.undergraduateServices",
           ),
           href: "https://www.menofia.edu.eg/View/64477/ar",
         },
         {
           label: t(
-            "footerModern.sections.academicServices.links.postgraduateServices"
+            "footerModern.sections.academicServices.links.postgraduateServices",
           ),
           href: "https://www.menofia.edu.eg/View/64484/ar",
         },
         {
           label: t(
-            "footerModern.sections.academicServices.links.postgraduateRegistration"
+            "footerModern.sections.academicServices.links.postgraduateRegistration",
           ),
           href: "http://193.227.24.15/umisbuilt_new/Registration/PG_admin.aspx",
         },
         {
           label: t(
-            "footerModern.sections.academicServices.links.candidateCollege"
+            "footerModern.sections.academicServices.links.candidateCollege",
           ),
           href: "https://www.menofia.edu.eg/Students/ar",
         },
@@ -286,7 +346,7 @@ const Footer: React.FC = () => {
                   {visibleLinks.map((lk, li) => (
                     <li key={li}>
                       <a
-                        href={lk.href}
+                        href={localizeUrl(lk.href)}
                         className="ft-link"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -317,93 +377,160 @@ const Footer: React.FC = () => {
       <div className="ft-divider" />
 
       <div className="ft-modern-bottom">
-  <div className="ft-contact-row">
-    <div className="ft-contact-card ft-contact-location">
-      <div className="ft-contact-text">
-        <h4>{isRTL ? "موقعنا" : "Our Location"}</h4>
-        <p> محافظة المنوفية - شبين الكوم</p>
-        <p>Menofia Governorate, Egypt</p>
+        <div className="ft-contact-row">
+          <div className="ft-contact-card ft-contact-location">
+            <div className="ft-contact-text">
+              <h4>
+                {tx(
+                  "footerModern.bottom.locationTitle",
+                  isRTL ? "موقعنا" : "Our Location",
+                )}
+              </h4>
+
+              <p>
+                {tx(
+                  "footerModern.bottom.locationLine1",
+                  isRTL
+                    ? "محافظة المنوفية - شبين الكوم"
+                    : "Menoufia Governorate - Shebin El-Kom",
+                )}
+              </p>
+
+              <p>
+                {tx(
+                  "footerModern.bottom.locationLine2",
+                  isRTL
+                    ? "محافظة المنوفية، مصر"
+                    : "Menoufia Governorate, Egypt",
+                )}
+              </p>
+            </div>
+
+            <div className="ft-contact-icon">
+              <i className="fa-solid fa-location-dot" />
+            </div>
+          </div>
+
+          <div className="ft-contact-card ft-contact-phone">
+            <div className="ft-contact-text">
+              <h4>
+                {tx(
+                  "footerModern.bottom.contactTitle",
+                  isRTL ? "تواصل معنا" : "Contact Us",
+                )}
+              </h4>
+
+              <p>0482222170</p>
+
+              <span className="ft-work-time">
+                <i className="fa-regular fa-clock" />
+                {tx(
+                  "footerModern.bottom.workingHours",
+                  isRTL
+                    ? "ساعات العمل: من 8 صباحا - 4 مساء"
+                    : "Working hours: 8 AM - 4 PM",
+                )}
+              </span>
+            </div>
+
+            <div className="ft-contact-icon">
+              <i className="fa-solid fa-phone" />
+            </div>
+          </div>
+
+          <div className="ft-main-logo-wrap">
+            <img
+              src={logo1}
+              alt={tx(
+                "footerModern.bottom.logoAlt",
+                isRTL ? "جامعة المنوفية" : "Menoufia University",
+              )}
+              className="ft-main-logo"
+            />
+          </div>
+
+          <div className="ft-contact-card ft-contact-email">
+            <div className="ft-contact-text">
+              <h4>
+                {tx(
+                  "footerModern.bottom.emailTitle",
+                  isRTL ? "البريد الإلكتروني" : "Email",
+                )}
+              </h4>
+
+              <p>info@menofia.edu.eg</p>
+            </div>
+
+            <div className="ft-contact-icon">
+              <i className="fa-regular fa-envelope" />
+            </div>
+          </div>
+        </div>
+
+        <div className="ft-social-row">
+          <span className="ft-social-line" />
+
+          <div className="ft-social-center">
+            <strong>
+              {tx(
+                "footerModern.bottom.followUs",
+                isRTL ? "تابعنا على" : "Follow us",
+              )}
+            </strong>
+
+            <div className="ft-social-icons">
+              {SOCIAL_LINKS.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                >
+                  <i className={social.icon} />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <span className="ft-social-line" />
+        </div>
+
+        <div className="ft-bottom-links-row">
+          <p className="ft-copy">
+            {tx(
+              "footerModern.bottom.copyright",
+              isRTL
+                ? "جامعة المنوفية - جميع الحقوق محفوظة {{year}}"
+                : "Menoufia University - All rights reserved {{year}}",
+              { year: currentYear },
+            )}
+          </p>
+
+          <div className="ft-policy-links">
+            <a href="/privacy-policy">
+              {tx(
+                "footerModern.bottom.privacyPolicy",
+                isRTL ? "سياسة الخصوصية" : "Privacy Policy",
+              )}
+            </a>
+
+            <a href="/terms">
+              {tx(
+                "footerModern.bottom.termsOfUse",
+                isRTL ? "شروط الاستخدام" : "Terms of Use",
+              )}
+            </a>
+
+            <a href="/site-map">
+              {tx(
+                "footerModern.bottom.siteMap",
+                isRTL ? "خريطة الموقع" : "Site Map",
+              )}
+            </a>
+          </div>
+        </div>
       </div>
-
-      <div className="ft-contact-icon">
-        <i className="fa-solid fa-location-dot" />
-      </div>
-    </div>
-
-    <div className="ft-contact-card ft-contact-phone">
-      <div className="ft-contact-text">
-        <h4>{isRTL ? "تواصل معنا" : "Contact Us"}</h4>
-        <p>0482222170</p>
-        <span className="ft-work-time">
-          <i className="fa-regular fa-clock" />
-          {isRTL ? " ساعات العمل : من 8 صباحا - 4 مساء" : "Working hours: 8 AM - 4 PM"}
-        </span>
-      </div>
-
-      <div className="ft-contact-icon">
-        <i className="fa-solid fa-phone" />
-      </div>
-    </div>
-
-    <div className="ft-main-logo-wrap">
-      <img src={logo1} alt="Menoufia University" className="ft-main-logo" />
-    </div>
-
-    <div className="ft-contact-card ft-contact-email">
-      <div className="ft-contact-text">
-        <h4>{isRTL ? "البريد الالكترونى" : "Email"}</h4>
-        <p>info@menofia.edu.eg</p>
-      </div>
-
-      <div className="ft-contact-icon">
-        <i className="fa-regular fa-envelope" />
-      </div>
-    </div>
-  </div>
-
-  <div className="ft-social-row">
-    <span className="ft-social-line" />
-
-    <div className="ft-social-center">
-            <strong>{isRTL ? "تابعنا على" : "Follow us"}</strong>
-
-      <div className="ft-social-icons">
-        <a href="https://www.facebook.com/MenoufiaUniversity" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-          <i className="fa-brands fa-facebook-f" />
-        </a>
-
-        <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-          <i className="fa-brands fa-youtube" />
-        </a>
-
-        <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X">
-          <i className="fa-brands fa-x-twitter" />
-        </a>
-
-        <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-          <i className="fa-brands fa-instagram" />
-        </a>
-      </div>
-
-    </div>
-
-    <span className="ft-social-line" />
-  </div>
-
-  <div className="ft-bottom-links-row">
-    <p className="ft-copy">
-      {isRTL
-        ? `جامعة المنوفية - جميع الحقوق محفوظة ${currentYear}`
-        : `Menoufia University - All rights reserved ${currentYear}`}
-    </p>
-
-    <div className="ft-policy-links">
-      <a href="/privacy-policy">{isRTL ? "سياسة الخصوصية" : "Privacy Policy"}</a>
-      <a href="/terms">{isRTL ? "شروط الاستخدام" : "Terms of Use"}</a>
-      <a href="/site-map">{isRTL ? "خريطة الموقع" : "Site Map"}</a>
-    </div>
-  </div>
-</div>
     </footer>
   );
 };
