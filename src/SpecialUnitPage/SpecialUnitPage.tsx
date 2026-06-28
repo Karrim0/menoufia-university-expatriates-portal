@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import {
   ArrowRight,
   ChevronDown,
+  Download,
   ExternalLink,
   FileText,
   Image as ImageIcon,
@@ -483,6 +484,145 @@ const getArticleIcon = (
 
   return <FileText size={30} strokeWidth={2.4} />;
 };
+const normalizeArticleDesignTitle = (title = "") => {
+  return cleanText(title)
+    .replace(/[أإآ]/g, "ا")
+    .replace(/ة/g, "ه")
+    .replace(/[ىي]/g, "ي")
+    .toLowerCase();
+};
+
+const getArticleDesignClass = (title = "") => {
+  const normalizedTitle = normalizeArticleDesignTitle(title);
+
+  if (
+    (normalizedTitle.includes("اختصاصات") &&
+      (normalizedTitle.includes("مجلس الاداره") ||
+        normalizedTitle.includes("مجلس الادارة") ||
+        normalizedTitle.includes("الاداره") ||
+        normalizedTitle.includes("الادارة"))) ||
+    normalizedTitle.includes("اختصاصات مجلس الاداره") ||
+    normalizedTitle.includes("اختصاصات مجلس الادارة")
+  ) {
+    return "special-unit-article-card--board-competencies";
+  }
+
+  if (
+    normalizedTitle.includes("رؤيه") ||
+    normalizedTitle.includes("رؤية") ||
+    normalizedTitle.includes("vision") ||
+    normalizedTitle.includes("رساله") ||
+    normalizedTitle.includes("رسالة") ||
+    normalizedTitle.includes("mission")
+  ) {
+    return "special-unit-article-card--vision-mission";
+  }
+
+  if (
+    normalizedTitle.includes("اهداف") ||
+    normalizedTitle.includes("أهداف") ||
+    normalizedTitle.includes("الاهداف") ||
+    normalizedTitle.includes("الأهداف") ||
+    normalizedTitle.includes("goals") ||
+    normalizedTitle.includes("objectives")
+  ) {
+    return "special-unit-article-card--goals";
+  }
+
+  return "";
+};
+
+const isBoardCompetenciesArticle = (title = "") => {
+  const normalizedTitle = normalizeArticleDesignTitle(title);
+
+  return (
+    (normalizedTitle.includes("اختصاصات") &&
+      (normalizedTitle.includes("مجلس الاداره") ||
+        normalizedTitle.includes("مجلس الادارة") ||
+        normalizedTitle.includes("الاداره") ||
+        normalizedTitle.includes("الادارة"))) ||
+    normalizedTitle.includes("اختصاصات مجلس الاداره") ||
+    normalizedTitle.includes("اختصاصات مجلس الادارة")
+  );
+};
+
+const escapeHtmlText = (text = "") => {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+};
+
+const normalizeBoardCompetenciesHtml = (html = "") => {
+  if (!html) return "";
+
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+
+    doc.querySelectorAll("br").forEach((br) => {
+      br.replaceWith(" ");
+    });
+
+    const rawText = cleanText(doc.body.textContent || "");
+
+    if (!rawText) return html;
+
+    const markerRegex =
+      /(^|[\s\u00a0])((?:[0-9]{1,2}|[٠-٩]{1,2})\s*[-–—.]\s*)/g;
+    const markerPositions: number[] = [];
+    let match: RegExpExecArray | null;
+
+    while ((match = markerRegex.exec(rawText)) !== null) {
+      markerPositions.push(match.index + match[1].length);
+    }
+
+    if (markerPositions.length === 0) {
+      return `<div class="special-unit-board-normalized">
+        <p class="special-unit-board-intro">${escapeHtmlText(rawText)}</p>
+      </div>`;
+    }
+
+    const introText = rawText.slice(0, markerPositions[0]).trim();
+
+    const items = markerPositions
+      .map((start, index) => {
+        const end = markerPositions[index + 1] ?? rawText.length;
+        const itemText = rawText.slice(start, end).trim();
+
+        const itemMatch = itemText.match(
+          /^((?:[0-9]{1,2}|[٠-٩]{1,2})\s*[-–—.])\s*(.*)$/s,
+        );
+
+        if (!itemMatch) return "";
+
+        const number = itemMatch[1].trim();
+        const text = itemMatch[2].trim();
+
+        return `<div class="special-unit-board-item">
+          <span class="special-unit-board-number">${escapeHtmlText(number)}</span>
+          <span class="special-unit-board-text">${escapeHtmlText(text)}</span>
+        </div>`;
+      })
+      .filter(Boolean)
+      .join("");
+
+    return `<div class="special-unit-board-normalized">
+      ${
+        introText
+          ? `<p class="special-unit-board-intro">${escapeHtmlText(introText)}</p>`
+          : ""
+      }
+      <div class="special-unit-board-list">
+        ${items}
+      </div>
+    </div>`;
+  } catch {
+    return html;
+  }
+};
 
 const SpecialUnitArticleRenderer: React.FC<{
   article: SpecialUnitArticle;
@@ -493,8 +633,14 @@ const SpecialUnitArticleRenderer: React.FC<{
   }, [article.imageDescription]);
 
   const cleanContent = useMemo(() => {
-    return sanitizeHtml(article.content || "");
-  }, [article.content]);
+    const sanitizedContent = sanitizeHtml(article.content || "");
+
+    if (isBoardCompetenciesArticle(article.title)) {
+      return normalizeBoardCompetenciesHtml(sanitizedContent);
+    }
+
+    return sanitizedContent;
+  }, [article.content, article.title]);
 
   const images = assets.filter((asset) => asset.type === "image");
   const videos = assets.filter((asset) => asset.type === "video");
@@ -504,6 +650,15 @@ const SpecialUnitArticleRenderer: React.FC<{
 
   const shouldUseProfileLayout =
     images.length === 1 && cleanContent && isMessageArticle(article.title);
+
+  const baseArticleDesignClass = getArticleDesignClass(article.title);
+
+  const articleDesignClass = [
+    baseArticleDesignClass,
+    files.length > 0 ? "special-unit-article-card--file" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   if (shouldUseProfileLayout) {
     return (
@@ -532,7 +687,7 @@ const SpecialUnitArticleRenderer: React.FC<{
   }
 
   return (
-    <article className="special-unit-article-card">
+    <article className={`special-unit-article-card ${articleDesignClass}`.trim()}>
       <div className="special-unit-article-card-head">
         <span className="special-unit-article-card-icon">
           {getArticleIcon(article, assets)}
@@ -575,39 +730,66 @@ const SpecialUnitArticleRenderer: React.FC<{
       {files.length > 0 && (
         <div className="special-unit-article-file-card">
           {files.map((file, index) => {
-            const extension = file.extension || "FILE";
+            const extension = (file.extension || "FILE").toUpperCase();
+            const isPdf = extension === "PDF";
 
             return (
               <div
                 key={`${file.url}-${index}`}
-                className="special-unit-file-box"
+                className={`special-unit-file-box ${isPdf ? "is-pdf" : ""}`}
               >
-                <span className="special-unit-file-extension">
-                  {extension.toUpperCase()}
-                </span>
+                <div className="special-unit-file-preview" aria-hidden="true">
+                  <span className="special-unit-file-extension">{extension}</span>
+                </div>
 
                 <div className="special-unit-file-info">
-                  <h3>{article.title}</h3>
+                  <div className="special-unit-file-title-row">
+                    <span className="special-unit-file-title-icon">
+                      <FileText size={25} strokeWidth={2.4} />
+                    </span>
 
-                  <p>
-                    {isArabic
-                      ? "يمكنك فتح الملف أو تحميله من الرابط التالي."
-                      : "You can open or download the file from the link below."}
+                    <h3>{article.title}</h3>
+                  </div>
+
+                  <p className="special-unit-file-type">
+                    <FileText size={16} strokeWidth={2.4} />
+                    <span>{isArabic ? "نوع الملف:" : "File type:"}</span>
+                    <strong>{extension}</strong>
                   </p>
 
-                  <a
-                    href={file.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="special-unit-article-main-action"
-                  >
-                    <span>{isArabic ? "فتح الملف" : "Open file"}</span>
-                    <ExternalLink size={18} strokeWidth={2.4} />
-                  </a>
+                  <div className="special-unit-file-actions">
+                    <a
+                      href={file.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="special-unit-article-main-action special-unit-article-main-action--primary"
+                    >
+                      <span>{isArabic ? "عرض الملف" : "View file"}</span>
+                      <ExternalLink size={17} strokeWidth={2.4} />
+                    </a>
+
+                    <a
+                      href={file.url}
+                      download
+                      className="special-unit-article-main-action special-unit-article-main-action--outline"
+                    >
+                      <span>{isArabic ? "تحميل الملف" : "Download file"}</span>
+                      <Download size={17} strokeWidth={2.4} />
+                    </a>
+                  </div>
                 </div>
               </div>
             );
           })}
+
+          <div className="special-unit-file-note">
+            <FileText size={18} strokeWidth={2.4} />
+            <span>
+              {isArabic
+                ? "لعرض محتوى الملف يرجى الضغط على زر عرض الملف."
+                : "To view the file content, please click the View file button."}
+            </span>
+          </div>
         </div>
       )}
 

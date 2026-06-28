@@ -1,7 +1,32 @@
 .ep404-page {
+  --ep404-bg: color-mix(
+    in srgb,
+    var(--theme-background) 88%,
+    var(--theme-card)
+  );
+  --ep404-primary: var(--theme-primary);
+  --ep404-secondary: var(--theme-secondary);
+  --ep404-text: var(--theme-primary-text);
+  --ep404-muted: var(--theme-secondary-text);
+  --ep404-button-bg: var(--theme-button);
+  --ep404-button-hover: var(--theme-button-hover);
+  --ep404-button-text: var(--theme-icon-color);
+  --ep404-button-hover-text: var(--theme-icon-hover);
+  --ep404-shadow: color-mix(
+    in srgb,
+    var(--theme-primary) 20%,
+    transparent
+  );
+
   width: 100%;
   min-height: calc(100vh - 90px);
-  background: #eaf3fb;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      color-mix(in srgb, var(--ep404-secondary) 12%, transparent) 0%,
+      transparent 36%
+    ),
+    var(--ep404-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,6 +35,15 @@
   font-family: "Cairo", "Segoe UI", sans-serif;
   text-align: center;
   overflow: hidden;
+  color: var(--ep404-text);
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+/* palette4 only: fix button text color */
+html[data-palette="palette4"] .ep404-page {
+  --ep404-button-text: #ffffff;
 }
 
 .ep404-card {
@@ -23,7 +57,7 @@
 .ep404-label {
   display: block;
   margin-bottom: 6px;
-  color: rgba(48, 61, 94, 0.72);
+  color: color-mix(in srgb, var(--ep404-primary) 68%, transparent);
   font-size: clamp(13px, 1.1vw, 16px);
   font-weight: 600;
   line-height: 1.2;
@@ -33,58 +67,73 @@
 
 .ep404-number {
   margin: 0;
-  color: #303d5e;
+  color: var(--ep404-primary);
   font-size: clamp(150px, 26vw, 340px);
   font-weight: 800;
   line-height: 0.82;
   letter-spacing: -0.045em;
   text-align: center;
+  text-shadow: 0 12px 30px var(--ep404-shadow);
+  transition:
+    color 0.25s ease,
+    text-shadow 0.25s ease;
 }
 
 .ep404-title {
   margin: 26px 0 0;
-  color: rgba(48, 61, 94, 0.75);
+  color: color-mix(in srgb, var(--ep404-primary) 70%, var(--ep404-muted));
   font-size: clamp(24px, 3.1vw, 40px);
   font-weight: 800;
   line-height: 1.2;
   text-align: center;
+  transition: color 0.25s ease;
 }
 
 .ep404-description {
   width: min(720px, 100%);
   margin: 18px auto 28px;
-  color: #303d5e;
+  color: var(--ep404-text);
   font-size: clamp(15px, 1.5vw, 21px);
   font-weight: 500;
   line-height: 1.7;
   text-align: center;
+  transition: color 0.25s ease;
 }
 
 .ep404-btn {
   width: min(374px, 100%);
   height: 56px;
   border-radius: 10px;
-  background: #303d5e;
-  color: #ffffff;
+  background: var(--ep404-button-bg);
+  color: var(--ep404-button-text);
   text-decoration: none;
   font-size: 16px;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 14px 32px rgba(48, 61, 94, 0.2);
-  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 14px 32px var(--ep404-shadow);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .ep404-btn:hover {
-  background: #26324f;
-  color: #ffffff;
+  background: var(--ep404-button-hover);
+  color: var(--ep404-button-hover-text);
   transform: translateY(-2px);
-  box-shadow: 0 18px 40px rgba(48, 61, 94, 0.28);
+  box-shadow: 0 18px 40px
+    color-mix(in srgb, var(--theme-primary) 28%, transparent);
 }
 
 .ep404-btn:active {
   transform: translateY(0);
+}
+
+.ep404-page[dir="rtl"] .ep404-number {
+  letter-spacing: -0.035em;
 }
 
 @media (max-width: 768px) {
