@@ -69,6 +69,7 @@ const isValidRouteShape = (pathname) => {
     "/colleges-programs",
     "/login",
     "/university-history",
+    "/404",
   ];
 
   if (staticPaths.includes(cleanPath)) {
@@ -245,7 +246,7 @@ const AppContent = () => {
             path="/fac/:fac/department/:departmentCode"
             element={<DepartmentPage />}
           />
-  
+          <Route path="/404" element={<ErrorPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       )}

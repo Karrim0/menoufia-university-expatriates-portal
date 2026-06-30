@@ -11,11 +11,16 @@ import SpecialUnitsSection from "./SpecialUnitsSection/SpecialUnitsSection";
 import GeneralAdministrationsSection from "./GeneralAdministrationsSection/GeneralAdministrationsSection";
 import "./Home.css";
 
+const NEWS_DASHBOARD_URL = "https://stage.menofia.edu.eg/dashboard";
+
 function Home() {
   const { i18n } = useTranslation();
 
   const [filteredNews, setFilteredNews] = useState<any[]>([]);
   const [isNewsLoading, setIsNewsLoading] = useState(true);
+
+  const isArabic = i18n.language.toLowerCase().startsWith("ar");
+  const isRTL = i18n.dir() === "rtl" || ["ar", "fa"].includes(i18n.language);
 
   const langId = useMemo(() => {
     return getLanguageId(i18n.language);
@@ -87,10 +92,53 @@ function Home() {
         <Carousel News={filteredNews} />
       )}
 
-      <CollegesPrograms />
-      <GeneralAdministrationsSection />
-      <SpecialUnitsSection articleId={66343} defaultOpen={false} />
+      <section
+        className="home-news-dashboard-section"
+        dir={isRTL ? "rtl" : "ltr"}
+      >
+        <div className="home-news-dashboard-card">
+          <div className="home-news-dashboard-content">
+            <span className="home-news-dashboard-badge">
+              <i className="fa-solid fa-chart-line" />
+              {isArabic ? "لوحة ذكية" : "Smart Dashboard"}
+            </span>
+
+            <h2>
+              {isArabic
+                ? "لوحة ذكاء أخبار جامعة المنوفية"
+                : "Menoufia University News Intelligence Dashboard"}
+            </h2>
+
+            <p>
+              {isArabic
+                ? "استعرض مؤشرات وتحليلات أخبار الجامعة من خلال لوحة تفاعلية تساعد على متابعة الأداء والمحتوى بشكل أوضح."
+                : "Explore interactive indicators and analytics for university news performance and content insights."}
+            </p>
+          </div>
+
+          <div className="home-news-dashboard-actions">
+            <a
+              href={NEWS_DASHBOARD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="home-news-dashboard-btn"
+              aria-label={
+                isArabic
+                  ? "فتح لوحة ذكاء أخبار جامعة المنوفية"
+                  : "Open Menoufia University news dashboard"
+              }
+            >
+              <span>{isArabic ? "فتح لوحة الذكاء" : "Open Dashboard"}</span>
+              <i className="fa-solid fa-arrow-up-right-from-square" />
+            </a>
+          </div>
+        </div>
+      </section>
+
       
+      <GeneralAdministrationsSection />
+      <CollegesPrograms />
+      <SpecialUnitsSection articleId={66343} defaultOpen={false} />
     </div>
   );
 }

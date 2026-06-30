@@ -5,13 +5,16 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { createPortal } from "react-dom";
 import { Link, useLocation } from "react-router-dom";
 import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
   Globe,
+  Menu as MenuIcon,
   Palette as PaletteIcon,
+  X,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -530,54 +533,110 @@ const MenuLink = ({
 
 const SubDropdownItem = ({ item }: { item: NavMenuItem }) => {
   const [open, setOpen] = useState(false);
+  const [subDropdownStyle, setSubDropdownStyle] =
+    useState<React.CSSProperties>({});
+
   const hasChildren = Boolean(item.children?.length);
   const ref = useRef<HTMLDivElement | null>(null);
   const subDropdownRef = useRef<HTMLDivElement | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const clearCloseTimer = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
+
+const updateSubDropdownPosition = useCallback(() => {
+  if (!hasChildren || !ref.current || !isDesktop()) {
+    setSubDropdownStyle({});
+    return;
+  }
+
+  const rect = ref.current.getBoundingClientRect();
+  const rootStyles = getComputedStyle(document.documentElement);
+  const cssDropWidth = rootStyles.getPropertyValue("--drop-width");
+  const dropWidth = Number.parseFloat(cssDropWidth) || 268;
+
+  const gap = 8;
+  const safeGap = 12;
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+
+  const spaceRight = viewportWidth - rect.right - safeGap;
+  const spaceLeft = rect.left - safeGap;
+
+  let left: number;
+
+  if (spaceRight >= dropWidth + gap) {
+    left = rect.right + gap;
+  } else if (spaceLeft >= dropWidth + gap) {
+    left = rect.left - dropWidth - gap;
+  } else {
+    const openRightScore = Math.abs(viewportWidth - (rect.right + gap + dropWidth));
+    const openLeftScore = Math.abs(rect.left - dropWidth - gap);
+
+    left =
+      openRightScore < openLeftScore
+        ? rect.right + gap
+        : rect.left - dropWidth - gap;
+  }
+
+  left = Math.max(
+    safeGap,
+    Math.min(left, viewportWidth - dropWidth - safeGap),
+  );
+
+  const maxHeight = Math.max(
+    220,
+    Math.min(520, viewportHeight - safeGap * 2),
+  );
+
+  const top = Math.max(
+    safeGap,
+    Math.min(rect.top, viewportHeight - maxHeight - safeGap),
+  );
+
+  setSubDropdownStyle({
+    position: "fixed",
+    top,
+    left,
+    right: "auto",
+    insetInlineStart: "auto",
+    insetInlineEnd: "auto",
+    width: dropWidth,
+    maxHeight,
+    zIndex: 1300,
+  });
+}, [hasChildren]);
+
   useEffect(() => {
-    if (!open || !subDropdownRef.current) return;
+    if (!open || !hasChildren) return;
 
-    const dropdown = subDropdownRef.current;
-    const safeGap = 12;
-    const pageDir = document.documentElement.dir || "rtl";
+    updateSubDropdownPosition();
 
-    dropdown.style.insetInlineStart = "100%";
-    dropdown.style.insetInlineEnd = "auto";
+    window.addEventListener("resize", updateSubDropdownPosition);
+    document.addEventListener("scroll", updateSubDropdownPosition, true);
 
-    requestAnimationFrame(() => {
-      const rect = dropdown.getBoundingClientRect();
-
-      const openToRight = () => {
-        if (pageDir === "rtl") {
-          dropdown.style.insetInlineStart = "auto";
-          dropdown.style.insetInlineEnd = "100%";
-        } else {
-          dropdown.style.insetInlineStart = "100%";
-          dropdown.style.insetInlineEnd = "auto";
-        }
-      };
-
-      const openToLeft = () => {
-        if (pageDir === "rtl") {
-          dropdown.style.insetInlineStart = "100%";
-          dropdown.style.insetInlineEnd = "auto";
-        } else {
-          dropdown.style.insetInlineStart = "auto";
-          dropdown.style.insetInlineEnd = "100%";
-        }
-      };
-
-      if (rect.left < safeGap) openToRight();
-      if (rect.right > window.innerWidth - safeGap) openToLeft();
-    });
-  }, [open]);
+    return () => {
+      window.removeEventListener("resize", updateSubDropdownPosition);
+      document.removeEventListener("scroll", updateSubDropdownPosition, true);
+    };
+  }, [open, hasChildren, updateSubDropdownPosition]);
 
   useEffect(() => {
     if (!open) return;
 
     const handler = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
+      const target = event.target as HTMLElement;
+
+      const clickedInsideParent = ref.current && ref.current.contains(target);
+
+      const clickedInsideSubDropdown =
+        subDropdownRef.current && subDropdownRef.current.contains(target);
+
+      if (!clickedInsideParent && !clickedInsideSubDropdown) {
         setOpen(false);
       }
     };
@@ -587,17 +646,37 @@ const SubDropdownItem = ({ item }: { item: NavMenuItem }) => {
     return () => document.removeEventListener("mousedown", handler);
   }, [open]);
 
+  useEffect(() => {
+    return () => {
+      clearCloseTimer();
+    };
+  }, []);
+
   const onEnter = () => {
     if (!hasChildren || !isDesktop()) return;
 
-    if (closeTimer.current) clearTimeout(closeTimer.current);
+    clearCloseTimer();
     setOpen(true);
+    requestAnimationFrame(updateSubDropdownPosition);
   };
 
-  const onLeave = () => {
+  const onLeave = (event?: React.MouseEvent) => {
     if (!hasChildren || !isDesktop()) return;
 
-    closeTimer.current = setTimeout(() => setOpen(false), 140);
+    const nextTarget = event?.relatedTarget as HTMLElement | null;
+
+    if (
+      nextTarget?.closest(".floating-sub-dropdown") ||
+      (nextTarget && ref.current?.contains(nextTarget))
+    ) {
+      return;
+    }
+
+    clearCloseTimer();
+
+    closeTimer.current = setTimeout(() => {
+      setOpen(false);
+    }, 260);
   };
 
   const onClick = (event: React.MouseEvent) => {
@@ -605,8 +684,25 @@ const SubDropdownItem = ({ item }: { item: NavMenuItem }) => {
 
     event.preventDefault();
     event.stopPropagation();
+
+    clearCloseTimer();
     setOpen((prev) => !prev);
+    requestAnimationFrame(updateSubDropdownPosition);
   };
+
+  const subDropdownElement = (
+    <div
+      className="sub-dropdown floating-sub-dropdown"
+      ref={subDropdownRef}
+      style={subDropdownStyle}
+      onMouseEnter={clearCloseTimer}
+      onMouseLeave={onLeave}
+    >
+      {item.children?.map((child) => (
+        <SubDropdownItem key={child.key} item={child} />
+      ))}
+    </div>
+  );
 
   return (
     <div
@@ -626,20 +722,11 @@ const SubDropdownItem = ({ item }: { item: NavMenuItem }) => {
         <MenuLink item={item} className="dropdown-item-label solo" />
       )}
 
-      {hasChildren && open && (
-        <div
-          className="sub-dropdown"
-          ref={subDropdownRef}
-          onMouseEnter={() => {
-            if (closeTimer.current) clearTimeout(closeTimer.current);
-          }}
-          onMouseLeave={onLeave}
-        >
-          {item.children?.map((child) => (
-            <SubDropdownItem key={child.key} item={child} />
-          ))}
-        </div>
-      )}
+      {hasChildren &&
+        open &&
+        (isDesktop() && typeof document !== "undefined"
+          ? createPortal(subDropdownElement, document.body)
+          : subDropdownElement)}
     </div>
   );
 };
@@ -656,6 +743,13 @@ const NavItem = ({
   const hasChildren = Boolean(item.children?.length);
   const ref = useRef<HTMLLIElement | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearCloseTimer = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
 
   const updateDropdownPosition = useCallback(() => {
     if (!ref.current || !isDesktop()) {
@@ -687,15 +781,28 @@ const NavItem = ({
   const onEnter = () => {
     if (!hasChildren || !isDesktop()) return;
 
-    if (closeTimer.current) clearTimeout(closeTimer.current);
+    clearCloseTimer();
     setOpen(true);
     requestAnimationFrame(updateDropdownPosition);
   };
 
-  const onLeave = () => {
+  const onLeave = (event?: React.MouseEvent) => {
     if (!hasChildren || !isDesktop()) return;
 
-    closeTimer.current = setTimeout(() => setOpen(false), 160);
+    const nextTarget = event?.relatedTarget as HTMLElement | null;
+
+    if (
+      nextTarget?.closest(".floating-dropdown") ||
+      nextTarget?.closest(".floating-sub-dropdown")
+    ) {
+      return;
+    }
+
+    clearCloseTimer();
+
+    closeTimer.current = setTimeout(() => {
+      setOpen(false);
+    }, 220);
   };
 
   const onClick = (event: React.MouseEvent) => {
@@ -710,7 +817,13 @@ const NavItem = ({
     if (!open) return;
 
     const handler = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
+      const target = event.target as HTMLElement;
+
+      if (
+        ref.current &&
+        !ref.current.contains(target) &&
+        !target.closest(".floating-sub-dropdown")
+      ) {
         setOpen(false);
       }
     };
@@ -733,6 +846,12 @@ const NavItem = ({
       window.removeEventListener("scroll", updateDropdownPosition, true);
     };
   }, [open, hasChildren, updateDropdownPosition]);
+
+  useEffect(() => {
+    return () => {
+      clearCloseTimer();
+    };
+  }, []);
 
   return (
     <li
@@ -762,9 +881,7 @@ const NavItem = ({
         <div
           className="dropdown-menu floating-dropdown"
           style={dropdownStyle}
-          onMouseEnter={() => {
-            if (closeTimer.current) clearTimeout(closeTimer.current);
-          }}
+          onMouseEnter={clearCloseTimer}
           onMouseLeave={onLeave}
         >
           {item.children?.map((child) => (
@@ -1077,7 +1194,7 @@ const Header = () => {
           onClick={() => setMenuActive(false)}
           aria-label="close menu"
         >
-          <i className="fa-solid fa-times" />
+          <X size={20} strokeWidth={2.4} />
         </button>
 
         {showNavScrollButtons && (
@@ -1220,7 +1337,7 @@ const Header = () => {
           onClick={() => setMenuActive(true)}
           aria-label="open menu"
         >
-          <i className="fa-solid fa-bars" />
+          <MenuIcon size={23} strokeWidth={2.4} />
         </button>
       </div>
 

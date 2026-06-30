@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import newsService from "../Services/newsService";
 import { getLanguageId } from "../utils/language";
 import "./UniversityArticlePage.css";
-
+import logo from "../assets/logo.jpg";
 type UniversityArticle = {
   articleId?: number;
   menuItemId?: number;
@@ -230,6 +230,7 @@ const getArticleLangId = (language: string) => {
 
 const UniversityArticlePage = () => {
   const { articleId } = useParams();
+  const navigate = useNavigate();
   const { i18n } = useTranslation();
 
   const [article, setArticle] = useState<UniversityArticle | null>(null);
@@ -258,11 +259,9 @@ const UniversityArticlePage = () => {
       const numericArticleId = Number(articleId);
 
       if (!articleId || !Number.isFinite(numericArticleId) || numericArticleId <= 0) {
-        setArticle(null);
-        setError(isArabic ? "رابط الصفحة غير صحيح." : "Invalid page link.");
-        setLoading(false);
-        return;
-      }
+  navigate("/404", { replace: true });
+  return;
+}
 
       setLoading(true);
       setError("");
@@ -296,25 +295,15 @@ const UniversityArticlePage = () => {
         if (!mounted) return;
 
         if (!normalizedArticle) {
-          setArticle(null);
-          setError(
-            isArabic
-              ? "لا توجد بيانات متاحة لهذه الصفحة."
-              : "No content is available for this page.",
-          );
-          return;
-        }
+  navigate("/404", { replace: true });
+  return;
+}
 
         setArticle(normalizedArticle);
       } catch {
         if (!mounted) return;
 
-        setArticle(null);
-        setError(
-          isArabic
-            ? "حدث خطأ أثناء تحميل الصفحة."
-            : "An error occurred while loading the page.",
-        );
+        navigate("/404", { replace: true });
       } finally {
         if (mounted) {
           setLoading(false);
@@ -327,7 +316,7 @@ const UniversityArticlePage = () => {
     return () => {
       mounted = false;
     };
-  }, [articleId, langId, isArabic]);
+  }, [articleId, langId, isArabic, navigate]);
 
   if (loading) {
     return (
@@ -378,9 +367,17 @@ const UniversityArticlePage = () => {
     >
       <section className="university-article-container">
         <header className="university-article-hero">
-          <span className="university-article-kicker">
-            {isArabic ? "جامعة المنوفية" : "Menoufia University"}
-          </span>
+          <Link
+  to="/"
+  className="university-article-logo-link"
+  aria-label={isArabic ? "العودة إلى الرئيسية" : "Back to home"}
+>
+  <img
+    src={logo}
+    alt={isArabic ? "شعار جامعة المنوفية" : "Menoufia University Logo"}
+    className="university-article-logo"
+  />
+</Link>
 
           <h1>{article.title || (isArabic ? "صفحة جامعية" : "University Page")}</h1>
 

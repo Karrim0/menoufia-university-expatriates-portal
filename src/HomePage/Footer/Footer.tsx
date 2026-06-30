@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import "./Footer.css";
 import logo1 from "../../assets/MNF_logo.png";
 
@@ -21,9 +22,34 @@ type SocialLink = {
   icon: string;
 };
 
+type FooterInternalTarget = {
+  path: string;
+  sourceType: "article" | "abbr" | "complaints";
+  articleId?: number;
+  abbr?: string;
+};
+
 const VISIBLE_LINKS_COUNT = 4;
 
-const SUPPORTED_LANGS = ["ar", "en", "fr", "de", "tr", "fa", "ru", "ch", "it", "ja"];
+const SUPPORTED_LANGS = [
+  "ar",
+  "en",
+  "fr",
+  "de",
+  "tr",
+  "fa",
+  "ru",
+  "ch",
+  "it",
+  "ja",
+];
+
+const LANG_CODES = SUPPORTED_LANGS.map((lang) => lang.toLowerCase());
+
+const INTERNAL_ARTICLE_ROUTE = "/university-page";
+const INTERNAL_SECTION_ROUTE = "/university-sectors";
+const CONTACT_ROUTE = "/contactUs";
+const NOT_FOUND_ROUTE = "/404";
 
 const SOCIAL_LINKS: SocialLink[] = [
   {
@@ -53,8 +79,93 @@ const SOCIAL_LINKS: SocialLink[] = [
   },
 ];
 
+const extractArticleIdFromUrl = (url: string) => {
+  if (!url) return null;
+
+  const patterns = [
+    /\/View\/(\d+)(?:\/|$|\?)/i,
+    /\/view\/(\d+)(?:\/|$|\?)/i,
+    /\/UnivPresPage\/(\d+)(?:\/|$|\?)/i,
+    /[?&](?:articleId|ArticleId|id|Id)=([0-9]+)/i,
+  ];
+
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+
+    if (match?.[1]) {
+      const articleId = Number(match[1]);
+
+      if (Number.isFinite(articleId) && articleId > 0) {
+        return articleId;
+      }
+    }
+  }
+
+  return null;
+};
+
+const isMenoufiaInternalHost = (host: string) => {
+  const normalizedHost = host.toLowerCase();
+
+  return (
+    normalizedHost === "menofia.edu.eg" ||
+    normalizedHost.endsWith(".menofia.edu.eg")
+  );
+};
+
+const extractAbbrFromUrl = (url: string) => {
+  if (!url || url === "#") return "";
+
+  const stopWords = [
+    "home",
+    "home2",
+    "suhome",
+    "sectorshome",
+    "libraryhome",
+    "view",
+    "page",
+    "article",
+    "details",
+  ];
+
+  try {
+    const parsedUrl = new URL(url, window.location.origin);
+
+    if (!isMenoufiaInternalHost(parsedUrl.hostname)) {
+      return "";
+    }
+
+    const segments = parsedUrl.pathname
+      .split("/")
+      .map((segment) => segment.trim())
+      .filter(Boolean)
+      .filter((segment) => !LANG_CODES.includes(segment.toLowerCase()));
+
+    if (segments.length === 0) return "";
+
+    const firstSegment = segments[0].toLowerCase();
+
+    if (firstSegment === "view" || firstSegment === "complains") {
+      return "";
+    }
+
+    const stopIndex = segments.findIndex((segment) =>
+      stopWords.includes(segment.toLowerCase()),
+    );
+
+    if (stopIndex > 0) {
+      return segments[stopIndex - 1];
+    }
+
+    return segments[0] || "";
+  } catch {
+    return "";
+  }
+};
+
 const Footer: React.FC = () => {
   const { i18n, t } = useTranslation();
+  const navigate = useNavigate();
 
   const currentLangCode = String(i18n.resolvedLanguage || i18n.language || "en")
     .trim()
@@ -82,6 +193,81 @@ const Footer: React.FC = () => {
       `/${safeLangCode}`,
     );
   };
+
+  const getFooterInternalTarget = (url: string): FooterInternalTarget | null => {
+    if (!url || url === "#") return null;
+
+    if (/\/Complains(?:\/|$|\?)/i.test(url)) {
+      return {
+        path: CONTACT_ROUTE,
+        sourceType: "complaints",
+      };
+    }
+
+    const articleId = extractArticleIdFromUrl(url);
+
+    if (articleId) {
+      return {
+        path: `${INTERNAL_ARTICLE_ROUTE}/${articleId}`,
+        sourceType: "article",
+        articleId,
+      };
+    }
+
+    const abbr = extractAbbrFromUrl(url);
+
+    if (abbr) {
+      return {
+        path: `${INTERNAL_SECTION_ROUTE}/${encodeURIComponent(abbr)}`,
+        sourceType: "abbr",
+        abbr,
+      };
+    }
+
+    return null;
+  };
+
+  const handleFooterLinkClick = (
+  event: React.MouseEvent<HTMLAnchorElement>,
+  href: string,
+  label: string,
+) => {
+  event.preventDefault();
+
+  const localizedHref = localizeUrl(href);
+  const internalTarget = getFooterInternalTarget(localizedHref);
+
+  if (!internalTarget) {
+    navigate(NOT_FOUND_ROUTE, {
+      state: {
+        title: label,
+        sourceUrl: localizedHref,
+        sourceType: "not-found",
+        langCode: safeLangCode,
+      },
+    });
+
+    return;
+  }
+
+  navigate(internalTarget.path, {
+    state: {
+      title: label,
+      sourceUrl: localizedHref,
+      sourceType: internalTarget.sourceType,
+      articleId: internalTarget.articleId,
+      abbr: internalTarget.abbr,
+      langCode: safeLangCode,
+    },
+  });
+};
+
+const getFooterLinkHref = (href: string) => {
+  const localizedHref = localizeUrl(href);
+  const internalTarget = getFooterInternalTarget(localizedHref);
+
+  return internalTarget?.path || NOT_FOUND_ROUTE;
+};
 
   const moreLabel = tx(
     "footerModern.more",
@@ -343,19 +529,24 @@ const Footer: React.FC = () => {
 
               <div className={`ft-links-box ${isOpen ? "scrollable" : ""}`}>
                 <ul className="ft-links">
-                  {visibleLinks.map((lk, li) => (
-                    <li key={li}>
-                      <a
-                        href={localizeUrl(lk.href)}
-                        className="ft-link"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <span className="ft-link-text">{lk.label}</span>
-                        <span className="ft-link-dot" />
-                      </a>
-                    </li>
-                  ))}
+                  {visibleLinks.map((lk, li) => {
+  const finalHref = getFooterLinkHref(lk.href);
+
+  return (
+    <li key={`${lk.href}-${li}`}>
+      <a
+        href={finalHref}
+        className="ft-link"
+        onClick={(event) =>
+          handleFooterLinkClick(event, lk.href, lk.label)
+        }
+      >
+        <span className="ft-link-text">{lk.label}</span>
+        <span className="ft-link-dot" />
+      </a>
+    </li>
+  );
+})}
                 </ul>
               </div>
 

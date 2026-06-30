@@ -1,5 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { ChevronDown, ChevronLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import newsService from "../Services/newsService";
@@ -73,10 +79,42 @@ const normalizeTitle = (title = "") =>
 
 const isExternalUrl = (url = "") => /^https?:\/\//i.test(String(url || ""));
 
-const hasArticleId = (item) =>
-  item?.articleId !== null &&
-  item?.articleId !== undefined &&
-  Number(item.articleId) > 0;
+const extractArticleIdFromUrl = (url = "") => {
+  const value = String(url || "");
+
+  const patterns = [
+    /\/View\/(\d+)(?:\/|$|\?)/i,
+    /\/view\/(\d+)(?:\/|$|\?)/i,
+    /\/UnivPresPage\/(\d+)(?:\/|$|\?)/i,
+    /[?&](?:articleId|ArticleId|id|Id)=([0-9]+)/i,
+  ];
+
+  for (const pattern of patterns) {
+    const match = value.match(pattern);
+
+    if (match?.[1]) {
+      const articleId = Number(match[1]);
+
+      if (Number.isFinite(articleId) && articleId > 0) {
+        return articleId;
+      }
+    }
+  }
+
+  return null;
+};
+
+const getMenuItemArticleId = (item) => {
+  const directArticleId = Number(item?.articleId);
+
+  if (Number.isFinite(directArticleId) && directArticleId > 0) {
+    return directArticleId;
+  }
+
+  return extractArticleIdFromUrl(item?.url);
+};
+
+const hasArticleId = (item) => Boolean(getMenuItemArticleId(item));
 
 const cleanMenuTree = (items = []) => {
   if (!Array.isArray(items)) return [];
@@ -87,7 +125,9 @@ const cleanMenuTree = (items = []) => {
     .map((item) => ({
       ...item,
       title: cleanMenuTitle(item.title),
-      children: cleanMenuTree(Array.isArray(item.children) ? item.children : []),
+      children: cleanMenuTree(
+        Array.isArray(item.children) ? item.children : [],
+      ),
     }))
     .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
 };
@@ -101,15 +141,17 @@ const getChildren = (item) =>
     : [];
 
 const getMenuLink = (item, keyword) => {
-  if (hasArticleId(item)) {
-    return `/university-sectors/${keyword}?articleId=${item.articleId}`;
+  const articleId = getMenuItemArticleId(item);
+
+  if (articleId) {
+    return `/university-sectors/${encodeURIComponent(keyword)}?articleId=${articleId}`;
   }
 
-  if (isExternalUrl(item.url)) {
-    return item.url;
+  if (getChildren(item).length > 0) {
+    return `/university-sectors/${encodeURIComponent(keyword)}`;
   }
 
-  return `/university-sectors/${keyword}`;
+  return "/404";
 };
 
 const buildFixedMenu = (menu, isArabic) => {
@@ -119,7 +161,7 @@ const buildFixedMenu = (menu, isArabic) => {
     const normalizedTitles = tab.titles.map(normalizeTitle);
 
     const matched = cleanMenu.find((item) =>
-      normalizedTitles.includes(normalizeTitle(item.title))
+      normalizedTitles.includes(normalizeTitle(item.title)),
     );
 
     if (!matched) {
@@ -140,7 +182,7 @@ const buildFixedMenu = (menu, isArabic) => {
   });
 };
 
-const SectorMenuItem = ({ item, keyword, level = 0 }) => {
+const SectorMenuItem = ({ item, keyword, pageTitle, level = 0 }) => {
   const [open, setOpen] = useState(false);
 
   const children = getChildren(item);
@@ -185,7 +227,7 @@ const SectorMenuItem = ({ item, keyword, level = 0 }) => {
           {label}
         </a>
       ) : (
-        <Link to={link} className="usp-menu-link">
+        <Link to={link} className="usp-menu-link" state={{ title: pageTitle }}>
           {label}
         </Link>
       );
@@ -244,6 +286,7 @@ const SectorMenuItem = ({ item, keyword, level = 0 }) => {
               key={child.menuId}
               item={child}
               keyword={keyword}
+              pageTitle={pageTitle}
               level={level + 1}
             />
           ))}
@@ -273,6 +316,10 @@ const ArticleRenderer = ({ article, isArabic }) => {
 
 const UniversitySectorsPage = () => {
   const { keyword = "univpres" } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const routeState = location.state || {};
+  const normalizedKeyword = String(keyword || "").toLowerCase();
   const [searchParams] = useSearchParams();
   const { i18n } = useTranslation();
 
@@ -289,8 +336,37 @@ const UniversitySectorsPage = () => {
 
   const lang = Number(savedLang?.id) || (isArabic ? 1 : 2);
 
-  const sector = SECTOR_CONFIG[keyword] || SECTOR_CONFIG.univpres;
-  const sectorTitle = isArabic ? sector.ar : sector.en;
+  const sector = SECTOR_CONFIG[normalizedKeyword] || null;
+
+  const fallbackSectorTitle = sector ? (isArabic ? sector.ar : sector.en) : "";
+
+  const [pageTitle, setPageTitle] = useState(() => {
+    return routeState.title || fallbackSectorTitle || "";
+  });
+
+  useEffect(() => {
+    if (routeState.title) {
+      setPageTitle(routeState.title);
+      sessionStorage.setItem(
+        `university-sector-title-${normalizedKeyword}`,
+        routeState.title,
+      );
+      return;
+    }
+
+    const savedTitle = sessionStorage.getItem(
+      `university-sector-title-${normalizedKeyword}`,
+    );
+
+    if (savedTitle) {
+      setPageTitle(savedTitle);
+      return;
+    }
+
+    if (fallbackSectorTitle) {
+      setPageTitle(fallbackSectorTitle);
+    }
+  }, [routeState.title, fallbackSectorTitle, normalizedKeyword]);
 
   const [menu, setMenu] = useState([]);
   const [menuLoading, setMenuLoading] = useState(false);
@@ -298,12 +374,12 @@ const UniversitySectorsPage = () => {
   const [articleLoading, setArticleLoading] = useState(false);
 
   const visibleMenu = useMemo(() => {
-    if (keyword === "univpres") {
+    if (normalizedKeyword === "univpres") {
       return buildFixedMenu(menu, isArabic);
     }
 
     return cleanMenuTree(menu);
-  }, [menu, isArabic, keyword]);
+  }, [menu, isArabic, normalizedKeyword]);
 
   useEffect(() => {
     let mounted = true;
@@ -312,21 +388,28 @@ const UniversitySectorsPage = () => {
       setMenuLoading(true);
 
       try {
-        const response = await newsService.getSectorMenu({
-          keyword,
+        const response = await newsService.getInternalMenuByAbbr({
+          abbr: keyword,
           lang,
         });
 
         if (!mounted) return;
 
-        setMenu(
-          cleanMenuTree(Array.isArray(response?.result) ? response.result : [])
+        const normalizedMenu = cleanMenuTree(
+          Array.isArray(response?.result) ? response.result : [],
         );
+
+        if (normalizedMenu.length === 0) {
+          navigate("/404", { replace: true });
+          return;
+        }
+
+        setMenu(normalizedMenu);
       } catch (error) {
         console.error("Failed to fetch university sector menu:", error);
 
         if (mounted) {
-          setMenu([]);
+          navigate("/404", { replace: true });
         }
       } finally {
         if (mounted) {
@@ -340,7 +423,7 @@ const UniversitySectorsPage = () => {
     return () => {
       mounted = false;
     };
-  }, [keyword, lang]);
+  }, [keyword, lang, navigate]);
 
   useEffect(() => {
     let mounted = true;
@@ -351,22 +434,36 @@ const UniversitySectorsPage = () => {
         return;
       }
 
+      const numericArticleId = Number(articleId);
+
+      if (!Number.isFinite(numericArticleId) || numericArticleId <= 0) {
+        navigate("/404", { replace: true });
+        return;
+      }
+
       setArticleLoading(true);
 
       try {
         const response = await newsService.getSectorPage({
-          articleId: Number(articleId),
+          articleId: numericArticleId,
           lang,
         });
 
         if (!mounted) return;
 
-        setArticle(response?.result || null);
+        const normalizedArticle = response?.result || null;
+
+        if (!normalizedArticle) {
+          navigate("/404", { replace: true });
+          return;
+        }
+
+        setArticle(normalizedArticle);
       } catch (error) {
         console.error("Failed to fetch university sector article:", error);
 
         if (mounted) {
-          setArticle(null);
+          navigate("/404", { replace: true });
         }
       } finally {
         if (mounted) {
@@ -380,7 +477,7 @@ const UniversitySectorsPage = () => {
     return () => {
       mounted = false;
     };
-  }, [articleId, lang]);
+  }, [articleId, lang, navigate]);
 
   const headerSection = (
     <section className="usp-header">
@@ -390,7 +487,7 @@ const UniversitySectorsPage = () => {
 
           <div className="usp-brand-text">
             <p>{isArabic ? "جامعة المنوفية" : "Menoufia University"}</p>
-            <h1>{sectorTitle}</h1>
+            {pageTitle && <h1>{pageTitle}</h1>}
           </div>
         </div>
       </div>
@@ -407,13 +504,18 @@ const UniversitySectorsPage = () => {
         ) : (
           <div
             className={`usp-menu-bar ${
-              keyword === "univpres"
+              normalizedKeyword === "univpres"
                 ? "usp-menu-bar-fixed"
                 : "usp-menu-bar-dynamic"
             }`}
           >
             {visibleMenu.map((item) => (
-              <SectorMenuItem key={item.menuId} item={item} keyword={keyword} />
+              <SectorMenuItem
+                key={item.menuId}
+                item={item}
+                keyword={keyword}
+                pageTitle={pageTitle}
+              />
             ))}
           </div>
         )}
@@ -442,7 +544,22 @@ const UniversitySectorsPage = () => {
     );
   }
 
-  return <SectorsNews sectorKeyword={keyword} beforeCards={menuSection} />;
+  if (sector) {
+    return <SectorsNews sectorKeyword={keyword} beforeCards={menuSection} />;
+  }
+
+  return (
+    <main className="usp-page" dir={isArabic ? "rtl" : "ltr"}>
+      {headerSection}
+      {menuSection}
+
+      <div className="usp-state-message">
+        {isArabic
+          ? "اختر عنصرًا من القائمة لعرض محتواه."
+          : "Choose an item from the menu to view its content."}
+      </div>
+    </main>
+  );
 };
 
 export default UniversitySectorsPage;

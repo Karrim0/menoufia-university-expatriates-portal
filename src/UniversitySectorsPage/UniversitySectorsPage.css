@@ -87,7 +87,7 @@
   background: var(--theme-background);
   padding: 0 0 18px;
   position: relative;
-  z-index: 50;
+  z-index: 1;
   margin: 30px 0px;
 }
 /*menuuu */

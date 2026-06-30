@@ -7,17 +7,9 @@
   --ft-bottom-bg: var(--theme-footer-bottom, var(--theme-primary));
 
   --ft-text: var(--theme-card);
-  --ft-muted-text: color-mix(
-    in srgb,
-    var(--theme-card) 55%,
-    transparent
-  );
+  --ft-muted-text: color-mix(in srgb, var(--theme-card) 55%, transparent);
 
-  --ft-border: color-mix(
-    in srgb,
-    var(--theme-card) 18%,
-    transparent
-  );
+  --ft-border: color-mix(in srgb, var(--theme-card) 18%, transparent);
 
   width: 100%;
   overflow: hidden;
@@ -117,11 +109,7 @@
   );
 
   box-shadow: inset 0 0 0 1px
-    color-mix(
-      in srgb,
-      var(--ac, var(--theme-secondary)) 18%,
-      transparent
-    );
+    color-mix(in srgb, var(--ac, var(--theme-secondary)) 18%, transparent);
 }
 
 .ft-icon-glyph {
@@ -183,8 +171,7 @@
   overflow: hidden;
 
   scrollbar-width: thin;
-  scrollbar-color:
-    color-mix(
+  scrollbar-color: color-mix(
       in srgb,
       var(--ac, var(--theme-secondary)) 55%,
       transparent
@@ -261,11 +248,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  color: color-mix(
-    in srgb,
-    var(--ft-text) 94%,
-    transparent
-  );
+  color: color-mix(in srgb, var(--ft-text) 94%, transparent);
 
   font-size: clamp(12px, 0.9vw, 13.5px);
   font-weight: 500;
@@ -325,11 +308,7 @@
   align-items: center;
   justify-content: center;
 
-  border: 1px solid color-mix(
-    in srgb,
-    var(--ft-text) 20%,
-    transparent
-  );
+  border: 1px solid color-mix(in srgb, var(--ft-text) 20%, transparent);
 
   border-radius: 8px;
 
@@ -348,12 +327,7 @@
 
   cursor: pointer;
 
-  box-shadow: inset 0 1px 0
-    color-mix(
-      in srgb,
-      var(--ft-text) 5%,
-      transparent
-    );
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--ft-text) 5%, transparent);
 
   transition:
     transform 0.2s ease,
@@ -464,20 +438,12 @@
   align-items: center;
   justify-content: center;
 
-  border: 1px solid color-mix(
-    in srgb,
-    var(--theme-secondary) 72%,
-    transparent
-  );
+  border: 1px solid color-mix(in srgb, var(--theme-secondary) 72%, transparent);
 
   border-radius: 7px;
 
   color: var(--theme-secondary);
-  background: color-mix(
-    in srgb,
-    var(--theme-secondary) 3%,
-    transparent
-  );
+  background: color-mix(in srgb, var(--theme-secondary) 3%, transparent);
 }
 
 .ft-contact-icon i {
@@ -515,11 +481,7 @@
 .ft-contact-text p {
   margin: 0 0 2px;
 
-  color: color-mix(
-    in srgb,
-    var(--ft-text) 90%,
-    transparent
-  );
+  color: color-mix(in srgb, var(--ft-text) 90%, transparent);
 
   font-size: clamp(9px, 0.75vw, 11px);
   font-weight: 500;
@@ -639,11 +601,7 @@
   align-items: center;
   justify-content: center;
 
-  border: 1.3px solid color-mix(
-    in srgb,
-    var(--ft-text) 90%,
-    transparent
-  );
+  border: 1.3px solid color-mix(in srgb, var(--ft-text) 90%, transparent);
 
   border-radius: 50%;
 
@@ -940,7 +898,6 @@
   }
 }
 
-
 html[data-palette="palette1"] .ft-root {
   --ft-top-bg: #27374d;
   --ft-bottom-bg: #3d4b5f;
@@ -981,4 +938,63 @@ html[data-palette] .ft-modern-bottom {
 
 html[data-palette] .ft-root {
   background-color: var(--ft-top-bg) !important;
+}
+/* =========================================
+   Footer RTL/LTR Fix
+========================================= */
+
+.ft-grid {
+  direction: ltr !important;
+}
+
+.ft-modern-bottom {
+  direction: ltr !important;
+}
+
+.ft-root[dir="rtl"] .ft-col {
+  direction: rtl;
+  text-align: center;
+}
+
+.ft-root[dir="ltr"] .ft-col {
+  direction: ltr;
+  text-align: center;
+}
+
+.ft-link {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+}
+
+.ft-root[dir="rtl"] .ft-link {
+  direction: rtl;
+  flex-direction: row-reverse !important;
+}
+
+.ft-root[dir="rtl"] .ft-link-text {
+  direction: rtl;
+  text-align: right;
+}
+
+.ft-root[dir="ltr"] .ft-link {
+  direction: ltr;
+  flex-direction: row-reverse !important;
+}
+
+.ft-root[dir="ltr"] .ft-link-text {
+  direction: ltr;
+  text-align: left;
+}
+
+.ft-link-dot {
+  flex: 0 0 7px;
+}
+
+.ft-root[dir="rtl"] .ft-link:hover .ft-link-text {
+  transform: translateX(-2px);
+}
+
+.ft-root[dir="ltr"] .ft-link:hover .ft-link-text {
+  transform: translateX(2px);
 }

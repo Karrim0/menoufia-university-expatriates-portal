@@ -339,6 +339,27 @@ getUniversityMenu: async (langId = 1) => {
 
   return response.data;
 },
+getInternalMenuByAbbr: async ({ abbr, lang = 1 }) => {
+  try {
+    const response = await facultyApi.get(
+      `/UnivPresMenu/${encodeURIComponent(abbr)}`,
+      {
+        params: { lang },
+      },
+    );
+
+    return response.data;
+  } catch (error) {
+    const fallbackResponse = await facultyApi.get(
+      `/SpecialUnitsMenu/${encodeURIComponent(abbr)}`,
+      {
+        params: { lang },
+      },
+    );
+
+    return fallbackResponse.data;
+  }
+},
 };
 
 export default newsService;

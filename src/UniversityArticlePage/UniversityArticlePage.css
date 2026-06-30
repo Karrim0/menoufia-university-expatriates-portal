@@ -583,3 +583,240 @@ html[dir="ltr"] .university-article-page {
   font-size: 16px;
 }
 }
+/* =========================
+   Article Logo Link
+========================= */
+
+.university-article-logo-link {
+  width: 86px;
+  height: 86px;
+
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: color-mix(
+    in srgb,
+    var(--theme-card) 94%,
+    transparent
+  );
+
+  border: 1px solid color-mix(
+    in srgb,
+    var(--theme-primary) 16%,
+    transparent
+  );
+
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
+
+  text-decoration: none;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.university-article-logo-link:hover {
+  transform: translateY(-2px);
+
+  border-color: color-mix(
+    in srgb,
+    var(--theme-primary) 34%,
+    transparent
+  );
+
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.16);
+}
+
+.university-article-logo {
+  width: 68px;
+  height: 68px;
+
+  display: block;
+
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+@media (max-width: 480px) {
+  .university-article-logo-link {
+    width: 74px;
+    height: 74px;
+    margin-bottom: 14px;
+  }
+
+  .university-article-logo {
+    width: 58px;
+    height: 58px;
+  }
+}
+/* =========================
+ University Article Layout
+========================= */
+
+.university-article-page {
+  padding: 56px 24px;
+}
+
+.university-article-container {
+  width: min(1080px, 100%);
+}
+
+.university-article-hero {
+  margin-bottom: 0;
+  padding: 34px 34px 26px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  border-radius: 18px 18px 0 0;
+
+  background: var(--theme-card);
+  border: 1px solid color-mix(in srgb, var(--theme-primary) 10%, transparent);
+  border-bottom: 0;
+
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.045);
+}
+
+/* Logo */
+.university-article-logo-link {
+  width: 64px;
+  height: 64px;
+
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+  border: 1px solid color-mix(in srgb, var(--theme-primary) 14%, transparent);
+
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.1);
+
+  text-decoration: none;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.university-article-logo-link:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--theme-primary) 28%, transparent);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.13);
+}
+
+.university-article-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Title */
+.university-article-hero h1 {
+  max-width: 920px;
+  margin: 0 auto;
+
+  color: var(--theme-primary);
+  font-size: clamp(26px, 3.2vw, 42px);
+  font-weight: 900;
+  line-height: 1.55;
+  letter-spacing: -0.3px;
+}
+
+/* Remove decorative short line */
+.university-article-title-line {
+  display: none;
+}
+
+/* Attach first content card to hero visually */
+.university-article-media-card,
+.university-article-body-card,
+.university-article-files {
+  margin-bottom: 0;
+  padding: 30px 34px;
+
+  border-radius: 0;
+  background: var(--theme-card);
+
+  border: 1px solid color-mix(in srgb, var(--theme-primary) 10%, transparent);
+  border-top: 0;
+
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.045);
+}
+
+/* First section divider under title */
+.university-article-media-card:first-of-type,
+.university-article-body-card:first-of-type,
+.university-article-files:first-of-type {
+  border-top: 1px solid color-mix(in srgb, var(--theme-primary) 10%, transparent);
+}
+
+/* Last visible card rounded bottom */
+.university-article-container > section:last-child {
+  border-radius: 0 0 18px 18px;
+}
+
+/* Formal divider when content starts */
+.university-article-body-card {
+  position: relative;
+}
+
+
+
+/* Content polish */
+.university-article-content {
+  color: var(--theme-primary-text);
+  font-size: 17px;
+  line-height: 2.05;
+}
+
+.university-article-content p {
+  margin-bottom: 15px;
+}
+
+.university-article-content img,
+.university-article-media-content img {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+  border-radius: 12px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .university-article-page {
+    padding: 34px 14px;
+  }
+
+  .university-article-hero {
+    padding: 26px 18px 22px;
+  }
+
+  .university-article-media-card,
+  .university-article-body-card,
+  .university-article-files {
+    padding: 24px 18px;
+  }
+
+  .university-article-logo-link {
+    width: 58px;
+    height: 58px;
+    margin-bottom: 14px;
+  }
+
+  .university-article-logo {
+    width: 44px;
+    height: 44px;
+  }
+}
