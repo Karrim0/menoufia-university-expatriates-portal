@@ -242,3 +242,11 @@ const GeneralAdministrationsSection: React.FC<
 };
 
 export default GeneralAdministrationsSection;
+
+
+
+/* غ5ي6ذ    اررارتعرغع */
+
+/* غ5ي6ذ    اررارتعرغع */
+
+/* غ5ي6ذ    اررارتعرغع */
