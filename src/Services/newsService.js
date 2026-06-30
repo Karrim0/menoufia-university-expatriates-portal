@@ -4,7 +4,9 @@ import axios from "axios";
 const facultyApi = axios.create({
   baseURL: "https://stage.menofia.edu.eg:5050/api",
 });
-
+const facultyV1Api = axios.create({
+  baseURL: "https://stage.menofia.edu.eg:5050/api/v1",
+});
 const newsService = {
   getUniversityNews: async ({
     languageId,
@@ -122,13 +124,18 @@ const newsService = {
 
     return response.data;
   },
-  getSpecialUnitsMenu: async ({ abbr }) => {
-    const response = await facultyApi.get(
-      `/SpecialUnitsMenu/${encodeURIComponent(abbr)}`,
-    );
+  getSpecialUnitsMenu: async ({ abbr, lang = 1 }) => {
+  const response = await facultyApi.get(
+    `/SpecialUnitsMenu/${encodeURIComponent(abbr)}`,
+    {
+      params: {
+        lang,
+      },
+    },
+  );
 
-    return response.data;
-  },
+  return response.data;
+},
     getStudentMenu: async ({ lang = 1 }) => {
   const response = await facultyApi.get("/StudentMenu", {
     params: {
@@ -297,10 +304,38 @@ const newsService = {
 
     return response.data;
   },
-  getSpecialUnitsMenuByLang: async ({ langId = 1 }) => {
-  const response = await api.get(
+  getSpecialUnitsMenuByLang: async ({ langId = 1 } = {}) => {
+  const response = await facultyV1Api.get(
     `/UniversityMenu/special-units/menu/${langId}`,
   );
+
+  return response.data;
+},
+getSpecialUnitsLogos: async ({ pageIndex = 1, pageSize = 100 } = {}) => {
+  const response = await facultyApi.get("/SpecialUnitsLogos", {
+    params: {
+      PageIndex: pageIndex,
+      PageSize: pageSize,
+    },
+  });
+
+  return response.data;
+},
+getGeneralAdministrations: async ({ langId = 1 } = {}) => {
+  const response = await facultyApi.get("/GeneralAdministrations", {
+    params: {
+      langId,
+    },
+  });
+
+  return response.data;
+},
+getUniversityMenu: async (langId = 1) => {
+  const response = await facultyApi.get("/UniversityMenu", {
+    params: {
+      langId,
+    },
+  });
 
   return response.data;
 },

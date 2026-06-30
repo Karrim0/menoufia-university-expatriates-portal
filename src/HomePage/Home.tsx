@@ -8,6 +8,7 @@ import newsService from "../Services/newsService";
 import GlobalSearch from "./GlobalSearch/GlobalSearch";
 import { getLanguageId } from "../utils/language";
 import SpecialUnitsSection from "./SpecialUnitsSection/SpecialUnitsSection";
+import GeneralAdministrationsSection from "./GeneralAdministrationsSection/GeneralAdministrationsSection";
 import "./Home.css";
 
 function Home() {
@@ -36,7 +37,6 @@ function Home() {
           search: "",
         });
 
-        // يمنع إن request قديم يرجع متأخر ويغطي على اللغة الجديدة
         if (requestId !== requestIdRef.current) return;
 
         setFilteredNews(response?.result || []);
@@ -86,8 +86,10 @@ function Home() {
       ) : (
         <Carousel News={filteredNews} />
       )}
+
       <CollegesPrograms />
-      <SpecialUnitsSection articleId={66343} lang={1} defaultOpen={false} />
+      <GeneralAdministrationsSection />
+      <SpecialUnitsSection articleId={66343} defaultOpen={false} />
       
     </div>
   );

@@ -3,11 +3,13 @@ import { ChevronDown, ExternalLink } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import newsService from "../../Services/newsService";
+import { getLanguageId } from "../../utils/language";
 import "./SpecialUnitsSection.css";
 
 type SpecialUnit = {
   title: string;
   url: string;
+  abbr: string;
 };
 
 type SpecialUnitsArticle = {
@@ -26,30 +28,14 @@ type SpecialUnitsSectionProps = {
 
 const DEFAULT_ARTICLE_ID = 66343;
 
-const RTL_LANGS = ["ar", "fa"];
+// The English CMS content for this article is just a plain paragraph with
+// no links, while the Arabic content has the full, correctly-tagged <a>
+// list. So we always source the units (url/abbr) from the Arabic version,
+// regardless of site language, until the English content is fixed upstream.
+const UNITS_SOURCE_LANG = 1;
 
-const LANGUAGE_ID_BY_CODE: Record<string, number> = {
-  ar: 1,
-  en: 2,
-  fr: 3,
-  ja: 23,
-  de: 24,
-  tr: 25,
-  fa: 26,
-  ru: 27,
-  ch: 28,
-  it: 29,
-};
-
-const getBaseLanguage = (language: string) => {
-  return String(language || "ar")
-    .toLowerCase()
-    .split("-")[0];
-};
-
-const getLanguageId = (language: string) => {
-  const baseLanguage = getBaseLanguage(language);
-  return LANGUAGE_ID_BY_CODE[baseLanguage] || 1;
+const normalizeApiArticle = (response: any): SpecialUnitsArticle | null => {
+  return response?.result || response?.data?.result || null;
 };
 
 const cleanText = (value: string) => {
@@ -93,14 +79,21 @@ const extractUnitsFromHtml = (html: string): SpecialUnit[] => {
 
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
-  const links = Array.from(doc.querySelectorAll("ol li a"));
+  const links = Array.from(doc.querySelectorAll("ol li a[href], a[href]"));
 
   return links
-    .map((link) => ({
-      title: cleanText(link.textContent || ""),
-      url: link.getAttribute("href") || "#",
-    }))
-    .filter((unit) => unit.title.length > 0);
+    .map((link) => {
+      const title = cleanText(link.textContent || "");
+      const url = link.getAttribute("href") || "#";
+      const abbr = extractSpecialUnitAbbrFromUrl(url);
+
+      return {
+        title,
+        url,
+        abbr,
+      };
+    })
+    .filter((unit) => unit.title && unit.abbr);
 };
 
 const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
@@ -111,11 +104,17 @@ const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
   const navigate = useNavigate();
   const { i18n, t } = useTranslation();
 
-  const currentLanguage = getBaseLanguage(i18n.language);
-  const resolvedLang = lang ?? getLanguageId(i18n.language);
-  const isRtl = RTL_LANGS.includes(currentLanguage);
+ const currentLanguage = i18n.resolvedLanguage || i18n.language;
+const normalizedLanguage = currentLanguage.toLowerCase();
+
+const resolvedLang = lang ?? getLanguageId(currentLanguage);
+
+const isRtl =
+  normalizedLanguage.startsWith("ar") ||
+  normalizedLanguage.startsWith("fa");
 
   const [article, setArticle] = useState<SpecialUnitsArticle | null>(null);
+  const [units, setUnits] = useState<SpecialUnit[]>([]);
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [loading, setLoading] = useState(true);
 
@@ -124,21 +123,44 @@ const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
 
     const fetchSpecialUnits = async () => {
       setLoading(true);
+      setArticle(null);
+      setUnits([]);
 
       try {
-        const response = await newsService.getSectorPage({
+        // Section title/header: fetched in the site's current language.
+        const headerResponse = await newsService.getSectorPage({
           articleId,
           lang: resolvedLang,
         });
 
         if (!isMounted) return;
 
-        setArticle(response?.result || null);
+        const headerArticle = normalizeApiArticle(headerResponse);
+        setArticle(headerArticle);
+
+        // Units list: always sourced from the Arabic content, since it's
+        // the only language version with working <a> links right now.
+        if (resolvedLang === UNITS_SOURCE_LANG) {
+          const htmlUnits = extractUnitsFromHtml(headerArticle?.content || "");
+          if (isMounted) setUnits(htmlUnits);
+        } else {
+          const arResponse = await newsService.getSectorPage({
+            articleId,
+            lang: UNITS_SOURCE_LANG,
+          });
+
+          if (!isMounted) return;
+
+          const arArticle = normalizeApiArticle(arResponse);
+          const htmlUnits = extractUnitsFromHtml(arArticle?.content || "");
+          setUnits(htmlUnits);
+        }
       } catch (error) {
-        console.error("Error fetching special units:", error);
+        console.error("Error fetching special units article:", error);
 
         if (isMounted) {
           setArticle(null);
+          setUnits([]);
         }
       } finally {
         if (isMounted) {
@@ -154,61 +176,48 @@ const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
     };
   }, [articleId, resolvedLang]);
 
-  const units = useMemo(() => {
-    return extractUnitsFromHtml(article?.content || "");
-  }, [article?.content]);
+  const sectionTitle = useMemo(() => {
+    return (
+      article?.title ||
+      t("specialUnits.title", {
+        defaultValue: isRtl ? "الوحدات ذات الطابع الخاص" : "Special Unit",
+      })
+    );
+  }, [article?.title, isRtl, t]);
 
   const handleUnitClick = (unit: SpecialUnit) => {
-    const abbr = extractSpecialUnitAbbrFromUrl(unit.url);
-
-    if (!abbr) return;
+    if (!unit.abbr) return;
 
     sessionStorage.setItem(
-      `specialUnitTitle:${abbr.toLowerCase()}`,
+      `specialUnitTitle:${resolvedLang}:${unit.abbr.toLowerCase()}`,
       unit.title,
     );
 
-    navigate(`/special-units/${encodeURIComponent(abbr)}`, {
+    navigate(`/special-units/${encodeURIComponent(unit.abbr)}`, {
       state: {
         title: unit.title,
-        abbr,
+        abbr: unit.abbr,
       },
     });
   };
 
-  if (!loading && units.length === 0) {
-    return null;
-  }
-
-  const shouldShowBody = loading || isOpen;
-
+const shouldShowBody = isOpen;
   return (
     <section
       className={`special-units-section ${isRtl ? "is-rtl" : "is-ltr"}`}
       dir={isRtl ? "rtl" : "ltr"}
+      lang={currentLanguage}
     >
       <button
-        type="button"
-        className={`special-units-header ${isOpen ? "open" : ""}`}
-        onClick={() => {
-          if (!loading) {
-            setIsOpen((prev) => !prev);
-          }
-        }}
-        aria-expanded={isOpen}
-        disabled={loading}
-      >
+  type="button"
+  className={`special-units-header ${isOpen ? "open" : ""}`}
+  onClick={() => setIsOpen((prev) => !prev)}
+  aria-expanded={isOpen}
+>
         <span className="special-units-title-wrap">
           <span className="special-units-dot" />
 
-          <span className="special-units-title">
-            {article?.title ||
-              t("specialUnits.title", {
-                defaultValue: isRtl
-                  ? "الوحدات ذات الطابع الخاص"
-                  : "Special Units",
-              })}
-          </span>
+          <span className="special-units-title">{sectionTitle}</span>
         </span>
 
         <ChevronDown
@@ -237,32 +246,30 @@ const SpecialUnitsSection: React.FC<SpecialUnitsSectionProps> = ({
                 />
               ))}
             </div>
-          ) : (
+          ) : units.length > 0 ? (
             <div className="special-units-grid">
-              {units.map((unit, index) => {
-                const abbr = extractSpecialUnitAbbrFromUrl(unit.url);
-                const canOpenUnit = Boolean(abbr);
-
-                return (
-                  <button
-                    key={`${unit.title}-${index}`}
-                    type="button"
-                    className="special-unit-card"
-                    onClick={() => handleUnitClick(unit)}
-                    disabled={!canOpenUnit}
-                    aria-label={t("specialUnits.openUnit", {
-                      unitTitle: unit.title,
-                      defaultValue: isRtl
-                        ? `فتح ${unit.title}`
-                        : `Open ${unit.title}`,
-                    })}
-                  >
-                    <ExternalLink size={22} strokeWidth={2.5} />
-
-                    <span>{unit.title}</span>
-                  </button>
-                );
-              })}
+              {units.map((unit, index) => (
+                <button
+                  key={`${unit.abbr}-${unit.title}-${index}`}
+                  type="button"
+                  className="special-unit-card"
+                  onClick={() => handleUnitClick(unit)}
+                  disabled={!unit.abbr}
+                  aria-label={t("specialUnits.openUnit", {
+                    unitTitle: unit.title,
+                    defaultValue: isRtl
+                      ? `فتح ${unit.title}`
+                      : `Open ${unit.title}`,
+                  })}
+                >
+                  <ExternalLink size={22} strokeWidth={2.5} />
+                  <span>{unit.title}</span>
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="special-units-empty">
+              {isRtl ? "لا توجد وحدات متاحة حاليًا" : "No special units available"}
             </div>
           )}
         </div>

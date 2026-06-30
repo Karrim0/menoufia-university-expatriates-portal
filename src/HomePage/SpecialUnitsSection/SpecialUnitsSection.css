@@ -1,8 +1,7 @@
 .special-units-section {
   width: 100%;
-  margin: 20px 0;
-  padding: 54px 40px;
-  direction: rtl;
+  padding: 5px 40px;
+  margin:0px 0px 50px 0px;
   font-family: "Cairo", sans-serif;
   color: var(--theme-primary);
   transition:
@@ -27,7 +26,6 @@
   align-items: center;
   justify-content: space-between;
 
-  direction: rtl;
 
   background-color: color-mix(
     in srgb,
@@ -61,7 +59,6 @@
   align-items: center;
   gap: 8px;
 
-  direction: rtl;
 }
 
 /* Accent dot */

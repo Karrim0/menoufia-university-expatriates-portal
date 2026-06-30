@@ -1,0 +1,212 @@
+.general-administration-page-wrapper {
+  --general-admin-primary: var(--theme-primary);
+  --general-admin-secondary: var(--theme-secondary);
+  --general-admin-bg: var(--theme-background);
+  --general-admin-card: var(--theme-card);
+
+  background: var(--theme-background) !important;
+  color: var(--theme-primary);
+  font-family: "Cairo", sans-serif;
+}
+
+/* ===============================
+   Header Logo
+================================ */
+
+.general-administration-page-wrapper .general-administration-top-logo-wrap {
+  background: #ffffff !important;
+  overflow: hidden;
+  color: var(--theme-primary);
+}
+
+.general-administration-page-wrapper .general-administration-top-logo-wrap:hover {
+  background: #ffffff !important;
+}
+
+.general-administration-top-logo-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  border-radius: inherit;
+}
+
+/* ===============================
+   Direction Handling
+================================ */
+
+.general-administration-page-wrapper.is-rtl {
+  direction: rtl;
+}
+
+.general-administration-page-wrapper.is-ltr {
+  direction: ltr;
+}
+
+.general-administration-page-wrapper.is-rtl .special-unit-top-brand-text,
+.general-administration-page-wrapper.is-rtl .special-unit-name,
+.general-administration-page-wrapper.is-rtl .special-unit-university-name {
+  direction: rtl;
+  text-align: right;
+}
+
+.general-administration-page-wrapper.is-ltr .special-unit-top-brand-text,
+.general-administration-page-wrapper.is-ltr .special-unit-name,
+.general-administration-page-wrapper.is-ltr .special-unit-university-name {
+  direction: ltr;
+  text-align: left;
+}
+
+.general-administration-page-wrapper.is-ltr .special-unit-top-brand-text {
+  align-items: flex-start;
+}
+
+.general-administration-page-wrapper.is-rtl .special-unit-top-brand-text {
+  align-items: flex-end;
+}
+
+.general-administration-page-wrapper.is-ltr .special-unit-menu-bar {
+  direction: ltr;
+}
+
+.general-administration-page-wrapper.is-rtl .special-unit-menu-bar {
+  direction: rtl;
+}
+
+/* ===============================
+   Menu
+================================ */
+
+.general-administration-page-wrapper .special-unit-menu-link {
+  font-family: "Cairo", sans-serif !important;
+}
+
+.general-administration-page-wrapper.is-ltr .special-unit-menu-link {
+  direction: ltr;
+  text-align: center;
+}
+
+.general-administration-page-wrapper.is-rtl .special-unit-menu-link {
+  direction: rtl;
+  text-align: center;
+}
+
+.general-administration-page-wrapper .special-unit-floating-sub-menu {
+  font-family: "Cairo", sans-serif !important;
+}
+
+.general-administration-page-wrapper.is-ltr .special-unit-floating-sub-menu {
+  direction: ltr;
+}
+
+.general-administration-page-wrapper.is-rtl .special-unit-floating-sub-menu {
+  direction: rtl;
+}
+
+.general-administration-page-wrapper.is-ltr
+  .special-unit-floating-sub-menu
+  .special-unit-menu-link {
+  direction: ltr;
+  text-align: left;
+}
+
+.general-administration-page-wrapper.is-rtl
+  .special-unit-floating-sub-menu
+  .special-unit-menu-link {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ===============================
+   Article
+================================ */
+
+.general-administration-article-card .special-unit-article-html {
+  color: var(--theme-secondary-text) !important;
+}
+
+.general-administration-article-card .special-unit-article-html p,
+.general-administration-article-card .special-unit-article-html div,
+.general-administration-article-card .special-unit-article-html span,
+.general-administration-article-card .special-unit-article-html li {
+  color: var(--theme-secondary-text) !important;
+}
+
+.general-administration-article-card .special-unit-article-html h1,
+.general-administration-article-card .special-unit-article-html h2,
+.general-administration-article-card .special-unit-article-html h3,
+.general-administration-article-card .special-unit-article-html h4 {
+  color: var(--theme-primary) !important;
+  font-family: "Cairo", sans-serif !important;
+  font-weight: 800 !important;
+}
+
+.general-administration-page-wrapper.is-ltr .special-unit-article-html {
+  direction: ltr;
+  text-align: left;
+}
+
+.general-administration-page-wrapper.is-rtl .special-unit-article-html {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ===============================
+   File Actions
+================================ */
+
+.general-administration-page-wrapper .special-unit-file-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ===============================
+   Palette Variables
+================================ */
+
+html[data-palette="palette1"] .general-administration-page-wrapper {
+  --general-admin-header-bg: #27374d;
+}
+
+html[data-palette="palette2"] .general-administration-page-wrapper {
+  --general-admin-header-bg: #102c57;
+}
+
+html[data-palette="palette3"] .general-administration-page-wrapper {
+  --general-admin-header-bg: #840d0d;
+}
+
+html[data-palette="palette4"] .general-administration-page-wrapper {
+  --general-admin-header-bg: #1f150c;
+}
+
+html[data-palette="palette5"] .general-administration-page-wrapper {
+  --general-admin-header-bg: #627254;
+}
+
+html[data-palette="palette6"] .general-administration-page-wrapper {
+  --general-admin-header-bg: #2f5755;
+}
+
+/* ===============================
+   Responsive
+================================ */
+
+@media (max-width: 768px) {
+  .general-administration-top-logo-img {
+    padding: 2px;
+  }
+
+  .general-administration-page-wrapper.is-ltr .special-unit-top-brand-text,
+  .general-administration-page-wrapper.is-ltr .special-unit-name,
+  .general-administration-page-wrapper.is-ltr .special-unit-university-name {
+    text-align: left;
+  }
+
+  .general-administration-page-wrapper.is-rtl .special-unit-top-brand-text,
+  .general-administration-page-wrapper.is-rtl .special-unit-name,
+  .general-administration-page-wrapper.is-rtl .special-unit-university-name {
+    text-align: right;
+  }
+}

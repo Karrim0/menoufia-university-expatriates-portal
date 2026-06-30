@@ -1,0 +1,450 @@
+.general-administrations-section {
+  width: 100%;
+  padding: 5px 40px;
+  margin: 0 0 10px;
+  font-family: "Cairo", sans-serif;
+  color: var(--theme-primary);
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.general-administrations-section.is-rtl {
+  direction: rtl;
+}
+
+.general-administrations-section.is-ltr {
+  direction: ltr;
+}
+
+/* Header */
+
+.general-administrations-header {
+  width: 100%;
+  min-height: 78px;
+  padding: 0 22px;
+
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: color-mix(
+    in srgb,
+    var(--theme-background) 75%,
+    var(--theme-card)
+  );
+
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.18);
+
+  font-family: inherit;
+
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.general-administrations-header:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--theme-background) 65%,
+    var(--theme-card)
+  );
+}
+
+.general-administrations-title-wrap {
+  margin: 0;
+  margin-inline: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.general-administrations-section.is-rtl .general-administrations-header,
+.general-administrations-section.is-rtl .general-administrations-title-wrap {
+  direction: rtl;
+  text-align: right;
+}
+
+.general-administrations-section.is-ltr .general-administrations-header,
+.general-administrations-section.is-ltr .general-administrations-title-wrap {
+  direction: ltr;
+  text-align: left;
+}
+
+.general-administrations-dot {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+
+  border-radius: 50%;
+  background-color: var(--theme-secondary);
+
+  transition: background-color 0.25s ease;
+}
+
+.general-administrations-title {
+  margin: 0;
+
+  color: var(--theme-primary);
+
+  font-family: "Cairo", sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0;
+
+  transition: color 0.25s ease;
+}
+
+.general-administrations-section.is-rtl .general-administrations-title {
+  text-align: right;
+}
+
+.general-administrations-section.is-ltr .general-administrations-title {
+  text-align: left;
+}
+
+.general-administrations-arrow {
+  flex-shrink: 0;
+  color: var(--theme-primary);
+
+  transition:
+    transform 0.25s ease,
+    color 0.25s ease;
+}
+
+.general-administrations-header.open .general-administrations-arrow {
+  transform: rotate(180deg);
+}
+
+/* Body */
+
+.general-administrations-body {
+  width: 100%;
+  margin-top: 10px;
+  padding: 22px;
+
+  background-color: color-mix(
+    in srgb,
+    var(--theme-background) 65%,
+    transparent
+  );
+
+  transition: background-color 0.25s ease;
+}
+
+.general-administrations-grid {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+/* Card */
+
+.general-administration-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  min-height: 62px;
+  padding: 14px 18px;
+
+  border: none;
+  border-radius: 10px;
+
+  background-color: var(--theme-card);
+  color: var(--theme-primary);
+
+  text-decoration: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+
+  font-family: "Cairo", sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.6;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+
+  transition:
+    transform 0.25s ease,
+    color 0.25s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.general-administrations-section.is-rtl .general-administration-card {
+  direction: rtl;
+  text-align: right;
+}
+
+.general-administrations-section.is-ltr .general-administration-card {
+  direction: ltr;
+  text-align: left;
+}
+
+.general-administration-card svg {
+  position: relative;
+  z-index: 2;
+
+  flex-shrink: 0;
+  color: currentColor;
+}
+
+.general-administration-card span {
+  position: relative;
+  z-index: 2;
+}
+
+.general-administration-card:hover {
+  transform: translateY(-2px);
+  color: var(--theme-secondary);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.15);
+}
+
+/* Empty */
+
+.general-administrations-empty {
+  width: 100%;
+  min-height: 72px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--theme-card);
+  color: var(--theme-secondary-text);
+  font-family: "Cairo", sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Skeleton */
+
+.general-administration-card.skeleton-administration {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  min-height: 62px;
+
+  pointer-events: none;
+  cursor: default;
+
+  color: transparent !important;
+
+  background-color: color-mix(
+    in srgb,
+    var(--theme-background) 70%,
+    var(--theme-card)
+  ) !important;
+
+  box-shadow: none;
+  transform: none !important;
+}
+
+.general-administration-card.skeleton-administration > * {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.general-administration-card.skeleton-administration::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+
+  border-radius: inherit;
+
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--theme-background) 78%, var(--theme-card)) 0%,
+    color-mix(in srgb, var(--theme-secondary) 18%, var(--theme-card)) 50%,
+    color-mix(in srgb, var(--theme-background) 78%, var(--theme-card)) 100%
+  );
+
+  background-size: 220% 100%;
+
+  animation: general-administrations-skeleton-loading 1.25s ease-in-out infinite;
+}
+
+.general-administration-card.skeleton-administration::after {
+  content: "";
+
+  position: absolute;
+  top: 50%;
+  z-index: 6;
+
+  width: 62%;
+  height: 14px;
+
+  border-radius: 999px;
+
+  background-color: color-mix(
+    in srgb,
+    var(--theme-primary) 12%,
+    transparent
+  );
+
+  transform: translateY(-50%);
+}
+
+.general-administrations-section.is-rtl
+  .general-administration-card.skeleton-administration::after {
+  right: 18px;
+  left: auto;
+}
+
+.general-administrations-section.is-ltr
+  .general-administration-card.skeleton-administration::after {
+  left: 18px;
+  right: auto;
+}
+
+@keyframes general-administrations-skeleton-loading {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .general-administration-card.skeleton-administration::before {
+    animation: none;
+  }
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .general-administrations-section {
+    margin: 14px 0;
+    padding: 0 12px;
+  }
+
+  .general-administrations-header {
+    min-height: 64px;
+    padding: 0 16px;
+  }
+
+  .general-administrations-title {
+    font-size: 21px;
+    line-height: 1.4;
+  }
+
+  .general-administrations-dot {
+    width: 14px;
+    height: 14px;
+  }
+
+  .general-administrations-arrow {
+    width: 26px;
+    height: 26px;
+  }
+
+  .general-administrations-body {
+    margin-top: 8px;
+    padding: 14px 0;
+  }
+
+  .general-administrations-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .general-administration-card,
+  .general-administration-card.skeleton-administration {
+    min-height: 58px;
+    padding: 12px 14px;
+    font-size: 15px;
+  }
+
+  .general-administrations-section.is-rtl
+    .general-administration-card.skeleton-administration::after {
+    right: 14px;
+    left: auto;
+  }
+
+  .general-administrations-section.is-ltr
+    .general-administration-card.skeleton-administration::after {
+    left: 14px;
+    right: auto;
+  }
+}
+
+/* Hover palettes */
+
+html[data-palette="palette1"] .general-administrations-section {
+  --ga-card-hover-bg: #27374d;
+  --ga-card-hover-color: #ffffff;
+  --ga-card-hover-shadow: rgba(39, 55, 77, 0.22);
+}
+
+html[data-palette="palette2"] .general-administrations-section {
+  --ga-card-hover-bg: #102c57;
+  --ga-card-hover-color: #ffffff;
+  --ga-card-hover-shadow: rgba(16, 44, 87, 0.22);
+}
+
+html[data-palette="palette3"] .general-administrations-section {
+  --ga-card-hover-bg: #840d0d;
+  --ga-card-hover-color: #ffffff;
+  --ga-card-hover-shadow: rgba(132, 13, 13, 0.2);
+}
+
+html[data-palette="palette4"] .general-administrations-section {
+  --ga-card-hover-bg: #412d15;
+  --ga-card-hover-color: #ffffff;
+  --ga-card-hover-shadow: rgba(65, 45, 21, 0.22);
+}
+
+html[data-palette="palette5"] .general-administrations-section {
+  --ga-card-hover-bg: #627254;
+  --ga-card-hover-color: #ffffff;
+  --ga-card-hover-shadow: rgba(98, 114, 84, 0.22);
+}
+
+html[data-palette="palette6"] .general-administrations-section {
+  --ga-card-hover-bg: #2f5755;
+  --ga-card-hover-color: #ffffff;
+  --ga-card-hover-shadow: rgba(47, 87, 85, 0.22);
+}
+
+html[data-palette]
+  .general-administrations-section
+  .general-administration-card:hover {
+  background-color: var(--ga-card-hover-bg) !important;
+  color: var(--ga-card-hover-color) !important;
+  box-shadow: 0 8px 20px var(--ga-card-hover-shadow) !important;
+}
+
+html[data-palette]
+  .general-administrations-section
+  .general-administration-card:hover
+  svg,
+html[data-palette]
+  .general-administrations-section
+  .general-administration-card:hover
+  span {
+  color: var(--ga-card-hover-color) !important;
+}
+
+html[data-palette]
+  .general-administrations-section
+  .general-administration-card:focus-visible {
+  outline: 2px solid var(--ga-card-hover-bg);
+  outline-offset: 3px;
+}

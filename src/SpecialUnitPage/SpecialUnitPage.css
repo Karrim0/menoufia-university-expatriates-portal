@@ -3616,3 +3616,170 @@ html body .special-unit-page-wrapper
   word-break: normal !important;
   overflow-wrap: normal !important;
 }
+
+
+/* =========================================================
+   Special Unit Logo + Language Direction Fix
+   Added for /special-units/:abbr page
+========================================================= */
+
+.special-unit-top-brand {
+  grid-template-columns: minmax(0, 1fr) 1px max-content !important;
+}
+
+
+
+
+
+.special-unit-top-unit-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.special-unit-top-unit-logo-fallback {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--sp-figma-secondary) 12%, #ffffff);
+  color: var(--sp-figma-primary);
+
+  font-family: "Cairo", sans-serif;
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+}
+
+/* LTR support for the special unit page */
+.special-unit-page-wrapper.is-ltr .special-unit-top-brand-text {
+  direction: ltr;
+  text-align: left;
+  align-items: flex-start;
+}
+
+.special-unit-page-wrapper.is-ltr .special-unit-name,
+.special-unit-page-wrapper.is-ltr .special-unit-university-name {
+  text-align: left;
+}
+
+.special-unit-page-wrapper.is-ltr .special-unit-menu-bar,
+.special-unit-page-wrapper.is-ltr .special-unit-floating-sub-menu {
+  direction: ltr;
+}
+
+.special-unit-page-wrapper.is-ltr .special-unit-floating-sub-menu .special-unit-menu-link,
+.special-unit-page-wrapper.is-ltr .special-unit-sub-menu .special-unit-menu-link {
+  text-align: left;
+}
+
+.special-unit-page-wrapper.is-ltr .special-unit-article-html {
+  direction: ltr;
+  text-align: left;
+}
+
+.special-unit-page-wrapper.is-ltr .special-unit-article-profile-content,
+.special-unit-page-wrapper.is-ltr .special-unit-article-profile-content h2,
+.special-unit-page-wrapper.is-ltr .special-unit-article-profile-html {
+  text-align: left;
+}
+
+.special-unit-page-wrapper.is-ltr .special-unit-article-card-head {
+  direction: ltr;
+}
+
+.special-unit-page-wrapper.is-rtl .special-unit-article-card-head {
+  direction: rtl;
+}
+
+@media (max-width: 1200px) {
+  .special-unit-top-brand {
+    grid-template-columns: minmax(0, 1fr) 1px max-content !important;
+  }
+
+  
+
+ 
+
+ 
+}
+
+@media (max-width: 992px) {
+  .special-unit-top-brand {
+    grid-template-columns: minmax(0, 1fr) 1px max-content !important;
+  }
+
+ 
+
+  
+
+  .special-unit-top-unit-logo-fallback {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .special-unit-top-brand {
+    grid-template-columns: minmax(0, 1fr) 1px max-content !important;
+    column-gap: 9px !important;
+  }
+
+  .special-unit-top-brand::after {
+    height: 46px !important;
+  }
+
+  
+ 
+
+ 
+
+  .special-unit-top-unit-logo-fallback {
+    font-size: 16px;
+    letter-spacing: 0.4px;
+  }
+}
+
+@media (max-width: 420px) {
+ 
+
+
+ 
+
+  .special-unit-top-unit-logo-fallback {
+    font-size: 14px;
+  }
+}
+.special-unit-top-logo-wrap--unit {
+  background: #ffffff !important;
+}
+
+.special-unit-top-unit-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 8px;
+}
+
+.special-unit-top-unit-logo-fallback {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: inherit;
+
+  font-family: "Cairo", sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+
+  color: var(--sp-figma-primary, var(--theme-primary));
+  background: color-mix(in srgb, var(--theme-secondary) 14%, #ffffff);
+}

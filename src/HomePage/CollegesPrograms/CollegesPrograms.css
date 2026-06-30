@@ -1,10 +1,10 @@
 .cp-section {
   width: 100%;
-  padding: 20px 40px;
-  margin-bottom: 0;
+  padding: 5px 40px;
+  margin:0px 0px 10px 0px;
   font-family: "Cairo", "Segoe UI", sans-serif;
   overflow: hidden;
-  margin: 30px 0px;
+  
 }
 
 .cp-section.cp-rtl {
@@ -625,7 +625,6 @@
   align-items: center;
   justify-content: space-between;
 
-  direction: rtl;
 
   background-color: color-mix(
     in srgb,
@@ -656,8 +655,7 @@
   flex-direction: row;
   align-items: center;
   gap: 8px;
-  text-align: right;
-  direction: rtl;
+
 }
 
 .cp-dot {
@@ -733,4 +731,75 @@
     width: 15px;
     height: 15px;
   }
+}
+/* ================= Direction fix ================= */
+
+.cp-section.cp-rtl {
+  direction: rtl;
+}
+
+.cp-section.cp-ltr {
+  direction: ltr;
+}
+
+/* Header direction */
+
+.cp-section.cp-rtl .cp-collapse-header {
+  direction: rtl;
+}
+
+.cp-section.cp-ltr .cp-collapse-header {
+  direction: ltr;
+}
+
+.cp-section.cp-rtl .cp-collapse-header .cp-titleWrap {
+  direction: rtl;
+  text-align: right;
+  flex-direction: row;
+}
+
+.cp-section.cp-ltr .cp-collapse-header .cp-titleWrap {
+  direction: ltr;
+  text-align: left;
+  flex-direction: row;
+}
+
+.cp-section.cp-rtl .cp-collapse-header .cp-title {
+  text-align: right;
+}
+
+.cp-section.cp-ltr .cp-collapse-header .cp-title {
+  text-align: left;
+}
+
+/* Cards direction */
+
+.cp-section.cp-rtl .cp-card {
+  direction: rtl;
+  text-align: right;
+}
+
+.cp-section.cp-ltr .cp-card {
+  direction: ltr;
+  text-align: left;
+}
+
+.cp-section.cp-rtl .cp-card-title {
+  direction: rtl;
+  text-align: right;
+}
+
+.cp-section.cp-ltr .cp-card-title {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Classic link */
+
+.cp-section.cp-rtl .cp-classic-link {
+  direction: rtl;
+}
+
+.cp-section.cp-ltr .cp-classic-link {
+  direction: ltr;
 }

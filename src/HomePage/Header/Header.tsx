@@ -1,17 +1,63 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Link, useLocation } from "react-router-dom";
-import "./Header.css";
-import logo from "../../assets/logo.jpg";
-import { useTranslation } from "react-i18next";
 import {
-  Globe,
   ChevronDown,
   ChevronLeft,
+  ChevronRight,
+  Globe,
   Palette as PaletteIcon,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
+
+import "./Header.css";
+import logo from "../../assets/logo.jpg";
 import newsService from "../../Services/newsService";
 import { saveLanguage } from "../../utils/language";
 import { useTheme } from "../../theme/ThemeContext";
+
+type LanguageItem = {
+  code: string;
+  name: string;
+  id: number;
+  flag?: string;
+};
+
+type ApiMenuItem = {
+  menuId?: number;
+  id?: number;
+  parentId?: number | null;
+  sortOrder?: number;
+  title?: string | null;
+  label?: string | null;
+  articleId?: number | null;
+  url?: string | null;
+  link?: string | null;
+  children?: ApiMenuItem[];
+  subMenus?: ApiMenuItem[];
+};
+
+type NavMenuItem = {
+  key: string;
+  label: string;
+  link?: string | null;
+  children?: NavMenuItem[];
+};
+
+type FacultyRouteMaps = {
+  byAbbr: Record<string, number>;
+  byTitle: Record<string, number>;
+};
+
+const EMPTY_FACULTY_ROUTE_MAPS: FacultyRouteMaps = {
+  byAbbr: {},
+  byTitle: {},
+};
 
 const LANGUAGE_ORDER = [
   "ar",
@@ -26,635 +72,512 @@ const LANGUAGE_ORDER = [
   "it",
 ];
 
-const sortLanguages = (langs: any[]) =>
+const FIXED_LANGUAGES: LanguageItem[] = [
+  { code: "ar", name: "عربي", id: 1, flag: "https://flagcdn.com/w40/eg.png" },
+  { code: "en", name: "English", id: 2, flag: "https://flagcdn.com/w40/gb.png" },
+  { code: "fr", name: "Français", id: 3, flag: "https://flagcdn.com/w40/fr.png" },
+  { code: "de", name: "Deutsch", id: 24, flag: "https://flagcdn.com/w40/de.png" },
+  { code: "ja", name: "Japanese", id: 23, flag: "https://flagcdn.com/w40/jp.png" },
+  { code: "tr", name: "Turkish", id: 25, flag: "https://flagcdn.com/w40/tr.png" },
+  { code: "fa", name: "Persian", id: 26, flag: "https://flagcdn.com/w40/ir.png" },
+  { code: "ru", name: "Russian", id: 27, flag: "https://flagcdn.com/w40/ru.png" },
+  { code: "ch", name: "Chamorro", id: 28, flag: "https://flagcdn.com/w40/mp.png" },
+  { code: "it", name: "Italian", id: 29, flag: "https://flagcdn.com/w40/it.png" },
+];
+
+const SECTOR_KEYWORDS = ["univpres", "educ", "env", "postgrad", "secr"];
+
+const FACULTY_URL_ALIASES: Record<string, string> = {
+  agr: "AGR",
+  eng: "ENG",
+  fee: "FEE",
+  edu: "EDU",
+  sci: "SCI",
+  com: "COM",
+  ai: "AI",
+  media: "MEDIA",
+  fa: "FA",
+  ecedu: "ECEDU",
+  pharm: "PHARM",
+  vmed: "VMED",
+  dent: "DENT",
+  mci: "MCI",
+  fpe: "FPE",
+};
+
+const cleanText = (value?: string | null) =>
+  String(value || "").replace(/\s+/g, " ").trim();
+
+const normalizeRouteTitle = (value?: string | null) =>
+  cleanText(value)
+    .replace(/[أإآ]/g, "ا")
+    .replace(/ة/g, "ه")
+    .replace(/ى/g, "ي")
+    .replace(/ؤ/g, "و")
+    .replace(/ئ/g, "ي")
+    .replace(/[ًٌٍَُِّْ]/g, "")
+    .replace(/\s+/g, " ")
+    .toLowerCase();
+
+const removeCollegePrefix = (value: string) =>
+  value.replace(/^(كليه|كلية|معهد)\s+/i, "").trim();
+
+const isDesktop = () => window.innerWidth > 1100;
+
+const isRtlLang = (code?: string) => code === "ar" || code === "fa";
+
+const sortLanguages = (langs: LanguageItem[]) =>
   [...langs].sort((a, b) => {
-    const ia = LANGUAGE_ORDER.indexOf(a.code);
-    const ib = LANGUAGE_ORDER.indexOf(b.code);
-    return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib);
+    const firstIndex = LANGUAGE_ORDER.indexOf(a.code);
+    const secondIndex = LANGUAGE_ORDER.indexOf(b.code);
+
+    return (
+      (firstIndex === -1 ? 999 : firstIndex) -
+      (secondIndex === -1 ? 999 : secondIndex)
+    );
   });
 
-const FIXED_LANGUAGES = [
-  { code: "ar", name: "عربي", id: 1, flag: "https://flagcdn.com/w40/eg.png" },
-  {
-    code: "en",
-    name: "English",
-    id: 2,
-    flag: "https://flagcdn.com/w40/gb.png",
-  },
-  {
-    code: "fr",
-    name: "Français",
-    id: 3,
-    flag: "https://flagcdn.com/w40/fr.png",
-  },
-  {
-    code: "de",
-    name: "Deutsch",
-    id: 24,
-    flag: "https://flagcdn.com/w40/de.png",
-  },
-  {
-    code: "ja",
-    name: "Japanese",
-    id: 23,
-    flag: "https://flagcdn.com/w40/jp.png",
-  },
-  {
-    code: "tr",
-    name: "Turkish",
-    id: 25,
-    flag: "https://flagcdn.com/w40/tr.png",
-  },
-  {
-    code: "fa",
-    name: "Persian",
-    id: 26,
-    flag: "https://flagcdn.com/w40/ir.png",
-  },
-  {
-    code: "ru",
-    name: "Russian",
-    id: 27,
-    flag: "https://flagcdn.com/w40/ru.png",
-  },
-  {
-    code: "ch",
-    name: "Chamorro",
-    id: 28,
-    flag: "https://flagcdn.com/w40/mp.png",
-  },
-  {
-    code: "it",
-    name: "Italian",
-    id: 29,
-    flag: "https://flagcdn.com/w40/it.png",
-  },
-];
-
-const SECTOR_NAV_ITEMS = [
-  {
-    key: "univpres",
-    labelKey: "nav.sectorsList.univpres",
-  },
-  {
-    key: "educ",
-    labelKey: "nav.sectorsList.educ",
-  },
-  {
-    key: "env",
-    labelKey: "nav.sectorsList.env",
-  },
-  {
-    key: "postgrad",
-    labelKey: "nav.sectorsList.postgrad",
-  },
-  {
-    key: "secr",
-    labelKey: "nav.sectorsList.secr",
-  },
-];
-
-const isExternalLink = (link?: string) => {
-  return typeof link === "string" && /^https?:\/\//i.test(link);
+const getSavedLang = (): LanguageItem => {
+  try {
+    return JSON.parse(localStorage.getItem("lang") || '{"code":"ar","id":1}');
+  } catch {
+    return { code: "ar", name: "عربي", id: 1 };
+  }
 };
 
-const MenuLink = ({ item, className }: any) => {
-  if (isExternalLink(item.link)) {
-    return (
-      <a
-        href={item.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={className}
-      >
-        <span className="dropdown-item-text">{item.label}</span>
-      </a>
-    );
+const isValidArticleId = (value: unknown) => {
+  const numberValue = Number(value);
+  return Number.isInteger(numberValue) && numberValue > 0;
+};
+
+const normalizeApiResponse = (data: any): any[] => {
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data?.result)) return data.result;
+  if (Array.isArray(data?.data)) return data.data;
+  if (Array.isArray(data?.data?.result)) return data.data.result;
+
+  return [];
+};
+
+const getApiFac = (item: any): number | null => {
+  const possibleCodes = [
+    item?.fac,
+    item?.Fac,
+    item?.publicCode,
+    item?.PublicCode,
+    item?.facCode,
+    item?.FacCode,
+    item?.facultyCode,
+    item?.FacultyCode,
+  ];
+
+  for (const possibleCode of possibleCodes) {
+    const numericCode = Number(possibleCode);
+
+    if (Number.isFinite(numericCode) && numericCode > 0) {
+      return numericCode;
+    }
   }
 
-  return (
-    <Link to={item.link || "/"} className={className}>
-      <span className="dropdown-item-text">{item.label}</span>
-    </Link>
-  );
+  return null;
 };
 
-const getNavItems = (t: any) => [
+const getPathFromUrl = (url?: string | null) => {
+  const value = cleanText(url);
+
+  if (!value || value === "#") return "";
+
+  try {
+    return new URL(value).pathname;
+  } catch {
+    return value.startsWith("/") ? value : `/${value}`;
+  }
+};
+
+const extractFacultyAbbrFromUrl = (url?: string | null) => {
+  const path = getPathFromUrl(url);
+  const segments = path.split("/").filter(Boolean);
+
+  const portalIndex = segments.findIndex(
+    (segment) => segment.toLowerCase() === "portal",
+  );
+
+  if (portalIndex !== -1) {
+    const possibleCode = segments[portalIndex + 1];
+    const lowerCode = possibleCode?.toLowerCase();
+
+    if (possibleCode && lowerCode !== "view" && lowerCode !== "webform2") {
+      return possibleCode.toUpperCase();
+    }
+  }
+
+  const firstSegment = segments[0]?.toLowerCase();
+
+  if (firstSegment && FACULTY_URL_ALIASES[firstSegment]) {
+    return FACULTY_URL_ALIASES[firstSegment].toUpperCase();
+  }
+
+  return "";
+};
+
+const getApiFacultyAbbr = (item: any) => {
+  const abbrFromUrl = extractFacultyAbbrFromUrl(item?.url || item?.link);
+
+  if (abbrFromUrl) return abbrFromUrl;
+
+  const possibleAbbrs = [
+    item?.abbr,
+    item?.Abbr,
+    item?.facultyAbbr,
+    item?.FacultyAbbr,
+    item?.facAbbr,
+    item?.FacAbbr,
+    item?.code,
+    item?.Code,
+  ];
+
+  for (const possibleAbbr of possibleAbbrs) {
+    const value = cleanText(possibleAbbr);
+
+    if (!value || /^\d+$/.test(value)) continue;
+
+    return value.toUpperCase();
+  }
+
+  return "";
+};
+
+const buildFacultyRouteMaps = (colleges: any[]): FacultyRouteMaps => {
+  const maps: FacultyRouteMaps = {
+    byAbbr: {},
+    byTitle: {},
+  };
+
+  colleges.forEach((college) => {
+    const fac = getApiFac(college);
+
+    if (!fac) return;
+
+    const abbr = getApiFacultyAbbr(college);
+    const title = normalizeRouteTitle(
+      college?.title ||
+        college?.name ||
+        college?.collegeName ||
+        college?.facultyName,
+    );
+
+    if (abbr) {
+      maps.byAbbr[abbr] = fac;
+    }
+
+    if (title) {
+      maps.byTitle[title] = fac;
+    }
+  });
+
+  return maps;
+};
+
+const getFacultyFacByTitle = (
+  title?: string | null,
+  facultyRouteMaps: FacultyRouteMaps = EMPTY_FACULTY_ROUTE_MAPS,
+) => {
+  const normalizedTitle = normalizeRouteTitle(title);
+
+  if (!normalizedTitle) return null;
+
+  const directFac = facultyRouteMaps.byTitle[normalizedTitle];
+
+  if (directFac) return directFac;
+
+  const comparableTitle = removeCollegePrefix(normalizedTitle);
+
+  if (!comparableTitle || comparableTitle.length < 3) return null;
+
+  const matchedEntry = Object.entries(facultyRouteMaps.byTitle).find(
+    ([savedTitle]) => {
+      const comparableSavedTitle = removeCollegePrefix(savedTitle);
+
+      return (
+        comparableSavedTitle === comparableTitle ||
+        comparableSavedTitle.includes(comparableTitle) ||
+        comparableTitle.includes(comparableSavedTitle)
+      );
+    },
+  );
+
+  return matchedEntry?.[1] || null;
+};
+
+const getSectorLink = (url?: string | null) => {
+  const path = getPathFromUrl(url).toLowerCase();
+  const segments = path.split("/").filter(Boolean);
+
+  const matchedKeyword = segments.find((segment) =>
+    SECTOR_KEYWORDS.includes(segment),
+  );
+
+  return matchedKeyword ? `/university-sectors/${matchedKeyword}` : null;
+};
+
+const getFacultyLink = (
+  item: ApiMenuItem,
+  facultyRouteMaps: FacultyRouteMaps = EMPTY_FACULTY_ROUTE_MAPS,
+) => {
+  const abbr = extractFacultyAbbrFromUrl(item.url || item.link);
+
+  if (abbr && facultyRouteMaps.byAbbr[abbr]) {
+    return `/fac/${facultyRouteMaps.byAbbr[abbr]}`;
+  }
+
+  const facByTitle = getFacultyFacByTitle(
+    item.title || item.label,
+    facultyRouteMaps,
+  );
+
+  if (facByTitle) {
+    return `/fac/${facByTitle}`;
+  }
+
+  return null;
+};
+
+const getKnownInternalLink = (item: ApiMenuItem) => {
+  const title = cleanText(item.title || item.label).toLowerCase();
+  const url = cleanText(item.url || item.link).toLowerCase();
+
+  if (title.includes("اتصل") || title.includes("contact")) {
+    return "/contactUs";
+  }
+
+  if (
+    title.includes("خبر") ||
+    title.includes("news") ||
+    title.includes("media") ||
+    title.includes("الإعلام") ||
+    url.includes("univ_news")
+  ) {
+    return "/news";
+  }
+
+  if (title.includes("برنامج") || title.includes("program")) {
+    return "/colleges-programs";
+  }
+
+  return null;
+};
+
+const resolveInternalLink = (
+  item: ApiMenuItem,
+  facultyRouteMaps: FacultyRouteMaps = EMPTY_FACULTY_ROUTE_MAPS,
+) => {
+  const sectorLink = getSectorLink(item.url || item.link);
+  if (sectorLink) return sectorLink;
+
+  const facultyLink = getFacultyLink(item, facultyRouteMaps);
+  if (facultyLink) return facultyLink;
+
+  const knownLink = getKnownInternalLink(item);
+  if (knownLink) return knownLink;
+
+  if (isValidArticleId(item.articleId)) {
+    return `/university-page/${Number(item.articleId)}`;
+  }
+
+  return null;
+};
+
+const getChildrenSource = (item: ApiMenuItem) => {
+  if (Array.isArray(item.children)) return item.children;
+  if (Array.isArray(item.subMenus)) return item.subMenus;
+  return [];
+};
+
+const mapApiMenuItem = (
+  item: ApiMenuItem,
+  facultyRouteMaps: FacultyRouteMaps = EMPTY_FACULTY_ROUTE_MAPS,
+): NavMenuItem | null => {
+  const label = cleanText(item.title || item.label);
+
+  if (!label) return null;
+
+  const rawChildren = getChildrenSource(item)
+    .filter((child) => child && typeof child === "object")
+    .sort((a, b) => Number(a.sortOrder || 0) - Number(b.sortOrder || 0));
+
+  const children = rawChildren
+    .map((child) => mapApiMenuItem(child, facultyRouteMaps))
+    .filter(Boolean) as NavMenuItem[];
+
+  const link =
+    rawChildren.length > 0 ? null : resolveInternalLink(item, facultyRouteMaps);
+
+  if (!link && children.length === 0) return null;
+
+  return {
+    key: String(
+      item.menuId ??
+        item.id ??
+        `${label}-${item.articleId ?? cleanText(item.url || item.link)}`,
+    ),
+    label,
+    link,
+    ...(children.length > 0 ? { children } : {}),
+  };
+};
+
+const hasLinkDeep = (items: NavMenuItem[], link: string): boolean => {
+  return items.some((item) => {
+    if (item.link === link) return true;
+    return item.children ? hasLinkDeep(item.children, link) : false;
+  });
+};
+
+const buildNavItems = (
+  apiItems: ApiMenuItem[],
+  t: any,
+  facultyRouteMaps: FacultyRouteMaps = EMPTY_FACULTY_ROUTE_MAPS,
+): NavMenuItem[] => {
+  const dynamicItems = apiItems
+    .filter((item) => item && typeof item === "object")
+    .sort((a, b) => Number(a.sortOrder || 0) - Number(b.sortOrder || 0))
+    .map((item) => mapApiMenuItem(item, facultyRouteMaps))
+    .filter(Boolean) as NavMenuItem[];
+
+  const contactItem: NavMenuItem = {
+    key: "contact-static",
+    label: t("nav.contact"),
+    link: "/contactUs",
+  };
+
+  return [
+    {
+      key: "home-static",
+      label: t("nav.home"),
+      link: "/",
+    },
+    ...dynamicItems,
+    ...(hasLinkDeep(dynamicItems, "/contactUs") ? [] : [contactItem]),
+  ];
+};
+
+const fallbackNavItems = (t: any): NavMenuItem[] => [
   {
-    key: "home",
+    key: "home-static",
     label: t("nav.home"),
     link: "/",
   },
-
   {
-    key: "about",
-    label: t("nav.about"),
-    children: [
-      {
-        key: "digital-identity",
-        label: t("nav.aboutDigitalIdentity"),
-        link: "/",
-      },
-      {
-        key: "sectors",
-        label: t("nav.aboutSectors"),
-        link: "/",
-      },
-      {
-        key: "units",
-        label: t("nav.aboutUnits"),
-        link: "/",
-      },
-      {
-        key: "departments",
-        label: t("nav.aboutDepartments"),
-        link: "/",
-      },
-      {
-        key: "sitemap",
-        label: t("nav.aboutSitemap"),
-        link: "/",
-      },
-      {
-        key: "history",
-        label: t("nav.aboutHistory"),
-        children: [
-          {
-            key: "vision",
-            label: t("nav.aboutHistoryVision"),
-            link: "/",
-          },
-          {
-            key: "mission",
-            label: t("nav.aboutHistoryMission"),
-            link: "/",
-          },
-          {
-            key: "goals",
-            label: t("nav.aboutHistoryGoals"),
-            link: "/",
-          },
-          {
-            key: "ranking",
-            label: t("nav.aboutHistoryRanking"),
-            link: "/",
-          },
-        ],
-      },
-    ],
-  },
-
-  {
-    key: "sectors",
-    label: t("nav.sectors"),
-    children: [
-      {
-        key: "univpres",
-        label: t("nav.sectorsList.univpres"),
-        link: "/sectors/univpres",
-      },
-      {
-        key: "educ",
-        label: t("nav.sectorsList.educ"),
-        link: "/sectors/educ",
-      },
-      {
-        key: "env",
-        label: t("nav.sectorsList.env"),
-        link: "/sectors/env",
-      },
-      {
-        key: "postgrad",
-        label: t("nav.sectorsList.postgrad"),
-        link: "/sectors/postgrad",
-      },
-      {
-        key: "secr",
-        label: t("nav.sectorsList.secr"),
-        link: "/sectors/secr",
-      },
-    ],
-  },
-
-  {
-    key: "programs",
+    key: "programs-static",
     label: t("nav.programs"),
     link: "/colleges-programs",
   },
-
   {
-    key: "university-systems",
-    label: t("nav.universitySystems"),
-    children: [
-      {
-        key: "wafiden",
-        label: t("nav.wafiden"),
-        link: "/sectors/wafiden",
-      },
-      {
-        key: "ceneva",
-        label: t("nav.ceneva"),
-        link: "/sectors/cenev",
-      },
-      {
-        key: "nci",
-        label: t("nav.nci"),
-        link: "/sectors/nci",
-      },
-      {
-        key: "tico",
-        label: t("nav.tico"),
-        link: "/sectors/tico",
-      },
-      {
-        key: "sadat",
-        label: t("nav.sadat"),
-        link: "/sectors/sadat",
-      },
-      {
-        key: "env2",
-        label: t("nav.env2"),
-        link: "/sectors/env2",
-      },
-    ],
-  },
-
-  {
-    key: "students",
-    label: t("nav.students"),
-    children: [
-      {
-        key: "university-cities-application",
-        label: t("nav.studentsList.universityCitiesApplication"),
-        link: "https://al-zahraa.mans.edu.eg/studentApplications",
-      },
-      {
-        key: "undergraduate-stage",
-        label: t("nav.studentsList.undergraduateStage"),
-        children: [
-          {
-            key: "study-system",
-            label: t("nav.studentsList.studySystem"),
-            link: "https://www.menofia.edu.eg/View/39378/ar",
-          },
-          {
-            key: "open-education",
-            label: t("nav.studentsList.openEducation"),
-            link: "https://mu.menofia.edu.eg/open_edu/home.asp",
-          },
-          {
-            key: "undergraduate-electronic-services",
-            label: t("nav.studentsList.electronicServices"),
-            link: "https://www.menofia.edu.eg/View/69337/ar",
-          },
-        ],
-      },
-      {
-        key: "postgraduate-stage",
-        label: t("nav.studentsList.postgraduateStage"),
-        children: [
-          {
-            key: "registration-conditions",
-            label: t("nav.studentsList.registrationConditions"),
-            link: "https://www.menofia.edu.eg/View/39380/ar",
-          },
-          {
-            key: "postgraduate-electronic-services",
-            label: t("nav.studentsList.electronicServices"),
-            link: "https://www.menofia.edu.eg/View/39381/ar",
-          },
-        ],
-      },
-      {
-        key: "graduates",
-        label: t("nav.studentsList.graduates"),
-        children: [
-          {
-            key: "graduates-care-association",
-            label: t("nav.studentsList.graduatesCareAssociation"),
-            link: "https://mu.menofia.edu.eg/caamu/CaamuHome/ar",
-          },
-          {
-            key: "graduates-database",
-            label: t("nav.studentsList.graduatesDatabase"),
-            link: "https://www.menofia.edu.eg/Home/ar",
-          },
-          {
-            key: "graduate-search",
-            label: t("nav.studentsList.graduateSearch"),
-            link: "https://mu.menofia.edu.eg/educ/SearchGrade/ar",
-          },
-        ],
-      },
-      {
-        key: "international-students",
-        label: t("nav.studentsList.internationalStudents"),
-        link: "https://mu.menofia.edu.eg/postgrad/View/70399/ar",
-      },
-      {
-        key: "student-services",
-        label: t("nav.studentsList.studentServices"),
-        children: [
-          {
-            key: "electronic-application",
-            label: t("nav.studentsList.electronicApplication"),
-            link: "http://eush.edu.eg/eu/ApplicationForm.py",
-          },
-          {
-            key: "medical-services",
-            label: t("nav.studentsList.medicalServices"),
-            link: "https://www.menofia.edu.eg/View/39389/ar",
-          },
-          {
-            key: "university-professor",
-            label: t("nav.studentsList.universityProfessor"),
-            link: "https://www.menofia.edu.eg/View/39391/ar",
-          },
-          {
-            key: "student-takaful",
-            label: t("nav.studentsList.studentTakaful"),
-            link: "https://www.menofia.edu.eg/View/39392/ar",
-          },
-          {
-            key: "student-guide",
-            label: t("nav.studentsList.studentGuide"),
-            link: "https://www.menofia.edu.eg/View/39393/ar",
-          },
-          {
-            key: "university-cities-evaluation",
-            label: t("nav.studentsList.universityCitiesEvaluation"),
-            link: "https://al-zahraa.mans.edu.eg/studentApplications",
-          },
-          {
-            key: "military-education",
-            label: t("nav.studentsList.militaryEducation"),
-            link: "https://www.menofia.edu.eg/View/39397/ar",
-          },
-          {
-            key: "summer-training",
-            label: t("nav.studentsList.summerTraining"),
-            link: "https://www.menofia.edu.eg/View/39394/ar",
-          },
-          {
-            key: "information-club",
-            label: t("nav.studentsList.informationClub"),
-            link: "https://www.menofia.edu.eg/View/39395/ar",
-          },
-          {
-            key: "tuition-fees",
-            label: t("nav.studentsList.tuitionFees"),
-            link: "https://www.menofia.edu.eg/View/39395/ar",
-          },
-          {
-            key: "university-cities",
-            label: t("nav.studentsList.universityCities"),
-            link: "https://mu.menofia.edu.eg/housing/home.asp",
-          },
-        ],
-      },
-      {
-        key: "student-activities",
-        label: t("nav.studentsList.studentActivities"),
-        link: "https://www.menofia.edu.eg/View/39384/ar",
-      },
-      {
-        key: "postgraduate-results",
-        label: t("nav.studentsList.postgraduateResults"),
-        link: "http://193.227.24.15/Epg/natigapg/",
-      },
-      {
-        key: "youth-care",
-        label: t("nav.studentsList.youthCare"),
-        link: "https://www.menofia.edu.eg/View/39385/ar",
-      },
-      {
-        key: "exam-results",
-        label: t("nav.studentsList.examResults"),
-        link: "http://mu.menofia.edu.eg/AllFacResults/ar",
-      },
-      {
-        key: "get-email",
-        label: t("nav.studentsList.getEmail"),
-        link: "http://193.227.24.15/email/",
-      },
-      {
-        key: "foreign-students-registration",
-        label: t("nav.studentsList.foreignStudentsRegistration"),
-        link: "https://mu.menofia.edu.eg/foreigner/ar",
-      },
-    ],
-  },
-
-  {
-    key: "staff",
-    label: t("nav.staff"),
-    children: [
-      {
-        key: "staff-search",
-        label: t("nav.staffList.personalWebsite"),
-        link: "https://mu.menofia.edu.eg/StaffSearch/ar",
-      },
-      {
-        key: "staff-cvs",
-        label: t("nav.staffList.cv"),
-        link: "https://mu.menofia.edu.eg/StaffCVs/ar",
-      },
-      {
-        key: "staff-page",
-        label: t("nav.staffList.searchFaculty"),
-        link: "https://mu.menofia.edu.eg/StaffPage/ar",
-      },
-      {
-        key: "staff-electronic-services",
-        label: t("nav.staffList.electronicServices"),
-        link: "https://mu.menofia.edu.eg/View/7726/ar",
-      },
-      {
-        key: "staff-email",
-        label: t("nav.staffList.getEmail"),
-        link: "https://mu.menofia.edu.eg/StaffEmail/ar",
-      },
-      {
-        key: "staff-university-mail-login",
-        label: t("nav.staffList.universityEmailLogin"),
-        link: "https://mu.menofia.edu.eg/StaffEmail/ar",
-      },
-      {
-        key: "staff-college-mail-login",
-        label: t("nav.staffList.collegeEmailLogin"),
-        link: "https://mu.menofia.edu.eg/StaffEmail/ar",
-      },
-    ],
-  },
-
-  {
-    key: "research",
-    label: t("nav.research"),
-    children: [
-      {
-        key: "eulc",
-        label: t("nav.researchList.eulc"),
-        link: "#",
-      },
-      {
-        key: "protocols",
-        label: t("nav.researchList.protocols"),
-        link: "#",
-      },
-      {
-        key: "scientific-activities",
-        label: t("nav.researchList.scientificActivities"),
-        children: [
-          {
-            key: "scientific-reports",
-            label: t("nav.researchList.scientificReports"),
-            link: "#",
-          },
-        ],
-      },
-      {
-        key: "scientific-repository",
-        label: t("nav.researchList.scientificRepository"),
-        link: "#",
-      },
-    ],
-  },
-
-  {
-    key: "news",
+    key: "news-static",
     label: t("nav.newsEvents"),
-    children: [
-      {
-        key: "news-list",
-        label: t("nav.news.newsList"),
-        link: "/news",
-      },
-      {
-        key: "archive",
-        label: t("nav.news.archive"),
-        link: "/",
-      },
-      {
-        key: "media",
-        label: t("nav.news.media"),
-        children: [
-          {
-            key: "photos",
-            label: t("nav.news.photos"),
-            link: "/",
-          },
-          {
-            key: "videos",
-            label: t("nav.news.videos"),
-            link: "/",
-          },
-          {
-            key: "channel",
-            label: t("nav.news.channel"),
-            link: "/",
-          },
-        ],
-      },
-    ],
+    link: "/news",
   },
-
   {
-    key: "contact",
+    key: "contact-static",
     label: t("nav.contact"),
     link: "/contactUs",
   },
 ];
 
-const isDesktop = () => window.innerWidth > 1100;
+const isItemActive = (item: NavMenuItem, pathname: string): boolean => {
+  if (item.link === "/") {
+    return pathname === "/";
+  }
 
-const normalizeInternalLink = (url?: string) => {
-  const value = String(url || "").trim();
+  if (item.link) {
+    return pathname === item.link || pathname.startsWith(`${item.link}/`);
+  }
 
-  if (!value || value === "#") return "/";
-  if (isExternalLink(value)) return value;
-  if (value.startsWith("/")) return value;
+  if (!item.children?.length) {
+    return false;
+  }
 
-  return `/${value}`;
+  return item.children.some((child) => {
+    if (child.link === "/") return false;
+    return isItemActive(child, pathname);
+  });
 };
 
-const mapMenuItem = (item: any): any => {
-  const childrenSource = Array.isArray(item?.subMenus)
-    ? item.subMenus
-    : Array.isArray(item?.children)
-      ? item.children
-      : [];
+const getMaxScroll = (scroller: HTMLDivElement) =>
+  Math.max(0, scroller.scrollWidth - scroller.clientWidth);
 
-  const validChildren = childrenSource.filter(
-    (child: any) => child !== null && typeof child === "object",
+const MenuLink = ({
+  item,
+  className,
+}: {
+  item: NavMenuItem;
+  className: string;
+}) => {
+  if (!item.link) {
+    return (
+      <span className={`${className} disabled-link`}>
+        <span className="dropdown-item-text">{item.label}</span>
+      </span>
+    );
+  }
+
+  return (
+    <Link to={item.link} className={className}>
+      <span className="dropdown-item-text">{item.label}</span>
+    </Link>
   );
-
-  const rawUrl = item?.url || item?.link || "/";
-
-  return {
-    key: String(item?.id ?? item?.menuId ?? item?.key ?? item?.title),
-    label: item?.title ?? item?.label ?? "",
-    link: normalizeInternalLink(rawUrl),
-    ...(validChildren.length > 0
-      ? { children: validChildren.map(mapMenuItem) }
-      : {}),
-  };
 };
 
-const SubDropdownItem = ({ item }: any) => {
+const SubDropdownItem = ({ item }: { item: NavMenuItem }) => {
   const [open, setOpen] = useState(false);
-  const hasChildren = item.children?.length > 0;
+  const hasChildren = Boolean(item.children?.length);
   const ref = useRef<HTMLDivElement | null>(null);
   const subDropdownRef = useRef<HTMLDivElement | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-  if (!open || !subDropdownRef.current) return;
+    if (!open || !subDropdownRef.current) return;
 
-  const dropdown = subDropdownRef.current;
-  const safeGap = 12;
-  const pageDir = document.documentElement.dir || "rtl";
+    const dropdown = subDropdownRef.current;
+    const safeGap = 12;
+    const pageDir = document.documentElement.dir || "rtl";
 
-  dropdown.style.insetInlineStart = "100%";
-  dropdown.style.insetInlineEnd = "auto";
+    dropdown.style.insetInlineStart = "100%";
+    dropdown.style.insetInlineEnd = "auto";
 
-  requestAnimationFrame(() => {
-    const rect = dropdown.getBoundingClientRect();
+    requestAnimationFrame(() => {
+      const rect = dropdown.getBoundingClientRect();
 
-    const openToRight = () => {
-      if (pageDir === "rtl") {
-        dropdown.style.insetInlineStart = "auto";
-        dropdown.style.insetInlineEnd = "100%";
-      } else {
-        dropdown.style.insetInlineStart = "100%";
-        dropdown.style.insetInlineEnd = "auto";
-      }
-    };
+      const openToRight = () => {
+        if (pageDir === "rtl") {
+          dropdown.style.insetInlineStart = "auto";
+          dropdown.style.insetInlineEnd = "100%";
+        } else {
+          dropdown.style.insetInlineStart = "100%";
+          dropdown.style.insetInlineEnd = "auto";
+        }
+      };
 
-    const openToLeft = () => {
-      if (pageDir === "rtl") {
-        dropdown.style.insetInlineStart = "100%";
-        dropdown.style.insetInlineEnd = "auto";
-      } else {
-        dropdown.style.insetInlineStart = "auto";
-        dropdown.style.insetInlineEnd = "100%";
-      }
-    };
+      const openToLeft = () => {
+        if (pageDir === "rtl") {
+          dropdown.style.insetInlineStart = "100%";
+          dropdown.style.insetInlineEnd = "auto";
+        } else {
+          dropdown.style.insetInlineStart = "auto";
+          dropdown.style.insetInlineEnd = "100%";
+        }
+      };
 
-    if (rect.left < safeGap) {
-      openToRight();
-    }
-
-    if (rect.right > window.innerWidth - safeGap) {
-      openToLeft();
-    }
-  });
-}, [open]);
+      if (rect.left < safeGap) openToRight();
+      if (rect.right > window.innerWidth - safeGap) openToLeft();
+    });
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
 
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
+    const handler = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
         setOpen(false);
       }
     };
@@ -666,19 +589,22 @@ const SubDropdownItem = ({ item }: any) => {
 
   const onEnter = () => {
     if (!hasChildren || !isDesktop()) return;
+
     if (closeTimer.current) clearTimeout(closeTimer.current);
     setOpen(true);
   };
 
   const onLeave = () => {
     if (!hasChildren || !isDesktop()) return;
-    closeTimer.current = setTimeout(() => setOpen(false), 120);
+
+    closeTimer.current = setTimeout(() => setOpen(false), 140);
   };
 
-  const onClick = (e: React.MouseEvent) => {
+  const onClick = (event: React.MouseEvent) => {
     if (!hasChildren || isDesktop()) return;
-    e.preventDefault();
-    e.stopPropagation();
+
+    event.preventDefault();
+    event.stopPropagation();
     setOpen((prev) => !prev);
   };
 
@@ -709,7 +635,7 @@ const SubDropdownItem = ({ item }: any) => {
           }}
           onMouseLeave={onLeave}
         >
-          {item.children.map((child: any) => (
+          {item.children?.map((child) => (
             <SubDropdownItem key={child.key} item={child} />
           ))}
         </div>
@@ -718,37 +644,73 @@ const SubDropdownItem = ({ item }: any) => {
   );
 };
 
-const NavItem = ({ item, isActive }: any) => {
+const NavItem = ({
+  item,
+  isActive,
+}: {
+  item: NavMenuItem;
+  isActive: boolean;
+}) => {
   const [open, setOpen] = useState(false);
-  const hasChildren = item.children?.length > 0;
+  const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
+  const hasChildren = Boolean(item.children?.length);
   const ref = useRef<HTMLLIElement | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const onEnter = () => {
-    if (hasChildren && isDesktop()) {
-      if (closeTimer.current) clearTimeout(closeTimer.current);
-      setOpen(true);
+  const updateDropdownPosition = useCallback(() => {
+    if (!ref.current || !isDesktop()) {
+      setDropdownStyle({});
+      return;
     }
+
+    const rect = ref.current.getBoundingClientRect();
+    const rootStyles = getComputedStyle(document.documentElement);
+    const cssDropWidth = rootStyles.getPropertyValue("--drop-width");
+    const dropWidth = Number.parseFloat(cssDropWidth) || 268;
+    const safeGap = 12;
+    const pageDir = document.documentElement.dir || "rtl";
+
+    let left = pageDir === "rtl" ? rect.right - dropWidth : rect.left;
+
+    left = Math.max(
+      safeGap,
+      Math.min(left, window.innerWidth - dropWidth - safeGap),
+    );
+
+    setDropdownStyle({
+      position: "fixed",
+      top: rect.bottom + 10,
+      left,
+    });
+  }, []);
+
+  const onEnter = () => {
+    if (!hasChildren || !isDesktop()) return;
+
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setOpen(true);
+    requestAnimationFrame(updateDropdownPosition);
   };
 
   const onLeave = () => {
-    if (hasChildren && isDesktop()) {
-      closeTimer.current = setTimeout(() => setOpen(false), 150);
-    }
+    if (!hasChildren || !isDesktop()) return;
+
+    closeTimer.current = setTimeout(() => setOpen(false), 160);
   };
 
-  const onClick = (e: React.MouseEvent) => {
+  const onClick = (event: React.MouseEvent) => {
     if (!hasChildren || isDesktop()) return;
-    e.preventDefault();
-    e.stopPropagation();
+
+    event.preventDefault();
+    event.stopPropagation();
     setOpen((prev) => !prev);
   };
 
   useEffect(() => {
     if (!open) return;
 
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
+    const handler = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
         setOpen(false);
       }
     };
@@ -757,6 +719,20 @@ const NavItem = ({ item, isActive }: any) => {
 
     return () => document.removeEventListener("mousedown", handler);
   }, [open]);
+
+  useEffect(() => {
+    if (!open || !hasChildren) return;
+
+    updateDropdownPosition();
+
+    window.addEventListener("resize", updateDropdownPosition);
+    window.addEventListener("scroll", updateDropdownPosition, true);
+
+    return () => {
+      window.removeEventListener("resize", updateDropdownPosition);
+      window.removeEventListener("scroll", updateDropdownPosition, true);
+    };
+  }, [open, hasChildren, updateDropdownPosition]);
 
   return (
     <li
@@ -772,30 +748,26 @@ const NavItem = ({ item, isActive }: any) => {
           <span className="nav-link-text">{item.label}</span>
           <ChevronDown size={11} className="nav-arrow" />
         </span>
-      ) : isExternalLink(item.link) ? (
-        <a
-          href={item.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="nav-link"
-        >
-          <span className="nav-link-text">{item.label}</span>
-        </a>
-      ) : (
+      ) : item.link ? (
         <Link to={item.link} className="nav-link">
           <span className="nav-link-text">{item.label}</span>
         </Link>
+      ) : (
+        <span className="nav-link disabled-link">
+          <span className="nav-link-text">{item.label}</span>
+        </span>
       )}
 
       {hasChildren && open && (
         <div
-          className="dropdown-menu"
+          className="dropdown-menu floating-dropdown"
+          style={dropdownStyle}
           onMouseEnter={() => {
             if (closeTimer.current) clearTimeout(closeTimer.current);
           }}
           onMouseLeave={onLeave}
         >
-          {item.children.map((child: any) => (
+          {item.children?.map((child) => (
             <SubDropdownItem key={child.key} item={child} />
           ))}
         </div>
@@ -809,20 +781,123 @@ const Header = () => {
   const location = useLocation();
   const { palettes, selectedPalette, changePalette } = useTheme();
 
-  const getSavedLang = () => {
-    try {
-      return JSON.parse(localStorage.getItem("lang") || '{"code":"ar","id":1}');
-    } catch {
-      return { code: "ar", id: 1 };
-    }
-  };
+  const navScrollerRef = useRef<HTMLDivElement | null>(null);
 
   const [menuActive, setMenuActive] = useState(false);
   const [langActive, setLangActive] = useState(false);
   const [paletteActive, setPaletteActive] = useState(false);
-  const [currentLang, setCurrentLang] = useState(getSavedLang);
-  const [languages, setLanguages] = useState(FIXED_LANGUAGES);
-  const [aboutChildren, setAboutChildren] = useState<any[]>([]);
+  const [currentLang, setCurrentLang] = useState<LanguageItem>(getSavedLang);
+  const [languages, setLanguages] = useState<LanguageItem[]>(FIXED_LANGUAGES);
+  const [apiMenuItems, setApiMenuItems] = useState<ApiMenuItem[]>([]);
+  const [facultyRouteMaps, setFacultyRouteMaps] =
+    useState<FacultyRouteMaps>(EMPTY_FACULTY_ROUTE_MAPS);
+  const [menuFailed, setMenuFailed] = useState(false);
+  const [showNavScrollButtons, setShowNavScrollButtons] = useState(false);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const isRtl = isRtlLang(currentLang.code);
+
+  const navItems = useMemo(() => {
+    if (menuFailed || apiMenuItems.length === 0) {
+      return fallbackNavItems(t);
+    }
+
+    return buildNavItems(apiMenuItems, t, facultyRouteMaps);
+  }, [apiMenuItems, facultyRouteMaps, menuFailed, t]);
+
+  const LeftScrollIcon = isRtl ? ChevronRight : ChevronLeft;
+  const RightScrollIcon = isRtl ? ChevronLeft : ChevronRight;
+
+  const getCurrentScroll = useCallback((scroller: HTMLDivElement) => {
+    return scroller.scrollLeft;
+  }, []);
+
+  const setCurrentScroll = useCallback(
+    (
+      scroller: HTMLDivElement,
+      nextScroll: number,
+      behavior: ScrollBehavior = "smooth",
+    ) => {
+      const max = getMaxScroll(scroller);
+      const safeScroll = Math.max(0, Math.min(nextScroll, max));
+
+      scroller.scrollTo({
+        left: safeScroll,
+        behavior,
+      });
+    },
+    [],
+  );
+
+  const getStartScroll = useCallback(
+    (scroller: HTMLDivElement) => {
+      return isRtlLang(currentLang.code) ? getMaxScroll(scroller) : 0;
+    },
+    [currentLang.code],
+  );
+
+  const updateNavScrollState = useCallback(() => {
+    const scroller = navScrollerRef.current;
+
+    if (!scroller || !isDesktop()) {
+      setShowNavScrollButtons(false);
+      setCanScrollLeft(false);
+      setCanScrollRight(false);
+      return;
+    }
+
+    const max = getMaxScroll(scroller);
+    const current = getCurrentScroll(scroller);
+    const hasOverflow = max > 4;
+
+    setShowNavScrollButtons(hasOverflow);
+
+    if (!hasOverflow) {
+      setCanScrollLeft(false);
+      setCanScrollRight(false);
+      return;
+    }
+
+    setCanScrollLeft(current > 2);
+    setCanScrollRight(current < max - 2);
+  }, [getCurrentScroll]);
+
+  const scrollNavbar = (direction: "left" | "right") => {
+    const scroller = navScrollerRef.current;
+
+    if (!scroller) return;
+
+    const current = getCurrentScroll(scroller);
+    const amount = 300;
+    const next = direction === "right" ? current + amount : current - amount;
+
+    setCurrentScroll(scroller, next, "smooth");
+    window.setTimeout(updateNavScrollState, 350);
+  };
+
+  const resetNavbarToStart = useCallback(
+    (behavior: ScrollBehavior = "smooth") => {
+      const scroller = navScrollerRef.current;
+
+      if (!scroller) return;
+
+      setCurrentScroll(scroller, getStartScroll(scroller), behavior);
+      window.setTimeout(updateNavScrollState, 350);
+    },
+    [getStartScroll, setCurrentScroll, updateNavScrollState],
+  );
+
+  const leftButtonDisabled = isRtl ? !canScrollRight : !canScrollLeft;
+  const rightButtonDisabled = isRtl ? !canScrollLeft : !canScrollRight;
+
+  const handleLeftScroll = () => {
+    scrollNavbar(isRtl ? "right" : "left");
+  };
+
+  const handleRightScroll = () => {
+    scrollNavbar(isRtl ? "left" : "right");
+  };
 
   useEffect(() => {
     newsService
@@ -844,8 +919,10 @@ const Header = () => {
   useEffect(() => {
     let mounted = true;
 
+    setMenuFailed(false);
+
     newsService
-      .getFullMenu(currentLang?.id || 1)
+      .getUniversityMenu(currentLang?.id || 1)
       .then((data: any) => {
         if (!mounted) return;
 
@@ -855,10 +932,13 @@ const Header = () => {
             ? data.result
             : [];
 
-        setAboutChildren(result.map(mapMenuItem));
+        setApiMenuItems(result);
       })
       .catch(() => {
-        if (mounted) setAboutChildren([]);
+        if (!mounted) return;
+
+        setApiMenuItems([]);
+        setMenuFailed(true);
       });
 
     return () => {
@@ -866,60 +946,71 @@ const Header = () => {
     };
   }, [currentLang?.id]);
 
-  const NAV_ITEMS = useMemo(() => {
-    const items = getNavItems(t);
+  useEffect(() => {
+    let mounted = true;
 
-    const newsStatisticsItem = {
-      key: "news-statistics",
-      label: t("nav.newsStatistics"),
-      link: "https://stage.menofia.edu.eg/dashboard",
+    const loadFacultyRoutes = async () => {
+      try {
+        let response = await newsService.getColleges(currentLang?.id || 1);
+        let colleges = normalizeApiResponse(response);
+
+        if (colleges.length === 0 && currentLang?.id !== 1) {
+          response = await newsService.getColleges(1);
+          colleges = normalizeApiResponse(response);
+        }
+
+        if (colleges.length === 0 && currentLang?.id !== 2) {
+          response = await newsService.getColleges(2);
+          colleges = normalizeApiResponse(response);
+        }
+
+        if (!mounted) return;
+
+        setFacultyRouteMaps(buildFacultyRouteMaps(colleges));
+      } catch {
+        if (!mounted) return;
+
+        setFacultyRouteMaps(EMPTY_FACULTY_ROUTE_MAPS);
+      }
     };
 
-    return items.map((item) => {
-      if (item.key === "about") {
-        const children = aboutChildren.length
-          ? aboutChildren
-          : item.children || [];
+    loadFacultyRoutes();
 
-        const hasNewsStatistics = children.some(
-          (child: any) => child.key === "news-statistics",
-        );
-
-        return {
-          ...item,
-          children: hasNewsStatistics
-            ? children
-            : [...children, newsStatisticsItem],
-        };
-      }
-
-      if (item.key === "sectors") {
-        return {
-          ...item,
-          children: SECTOR_NAV_ITEMS.map((sector) => ({
-            key: sector.key,
-            label: t(sector.labelKey),
-            link: `/university-sectors/${sector.key}`,
-          })),
-        };
-      }
-
-      return item;
-    });
-  }, [t, aboutChildren]);
+    return () => {
+      mounted = false;
+    };
+  }, [currentLang?.id]);
 
   useEffect(() => {
     i18n.changeLanguage(currentLang.code);
-    document.documentElement.dir = currentLang.code === "ar" ? "rtl" : "ltr";
+
+    document.documentElement.lang = currentLang.code;
+    document.documentElement.dir = isRtlLang(currentLang.code) ? "rtl" : "ltr";
   }, []);
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(updateNavScrollState);
+    const timer = window.setTimeout(() => {
+      resetNavbarToStart("auto");
+      updateNavScrollState();
+    }, 250);
+
+    window.addEventListener("resize", updateNavScrollState);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.clearTimeout(timer);
+      window.removeEventListener("resize", updateNavScrollState);
+    };
+  }, [navItems, resetNavbarToStart, updateNavScrollState]);
 
   useEffect(() => {
     setMenuActive(false);
   }, [location.pathname]);
 
   useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
+    const handler = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
 
       if (langActive && !target.closest(".lang-wrapper")) {
         setLangActive(false);
@@ -943,27 +1034,45 @@ const Header = () => {
     };
   }, [menuActive]);
 
-  const changeLanguage = async (lang: any) => {
+  const changeLanguage = async (lang: LanguageItem) => {
     saveLanguage(lang);
 
     await i18n.changeLanguage(lang.code);
 
     document.documentElement.lang = lang.code;
-    document.documentElement.dir =
-      lang.code === "ar" || lang.code === "fa" ? "rtl" : "ltr";
+    document.documentElement.dir = isRtlLang(lang.code) ? "rtl" : "ltr";
 
     setCurrentLang(lang);
     setLangActive(false);
+
+    window.setTimeout(() => {
+      const scroller = navScrollerRef.current;
+
+      if (!scroller) return;
+
+      setCurrentScroll(
+        scroller,
+        isRtlLang(lang.code) ? getMaxScroll(scroller) : 0,
+        "auto",
+      );
+
+      updateNavScrollState();
+    }, 120);
   };
 
   return (
     <header className="nav-container">
-      <Link to="/" className="nav-logo">
+      <Link
+        to="/"
+        className="nav-logo"
+        onClick={() => resetNavbarToStart("smooth")}
+      >
         <img src={logo} alt="Menofia University Logo" />
       </Link>
 
       <nav className={`nav-links ${menuActive ? "nav-active" : ""}`}>
         <button
+          type="button"
           className="nav-close"
           onClick={() => setMenuActive(false)}
           aria-label="close menu"
@@ -971,117 +1080,149 @@ const Header = () => {
           <i className="fa-solid fa-times" />
         </button>
 
-        <ul>
-          {NAV_ITEMS.map((item) => (
-            <NavItem
-              key={item.key}
-              item={item}
-              isActive={!!(item.link && location.pathname === item.link)}
-            />
-          ))}
-        </ul>
+        {showNavScrollButtons && (
+          <button
+            type="button"
+            className="nav-scroll-btn nav-scroll-left"
+            onClick={handleLeftScroll}
+            disabled={leftButtonDisabled}
+            aria-label="scroll navigation left"
+          >
+            <LeftScrollIcon size={18} />
+          </button>
+        )}
+
+        <div
+          className="nav-scroll-area"
+          dir="ltr"
+          ref={navScrollerRef}
+          onScroll={updateNavScrollState}
+        >
+          <ul dir={isRtl ? "rtl" : "ltr"}>
+            {navItems.map((item) => (
+              <NavItem
+                key={item.key}
+                item={item}
+                isActive={isItemActive(item, location.pathname)}
+              />
+            ))}
+          </ul>
+        </div>
+
+        {showNavScrollButtons && (
+          <button
+            type="button"
+            className="nav-scroll-btn nav-scroll-right"
+            onClick={handleRightScroll}
+            disabled={rightButtonDisabled}
+            aria-label="scroll navigation right"
+          >
+            <RightScrollIcon size={18} />
+          </button>
+        )}
       </nav>
 
       <div className="nav-icons">
-  <div
-    className="lang-wrapper"
-    onClick={() => {
-      setLangActive((prev) => !prev);
-      setPaletteActive(false);
-    }}
-  >
-    <Globe size={20} />
-    <span className="lang-code">{currentLang.code?.toUpperCase()}</span>
-    <ChevronDown
-      size={14}
-      className={`lang-arrow ${langActive ? "rotated" : ""}`}
-    />
-
-    <div className={`lang-dropdown ${langActive ? "open" : ""}`}>
-      {languages.map((lang: any) => (
         <div
-          key={lang.code}
-          className={`lang-option ${
-            currentLang.code === lang.code ? "current" : ""
-          }`}
-          onClick={(e) => {
-            e.stopPropagation();
-            changeLanguage(lang);
-          }}
-        >
-          {lang.flag && (
-            <img
-              src={lang.flag}
-              alt={lang.name}
-              width={20}
-              height={15}
-              style={{
-                objectFit: "cover",
-                borderRadius: "2px",
-              }}
-            />
-          )}
-
-          <span>{lang.name}</span>
-        </div>
-      ))}
-    </div>
-  </div>
-
-  <div
-    className="palette-wrapper"
-    onClick={() => {
-      setPaletteActive((prev) => !prev);
-      setLangActive(false);
-    }}
-  >
-    <PaletteIcon size={23} />
-
-    <ChevronDown
-      size={16}
-      className={`palette-arrow ${paletteActive ? "rotated" : ""}`}
-    />
-
-    <div
-      className={`palette-dropdown ${paletteActive ? "open" : ""}`}
-      onClick={(e) => e.stopPropagation()}
-    >
-      {Object.values(palettes).map((palette: any) => (
-        <button
-          type="button"
-          key={palette.id}
-          className={`palette-option ${
-            selectedPalette === palette.id ? "selected" : ""
-          }`}
-          aria-label={`Change theme to ${palette.name}`}
-          title={palette.name}
+          className="lang-wrapper"
           onClick={() => {
-            changePalette(palette.id);
+            setLangActive((prev) => !prev);
             setPaletteActive(false);
           }}
         >
-          <span className="palette-colors" aria-hidden="true">
-            {palette.preview.map((color: string) => (
-              <span
-                key={color}
-                className="palette-color"
-                style={{ backgroundColor: color }}
-              />
-            ))}
-          </span>
-        </button>
-      ))}
-    </div>
-  </div>
+          <Globe size={20} />
+          <span className="lang-code">{currentLang.code?.toUpperCase()}</span>
+          <ChevronDown
+            size={14}
+            className={`lang-arrow ${langActive ? "rotated" : ""}`}
+          />
 
-  <button
-    className="icon-btn menu-btn"
-    onClick={() => setMenuActive(true)}
-    aria-label="open menu"
-  >
-    <i className="fa-solid fa-bars" />
-  </button>
-</div>
+          <div className={`lang-dropdown ${langActive ? "open" : ""}`}>
+            {languages.map((lang) => (
+              <div
+                key={lang.code}
+                className={`lang-option ${
+                  currentLang.code === lang.code ? "current" : ""
+                }`}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  changeLanguage(lang);
+                }}
+              >
+                {lang.flag && (
+                  <img
+                    src={lang.flag}
+                    alt={lang.name}
+                    width={20}
+                    height={15}
+                    style={{
+                      objectFit: "cover",
+                      borderRadius: "2px",
+                    }}
+                  />
+                )}
+
+                <span>{lang.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div
+          className="palette-wrapper"
+          onClick={() => {
+            setPaletteActive((prev) => !prev);
+            setLangActive(false);
+          }}
+        >
+          <PaletteIcon size={23} />
+
+          <ChevronDown
+            size={16}
+            className={`palette-arrow ${paletteActive ? "rotated" : ""}`}
+          />
+
+          <div
+            className={`palette-dropdown ${paletteActive ? "open" : ""}`}
+            onClick={(event) => event.stopPropagation()}
+          >
+            {Object.values(palettes).map((palette: any) => (
+              <button
+                type="button"
+                key={palette.id}
+                className={`palette-option ${
+                  selectedPalette === palette.id ? "selected" : ""
+                }`}
+                aria-label={`Change theme to ${palette.name}`}
+                title={palette.name}
+                onClick={() => {
+                  changePalette(palette.id);
+                  setPaletteActive(false);
+                }}
+              >
+                <span className="palette-colors" aria-hidden="true">
+                  {palette.preview.map((color: string) => (
+                    <span
+                      key={color}
+                      className="palette-color"
+                      style={{ backgroundColor: color }}
+                    />
+                  ))}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <button
+          type="button"
+          className="icon-btn menu-btn"
+          onClick={() => setMenuActive(true)}
+          aria-label="open menu"
+        >
+          <i className="fa-solid fa-bars" />
+        </button>
+      </div>
 
       {menuActive && (
         <div className="nav-overlay" onClick={() => setMenuActive(false)} />

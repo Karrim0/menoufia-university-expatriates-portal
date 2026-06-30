@@ -31,7 +31,8 @@ import DepartmentPage from "./DepartmentPage/DepartmentPage";
 import UniversitySectorsPage from "./UniversitySectorsPage/UniversitySectorsPage";
 import SpecialUnitPage from "./SpecialUnitPage/SpecialUnitPage";
 import { useTranslation } from "react-i18next";
-
+import GeneralAdministrationsPage from "./GeneralAdministrationsPage/GeneralAdministrationsPage";
+import UniversityArticlePage from "./UniversityArticlePage/UniversityArticlePage";
 const ScrollToTop = () => {
   const { pathname } = useLocation();
 
@@ -75,7 +76,9 @@ const isValidRouteShape = (pathname) => {
   }
 
   const parts = cleanPath.split("/").filter(Boolean);
-
+  if (parts[0] === "university-page" && parts.length === 2) {
+  return isPositiveNumber(parts[1]);
+}
   if (parts[0] === "news" && parts[1] === "edit" && parts.length === 3) {
     return isPositiveNumber(parts[2]);
   }
@@ -121,7 +124,17 @@ const isValidRouteShape = (pathname) => {
   if (parts[0] === "fac" && parts[2] === "details" && parts.length === 4) {
     return Boolean(parts[1]) && isPositiveNumber(parts[3]);
   }
+  if (parts[0] === "general-administrations" && parts.length === 2) {
+  return Boolean(parts[1]);
+}
 
+if (
+  parts[0] === "general-administrations" &&
+  parts[2] === "article" &&
+  parts.length === 4
+) {
+  return Boolean(parts[1]) && isPositiveNumber(parts[3]);
+}
   return false;
 };
 
@@ -183,6 +196,7 @@ const AppContent = () => {
       ) : (
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/university-page/:articleId" element={<UniversityArticlePage />} />
           <Route path="/news" element={<News />} />
           <Route path="/news/add" element={<AddNews />} />
           <Route path="/news/edit/:id" element={<EditNews />} />
@@ -219,10 +233,19 @@ const AppContent = () => {
           />
           <Route path="/special-units/:abbr" element={<SpecialUnitPage />} />
           <Route
+  path="/general-administrations/:keyword"
+  element={<GeneralAdministrationsPage />}
+/>
+
+<Route
+  path="/general-administrations/:keyword/article/:articleId"
+  element={<GeneralAdministrationsPage />}
+/>
+          <Route
             path="/fac/:fac/department/:departmentCode"
             element={<DepartmentPage />}
           />
-
+  
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       )}

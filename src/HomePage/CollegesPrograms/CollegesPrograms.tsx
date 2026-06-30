@@ -64,8 +64,12 @@ const CollegesPrograms: React.FC = () => {
     return getLanguageId(i18n.language);
   }, [i18n.language]);
 
-  const isRTL = i18n.dir() === "rtl";
-  const isArabic = i18n.language.toLowerCase().startsWith("ar");
+const currentLanguage = i18n.resolvedLanguage || i18n.language;
+
+const isArabic = currentLanguage.toLowerCase().startsWith("ar");
+const isRTL =
+  currentLanguage.toLowerCase().startsWith("ar") ||
+  currentLanguage.toLowerCase().startsWith("fa");
 
   const mapColleges = (data: any[]): College[] => {
     return data
@@ -174,6 +178,7 @@ const CollegesPrograms: React.FC = () => {
     <section
       className={`cp-section ${isRTL ? "cp-rtl" : "cp-ltr"}`}
       dir={isRTL ? "rtl" : "ltr"}
+lang={currentLanguage}
     >
       <div className="cp-container">
         <button
