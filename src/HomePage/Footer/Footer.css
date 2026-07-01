@@ -998,3 +998,83 @@ html[data-palette] .ft-root {
 .ft-root[dir="ltr"] .ft-link:hover .ft-link-text {
   transform: translateX(2px);
 }
+/* =========================================
+   Bottom Footer Icons Visibility Only
+   Palette 4 / 5 / 6
+========================================= */
+
+/* Palette 4 */
+html[data-palette="palette4"] .ft-modern-bottom {
+  --ft-bottom-icon-color: #f2b35b;
+  --ft-bottom-icon-bg: rgba(242, 179, 91, 0.16);
+  --ft-bottom-icon-border: rgba(242, 179, 91, 0.78);
+  --ft-bottom-icon-hover-text: #2a2118;
+}
+
+/* Palette 5 */
+html[data-palette="palette5"] .ft-modern-bottom {
+  --ft-bottom-icon-color: #fff3b0;
+  --ft-bottom-icon-bg: rgba(255, 243, 176, 0.18);
+  --ft-bottom-icon-border: rgba(255, 243, 176, 0.8);
+  --ft-bottom-icon-hover-text: #7d8e63;
+}
+
+/* Palette 6 */
+html[data-palette="palette6"] .ft-modern-bottom {
+  --ft-bottom-icon-color: #ffffff;
+  --ft-bottom-icon-bg: rgba(255, 255, 255, 0.16);
+  --ft-bottom-icon-border: rgba(255, 255, 255, 0.82);
+  --ft-bottom-icon-hover-text: #629b96;
+}
+
+/* Contact icons only in bottom footer */
+html[data-palette="palette4"] .ft-modern-bottom .ft-contact-icon,
+html[data-palette="palette5"] .ft-modern-bottom .ft-contact-icon,
+html[data-palette="palette6"] .ft-modern-bottom .ft-contact-icon {
+  color: var(--ft-bottom-icon-color) !important;
+  border-color: var(--ft-bottom-icon-border) !important;
+  background: var(--ft-bottom-icon-bg) !important;
+}
+
+html[data-palette="palette4"] .ft-modern-bottom .ft-contact-icon i,
+html[data-palette="palette5"] .ft-modern-bottom .ft-contact-icon i,
+html[data-palette="palette6"] .ft-modern-bottom .ft-contact-icon i {
+  color: var(--ft-bottom-icon-color) !important;
+}
+
+/* Small clock icon under phone */
+html[data-palette="palette4"] .ft-modern-bottom .ft-work-time i,
+html[data-palette="palette5"] .ft-modern-bottom .ft-work-time i,
+html[data-palette="palette6"] .ft-modern-bottom .ft-work-time i {
+  color: var(--ft-bottom-icon-color) !important;
+}
+
+/* Social icons only in bottom footer */
+html[data-palette="palette4"] .ft-modern-bottom .ft-social-icons a,
+html[data-palette="palette5"] .ft-modern-bottom .ft-social-icons a,
+html[data-palette="palette6"] .ft-modern-bottom .ft-social-icons a {
+  color: var(--ft-bottom-icon-color) !important;
+  border-color: var(--ft-bottom-icon-border) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+html[data-palette="palette4"] .ft-modern-bottom .ft-social-icons a i,
+html[data-palette="palette5"] .ft-modern-bottom .ft-social-icons a i,
+html[data-palette="palette6"] .ft-modern-bottom .ft-social-icons a i {
+  color: var(--ft-bottom-icon-color) !important;
+}
+
+/* Hover */
+html[data-palette="palette4"] .ft-modern-bottom .ft-social-icons a:hover,
+html[data-palette="palette5"] .ft-modern-bottom .ft-social-icons a:hover,
+html[data-palette="palette6"] .ft-modern-bottom .ft-social-icons a:hover {
+  color: var(--ft-bottom-icon-hover-text) !important;
+  border-color: var(--ft-bottom-icon-color) !important;
+  background: var(--ft-bottom-icon-color) !important;
+}
+
+html[data-palette="palette4"] .ft-modern-bottom .ft-social-icons a:hover i,
+html[data-palette="palette5"] .ft-modern-bottom .ft-social-icons a:hover i,
+html[data-palette="palette6"] .ft-modern-bottom .ft-social-icons a:hover i {
+  color: var(--ft-bottom-icon-hover-text) !important;
+}
