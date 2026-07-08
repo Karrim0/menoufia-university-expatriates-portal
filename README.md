@@ -8,9 +8,7 @@ The project was rebuilt and expanded from a limited expatriates-focused portal i
 
 [View Website](https://menoufia-university.vercel.app/)
 
-> Some API-driven content may be restricted in the deployed environment depending on the external university API availability.
-
----
+> The frontend is deployed on Vercel. Some API-driven content may be restricted in production depending on the external Menoufia University staging API availability, CORS configuration, and access rules.
 
 ## Screenshots
 
@@ -68,6 +66,7 @@ The original version was focused mainly on expatriates-related content and basic
 - Theme palette system
 - Dynamic routing
 - API service layer
+- Swagger-documented external API integration
 - Splash screen
 - Intro video
 - Custom 404 error page
@@ -234,9 +233,25 @@ src/Services/api.js
 src/Services/newsService.js
 ```
 
-The frontend integrates with REST APIs to fetch university news, faculty content, department content, sectors, special units, menus, and article details.
+The frontend integrates with external Menoufia University REST APIs to fetch dynamic university content, including university news, faculty content, department content, sectors, special units, menus, and article details.
 
----
+### External API Source
+
+University staging website:
+
+[Menoufia University Staging](https://stage.menofia.edu.eg/)
+
+Swagger API documentation:
+
+[Menoufia University Swagger API](https://stage.menofia.edu.eg:5050/swagger/index.html)
+
+API base URL:
+
+```txt
+https://stage.menofia.edu.eg:5050/api
+```
+
+> Some API-driven content may depend on the availability, CORS configuration, and access rules of the external university staging server.
 
 ## My Role
 
